@@ -1,0 +1,3260 @@
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" class="lt-ie9"> <![endif]-->
+<!--[if IE 9]>         <html lang="en" class="ie9"> <![endif]-->
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="mobileoptimized" content="0" />
+    <meta name="google" content="notranslate">
+    <meta name="published" content="8/10/2026 8:16:13 PM" />
+
+
+
+    <title>Fuxion: Compra en l&#237;nea</title>
+
+    <link rel="app" id="apppath" href="/" />
+    <link rel="app" id="appauthenticated" href="False" />
+    <link rel="app" id="appsessiontimeout" href="15" />
+    <link rel="shortcut icon" href="/fav/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/fav/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/fav/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/fav/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/fav/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/fav/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/fav/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/fav/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/fav/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/fav/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/fav/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/fav/favicon-16x16.png">
+    
+
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />
+
+    
+
+    <!-- Styles -->
+    
+    <link type="text/css" rel="stylesheet" href="/Content/Bootstrap/3.3.5/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/Content/newweb/css/datatable.css">
+
+    <!-- CDN Carousel Slick -->
+    
+    <link type="text/css" rel="stylesheet" href="/Content/slick-carousel/1.5.8/slick-theme.min.css" />
+    <link type="text/css" rel="stylesheet" href="/Content/slick-carousel/1.5.8/slick.min.css" />
+
+    <!-- fuente -->
+    
+    
+
+    
+    <link type='text/css' rel='stylesheet' href='/bundles/styles?v=U24DwSfusqYKXFml-7jFcs8jRb3wybYqScwLlLu8jEE1' ></link>
+
+
+    <link type="text/css" rel="stylesheet" href="/NextExperience/css/fonts.css">
+    <link type="text/css" rel="stylesheet" href="/NextExperience/css/main.min.css">
+    <link type="text/css" rel="stylesheet" href="/NextExperience/css/style-base.css?v=170603">
+    <!--[if IE]> <link type="text/css" rel="stylesheet" href="~/NextExperience/css/style-ie.css"> <![endif]-->
+    
+
+    <script src="/bundles/scripts?v=VFLwggaFBO7fi-orCDkOGHQ1eyMjI7rJbuSoAtapEkA1"></script>
+
+
+    <!-- fuente -->
+    
+    <script src="/Content/fonts/fontawesome/fontawesome_248248af72.js"></script>
+    <!-- Scripts -->
+    <script src="/app/culture"></script>
+    <script src="/global/scripts/markets"></script>
+    <script src="/resourcejs.axd/699a2926eef6f35dc80d1f3b3aede83f12d1a7ea"></script>
+
+
+    
+    <script src="/Content/Bootstrap/3.3.5/bootstrap.min.js"></script>
+    
+    <script src="/Content/datatables/1.10.24/jquery.dataTables.min.js"></script>
+    
+    <script src="/Content/slick-carousel/1.5.8/slick.min.js"></script>
+    
+    <script src="/Content/sweetalert/sweetalert2@10.js"></script>
+    
+
+    <!-- FIREBASE -->
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.5.0/firebase-auth.js"></script>
+
+    <!-- RequireJS -->
+    <script src="/Content/scripts/vendor/require.js" data-main="/Content/scripts/main.js"></script>
+
+    <script>
+        require.config({
+            baseUrl: '/Content/scripts',
+            paths: {
+                'addresses': 'modules/addresses',
+                'app': 'modules/app',
+                'ajax': 'modules/ajax',
+                'browser': 'modules/browser',
+                'calendars': 'modules/calendars',
+                'console': 'modules/console',
+                'containers': 'modules/containers',
+                'cookies': 'modules/cookies',
+                'encryptions': 'modules/encryptions',
+                'extensions': 'modules/extensions',
+                'forms': 'modules/forms',
+                'guids': 'modules/guids',
+                'kendogrids': 'modules/kendogrids',
+                'popups': 'modules/popups',
+                'pubsub': 'modules/pubsub',
+                'shopping': 'modules/shopping',
+                'urls': 'modules/urls',
+                'widgets': 'modules/widgets',
+
+                'backbone': 'vendor/backbone',
+                'handlebars': 'vendor/handlebars.extended',
+                'jquery': 'vendor/jquery',
+                'kendo': 'vendor/kendo/scripts/kendo.web.min',
+                'knockout': 'vendor/knockout',
+                'moment': 'vendor/moment/moment',
+                'underscore': 'vendor/underscore'
+            },
+            shim: {
+                'vendor/handlebars': {
+                    exports: 'Handlebars'
+                }
+            }
+        });
+        var countryName = '';
+        var countryCode = '';
+
+        //Tienda virtual
+        require(["cookies", "underscore"], function (cookies, _) {
+            $("a[data-navigation=buy]").click(function (e) {
+                document.cookie = 'nxtTipoCompra=buy;path=/';
+            });
+            $("a[data-navigation=buyEF]").click(function (e) {
+                document.cookie = 'nxtTipoCompra=afiliacionEF;path=/';
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) {
+            function i(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = "AuthenticatedUserContext", h = "start", c = "stop", l = "Track", a = l + "Event", v = l + "Page", y = u.createElement(o), r, f; y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(y); try { t.cookie = u.cookie } catch (p) { } for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; r.length;) i("track" + r.pop()); return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking || (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) { var s = f && f(config, i, u, e, o); return s !== !0 && t["_" + r](config, i, u, e, o), s }), t
+        }({
+            instrumentationKey: "7065e0b8-2a22-4978-b260-98fea2f19927"
+        });
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+
+    <script>
+        var paisUrl = 'PE';
+        var webAliasUrl = 'orphan';
+        var getCountry = 'PE';
+        localStorage.setItem('VarCountry', getCountry);
+        if (localStorage.getItem("VarCountry") === null) {
+            localStorage.setItem('CategoryIDLussome', '');
+            localStorage.setItem('CategoryIDGaleon', '');
+        } else {
+            var paisSel = localStorage.getItem('VarCountry');
+            if (paisSel == "PE") {
+                localStorage.setItem('CategoryIDLussome', 1836);
+                localStorage.setItem('CategoryIDGaleon', 1920);
+            } else if (paisSel == "CO") {
+                localStorage.setItem('CategoryIDLussome', 1826);
+                localStorage.setItem('CategoryIDGaleon', 2293);
+                //$("#galeon").css("display", "none");
+            }
+            else if (paisSel == "EC") {
+                //console.log("ecuador");
+                localStorage.setItem('CategoryIDLussome', 1828);
+                localStorage.setItem('CategoryIDGaleon', 1974);
+            } else if (paisSel == "US") {
+                localStorage.setItem('CategoryIDLussome', 2294);
+                localStorage.setItem('CategoryIDGaleon', 1920);
+            } else {
+                localStorage.setItem('CategoryIDLussome', '');
+                localStorage.setItem('CategoryIDGaleon', '');
+            }
+        }
+    </script>
+
+    <!--[if lt IE 10]>
+        <script src="/Content/scripts/modules/console.js"></script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+        <script src="/Content/scripts/vendor/html5shiv.js"></script>
+        <script src="/Content/scripts/vendor/respond.js"></script>
+    <![endif]-->
+      
+
+    
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    
+
+    
+
+    <!-- BLOQUEADO por defecto: solo se activará si el usuario acepta Analíticas -->
+    
+
+    <script>
+(function () {
+    var KEY = 'cookie-consent-v3';
+    var GA_ID = 'G-6NW5CRQYLT';
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () {
+        dataLayer.push(arguments);
+    };
+
+    function getSavedConsent() {
+        try {
+            var saved = JSON.parse(localStorage.getItem(KEY) || '{}');
+            if (!saved.exp || Date.now() > saved.exp) return null;
+            return saved.consent || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    var consent = getSavedConsent();
+
+    var analyticsGranted = !!(consent && consent.analytics);
+    var marketingGranted = !!(consent && consent.marketing);
+
+    gtag('consent', 'default', {
+            'analytics_storage': analyticsGranted ? 'granted' : 'denied',
+            'ad_storage': marketingGranted ? 'granted' : 'denied',
+            'ad_user_data': marketingGranted ? 'granted' : 'denied',
+            'ad_personalization': marketingGranted ? 'granted' : 'denied',
+            'functionality_storage': 'granted',
+            'security_storage': 'granted'
+        });
+
+        window['ga-disable-' + GA_ID] = !analyticsGranted;
+    })();
+    </script>
+    <script type="text/plain"
+            data-consent="analytics"
+            data-src="https://www.googletagmanager.com/gtag/js?id=G-6NW5CRQYLT">
+    </script>
+    <script type="text/plain" data-consent="analytics">
+        gtag('js', new Date());
+        gtag('config', 'G-6NW5CRQYLT');
+    </script>
+
+    <!-- Facebook Pixel Code -->
+    
+    <!-- End Facebook Pixel Code -->
+    <!-- Facebook Pixel Code -->
+    
+    <!-- End Facebook Pixel Code -->
+    <!-- GOOGLE ADSENSE -->
+    
+    <!-- GOOGLE ADSENSE -->
+    <!-- Ninja -->
+    <link rel="stylesheet" type="text/css" href="/ninja/ninja.css" />
+    <script type="text/javascript" src="/ninja/ninja.js"></script>
+
+    <!--Offix -->
+    <link rel="stylesheet" type="text/css" href="/css/offix.css" />
+    <link rel="stylesheet" type="text/css" href="/css/newCss.css" />
+    <script type="text/javascript" src="/javascript/offix.js"></script>
+
+</head>
+
+<body id="webapp" class="content-site bg-color-fuxion kaxsdc" data-event='load'>
+    <input type="hidden" id="valueAddProduct2" value="Se a&#241;adi&#243; un producto al carrito." />
+    
+        <div class="modal right fade modal-product-cart" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-color-theme-gray">
+                        <button type="button" class="close close-menu-lateral" data-dismiss="modal" aria-label="Close">
+                            <img class="img-responsive pointer w-20" src="/css/images/new_wr/Icono_X.svg" alt="Alternate Text" />
+                        </button>
+                        <h4 class="modal-title title-menu-lateral" id="myModalLabel2">CARRITO DE COMPRAS</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="summary-container" class="summary-content-new"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+             require(["ajax", "app"], function (ajax, app) {
+
+                 var $context = $('#myModal3'),//$('#view-enrollment-productlist'),
+                    updateItemSummaryURL = '/orphan/enrollment/updateitemsummary',
+                    updateActiveOptionURL = '/orphan/enrollment/updateactiveoption',
+                    updateAutoOrderActiveOptionURL = '/orphan/enrollment/updateautoorderactiveoption',
+                    addItemsURL = '/orphan/enrollment/additemtocart',
+                    removeItemsURL = '/orphan/enrollment/deleteitemfromcart',
+                    updateItemsURL = '/orphan/enrollment/updateitemquantity',
+                    fetchCartURL = '/orphan/enrollment/fetchcart',
+                    lessThan20PVURL = '//enrollment/products',
+                    orderType = 'Order',
+                    autoOrderType = 'AutoOrder',
+                    orderPV = 0;
+                 
+
+                 if ('False'=='True')
+                 {
+                     updateItemSummaryURL = '/orphan/enrollment/updateitemsummary';
+                 }
+                // data principal
+                var dataPrincipal = $('#itemContainer').children('.product-container');
+                // data principal
+                var dataPrice = dataPrincipal;
+
+                // State
+                var state = {
+                    originalItemQuantity: 0
+                };
+
+                // Event Handlers
+                function registerEventHandlers() {
+
+                    $(document).on('click', '#loginSubmit', function () {
+
+                        event.preventDefault();
+                        $(this).button("loading");
+                        actions.signin();
+                    });
+
+                    // Remove item button
+                    // Remove item button
+                    $context.on('click', '[data-role="removeitem"]', function () {
+                        var $this = $(this),
+                            $itemParent = $this.parent().parent(),
+                            itemcode = $itemParent.data('itemcode'),
+                            itemtype = $itemParent.data('itemtype'),
+                            $items = $("#divItemProd"),
+                            $item = $items.children('.item-container'),
+                            $allItems = $(".item-row"),
+                            totalPV = 0,
+                            quantitiyForItem = parseInt($itemParent.find(".quantity").html()),
+                            PVForItem = parseInt($itemParent.find(".pv").html()),
+                            //totalPVforItem = quantitiyForItem * PVForItem,
+                            totalPVforItem = PVForItem,
+                            confirm = false;
+
+                        $allItems.each(function () {
+                            var quantity = parseInt($(this).find(".quantity").html()),
+                                pv = parseInt($(this).find(".pv").html());
+
+                            if (!isNaN(quantity)) {
+                                //console.log("quantity+++: " + quantity);
+                                //console.log("pv+++: " + pv);
+                                totalPVForItems = pv;
+                                totalPV += totalPVForItems;
+                            }
+
+                        });
+
+                        //console.log("totalPV:" +totalPV);
+                        //return false;
+                        var difference = totalPV - totalPVforItem;
+
+                        
+                        /**/
+                        var objItems = new Object();
+                        objItems.ItemCode = itemcode;
+                        objItems.Type = itemtype;
+
+                        console.log("Master layout remove");
+                        console.log(lessThan20PVURL);
+                        actions.removeItem(objItems);
+
+
+
+                        //$("#quantity-box").val(0);
+                        //$("#Quantity").val(0);
+
+                        dataPrincipal.find('[data-id="quantity' + itemcode + '"]').val(0);
+                        dataPrice.find('[data-id="quantity' + itemcode + '"]').val(0);
+                        dataPrincipal.find('[data-id="quantity-box' + itemcode + '"]').val(0);
+                        dataPrice.find('[data-id="quantity-box' + itemcode + '"]').val(0);
+
+
+                        
+                        /**/
+                        //state.originalItemQuantity = 0;
+                        /*
+                        console.log("$item.length "+difference);
+                        if ($item.length > 0) {
+                            $item.val(0);
+                            $item.triggerHandler('blur');
+                        }
+                        else {
+                            actions.updateCart(itemcode, itemtype, state.originalItemQuantity);
+                        }*/
+
+                        if(confirm)
+                        {
+                            window.location = lessThan20PVURL;
+                        }
+                    });
+
+                }
+
+                // Actions
+                var actions = {
+                    updateItemSummary: function () {
+                        var $container = $('#summary-container');
+                        //alert('empieza')
+                        ajax.json({
+                            url: updateItemSummaryURL,
+                            beforeSend: function () {
+                                $container.html('<p class="text-center"><strong>' + 'Cargando Resumen' + '...</strong></p>');
+
+                            },
+                            success: function (response) {
+                                //console.log(response)
+                                if (response.success) {
+                                    $container.html(response.html);
+                                    actions.setCartQuantities(response);
+
+                                    BuscarCantidadProductos();
+
+                                    //INI - Kit PRO
+                                    //actions.setMessage();
+                                    //FIN - Kit PRO
+                                }
+                                else {
+                                    console.log("failed:", response.error);
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+
+                        });
+                    },
+
+                    saveCookies: function () {
+                        // Get the expiration date of the cookie
+                        var expires = new Date();
+                        expires.setDate(expires.getDate() + 365);
+
+                        // Set the cookies
+                        cookies.set(cookiename, $('#LoginName').val(), {
+                            expires: expires
+                        });
+                    },
+
+                    signin: function () {
+
+                        // Validate the form
+                        if (!$('#login-form').valid()) {
+                            $("#loginSubmit").button("reset");
+                            return false;
+                        }
+
+
+                        // Submit the form
+                        ajax.json({
+                            url: "/orphan/account/login",
+                            method: "POST",
+                            data: $('#login-form').serializeObject(),
+                            headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                            beforeSend: function () {
+                                toastr.clear();
+                            },
+                            success: function (response) {
+                                //console.log(response)
+                                if (!response.Status) {
+                                    //alert(response.ErrorMessage)
+                                    toastr.error(response.ErrorMessage, "Error de inicio de sesi&#243;n");
+                                    $("#loginSubmit").button("reset");
+                                }
+                                else {
+                                    // Save the cookies
+                                    //actions.saveCookies();
+
+                                    if (response.Data == 1)
+                                    {
+                                        window.location = response.RedirectUrl;
+                                        return false;
+                                    }
+
+                                    var url_ = "/orphan/enrollment/enrollmentconfigurationlittle";
+                                    $.ajax({
+                                        url: url_,
+                                        type: "POST",
+                                        dataType: 'json',
+                                        contentType: "application/json; charset=utf-8",
+                                        headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                                        data: JSON.stringify({ country: "login" }),
+                                        success: function (response) {
+                                            if (response.success) {
+                                                //location.reload();
+                                                if (response.RedirectUrl != "" && response.RedirectUrl != null) window.location = response.RedirectUrl;
+                                                else
+                                                {
+                                                    //console.log($("#typeRedirect").val())
+                                                    if ($("#typeRedirect").val() == "2") {
+
+                                                        location.href = "/orphan/enrollment/continue";
+                                                    } else {
+                                                        if (window.location.pathname.indexOf('products') >= 0) {
+                                                            location.href = "/orphan/enrollment/products";
+                                                        }
+                                                        else {
+                                                            location.reload();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                                    //$("#loginSubmit").button("reset");
+                                    //location.reload();
+
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.log(xhr);
+                                alert(error)
+
+                                $("#loginSubmit").button("reset");
+                            }
+                        });
+                    },
+
+                    setCartQuantities: function (response) {
+                        var orderitems = response.orderitems;
+                        var autoorderitems = response.autoorderitems;
+
+                        //console.log('Order Items: ', orderitems);
+                        //console.log('Auto Order Items: ', autoorderitems);
+
+                        $('.quantity-box').each(function() {
+                            var $item = $(this),
+                                $itemParent = $item.parents('.item-container'),
+                                itemType = $itemParent.find('[name="Type"]').val(),
+                                itemCode = $itemParent.data('itemcode');
+
+                            //console.log("Quantity");
+                            //console.log(itemCode);
+
+                            //var $item_ = dataPrincipal.find('[data-id=quantity' + itemCode + ']');
+                            //var $item__ = dataPrice.find('[data-id=quantity' + itemCode + ']');
+
+                            //console.log("Nuevo Item");
+                            //console.log($item_);
+
+                            if (itemType === orderType) {
+                                for (var i = 0; i < orderitems.length; i++) {
+                                    var item = orderitems[i];
+
+                                    if (itemCode == item.ItemCode) {
+                                        $item.val(item.Quantity);
+                                        //$item_.val(item.Quantity);
+                                        //$item__.val(item.Quantity);
+
+                                        dataPrincipal.find('[data-id="quantity' + itemCode + '"]').val(item.Quantity);
+                                        dataPrice.find('[data-id="quantity' + itemCode + '"]').val(item.Quantity);
+
+                                        //console.log("PRUEBA" + dataPrice.find('[data-id="quantity' + itemCode + '"]').val());
+                                    }
+                                }
+
+                            } else if (itemType === autoOrderType) {
+                                for (var i = 0; i < autoorderitems.length; i++) {
+                                    var item = autoorderitems[i];
+                                    if (itemCode == item.ItemCode) {
+                                        $item.val(item.Quantity);
+                                        //  $item_.val(item.Quantity);
+                                        // $item__.val(item.Quantity);
+
+                                        //INI: se comento
+                                        //dataPrincipal.find('[data-id="quantity' + itemCode + '"]').val(item.Quantity);
+                                        //dataPrice.find('[data-id="quantity' + itemCode + '"]').val(item.Quantity);
+
+                                        //FIN: se comento
+                                    }
+                                }
+                            } else {
+                                //console.log('Unrecognized Type.');
+                            }
+                        });
+                    },
+                    updateCart: function (itemcode, type, originalQuantity,callbackFunction) {
+                        originalQuantity = parseInt(originalQuantity);
+
+                        //console.log('Update Cart');
+                        //console.log('ItemCode ' + itemcode);
+                        //console.log('Type ' + type);
+                        //console.log('originalQuantity ' + originalQuantity);
+
+                        var $containerMod = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + type + '"].box-btn-presentation');
+                        var $container = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + type + '"].item-container'), $item = null, quantity = 0;
+                        console.log($containerMod)
+                        //console.log($container)
+
+                        if($containerMod.length > 0){
+                            $item = $containerMod.serializeObject();
+                            //console.log($item);
+                            quantity = parseInt($item.Quantity);
+                        }else{
+                            if ($container.length > 0) {
+                                $item = $container.serializeObject();
+                                //console.log($item);
+                                quantity = parseInt($item.Quantity);
+                            }
+                            else {
+                                $item = $('[data-itemcode="' + itemcode + '"][data-itemtype="' + type + '"]tr').serializeObject();
+                                quantity = parseInt($item.Quantity);
+                            }
+                        }
+
+                        console.log('Quantity masterlayout' + quantity);
+                        console.log('originalQuantity masterlayout ' + quantity);
+                        //alert($item);
+                        //console.log("item: ", $item);
+                        if (originalQuantity === 0 && quantity > 0) { // Add new item
+                            //console.log("add");
+                            actions.addItem($item);
+                        }
+
+                        else if (originalQuantity > 0 && quantity === 0) { // Remove exisitng item
+                            //console.log("remove");
+                            actions.removeItem($item);
+                        }
+
+                        else if (originalQuantity > 0 && quantity > 0) { // Update exiting item quantity
+                            //console.log("update");
+                            actions.updateItem($item);
+                        }
+
+                        if (callbackFunction) {
+                            callbackFunction();
+                        }
+                    },
+
+                    updateActiveOption: function(value) {
+                        ajax.json({
+
+                            url: updateActiveOptionURL,
+                            data: {
+                                active: value
+                            },
+                            success: function (response) {
+                                if (response.success) {
+
+                                    //console.log("active updated");
+                                    actions.updateItemSummary();
+                                }
+                                else {
+                                    console.log("active updated failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+
+
+                        });
+                    },
+
+                    updateAutoOrderActiveOption: function(value) {
+                        ajax.json({
+                            url: updateAutoOrderActiveOptionURL,
+                            data: {
+                                active: value
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    //console.log("active updated");
+                                    actions.updateItemSummary();
+                                }
+                                else {
+                                    console.log("active updated failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+
+
+
+
+
+
+                        });
+                    },
+                    addItem: function ($item) {
+                        ajax.json({
+
+                            url: addItemsURL,
+                            data: {
+                                item: $item
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    //console.log("item added");
+                                    actions.updateItemSummary();
+                                }
+                                else {
+                                    console.log("failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+
+                        });
+                    },
+                    removeItem: function ($item) {
+                        ajax.json({
+                            url: removeItemsURL,
+                            data: {
+                                itemcode: $item.ItemCode,
+                                type: $item.Type
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    //console.log("item deleted");
+                                    actions.updateItemSummary();
+                                    // solo para modal regalo de xpeed
+                                    $(".txt-quantity-" + $item.ItemCode).val(1);
+                                    $(".qty-box-modal-xpeed-" + $item.ItemCode).val(0);
+
+                                }
+                                else {
+                                    console.log("failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+
+                        });
+                    },
+                    updateItem: function ($item) {
+                        ajax.json({
+                            url: updateItemsURL,
+                            data: {
+                                itemcode: $item.ItemCode,
+                                type: $item.Type,
+                                quantity: $item.Quantity
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    //console.log("item updated");
+                                    actions.updateItemSummary();
+                                }
+                                else {
+                                    console.log("failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+
+
+
+                            }
+                        });
+                    },
+                    updateOrderPV: function (amount, action) {
+                        var $continueBtn = $("#continue"),
+                            $continueBtnContainer = $("#continue-message-container");
+
+                        //console.log("updateOrderPV - " +  "amount: " + amount + " - action: " + action);
+
+                        if(action == "inc")
+
+                        {
+                            orderPV += amount;
+
+                        }
+                        else if(action == "dec")
+
+                        {
+                            orderPV -= amount;
+
+                        }
+
+                        
+                            if (orderPV >= 20)
+
+                        {
+                            $continueBtn.attr('disabled', false);
+                            //$continueBtnContainer.hide();
+                        }
+                        else
+                        {
+                            $continueBtn.attr('disabled', true);
+                            //$continueBtnContainer.show();
+
+                        }
+
+                        
+                    },
+                    //INI - Kit PRO
+                    setMessage: function(){
+                        ajax.json({
+                            url: '/orphan/enrollment/getmessagekit',
+                            success: function (response) {
+                                if (response.success) {
+                                    //console.log("item updateOrderPV");
+                                    //console.log("MENSAJE: " + response.message);
+
+                                    var  $continueBtnContainer = $("#continue-message-container");
+                                    $continueBtnContainer.html("<p style='color:red'>" + response.message + "</p>");
+
+
+                                }
+                                else {
+                                    console.log("failed");
+                                }
+                            },
+                            error: function (xhr, error, status) {
+                                console.log("Error: ", xhr);
+                            }
+                        });
+                    },
+                    //FIN - Kit PRO
+                    BuscarProductoResponsive: function () {
+
+
+                        var BusquedaResponsive = $('input:text[name=SearchProductResponsive]').val();
+                        debugger
+                        location.href = '//enrollment/products?categoryID=0&search=' + BusquedaResponsive;
+
+
+
+                    }
+
+                };
+
+                // Initialization
+                function init() {
+                    registerEventHandlers();
+                    //actions.updateItemSummary();
+                    actions.updateOrderPV(orderPV, "init");
+
+                }
+                init();
+
+             })();
+
+            $(function(){
+                $win=$(window);
+
+                $win.scroll(function(){
+                    t=$win.scrollTop();
+                    //console.log(t);
+                    if(t>200){
+                        $("#summary-container").addClass('box-fixed');
+
+                    }else{
+                        $("#summary-container").removeClass('box-fixed');
+
+                    }
+
+                    valida_width();
+
+
+                });
+
+                $win.resize(function(){
+                    valida_width();
+                    //console.log(w);
+
+                });
+
+                function valida_width(){
+                    w=$win.width();
+                    if(w<767){$("#summary-container").removeClass('box-fixed');}
+
+
+                }
+            });
+
+            function modalAddToCart(){
+                Swal.fire({
+                    icon: 'success',
+                    title: '&#161;Agregaste un producto!',
+                    text: $("#valueAddProduct2").val(),
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            };
+
+
+        </script>
+
+    
+    <!-- Header-------------------------------------------------------------------------------- -->
+    
+
+    <div class="modal fade" id="modalNoWebPublic" tabindex="-1" role="dialog" aria-labelledby="modalConfirmChange" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-login">
+            <div class="modal-content modal-content-login">
+                <div class="modal-header modal-header-login">
+                    <div class="box-title-modal">
+                        <h4 class="modal-title title-modal-login" id="myModalLabel">FUXION</h4>
+                        
+                    </div>
+                </div>
+                <div class="modal-body modal-body-login">
+                    <p class="text-info-modal" style="text-align:justify;" id="txtMsgValidation">
+                        El Patrocinador no cuenta con la afiliaci&#243;n de cliente preferente habilitada.
+                    </p>
+                    <div class="space-10"></div>
+                    
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-section header-section-responsive">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-3 col-xs-6 col-sm-3 xs-px-0">
+                    <div class="menu-button" id="menu-button">
+                        <button type="button" class="btn-simple" data-toggle="modal" data-target="#myModal2">
+                            <div class="menu-button-icon" title="Clickea para ver las opciones"></div>
+                        </button>
+                    </div>
+                    <div class="marcas box-marcas" id="marcas">
+                        <a href="//enrollment/products/102" id="fuxion" class="marca marca-fuxion">
+                            <img class="pointer logo-fuxion-header" src="/css/images/new_wr/Logotipo_Fuxion_Blanco.svg" alt="Alternate Text" />
+                            
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-6 col-sm-3 xs-px-0 pr-0">
+                    <div class="header-options d-xs-none" id="header-options">
+                        <div class="header-option" id="option-login">
+                            <div class="flex align-end" id="option-header">
+
+                                        <div class="pointer">
+                                            <a href="#" data-toggle="modal" data-target="#modalLogin" data-redirect="1" class="pointer">
+                                                <img class="img-responsive pointer w-35" src="/css/images/new_wr/Icono_User_Blanco.svg" alt="Alternate Text" />
+                                            </a>
+                                        </div>
+                            </div>
+
+                        </div>
+
+                        <div class="header-option d-left-to-cart">
+                            
+                                <div class="pointer">
+                                    <a href="//enrollment/SearchOrder" class="pointer">
+                                        <img class="pointer w-35" src="/css/images/new_wr/ICON_DELIVERY_Blanco 5.svg" width="35" height="35" alt="Alternate Text" title="Estado de tu pedido" />
+                                    </a>
+                                </div>
+                        </div>
+
+                    </div>
+
+                    <div class="header-options-resp d-xs-flex justify-flex-end" style="display:none">
+                        <div class="header-option">
+                            <div class="box-icon-header-2">
+                                <p class="pdd-item-header-3 text-country-header mb-0">
+                                    PER
+                                </p>
+                            </div>
+                        </div>
+                        <div class="header-option">
+                            <div class="flex align-end">
+                                    <div class="pointer">
+                                        <a href="#" data-toggle="modal" data-target="#modalLogin" data-redirect="1" class="pointer">
+                                            <img class="img-responsive pointer w-35" src="/css/images/new_wr/Icono_User_Blanco.svg" alt="Alternate Text" />
+                                        </a>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="header-option">
+                            <div class="box-icon-header-1">
+                                    <button type="button" class="btn-simple-2" data-toggle="modal" data-target="#myModal3">
+                                        <span class="cantCompra pos-relative">
+                                            <i class="fa fa-shopping-cart btn-cart-icon" aria-hidden="true"></i><div class="box-qty-cart"><p id="Autocart-quantity-resp"></p></div>
+                                        </span>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-12 col-sm-4 xs-px-0 sm-pr-0">
+                    <!-- Input de busqueda -->
+                    <div class="input-group input-search" id="input-search">
+                        <input type="text" placeholder="Buscar producto" class="form-control input-md search-model" name="SearchProductResponsive" style="border-radius:0px;" id="search-home" list="suggestions">
+                        <div id="suggestions" style="display:none">
+
+                        </div>
+                        <span class="input-group-btn">
+                            <button class="btn btn_search btn-md submit-search search-button-theme" id="SearchProductButtonResponsive">
+                                <svg aria-hidden="true" focusable="false" role="presentation" xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21">
+                                    <path style="color:white;" fill="currentColor" fill-rule="evenodd" d="M12.514 14.906a8.264 8.264 0 0 1-4.322 1.21C3.668 16.116 0 12.513 0 8.07 0 3.626 3.668.023 8.192.023c4.525 0 8.193 3.603 8.193 8.047 0 2.033-.769 3.89-2.035 5.307l4.999 5.552-1.775 1.597-5.06-5.62zm-4.322-.843c3.37 0 6.102-2.684 6.102-5.993 0-3.31-2.732-5.994-6.102-5.994S2.09 4.76 2.09 8.07c0 3.31 2.732 5.993 6.102 5.993z"></path>
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-1 col-xs-6 col-sm-2 xs-px-0 pr-0">
+                    <div class="header-options d-xs-none">
+                        <div class="header-option" id="option-header2">
+                            <div class="flex">
+
+                                    <div class="box-icon-header-3">
+                                        <img class="pointer" style="width:46px;" src="/Content/images/newdesign/flags/PER.svg" width="46" height="35" alt="Alternate Text" />
+                                    </div>
+                                    <ul class="dropdown-menu dropdown-menu-flg drop_user">
+                                        <li>
+                                            <div class="navbar-login navbar-login-session">
+                                                <div class="row">
+                                                    <div class="col-md-12 box-menu-flotante-user">
+                                                        <div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='DE' src='/Content/images/newdesign/flags/DEU.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='AR' src='/Content/images/newdesign/flags/ARG.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='AT' src='/Content/images/newdesign/flags/AUS.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='BE' src='/Content/images/newdesign/flags/BEL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='BO' src='/Content/images/newdesign/flags/BOL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='BR' src='/Content/images/newdesign/flags/BRA.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='CL' src='/Content/images/newdesign/flags/CHL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='CY' src='/Content/images/newdesign/flags/CHI.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='CO' src='/Content/images/newdesign/flags/COL.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='CR' src='/Content/images/newdesign/flags/CRI.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='HR' src='/Content/images/newdesign/flags/HRV.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='EC' src='/Content/images/newdesign/flags/ECU.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='SK' src='/Content/images/newdesign/flags/ESL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='SI' src='/Content/images/newdesign/flags/ESV.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='ES' src='/Content/images/newdesign/flags/ESP.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='US' src='/Content/images/newdesign/flags/USA.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='EE' src='/Content/images/newdesign/flags/EST.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='FI' src='/Content/images/newdesign/flags/FIN.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='FR' src='/Content/images/newdesign/flags/FRA.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='GR' src='/Content/images/newdesign/flags/GRC.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='GT' src='/Content/images/newdesign/flags/GTM.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='HN' src='/Content/images/newdesign/flags/HON.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='IE' src='/Content/images/newdesign/flags/IRL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='IT' src='/Content/images/newdesign/flags/ITA.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='LV' src='/Content/images/newdesign/flags/LET.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='LT' src='/Content/images/newdesign/flags/LIT.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='LU' src='/Content/images/newdesign/flags/LUX.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='MT' src='/Content/images/newdesign/flags/MAL.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='MX' src='/Content/images/newdesign/flags/MEX.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='NL' src='/Content/images/newdesign/flags/NET.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='PA' src='/Content/images/newdesign/flags/PAN.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='PT' src='/Content/images/newdesign/flags/POR.svg' alt='Country' /><img class='img-responsive w-55 MarketNamePie3' data-role='PR' src='/Content/images/newdesign/flags/PRI.svg' alt='Country' /></div><div class='line-divider-blue-fuxion'></div><div class='box-items-menu-logged flex'><img class='img-responsive w-55 MarketNamePie3' data-role='UY' src='/Content/images/newdesign/flags/URU.svg' alt='Country' /></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                        <!-- Carrito de compras -->
+                        <div class="header-option box-cart-resp">
+                            <div class="box-icon-header-1">
+                                    <button type="button" class="btn-simple-2" data-toggle="modal" data-target="#myModal3">
+                                        <span class="cantCompra pos-relative">
+                                            <i class="fa fa-shopping-cart btn-cart-icon" aria-hidden="true"></i><div class="box-qty-cart"><p id="Autocart-quantity"></p></div>
+                                        </span>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="typeRedirect" value="" />
+    <div class="subheader-menu-option subheader-fixed hidden-print">
+        <div class="container boxheader-menu-options">
+            <div class="subheader-links-set">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 text-center px-0">
+
+                            <a id="page-productlist" class='w-full link-nav-header  link-store-fuxion' href="//enrollment/products/102" onclick="localStorage.setItem('viewPage', null);">TIENDA</a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center px-0">
+                            
+
+                            <a id="page-about" class="w-full link-nav-header " href="/orphan/dashboard/aboutus" onclick="localStorage.setItem('viewPage', null);">&#191;QUI&#201;NES SOMOS?</a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center px-0">
+
+                            <a id="page-support" class="w-full link-nav-header " href="/orphan/dashboard/support" onclick="localStorage.setItem('viewPage', null);">SERVICIO AL CLIENTE</a>
+                        </div>
+                        <div class="col-md-3 col-sm-6 text-center px-0">
+                            
+                                <a id="page-join" class="w-full link-nav-header " href="/orphan/dashboard/joinus" onclick="localStorage.setItem('viewPage', null);">&#218;NETE A NOSOTROS</a>
+
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal Menu Lateral -->
+    
+    <!-- Modal Menu Lateral-->
+    <!-- Modal Carrito Lateral -->
+    <div class="modal left fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-color-theme-gray">
+                    <button type="button" class="close close-menu-lateral" data-dismiss="modal" aria-label="Close">
+                        <img class="img-responsive pointer w-20" src="/css/images/new_wr/Icono_X.svg" alt="Alternate Text" />
+                    </button>
+                    <h4 class="modal-title title-menu-lateral" id="myModalLabel2">MEN&#218; PRINCIPAL</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="box-name-nav d-sm-block" style="display:none">
+                    </div>
+                    <div class="box-lista-categorias" id="boxViewCategories">
+                        
+
+                        <div class="box-title-category-responsive mb-9">
+
+
+                            <div class="btn-back-dash">
+                                <span class="title-back-home ">
+                                    TIENDA
+                                    <span class="box-btnmoresubitems-2" data-open="0">
+                                        
+                                        <img class="img-responsive pointer w-20 image-inactive" src="/Content/images/newdesign/Menu_Flecha_Inactiva.svg" alt="Al" />
+                                        <img class="img-responsive pointer w-20 image-active" src="/Content/images/newdesign/Menu_Flecha_Activa.svg" alt="Al" />
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="box-subitmes-stores pr-50" style="display:none;">
+                                <ul class="list-categories box-content-categories">
+                                    
+                                        <li class="list-categories-item item-wsubitems-cat cat-item-padd box-category-2 " >
+                                            <a id="102" href="//enrollment/products/102" class="title-category-menu-2 w-100 fuxion-theme">TIENDA FUXION</a>
+                                            
+                                        </li>
+                                        <li class="list-categories-item item-wsubitems-cat cat-item-padd box-category-2 " >
+                                            <a id="1836" href="//enrollment/products/1836" class="title-category-menu-2 w-100 lussome-theme">TIENDA LUSS&#212;ME</a>
+                                            
+                                        </li>
+                                        <li class="list-categories-item item-wsubitems-cat cat-item-padd box-category-2 " >
+                                            <a id="1920" href="//enrollment/products/1920" class="title-category-menu-2 w-100 galeon-theme">TIENDA GALEON XXI</a>
+                                            
+                                        </li>
+                                        <li class="list-categories-item item-wsubitems-cat cat-item-padd box-category-2 " >
+                                            <a id="2313" href="//enrollment/products/2313" class="title-category-menu-2 w-100 galeon-theme">TIENDA Q&#39;OCINA EN CASA</a>
+                                            
+                                        </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="box-title-category-responsive mb-9">
+
+                            <div>
+                                <a href="/orphan/dashboard/support" class="btn-back-dash ">
+                                    <span class="title-back-home">
+                                        SERVICIO AL CLIENTE
+                                        
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="box-title-category-responsive mb-9">
+
+                            <div>
+                                <a href="/orphan/dashboard/aboutus" class="btn-back-dash ">
+                                    <span class="title-back-home">
+                                        &#191;QUI&#201;NES SOMOS?
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                            <div class="box-title-category-responsive mb-9">
+                                <div>
+                                    <a href="/orphan/dashboard/joinus" class="btn-back-dash">
+                                        <span class="title-back-home">
+                                            &#218;NETE A NOSOTROS
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+
+                        
+
+
+
+                        <div class="divider-fuxion mt-1 mb-1 show-xs" style="display:none;"></div>
+
+                        
+
+
+                        <div class="divider-fuxion mt-1 mb-1"></div>
+                            <div class="form-group select-custom select-custom--blue">
+                                <select class="form-control" name="cboMarket" id="MarketNamePie">
+                                    
+                                        <option value="DE" >Alemania</option>
+                                        <option value="AR" >Argentina</option>
+                                        <option value="AT" >Austria</option>
+                                        <option value="BE" >Belgica</option>
+                                        <option value="BO" >Bolivia</option>
+                                        <option value="BR" >Brasil</option>
+                                        <option value="CL" >Chile</option>
+                                        <option value="CY" >Chipre</option>
+                                        <option value="CO" >Colombia</option>
+                                        <option value="CR" >Costa Rica</option>
+                                        <option value="HR" >Croacia</option>
+                                        <option value="EC" >Ecuador</option>
+                                        <option value="SK" >Eslovaquia</option>
+                                        <option value="SI" >Eslovenia</option>
+                                        <option value="ES" >Espa&#241;a</option>
+                                        <option value="US" >Estados Unidos</option>
+                                        <option value="EE" >Estonia</option>
+                                        <option value="FI" >Finlandia</option>
+                                        <option value="FR" >Francia</option>
+                                        <option value="GR" >Grecia</option>
+                                        <option value="GT" >Guatemala</option>
+                                        <option value="HN" >Honduras</option>
+                                        <option value="IE" >Irlanda</option>
+                                        <option value="IT" >Italia</option>
+                                        <option value="LV" >Letonia</option>
+                                        <option value="LT" >Lituania</option>
+                                        <option value="LU" >Luxemburgo</option>
+                                        <option value="MT" >Malta</option>
+                                        <option value="MX" >M&#233;xico</option>
+                                        <option value="NL" >Netherlands</option>
+                                        <option value="PA" >Panam&#225;</option>
+                                        <option value="PE" selected>Per&#250;</option>
+                                        <option value="PT" >Portugal</option>
+                                        <option value="PR" >Puerto Rico</option>
+                                        <option value="UY" >Uruguay</option>
+                                </select>
+                            </div>
+
+                        <div class="form-group select-custom select-custom--blue">
+                            <select class="form-control" name="cboLanguage" id="cboLanguage">
+                                
+                                    <option value="en-US" >Ingl&#233;s</option>
+                                    <option value="es-MX" selected>Espa&#241;ol</option>
+                                    <option value="pt-PT" >Portugues</option>
+                                    <option value="de-DE" >Deutsch</option>
+                                    <option value="it-IT" >Italiano</option>
+                                    <option value="fr-FR" >Frances</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- modal-content -->
+        </div><!-- modal-dialog -->
+    </div>
+    <!-- Modal Carrito Lateral-->
+    <!-- Language Modal -->
+    <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLogin" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-login">
+            <div class="modal-content modal-content-login">
+                <div class="modal-header modal-header-login" style="padding-top: 30px;">
+                    <div class="box-title-modal">
+                        <h4 class="modal-title title-modal-login" id="myModalLabel">INICIAR SESI&#211;N</h4>
+                        
+                    </div>
+                </div>
+                
+                <div class="modal-body modal-body-login" id="divLoading" style="display:none">
+                    Loading ...
+                </div>
+                <div class="modal-body modal-body-login" id="divLoginWithRedes">
+                    <form role="form" id="login-form" novalidate="novalidate">
+
+                        <div class="form-group mb-1">
+                            <label class="text-input-login mb-1">Ingresa tu usuario y contrase&#241;a</label>
+                            <input type="text" name="LoginName" id="LoginName" class="form-control" placeholder="Usuario" />
+                        </div>
+                        <div class="form-group mb-1">
+                            
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Contrase&#241;a" />
+                        </div>
+                        <div class="text-center">
+                            <a style="margin-bottom: 0.3rem;" class="btn btn-primary btn-login-modal" id="loginSubmit">ACEPTAR</a>
+                        </div>
+
+                        <div style="/*margin-bottom:15px;*/ height: 30px">
+                            <div style="height: 50%; border-bottom: 1px solid #ccc; text-align:center;">
+                                <span style="font-size:12px; line-height: 30px; padding: 0 15px; background: #fff;"> Inicia sesi&#243;n con </span>
+                            </div>
+                        </div>
+
+                        <div class="container-redes">
+                            <a href="#" onclick="authGoogle()" class="mr-20">
+                                <img class="img-reduccion" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 48 48'%3E%3Cdefs%3E%3Cpath id='a' d='M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 4.1 29.6 2 24 2 11.8 2 2 11.8 2 24s9.8 22 22 22c11 0 21-8 21-22 0-1.3-.2-2.7-.5-4z'/%3E%3C/defs%3E%3CclipPath id='b'%3E%3Cuse xlink:href='%23a' overflow='visible'/%3E%3C/clipPath%3E%3Cpath clip-path='url(%23b)' fill='%23FBBC05' d='M0 37V11l17 13z'/%3E%3Cpath clip-path='url(%23b)' fill='%23EA4335' d='M0 11l17 13 7-6.1L48 14V0H0z'/%3E%3Cpath clip-path='url(%23b)' fill='%2334A853' d='M0 37l30-23 7.9 1L48 0v48H0z'/%3E%3Cpath clip-path='url(%23b)' fill='%234285F4' d='M48 48L17 24l-4-3 35-10z'/%3E%3C/svg%3E">
+                            </a>
+                            
+                            <a href="#" onclick="authMicrosoft()" class="mr-20">
+                                <img class="img-reduccion" src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='21' height='21'%3E%3Cpath fill='%23f25022' d='M1 1h9v9H1z'/%3E%3Cpath fill='%2300a4ef' d='M1 11h9v9H1z'/%3E%3Cpath fill='%237fba00' d='M11 1h9v9h-9z'/%3E%3Cpath fill='%23ffb900' d='M11 11h9v9h-9z'/%3E%3C/svg%3E">
+                            </a>
+                            <a href="#" onclick="authApple()" style="background-color:#000000;">
+                                <img src="/css/images/icono-apple.png" style="width: 80%;">
+                            </a>
+                        </div>
+
+                        <div class="text-center mb-text">
+                            <a href="#"  data-dismiss="modal" id="btnOpenModalPass" class="link-password">&#191;Olvidaste tu contrase&#241;a?</a>
+                        </div>
+                        <div class="text-center login-view">
+                                <div class="divider-login"></div>
+                                <div class="space-15"></div>
+                                <a href="/orphan/enrollment/messagecp" class="btn btn-primary btn-white-login-modal">REGISTRATE COMO CLIENTE PREFERENTE</a>
+                                <p class="text-no-account mb-text">&#161;Y obt&#233;n a grandes beneficios!</p>
+
+                        </div>
+                        <div class="divider-login login-view" style="margin-bottom: 15px;"></div>
+
+                            <div class="text-center mb-1 mt-20 login-view">
+                                <a href="/orphan/enrollment/enrolleeinfo?rule=1" class="btn btn-primary btn-white-login-modal">COMPRA SIN REGISTRARTE</a>
+                            </div>
+
+                    </form>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Puntos ACumulados -->
+    <!-- Modal Olvidé mi contraseña -->
+    <div class="modal fade" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="modalPassword" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-login">
+            <div class="modal-content modal-content-login">
+                <div class="modal-header modal-header-login">
+                    <div class="box-title-modal">
+                        <h4 class="modal-title title-modal-login" id="myModalLabel">REESTABLECER CONTRASE&#209;A</h4>
+                        
+                    </div>
+                </div>
+                <div class="modal-body modal-body-login">
+                    <div class="form-group mb-1">
+                        <label class="text-input-login mb-1">Ingresa tu correo</label>
+                        <input type="text" id="iptEmailPass" class="form-control" placeholder="Ingresa tu correo" />
+                    </div>
+                    <p>Se enviar&#225; una nueva contrase&#241;a al correo registrado.</p>
+                    <a class="btn btn-primary btn-login-modal" id="btnChangePass">REESTABLECER CONTRASE&#209;A</a>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="box-loading-pass">
+                    <div class="box-spinner">
+                        <i class="fa fa-circle-o-notch loader-spinner" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contraseña cambiada -->
+    <div class="modal fade" id="modalConfirmChange" tabindex="-1" role="dialog" aria-labelledby="modalConfirmChange" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-login">
+            <div class="modal-content modal-content-login">
+                <div class="modal-header modal-header-login">
+                    <div class="box-title-modal">
+                        <h4 class="modal-title title-modal-login" id="myModalLabel">&#161;LISTO!</h4>
+                        
+                    </div>
+                </div>
+                <div class="modal-body modal-body-login">
+                    <p class="text-info-modal">Se envi&#243; tu nueva contrase&#241;a al correo registrado.</p>
+                    <div class="space-10"></div>
+                    <a class="btn btn-primary btn-login-modal" id="btnAbrirModalLogin">DE ACUERDO</a>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Feedback -->
+    <div class="modal fade" id="modalFeedback" tabindex="-1" role="dialog" aria-labelledby="modalFeedback" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-feedback">
+            <div class="modal-content modal-content-login">
+                <div class="modal-header modal-header-login">
+                    <div class="box-title-modal-feedback">
+                        <h4 class="modal-title title-modal-feedback-2" id="myModalLabel">TU OPINIÓN NOS <br />AYUDA A SERVIRTE MEJOR</h4>
+                        <button type="button" class="close close-login float-none btn-absolute-modal" data-dismiss="modal" aria-label="Close">
+                            <img class="img-responsive pointer" src="/css/images/new_wr/BOTON_X_DESACT.png" alt="Alternate Text" />
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body modal-body-login">
+                    <h1 style="font-size: 1.2rem!important;" class="m-0 title-modal-feedback text-center display-desktop">¿Cómo calificarías tu experiencia en la nueva<br />Tienda Electrónica Fuxion?</h1>
+                    <h1 style="font-size: 1.2rem!important;" class="m-0 title-modal-feedback text-center display-mobile">&#191;C&#243;mo calificar&#237;as tu experiencia en la nueva Tienda Electr&#243;nica Fuxion?</h1>
+                    <div class="space-10"></div>
+                    <div class="box-options-feedback text-center mt-1">
+                        
+                        <div class="item-option-feedback">
+                            <img class="icono-cara-feedback" src="/css/images/new_wr/Icono_Cara_3.svg" alt="Alternate Text" /> <br />
+                            <div class="inline-block">
+                                <div class="option-feedback" data-valfeed="3"></div>
+                                <h5 class="text-options-feedback inline-block">BUENA</h5>
+                            </div>
+                        </div>
+                        <div class="item-option-feedback">
+                            <img class="icono-cara-feedback" src="/css/images/new_wr/Icono_Cara_4.svg" alt="Alternate Text" /> <br />
+                            <div class="inline-block">
+                                <div class="option-feedback" data-valfeed="2"></div>
+                                <h5 class="text-options-feedback inline-block">REGULAR</h5>
+                            </div>
+                        </div>
+                        <div class="item-option-feedback">
+                            <img class="icono-cara-feedback" src="/css/images/new_wr/Icono_Cara_5.svg" alt="Alternate Text" /> <br />
+                            <div class="inline-block">
+                                <div class="option-feedback" data-valfeed="1"></div>
+                                <h5 class="text-options-feedback inline-block">MALA</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="boxCommentFeedback" style="display:none;">
+                        <div class="space-15"></div>
+                        <h2 class="m-0">Comentario:</h2>
+                        <textarea id="txtFeedbackComment" class="box-textarea-feedback" placeholder='Escribe un comentario' maxlength="150" name="textarea" rows="10" cols="50"></textarea>
+                    </div>
+                    <div class="space-10"></div>
+                    <a class="btn btn-primary btn-login-modal" id="btnSendFeedback">ENVIAR</a>
+                    <div id="title-resp-feedback" class="text-center" style="display:none;">
+                        <img style="width:65px;height:65px" src="/css/images/new_wr/Icono_Cara_6.svg" alt="Alternate Text" /> <br />
+                        <div class="space-15"></div>
+                        <h1 class="text-center bold-fuxion" style="font-size: 1.3rem!important;color: #0086d6;">Gracias por ayudarnos <br />a seguir creciendo juntos</h1>
+                        <div class="space-20"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Feedback -->
+    <div id="boxModalFeedback" class="box-modal-feedback" style="display:none;">
+        <div class="box-options-feedback">
+            <div class="option-feedback" data-valfeed="1">1</div>
+            <div class="option-feedback" data-valfeed="2">2</div>
+            <div class="option-feedback" data-valfeed="3">3</div>
+            <div class="option-feedback" data-valfeed="4">4</div>
+            <div class="option-feedback" data-valfeed="5">5</div>
+        </div>
+        <div id="boxCommentFeedback" style="display:none;">
+            <div class="space-15"></div>
+            <h2 class="m-0">Comentario:</h2>
+            <textarea id="txtFeedbackComment" class="box-textarea-feedback" placeholder="Escribe un comentario" maxlength="150" name="textarea" rows="10" cols="50"></textarea>
+        </div>
+        <a id="btnSendFeedback" class="btn btn-blue-fuxion mt-1" href="#">ENVIAR</a>
+        <div id="title-resp-feedback" style="display:none;">
+            <div class="space-30"></div>
+            <h1 class="">¡GRACIAS POR ENVIARNOS TU CALIFICACIÓN!</h1>
+            <div class="space-20"></div>
+        </div>
+    </div>
+    <!-- INI: WHATSAPP BUTTON -->
+    
+    <!-- START CHATBOX IPDIALBOX-->
+    
+    <!-- END CHATBOX IPDIALBOX-->
+    
+    <!-- FIN: WHATSAPP BUTTON-->
+    <!-- Contenido -------------------------------------------------------------------------------- -->
+    
+
+
+<div class="space-100"></div>
+<div class="container container-expandable">
+    
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="text-center">
+            <h1>Oops!</h1>
+            <p class="lead">
+               Algo sali&#243; mal con ese &#250;ltimo click
+            </p>
+            <p class="lead">
+               No estamos seguros de lo que sucedi&#243;, ya fue notificado nuestro departamento de sistemas. 
+            </p>
+            <p><a class="btn btn-primary btn-lg" role="button" onclick="history.go(-1);">Regresar</a></p>
+        </div>
+    </div>
+</div>
+
+
+</div>
+<div class="space-100"></div>
+<div class="space-100"></div>
+<div class="space-100"></div>
+
+<script>
+    (function () {
+        $('body').append('<div id="__debug" style="width: 10px; height: 10px; position: absolute; bottom: 0; left: 0; z-index: 999999;" />');
+        $('#__debug').on('click', function () {
+            $('#__debuginfo').show();
+        });
+    })();
+</script>
+
+
+    <!-- Footer -------------------------------------------------------------------------------- -->
+    <footer class="band footer-section" id="footer-section">
+        <div class="container hide-responsive-footer">
+            <div class="row">
+                <div class="col-md-9" style=" display: flex; justify-content: space-between;">
+                    <div class="flex items-center space-between">
+                        <div class="flex items-center">
+                            <h4 class="subtitle-footer-2">S&#237;guenos en:</h4>
+                            <a title='Facebook' href="https://www.facebook.com/fuxion" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Facebook.svg" alt="Alternate Text" /></a>
+                            <a title='Twitter' href="https://twitter.com/fuxionoficial?lang=en" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Tweeter.svg" alt="Alternate Text" /></a>
+                            <a title='Youtube' href="https://www.youtube.com/fuxionoficial" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Youtube.svg" alt="Alternate Text" /></a>
+                            <a title='Instagram' href="https://www.instagram.com/fuxionoficial/" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Instagram.svg" alt="Alternate Text" /></a>
+                            
+                        </div>
+                        
+                    </div>
+                        <div>
+                            <a href="https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/files/Doc/02092025_011719.pdf" target="_blank" style="color: white;">Política de Privacidad</a>
+                            <span>&nbsp;&nbsp;</span>
+                            <a href="https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/files/Doc/02092025_043408.pdf" target="_blank" style="color: white;">Política de Cookies</a>
+                        </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="flex items-center flex-end">
+                        <a href="#"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Subir.svg" alt="Alternate Text" /></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="show-footer-responsive" style="display:none">
+            <div class="flex items-center justify-center py-10 footer-socials">
+                <h4 class="subtitle-footer-2">S&#237;guenos en: :</h4>
+                <a title='Facebook' href="https://www.facebook.com/fuxion" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Facebook.svg" alt="Alternate Text" /></a>
+                <a title='Twitter' href="https://twitter.com/fuxionoficial?lang=en" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Tweeter.svg" alt="Alternate Text" /></a>
+                <a title='Youtube' href="https://www.youtube.com/fuxionoficial" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Youtube.svg" alt="Alternate Text" /></a>
+                <a title='Instagram' href="https://www.instagram.com/fuxionoficial/" target="_blank" class="ml-10"><img class="img-responsive w-35 pointer" src="/css/images/new_wr/Icono_Instagram.svg" alt="Alternate Text" /></a>
+                
+            </div>
+            
+        </div>
+
+        <div class="box" style="display:none">
+            <div class="space-15"></div>
+            <div class="row">
+                <div class="col-md-2 col-xs-6">
+                    <div class="box-footer-section-1">
+                        <div class="">
+                            <h4 class="subtitle-footer text-uppercase">
+                                CON&#211;CENOS
+                            </h4>
+                            <a href="/orphan/dashboard/aboutus" class="link-footer">» &#191;Qui&#233;nes somos?</a> <br />
+                            <a href="https://fuxion.com/pe/productos" target="_blank" class="link-footer">» Nuestros productos</a> <br />
+                            <a href="/orphan/dashboard/coverage" class="link-footer">» Cobertura de env&#237;os</a>
+                        </div>
+                        <div class="">
+                            <h4 class="subtitle-footer text-uppercase">EMPRENDE CON NOSOTROS</h4>
+                                <a href="/orphan/dashboard/joinus" class="link-footer">» &#218;nete a Fuxion, inicia tu negocio hoy &#161;Registrate aqu&#237;!</a>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="box-footer-section-2">
+                        <div class="text-center">
+                            <h4 class="subtitle-footer text-uppercase">NUESTRAS MARCAS DE PRODUCTOS:</h4>
+                            <a href="//enrollment/products/102" class="mb-25 mt-20 pointer"><img class="img-responsive" src="/css/images/LogoFuxion.png" alt="Alternate Text" /></a> <br />
+                            <a href="//enrollment/products/1836" class="mb-25 mt-20 pointer"><img class="img-responsive" src="/css/images/LogoLussome.png" alt="Alternate Text" /></a> <br />
+                            <a href="//enrollment/products/1920" class="mb-25 mt-20 pointer"><img class="img-responsive" src="/css/images/LogoGaleon.png" alt="Alternate Text" /></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-6">
+                    <div class="box-footer-section-3">
+                        <div class="">
+                            <h4 class="subtitle-footer text-uppercase">SERVICIO AL CLIENTE</h4>
+                            <a href="/orphan/dashboard/faq" class="link-footer">» Preguntas frecuentes</a> <br />
+                            <a href="/orphan/dashboard/contact" class="link-footer">» Cont&#225;ctanos</a> <br />
+                            <a href="//enrollment/SearchOrder" class="link-footer">» Seguimiento de pedidos</a>
+                        </div>
+                        <div class="">
+                            <h4 class="subtitle-footer text-uppercase">LEGAL</h4>
+                            <a href="/orphan/dashboard/termsandcondition" class="link-footer">» T&#233;rminos y condiciones</a> <br />
+                            <a href="/orphan/dashboard/returnsandexchanges" class="link-footer">» Cambios y devoluciones </a> <br />
+                            <a href="http://reclamos.fuxion.net/" target="_blank" class="link-footer">» Libro de reclamaciones</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="box-footer-section-4">
+                        <div class="text-center">
+                            <h4 class="subtitle-footer text-uppercase">MEDIOS DE PAGO <br /> 100% SEGUROS:</h4>
+                            <a href="https://www.safetypay.com/es/" target="_blank" class="mb-25 mt-20"><img class="img-responsive" src="/css/images/LogoSafetypay.png" alt="Alternate Text" /></a> <br />
+                            <a href="https://peru.payu.com/" target="_blank" class="mb-25 mt-20"><img class="img-responsive" src="/css/images/LogoPayU.png" alt="Alternate Text" /></a> <br />
+                            <a class="mb-25 mt-20"><img class="img-responsive" src="/css/images/LogosCards.png" alt="Alternate Text" /></a> <br />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-xs-12">
+                    <div class="box-footer-section-5">
+                        <div class="text-center">
+                            <h4 class="subtitle-footer text-uppercase">COMUNICATE CON NOSOTROS</h4>
+                            <div class="flex justify-center">
+                                <div class="box-wssp-footer">
+                                    <i class="fa fa-whatsapp wspp-footer" aria-hidden="true"></i>
+                                </div>
+                                <div class="box-numbers-wssp">
+                                    <span class="number-wssp">986867611</span>
+                                    
+                                </div>
+                            </div> <br />
+                            <div class="flex justify-center">
+                                <div class="box-img-servicecontact">
+                                    <img class="img-responsive img-service-contact" src="/css/images/ServiceContact.png" alt="Alternate Text" />
+                                </div>
+                                <div class="box-numbers-wssp">
+                                    <span class="number-wssp">De L - V</span> <br />
+                                    <span class="number-wssp">8 am - 8 pm</span>
+                                </div>
+                            </div> <br />
+                            <br />
+                            <div>
+                                <span class="number-wssp">S&#237;guenos:</span>
+                                <div class="social-icons">
+                                    <a class="social-link" title='Facebook' href="https://www.facebook.com/fuxion" target="_blank">
+                                        <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        <span class="show-for-sr">Encuéntranos en Facebook</span>
+                                    </a>
+                                    <a class="social-link" title='Twitter' href="https://twitter.com/fuxionoficial?lang=en" target="_blank">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                        <span class="show-for-sr">Encuéntranos en Twitter</span>
+                                    </a>
+                                    <a class="social-link" title='Instagram' href="https://www.instagram.com/fuxionoficial/" target="_blank">
+                                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        <span class="show-for-sr">Encuéntranos en Instagram</span>
+                                    </a>
+                                    <a class="social-link" title='Youtube' href="https://www.youtube.com/fuxionoficial" target="_blank">
+                                        <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                        <span class="show-for-sr">Encuéntranos en Youtube</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="space-25"></div>
+        </div>
+    </footer>
+    <!-- jq_footer -->
+    
+    
+    
+    <div id="addtocart-modalcontainer"></div>
+    
+    
+    <script>
+
+        if (localStorage.getItem('customertype') == "2")
+        {
+            $(".isCP").css("display","block");
+        } else {
+            $(".isEF").css("display", "block");
+        }
+
+
+
+
+        $('#btnGoStore').on("click", function (e) {
+            console.log(location.origin)
+
+            location.href = location.origin;
+        });
+
+        if ('1' == 1)
+        {
+            if ("unexpectederror" != "PaymentRedirectPowertranz")
+            {
+            $("#modalLogin").modal({ backdrop: 'static', keyboard: false });
+            $(".login-view").addClass("hide");
+            }
+        } else if ('1' != "1") {
+            $.ajax({
+                url: '/orphan/enrollment/webaliaspublic',
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                //   data: JSON.stringify({ delivery: del }),
+                //  async: false,
+                success: function (response) {
+                    console.log(response);
+
+                    if ('1' != "1") {
+                        if (response.customerTypeId == 2) {
+                            if ('1' != "1")
+                            {
+                                $("#txtMsgValidation").html("El Patrocinador no cuenta con la afiliaci&#243;n de cliente preferente habilitada.");
+                                $("#modalNoWebPublic").modal({ backdrop: 'static', keyboard: false });
+                            }
+                        } else {
+                            if ('0' != "1") {
+                                $("#txtMsgValidation").html("El Patrocinador no cuenta con la afiliaci&#243;n de empresario habilitada.");
+                                $("#modalNoWebPublic").modal({ backdrop: 'static', keyboard: false });
+                            }
+                        }
+
+                    }
+                },
+                error: function () {
+                    console.log("Error isDeliveryOption");
+                }
+            });
+        }
+
+        $('#btnAbrirModalLogin').on("click", function (e) {
+            $("#modalConfirmChange").modal("hide");
+            $("#modalLogin").modal({ backdrop: 'static', keyboard: false });
+            $(".login-view").addClass("hide");
+        });
+
+
+        $(document).ready(function () {
+            ////var urlChatBot = "https://chat01.wolkvox.com/chat/?prodId=cHJvbGlmZS1mdXhpb24tcGVydS43NTc="
+            //var urlChatBot = "https://widget01.wolkvox.com/chat/?prodId=cHJvbGlmZS1mdXhpb24tcGVydS43NTc="
+            //var scriptChatBot = document.createElement('script');
+            //scriptChatBot.src = urlChatBot;
+            ////$('#prodId').attr("src", urlChatBot)
+            //$("body").append(scriptChatBot);
+
+            /*var local = location.href;
+            if (local.search(/events/i) > 0) {
+                var footer = $("footer");
+                $('*').remove('.footer');
+                $(footer).insertAfter('#__idlemask');
+
+            }*/
+
+
+        });
+
+
+        $(document).on("click", "#option-header", function () {
+
+            if($(".dropdown-menu").hasClass("open"))
+            {
+                $(".dropdown-menu").removeClass("open")
+            } else {
+                $(".dropdown-menu").addClass("open")
+            }
+
+        });
+
+        $(document).on("click", ".box-icon-header-3", function () {
+
+            if ($(".dropdown-menu-flg").hasClass("open")) {
+                $(".dropdown-menu-flg").removeClass("open")
+            } else {
+                $(".dropdown-menu-flg").addClass("open")
+            }
+
+        });
+
+        //$("#option-login")
+        //      .hover(function () {
+        //          $(".dropdown-menu").addClass("open")
+        //      },
+        //      function () {
+        //          $(".dropdown-menu").removeClass("open")
+        //      });
+
+        //$("#option-header")
+        //      .mouseenter(function () {
+        //          $(".dropdown-menu").addClass("open")
+        //      })
+        //      .mouseleave(function () {
+        //          $(".dropdown-menu").removeClass("open")
+        //      });
+
+        $(document).on("click", "a[data-target='#modalLogin']", function () {
+
+
+            var type_redirect = $(this).data().redirect;
+
+            if (type_redirect == "1") {
+                $(".login-view").addClass("hide");
+            } else {
+                $(".login-view").removeClass("hide");
+            }
+
+            if(type_redirect == undefined){
+                type_redirect = "1";
+            }
+            $("#typeRedirect").val(type_redirect);
+
+        });
+
+        
+    </script>
+    
+
+    <script>
+        require(["cookies", "underscore"], function (cookies, _) {
+            // Event Handlers
+            function registerEventHandlers() {
+                // Reposition the footer to ensure that it stays docked to the bottom on shorter pages
+                $(window).on('load resize', _.throttle(actions.repositionFooter, 100));
+
+                $('#cboLanguage').change(function () {
+                    var selectLanguahe = $('#cboLanguage').val();
+
+
+                    cookies.set('FuxionLanguage', selectLanguahe, {
+                        expires: new Date('8/16/2027'),
+                        path: '/'
+                    });
+
+                    if (window.location.pathname.indexOf('products') >= 0) {
+                        location.href = "/orphan/enrollment/products";
+                    }
+                    else {
+                        window.location = window.location;
+                    }
+
+                });
+                $('#cboLanguage1').change(function () {
+                    var selectLanguahe = $('#cboLanguage1').val();
+
+
+                    cookies.set('FuxionLanguage', selectLanguahe, {
+                        expires: new Date('8/16/2027'),
+                        path: '/'
+                    });
+
+                    if (window.location.pathname.indexOf('products') >= 0) {
+                        location.href = "/orphan/enrollment/products";
+                    }
+                    else {
+                        window.location = window.location;
+                    }
+
+                });
+
+                // Open Add To Cart Modal
+                $('[data-action="addtocart"]').on("click", function (e) {
+                    var itemcode = $(this).data("itemcode"),
+                        baseurl = "/orphan/shopping/fetchcartmodal/item",
+                        url = baseurl.replace("item", itemcode);
+
+                    $.ajax({
+                        url: url,
+                        cache: false,
+                        success: function (html) {
+                            $("#addtocart-modalcontainer").html(html);
+
+                            $("#addToCartModal").modal();
+                        }, error: function (xhr, status, error) {
+                            console.log(xhr);
+                        }
+                    });
+                });
+            }
+
+            // Actions
+            var actions = {
+                repositionFooter: function () {
+                    var windowHeight = $(window).height(),
+                        contentOffset = $('#site-content').offset(),
+                    footerHeight = $('#site-footer').height();
+                    var newHeight = windowHeight - contentOffset - footerHeight;
+                    $('#site-content').css('min-height', newHeight);
+                },
+                setActiveNavigation: function () {
+                    var hasActiveNavigationField = ($('.activenavigation').length > 0);
+                    if (hasActiveNavigationField) {
+                        var activeNavigation = $('.activenavigation').val();
+                        //console.log(activeNavigation);
+                        var activeSubNav = $('.activenavigation').data('side-nav');
+                        var $navigationLink = $('a[data-navigation="' + activeNavigation + '"]');
+                        var $subnavLink = $('a[data-subnav="' + activeSubNav + '"]');
+                        $('#site-nav>li>a').removeClass('highlight');
+                        $navigationLink.addClass('highlight');
+                        $('.side-nav>li>a').removeClass('sidenav-active');
+                        $subnavLink.addClass('sidenav-active');
+                    }
+                    else {
+                        return;
+                    }
+                },
+                getCookies: function listCookies() {
+                    var theCookies = document.cookie.split(';');
+                    var aString = '';
+                    for (var i = 1 ; i <= theCookies.length; i++) {
+                        aString += i + ' ' + theCookies[i - 1] + "\n";
+                    }
+                    return aString;
+                }
+
+
+            };
+
+            // Initialization
+            function init() {
+                registerEventHandlers();
+                actions.setActiveNavigation();
+            }
+            init();
+        });
+
+        var getCookies = function () {
+            var pairs = document.cookie.split(";");
+            var cookies = {};
+            for (var i = 0; i < pairs.length; i++) {
+                var pair = pairs[i].split("=");
+                cookies[pair[0]] = unescape(pair[1]);
+            }
+            return cookies;
+        }
+
+        var myCookies = getCookies();
+    </script>
+
+    <!-- Page Scripts -->
+      
+    
+
+    <input name="__RequestVerificationToken" type="hidden" value="wA8-iR-kFhDxbsAlUkFdhehJ7U7G4YUOsg0ndZCFf61_dBHTJ-iACqBItCqsEfmUGepX6MSEFDZreEjLkyJYzmCGqnw1" />
+    <script>
+        $(function () {
+            $(".dropdown").hover(
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).fadeIn("fast");
+                    $(this).toggleClass('open');
+                    $('b', this).toggleClass("caret caret-up");
+                },
+                function () {
+                    $('.dropdown-menu', this).stop(true, true).fadeOut("fast");
+                    $(this).toggleClass('open');
+                    $('b', this).toggleClass("caret caret-up");
+                });
+        });
+        //RQ Inicio: holding tank
+        $('#btnSignIn, #btnRspSignIn').on("click", function (e) {
+            $("#wr_modal").slideToggle();
+            $("#txtUsuario").val('');
+            $("#txtClave").val('');
+            $("#ResultadoTabla").html('');
+        });
+        //RQ Fin
+
+        //Tienda virtual
+        require(["cookies", "underscore"], function (cookies, _) {
+
+            $("a[data-navigation=buy]").click(function (e) {
+                document.cookie = 'nxtTipoCompra=buy;path=/';
+            });
+
+            $("a[data-navigation=buyEF]").click(function (e) {
+                document.cookie = 'nxtTipoCompra=afiliacionEF;path=/';
+            });
+        });
+    </script>
+    
+    <div class="wr_modal" id="wr_modal" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" id="btn_close" style="margin-top:-10px !important">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabel"> <img class="lussone " src="/NextExperience/images/header/logo-lussone.png" style="display:none;"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">  <input type="text" id="txtUsuario" name="txtUsuario" class="form-control" placeholder="Nombre de usuario" autocomplete="off"> </div>
+                    <div class="form-group">  <input type="password" id="txtClave" name="txtClave" class="form-control" placeholder="Contrase&#241;a" autocomplete="off"> </div>
+                    <div class="form-group">    </div>
+                    <div class="checkbox">  </div>
+                    <a class="Btn Btn--blue" id="btnIngresar" style="width:100%">Iniciar sesi&#243;n</a>
+                    <div id="ResultadoTabla"></div>
+                    <input type="hidden" id="hidCodeGenerate" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="wr_modal" id="slider" style="display:none">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title select-country" id="modalLabel"><img style="width:120px; margin: auto;" src="/NextExperience/images/header/offix_lite_blue .png"></h4>
+                </div>
+                <div class="modal-body select-country-body">
+                    <div class="info-client" style="display:none;">
+                        Mi Ip es:
+                        <span id="sp_miip">
+
+                        </span>
+                        el pais donde estoy es:
+                        <span id="sp_country"></span>
+                    </div>
+                    <div class="shopVirtual-country-select">
+                        <p class="shopVirtual-country-subtitle">Elige el pais</p>
+                        <div class="select-custom select-custom--blue">
+                            <select class="form-control countryselect info_shop_register__select" name="select" id="MarketName">
+
+                                        <option value="DE">Alemania</option>
+                                        <option value="AR">Argentina</option>
+                                        <option value="AT">Austria</option>
+                                        <option value="BE">Belgica</option>
+                                        <option value="BO">Bolivia</option>
+                                        <option value="BR">Brasil</option>
+                                        <option value="CL">Chile</option>
+                                        <option value="CY">Chipre</option>
+                                        <option value="CO">Colombia</option>
+                                        <option value="CR">Costa Rica</option>
+                                        <option value="HR">Croacia</option>
+                                        <option value="EC">Ecuador</option>
+                                        <option value="SK">Eslovaquia</option>
+                                        <option value="SI">Eslovenia</option>
+                                        <option value="ES">Espa&#241;a</option>
+                                        <option value="EE">Estonia</option>
+                                        <option value="FI">Finlandia</option>
+                                        <option value="FR">Francia</option>
+                                        <option value="GR">Grecia</option>
+                                        <option value="GT">Guatemala</option>
+                                        <option value="HN">Honduras</option>
+                                        <option value="IE">Irlanda</option>
+                                        <option value="IT">Italia</option>
+                                        <option value="LV">Letonia</option>
+                                        <option value="LT">Lituania</option>
+                                        <option value="LU">Luxemburgo</option>
+                                        <option value="MT">Malta</option>
+                                        <option value="MX">M&#233;xico</option>
+                                        <option value="NL">Netherlands</option>
+                                        <option value="PA">Panam&#225;</option>
+                                        <option value="PE">Per&#250;</option>
+                                        <option value="PT">Portugal</option>
+                                        <option value="PR">Puerto Rico</option>
+                                        <option value="UY">Uruguay</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class="shopVirtual-country-action text-center">
+                        <button class="Btn Btn--blue" type="button" id="btnChooseCountry">Continuar &raquo;</button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="container-cs-cookie" style="z-index:99999998 !important;" class="cookie-cs-default-floating cookie-cs-bottom cookie-cs-center cookie-cs-slidein cookie-cs-padded cookie-cs-scrollable" role="alertdialog" aria-describedby="cookie-cs-paragraph" aria-labelledby="cookie-cs-title" bis_skin_checked="1">
+        <div role="region" class="cookie-cs-container" bis_skin_checked="1">
+            <div class="cookie-cs-content" style="background-color: white !important;color: black !important;font-size: 14px !important;" bis_skin_checked="1">
+                <div class="cookie-cs-rationale" bis_skin_checked="1">
+                    <button type="button" class="accept-cookie cookie-cs-close-btn" tabindex="0" role="button" aria-label="Cerrar esta nota informativa">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <div class="cookie-banner-content cookie-custom-content cookie-banner-content-padded" role="document" bis_skin_checked="1" style="padding-bottom: 0px !important;">
+                        <h2 id="cookie-cs-title">Nota informativa</h2>
+                        <div id="cookie-cs-paragraph" class="" bis_skin_checked="1">
+                            <p class="iub-p">
+                                Nosotros y terceros seleccionados utilizamos cookies o tecnolog&#237;as similares con fines t&#233;cnicos y, con su consentimiento, para las finalidades de 
+                                    seg&#250;n se especifica en la
+ 
+                                <a href="https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/files/Doc/02092025_043408.pdf" role="button" target="_blank" rel="noopener" class="cookie-cs-cookie-policy-lnk">pol&#237;tica de cookies</a>. 
+                            </p>
+                            <p class="iub-p"></p>
+                            <p class="iub-p">Utilice el bot&#243;n “Aceptar” o cierre esta nota informativa para dar su consentimiento. </p>
+                         </div>
+                    </div>
+                    
+                    <div class="cookie-cs-opt-group" style="color:white!important;" bis_skin_checked="1">
+                        <div class="cookie-cs-opt-group-custom" bis_skin_checked="1">
+                            <button class="cookie-cs-customize-btn" tabindex="0" role="button">Configuraci&#243;n de cookies</button>
+                        </div>
+                        <div class="cookie-cs-opt-group-consent" bis_skin_checked="1">
+                            <button class="accept-cookie cookie-cs-accept-btn cookie-cs-btn-primary" tabindex="0" role="button">Aceptar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="cookieModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cookieModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header" style="border-bottom:1px solid #e6e9ef;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span>&times;</span></button>
+                    <h4 class="modal-title" style="color:#0f172a;">Gestionar las preferencias de consentimiento</h4>
+                </div>
+
+                <div class="modal-body">
+                    <div class="accordion" id="accordionExample">
+
+                        <!-- TÉCNICAS (sin switch) -->
+                        <div class="card">
+                            <div class="card-header" id="headingOne" style="position:relative;">
+                                <button class="acc-trigger collapsed" type="button"
+                                        data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="false" aria-controls="collapseOne">
+                                    <span>Cookies t&#233;cnicas</span>
+                                </button>
+                                <span class="right-slot"><span class="badge-always">Activas siempre</span></span>
+                            </div>
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    Estas cookies son necesarias para que el sitio web funcione y no se pueden desactivar en nuestros sistemas. Usualmente est&#225;n configuradas para responder a acciones hechas por usted para recibir servicios, tales como ajustar sus preferencias de privacidad, iniciar sesi&#243;n en el sitio, o llenar formularios. Usted puede configurar su navegador para bloquear o alertar la presencia de estas cookies, pero algunas partes del sitio web no funcionar&#225;n. Estas cookies no guardan ninguna informaci&#243;n personal identificable.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FUNCIONALES (con switch) -->
+                        <div class="card">
+                            <div class="card-header" id="headingTwo" style="position:relative;">
+                                <button class="acc-trigger collapsed" type="button"
+                                        data-toggle="collapse" data-target="#collapseTwo"
+                                        aria-expanded="false" aria-controls="collapseTwo">
+                                    <span>Cookies funcionales</span>
+                                </button>
+                                <span class="right-slot"><span class="badge-always">Activas siempre</span></span>
+                                
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    Estas cookies permiten que el sitio ofrezca una mejor funcionalidad y personalizaci&#243;n. Pueden ser establecidas por nosotros o por terceras partes cuyos servicios hemos agregado a nuestras p&#225;ginas. Si no permite estas cookies algunos de nuestros servicios no funcionar&#225;n correctamente.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ANALÍTICAS (con switch) -->
+                        <div class="card">
+                            <div class="card-header" id="headingThree" style="position:relative;">
+                                <button class="acc-trigger collapsed" type="button"
+                                        data-toggle="collapse" data-target="#collapseThree"
+                                        aria-expanded="false" aria-controls="collapseThree">
+                                    <span>Cookies anal&#237;ticas</span>
+                                </button>
+                                <span class="right-slot">
+                                    <label class="toggle" title="Activar/Desactivar cookies analíticas">
+                                        <input id="ck-analytics" type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </span>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    Estas cookies nos permiten contar las visitas y fuentes de circulaci&#243;n para poder medir y mejorar el desempe&#241;o de nuestro sitio. Nos ayudan a saber qu&#233; p&#225;ginas son las m&#225;s o menos populares, y ver cu&#225;ntas personas visitan el sitio. Toda la informaci&#243;n que recogen estas cookies es agregada y, por lo tanto, an&#243;nima. Si no permite estas cookies no sabremos cu&#225;ndo visit&#243; nuestro sitio, y por lo tanto no podremos saber cu&#225;ndo lo visit&#243;.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer" style="border-top:1px solid #e6e9ef;">
+                    <button id="btnRejectAll" type="button" class="btn btn-default">Rechazarlas todas</button>
+                    <button id="btnConfirmPrefs" type="button" class="btn btn-success">Confirmar mis preferencias</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Encima del banner */
+        .modal-backdrop {
+            z-index: 100000000 !important;
+        }
+
+        .modal {
+            z-index: 100000001 !important;
+        }
+
+        /* Modal más compacto */
+        #cookieModal .modal-dialog {
+            max-width: 640px;
+            width: 96%;
+        }
+
+        #cookieModal .modal-body {
+            max-height: 65vh;
+            overflow-y: auto;
+            padding-top: 8px;
+        }
+
+        /* Cards del acordeón: limpio y con poco alto */
+        .accordion .card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .accordion .card-header {
+            background: #f3f6fb; /* gris claro con buen contraste */
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0; /* el padding va en el botón */
+            position: relative;
+        }
+
+        /* Botón que ocupa TODO el header (clic en toda la franja gris) */
+        .accordion .acc-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            text-align: left;
+            padding: 8px 12px 8px 28px; /* bajo alto del header */
+            font-weight: 600;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+            /* Sin rectángulo/contorno al clic o focus */
+            .accordion .acc-trigger:focus,
+            .accordion .acc-trigger:active {
+                outline: none !important;
+                box-shadow: none !important;
+            }
+            /* (Opcional) focus accesible y sutil */
+            .accordion .acc-trigger:focus-visible {
+                box-shadow: inset 0 0 0 2px rgba(59,130,246,.35);
+                border-radius: 8px;
+            }
+
+            .accordion .acc-trigger:hover {
+                background: #eef3fb;
+            }
+
+            /* Icono + / − */
+            .accordion .acc-trigger::before {
+                content: '+';
+                position: absolute;
+                left: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-weight: 700;
+                font-size: 16px;
+                color: #374151;
+            }
+
+            .accordion .acc-trigger[aria-expanded="true"]::before {
+                content: '−';
+            }
+
+        /* Badge derecha (por ej. “Activas siempre”) */
+        .accordion .badge-always {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        /* Cuerpo compacto (sin alturas forzadas) */
+        .accordion .card-body {
+            padding: 10px 14px;
+            font-size: 13px;
+            line-height: 1.4;
+            color: #374151;
+        }
+
+        /* Garantizar que colapsado NO deje huecos (neutraliza estilos globales) */
+        .accordion .collapse {
+            height: 0;
+            overflow: hidden;
+        }
+
+            .accordion .collapse.show {
+                height: auto;
+            }
+            /* BS4 */
+            .accordion .collapse.in {
+                height: auto;
+            }
+        /* BS3 */
+
+        .card-body {
+            height: 150px !important;
+            text-align: justify !important;
+        }
+
+        #wr_modal_captcha .card-body {
+            height: 340px !important;
+        }
+        #wr_modal_captcha_wapp .card-body {
+            height: 340px !important;
+        }
+        /* slot derecho en el header */
+        .accordion .right-slot {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: inline-block;
+        }
+
+        /* badge “Activas siempre” (técnicas) */
+        .accordion .badge-always {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+
+        /* === Toggle (switch) === */
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 42px;
+            height: 22px;
+            vertical-align: middle;
+        }
+
+            .toggle input {
+                display: none;
+            }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+            background: #9ca3af;
+            transition: .2s;
+            border-radius: 999px;
+        }
+
+            .slider:before {
+                content: "";
+                position: absolute;
+                height: 18px;
+                width: 18px;
+                left: 2px;
+                bottom: 2px;
+                background: #fff;
+                border-radius: 50%;
+                transition: .2s;
+                box-shadow: 0 1px 2px rgba(0,0,0,.2);
+            }
+
+        .toggle input:checked + .slider {
+            background: #22c55e;
+        }
+
+            .toggle input:checked + .slider:before {
+                transform: translateX(20px);
+            }
+
+        /* quita contornos molestos en el switch */
+        .toggle input:focus + .slider {
+            outline: none;
+            box-shadow: none;
+        }
+
+        #container-cs-cookie.cookie-cs-visible{
+          display: flex !important;            /* antes estaba display:none */
+          pointer-events: auto !important;     /* el contenedor capta los clics */
+          opacity: 1 !important;
+        }
+
+        /* Backdrop semitransparente para bloquear la página */
+        #container-cs-cookie.cookie-cs-visible::before{
+          content: "";
+          position: fixed; inset: 0;           /* top:0;right:0;bottom:0;left:0 */
+          background: rgba(0,0,0,.45);
+          z-index: 0;                          /* detrás del panel, encima de la página */
+        }
+
+        /* Asegura que el panel/banner quede por encima del backdrop */
+        #container-cs-cookie .cookie-cs-container{
+          position: relative !important;
+          z-index: 1 !important;
+        }
+
+        /* 3) Evitar scroll en la página mientras el banner esté activo */
+        body.cookie-lock{
+          overflow: hidden !important;
+          touch-action: none !important;       /* bloquea scroll táctil */
+        }
+    </style>
+
+    <script src="/NextExperience/js/bootstrap-number-input.js"></script>
+    <script src="/NextExperience/js/jquery.bootstrap.wizard.min.js"></script>
+    <script src="/NextExperience/js/main.min.js?v=170603"></script>
+
+    
+    <style>
+
+        .toast-error .toast-title, .toast-error .toast-message {
+            color: #ffffff;
+        }
+
+        .wr_modal {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.65);
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /*padding-top: 90px;*/
+            overflow: auto;
+        }
+
+            .wr_modal .modal-dialog {
+                top: 100px !important;
+                margin: 30px auto 80px auto !important;
+                width: 350px !important;
+            }
+
+            .wr_modal .body_modal {
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                max-width: 560px;
+                height: 315px;
+                transform: translate(-50%,-50%);
+                z-index: 1000;
+            }
+
+            .wr_modal .btn-primary {
+                background-color: #337ab7 !important;
+            }
+
+        .modal-body {
+            /*height: 260px !important;*/
+            /*overflow-y: scroll !important;*/
+        }
+
+        .impLogin {
+            margin: 11px;
+            padding: 10px;
+            width: 98%;
+        }
+
+        #ResultadoTabla {
+            color: red;
+            text-align: center;
+        }
+    </style>
+
+
+    <script>
+        $(document.body).ready(function () {
+
+            if (localStorage.getItem("viewPage") != null)
+            {
+                if (localStorage.getItem("viewPage") == "link-cp")
+                {
+                    if ($("#page-productlist").hasClass("active-link-navfx") == false)
+                    {
+                        $("#page-productlist").removeClass("active-link-navfx");
+                        $("#page-about").removeClass("active-link-navfx");
+                        $("#page-support").removeClass("active-link-navfx");
+                        $("#page-join").addClass("active-link-navfx");
+                    }
+
+
+                }
+            }
+
+            if (localStorage.getItem("VarCountry") === null) {
+                $("#lussome").css("display", "none");
+                $("#galeon").css("display", "none");
+            } else {
+                if (localStorage.getItem("CategoryIDLussome") == "") { $("#lussome").css("display", "none"); } //else { }
+                if (localStorage.getItem("CategoryIDGaleon") == "") { $("#galeon").css("display", "none"); } //else { }
+            }
+            // Handler for .ready() called.
+            //console.log("GEO LOCALIZACION");
+            //$("#wr_modalGeo").show();
+            //$("#wr_modalGeo").slideToggle();
+            // Este codigo invoka la pantalla para seleccionar uun pais
+            
+
+            //$.getJSON('https://json.geoiplookup.io/api?callback=?', function (data) {
+            //    console.log(JSON.stringify(data, null, 2));
+            //});
+
+            // https://stackoverflow.com/questions/391979/how-to-get-clients-ip-address-using-javascript
+
+            var ip_ = "";
+            var countryCode_ = "";
+            var country = "";
+            var languaje = "";
+
+            /*$.getJSON('https://ipapi.co/json/', function (data) {
+                //var data = JSON.stringify(data, null, 2);
+                //console.log(data);
+                $('#sp_miip').text(data.ip);
+                //$('#sp_country').text(data.country);
+
+                $("#MarketName").val(data.country);
+                country = data.country;
+
+                $('#sp_country').text($("#MarketName option:selected").text());
+
+                //ip_ = data.ip;
+                //countryCode_ = data.country;
+            });*/
+
+            //$('#sp_miip').text(ip_);
+            //$('#sp_country').text(countryCode_);
+
+            
+        });
+
+        $("#boxViewCategories").on("click", function (e) {
+            window.localStorage.setItem("offix-theme", "corporate-theme");
+        });
+
+        $('#btnChooseCountry').on("click", function (e) {
+            //$("#wr_modalGeo").slideUp()
+            var newCountry = $("#MarketName option:selected").val();
+            $("#hCountry").val(newCountry);
+            localStorage.setItem('VarCountry', newCountry);
+            var url_ = "/orphan/enrollment/enrollmentconfigurationlittle";
+            $.ajax({
+                url: url_,
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                data: JSON.stringify({ country: newCountry }),
+                success: function (response) {
+                    if (response.success) {
+                        location.reload();
+                    }
+                }
+            })
+        });
+
+        //30032017-R118-CGS - Inicio
+        function ForgetPassword() {
+            var usuario = $("#txtUsuario").val();
+            var ResultadoTabla = $('#ResultadoTabla');
+            $("#ResultadoTabla").html('');
+            if (usuario == "") {
+                var html = '<br><div class="alert alert-danger" role="alert"> <span class="sr-only">Error:</span> ' + 'Ingrese su Usuario.' + '</div>';
+                ResultadoTabla.html(html);
+                return false;
+            }
+            if (usuario.trim() != "azb") {
+                $.ajax({
+                    url: "/orphan/enrollment/validarusuario",
+                    contentType: "application/json; charset=utf-8",
+                    data: { usuario: usuario },
+                    success: function (response) {
+                        if (response) {
+                            $.ajax({
+                                url: '/orphan/enrollment/sendmail_newpassword',
+                                type: "POST",
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                data: JSON.stringify({ usuario: usuario }),
+                                success: function (response) {
+                                    if (response.success == true) {
+                                        alert("Se le envio su nueva contraseña a su correo");
+                                    }
+                                    else {
+                                        alert("Error al enviar al correo electronico.");
+                                    }
+                                },
+                                error: function () {
+                                    alert("Error al enviar al correo electronico.");
+                                },
+                                complete: function () {
+                                }
+                            });
+                        } else {
+                            var html = '<br><div class="alert alert-danger" role="alert"> <span class="sr-only">Error:</span> ' + 'Usuario no existe, verificar.' + '</div>';
+                            ResultadoTabla.html(html);
+                        }
+                    },
+                    error: function () { }
+                });
+            }
+        }
+
+        $('#MarketNamePie').on("change", function (e) {
+            var newCountry = $("#MarketNamePie option:selected").val();
+
+            if (newCountry == "") {
+                return false;
+            }
+
+
+            var url_ = "/orphan/enrollment/enrollmentconfigurationlittle";
+            var urlreturn_ = "//enrollment/products";
+            $.ajax({
+                url: url_,
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                data: JSON.stringify({ country: newCountry }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location = urlreturn_;
+
+                        if (window.location.pathname.indexOf('products') >= 0) {
+                            location.href = "/orphan/enrollment/products";
+                        }
+                        else {
+                            location.reload();
+                        }
+
+                    }
+                }
+            })
+        });
+
+        $('.MarketNamePie3').on("click", function (e) {
+            //var newCountry = $("#MarketNamePie2 option:selected").val();
+
+            var newCountry = $(this).attr("data-role");
+            console.log("entro " + newCountry);
+            if (newCountry == "") {
+                return false;
+            }
+
+
+            var url_ = "/orphan/enrollment/enrollmentconfigurationlittle";
+            var urlreturn_ = "//enrollment/products";
+            $.ajax({
+                url: url_,
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                data: JSON.stringify({ country: newCountry }),
+                success: function (response) {
+                    if (response.success) {
+                        window.location = urlreturn_;
+
+                        if (window.location.pathname.indexOf('products') >= 0) {
+                            location.href = "/orphan/enrollment/products";
+                        }
+                        else {
+                            location.reload();
+                        }
+
+                    }
+                }
+            })
+        });
+
+        //30032017-R118-CGS - Fin
+        $('#btnIngresar').on("click", function (e) {
+            var usu = $("#txtUsuario").val();
+            var cla = $("#txtClave").val();
+            var $verifybutton = $('#btnIngresar');
+            if (usu == "" || cla == "") {
+                alert('Ingreses datos');
+                return false;
+            }
+            var ResultadoTabla = $('#ResultadoTabla');
+            $.ajax({
+                url: '/orphan/enrollment/ingreso',
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                data: JSON.stringify({ usuario: usu, clave: cla }),
+                beforeSend: function () {
+                    $verifybutton.loadingbutton('start');
+                },
+                success: function (response) {
+                    if (response.success == true) {
+                        window.location.href = response.url;
+                    }
+                    else {
+                        $("#txtUsuario").val("");
+                        $("#txtClave").val("");
+                        alert('Verificar Credenciales');
+                        $verifybutton.loadingbutton('stop');
+                    }
+                },
+                error: function () {
+                    console.log("Error: MostrarProductosCompra");
+                }
+            });
+        });
+
+        $('#BtnSignOut').on("click", function (e) {
+            $.ajax({
+                url: '/orphan/enrollment/salida',
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                success: function (response) {
+                    if (response.success == true) {
+                        window.location.href = response.url;
+                    }
+                },
+                error: function () {
+                    console.log("Error: MostrarProductosCompra");
+                }
+            });
+        });
+
+        $('#btn_close').on("click", function (e) {
+            $("#wr_modal").slideToggle();
+        });
+
+        $('#SearchProductButtonResponsive').on('click', function () {
+            var BusquedaResponsive = $('input:text[name=SearchProductResponsive]').val();
+            location.href = '//enrollment/products?categoryID=0&search=' + BusquedaResponsive;
+            if ('False' == 'True') {
+                location.href = '//enrollment/products?categoryID=0&search=' + BusquedaResponsive;
+            } else {
+                location.href = '//enrollment/products?categoryID=0&search=' + BusquedaResponsive;
+            }
+        });
+
+        function upd() {
+            var updateItemSummaryURL = '/orphan/enrollment/updateitemsummary';
+            $.ajax({
+                url: updateItemSummaryURL,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        //console.log("updddd");
+                    }
+                    else {
+                        console.log("failed");
+                    }
+                },
+                error: function (xhr, error, status) {
+                    console.log("Error: ", xhr);
+                }
+            });
+        }
+
+        function BuscarCantidadProductos() {
+            var AutoCartIconQuantity = "/orphan/enrollment/autocarticonquantity";
+            $.ajax({
+                url: AutoCartIconQuantity,
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                //data: JSON.stringify({ searchText: search }),
+                success: function (response) {
+                    if (response.success) {
+                        //console.log('carrito Autoshipping');
+                        CantidadProductos = response.QuantityItems;
+                        $("#Autocart-quantity").text(CantidadProductos);
+                        $("#Autocart-quantity-resp").text(CantidadProductos);
+                    }
+                }
+            })
+        }
+
+        $('.box-btnmoresubitems').click(function () {
+            let valOpen = $(this).data('open')
+            if (valOpen == '0') {
+                $(this).parent().next('.box-subitmes-cat').show("fast")
+                $(this).data('open', 1)
+            } else {
+                $(this).parent().next('.box-subitmes-cat').hide("fast")
+                $(this).data('open', '0')
+            }
+        });
+
+        $('.box-btnmoresubitems-2').click(function () {
+            let valOpen = $(this).data('open')
+            if (valOpen == '0') {
+                $(this).parent().addClass("box-active")
+                $(this).parent().parent().parent().find('.box-subitmes-stores').show("fast")
+                $(this).data('open', 1)
+            } else {
+                $(this).parent().removeClass("box-active")
+                $(this).parent().parent().parent().find('.box-subitmes-stores').hide("fast")
+                $(this).data('open', '0')
+            }
+        });
+        // busqueda semantica
+
+        //$('input[name=SearchProductResponsive]').on('input', function () {
+        //    var Busqueda = $(this).val();
+        //    var dataList = $("#suggestions");
+        //    dataList.css("display", "none");
+
+        //    if(Busqueda === "" || Busqueda.length == 0 )
+        //    {
+        //        clearList()
+        //    };
+
+        //    if (Busqueda.length != 0)
+        //    {
+        //        GetWordSearch(Busqueda)
+
+        //    }
+        //    else
+        //    {
+
+        //        clearList()
+        //    }
+
+        //});
+
+        function clearList() {
+            var dataList = $("#suggestions");
+            dataList.empty();
+        }
+
+        function GetWordSearch(search) {
+
+            var addproductUrl = "/app/getwordsearch";//"app/getwordsearch";
+
+
+            if (search.length != 0) {
+
+                if (search.length >= 1) {
+
+                    $.ajax({
+                        url: addproductUrl,
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+                        data: JSON.stringify({ searchText: search }),
+                        success: function (response) {
+                            if (response.success) {
+
+                                clearList()
+                                var lista = response.listapabrasBusqueda;
+
+                                if (lista != null) {
+                                    //console.log('tiene datos');
+                                    init_suggestions(lista, search);
+                                }
+
+
+
+                            }
+                        }
+                    })
+                }
+
+            }
+        }
+
+        function init_suggestions(data, search) {
+            var dataList = $("#suggestions");
+            dataList.empty();
+            for (var i = 0; i < data.length; i++) {
+                var id_sugg = data[i];
+
+                //console.log(id_sugg.ItemCode)
+                //console.log(id_sugg.ItemDescription)
+                var id = id_sugg.ItemDescription.replace(/ /gi, "");
+                //var id = trim(id_sugg);
+
+                //dataList.append('<option class="optionSplit" id="' + id_sugg.ItemCode + '" value="' + id_sugg.ItemDescription + '" ></option>');
+                dataList.append('<div class="optionSplit" id="' + id_sugg.ItemCode + '" data-name="' + id_sugg.ItemDescription + '" >' + id_sugg.ItemDescription + '</div>');
+
+            }
+            dataList.css("display", "block");
+        }
+
+        $("#input-search").hover(
+              function () {
+                  var dataList = $("#suggestions");
+                  dataList.css("display", "block");
+              }, function () {
+                  var dataList = $("#suggestions");
+                  dataList.css("display", "none");
+              }
+            );
+
+        $(document).on('click', '#suggestions .optionSplit', function () {
+            //console.log($(this).prop("id"))
+            var id = $(this).prop("id");
+            var nombre = $(this).data("name");
+
+            var url = "//enrollment/products?categoryID=0&itemC=" + id + "&search=" + nombre;
+            //console.log(url)
+            location.href = url;
+        });
+
+
+        $("#btnChangePass").on('click', function () {
+            var email = $('#iptEmailPass').val()
+            if (email != "" && email != null) {
+                email.trim()
+                $('.box-loading-pass').fadeIn()
+                changePassword(email)
+            } else {
+                toastr.warning("The field entered is not correct", 'Verifica el correo');
+                //'El campo ingresado no es correcto.'
+            }
+        });
+
+        function changePassword(email) {
+            $.ajax({
+                url: "/orphan/dashboard/validatecodetoupdatepass",
+                method: "POST",
+                data: { txtFilter: email },
+                success: function (response) {
+                    if (response.success) {
+                        $("#modalPassword").modal('hide')
+                        setTimeout(function () {
+                            $("#modalConfirmChange").modal({ backdrop: 'static', keyboard: false })
+                        }, 400);
+                    } else {
+                        toastr.warning(response.error, 'Verifica el correo');
+                    }
+                    $('.box-loading-pass').fadeOut()
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr);
+                    alert(error)
+                }
+            });
+        }
+
+        $(document).on("click", "a[id='btnOpenModalPass']", function () {
+            setTimeout(function () {
+                $("#modalPassword").modal({ backdrop: 'static', keyboard: false })
+            }, 400);
+        });
+
+        BuscarCantidadProductos();
+
+        if (!window.matchMedia('(max-width: 1000px)').matches)
+        {
+            $("#div_1").height($("#div_2").height())
+
+            setTimeout(function () { $("#div_1").height($("#div_2").height()); }, 300);
+
+            $("#img-joinef").height($("#container-joinef").height())
+
+            setTimeout(function () { $("#img-joinef").height($("#container-joinef").height()); }, 300);
+
+            $("#img-joinef2").height($("#box-skyblue-info").height());
+
+            setTimeout(function () { $("#img-joinef2").height($("#box-skyblue-info").height()); }, 300);
+        }
+
+        var displayFeedbackModal = 0
+        var valueFeedback = '0'
+        var arrOptionsFeedback = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Muy bueno']
+        var arrOptionsFeedback2 = ['Malo', 'Regular', 'Bueno']
+
+        $("#boxBtnFeedback").on('click', function () {
+            if (displayFeedbackModal == 0) {
+                //$('#boxModalFeedback').show()
+                displayFeedbackModal = 1
+            } else {
+                //$('#boxModalFeedback').hide()
+                displayFeedbackModal = 0
+                valueFeedback = '0'
+                $('#txtFeedbackComment').text('')
+                $(".option-feedback").removeClass('activeValueFeedback')
+                $('#boxCommentFeedback').hide()
+            }
+        });
+
+        $(".option-feedback").on('click', function () {
+            $(".option-feedback").removeClass('activeValueFeedback')
+            $(this).addClass('activeValueFeedback')
+
+            valueFeedback = $(this).data("valfeed")
+            if (valueFeedback == '1' || valueFeedback == '2' || valueFeedback == '3') {
+                $('#boxCommentFeedback').show()
+            }else{
+                $('#boxCommentFeedback').hide()
+            }
+        });
+
+        $("#btnSendFeedback").on('click', function () {
+            if (valueFeedback != '0') {
+                let txtValtext = arrOptionsFeedback2[valueFeedback - 1]
+                let txtComment = $('#txtFeedbackComment').val()
+                $.ajax({
+                    url: "/orphan/dashboard/sendfeedbackfuxion",
+                    method: "POST",
+                    data: { value: valueFeedback, valtext: txtValtext, comment: txtComment },
+                    success: function (response) {
+                        if (response.success) {
+                            //console.log('exitos')
+                            $('.title-modal-feedback').hide()
+                            $('.box-options-feedback').hide()
+                            $('#boxCommentFeedback').hide()
+                            $('#btnSendFeedback').hide()
+                            $('.box-title-modal-feedback').hide()
+                            $('#title-resp-feedback').show()
+
+                        } else {
+                            toastr.warning(response.msg, 'Error');
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                        alert(error)
+                    }
+                });
+            }
+        });
+    </script>
+
+    <script>
+
+        
+
+        $(".cookie-cs-customize-btn").click(function () {
+            $("#cookieModal").modal("show");
+            $('#accordionExample .collapse').removeClass('in');
+        });
+        
+    </script>
+
+    
+
+    <script>
+(function (w, $) {
+    var KEY = 'cookie-consent-v3';
+    var GA_ID = 'G-6NW5CRQYLT';
+    var __analyticsLoaded = false;
+    var DURATION_MONTHS = 12;
+
+    function saveConsent(consent) {
+        var payload = {
+            consent: consent,
+            ts: Date.now(),
+            exp: Date.now() + DURATION_MONTHS * 30 * 24 * 60 * 60 * 1000
+        };
+        localStorage.setItem(KEY, JSON.stringify(payload));
+    }
+
+    function getConsent() {
+        try {
+            var o = JSON.parse(localStorage.getItem(KEY) || '{}');
+            if (!o.exp || Date.now() > o.exp) return null;
+            return o.consent || null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function setGADisableFlag(disabled) {
+        w['ga-disable-' + GA_ID] = !!disabled;
+    }
+
+    function updateGoogleConsent(consent) {
+        var analyticsGranted = !!(consent && consent.analytics);
+        var marketingGranted = !!(consent && consent.marketing);
+
+        gtag('consent', 'update', {
+            'analytics_storage': analyticsGranted ? 'granted' : 'denied',
+            'ad_storage': marketingGranted ? 'granted' : 'denied',
+            'ad_user_data': marketingGranted ? 'granted' : 'denied',
+            'ad_personalization': marketingGranted ? 'granted' : 'denied',
+            'functionality_storage': 'granted',
+            'security_storage': 'granted'
+        });
+    }
+
+    function enableAnalyticsScripts() {
+        if (__analyticsLoaded) return;
+
+        var nodes = document.querySelectorAll('script[type="text/plain"][data-consent="analytics"]');
+
+        for (var i = 0; i < nodes.length; i++) {
+            var s = nodes[i];
+            var newS = document.createElement('script');
+            var src = s.getAttribute('data-src');
+
+            if (src) {
+                newS.async = true;
+                newS.src = src;
+            } else {
+                newS.text = s.text || s.innerHTML;
+            }
+
+            s.parentNode.insertBefore(newS, s);
+            s.parentNode.removeChild(s);
+        }
+
+        __analyticsLoaded = true;
+    }
+
+    function applyConsent(consent) {
+        updateGoogleConsent(consent);
+
+        if (consent && consent.analytics) {
+            setGADisableFlag(false);
+            enableAnalyticsScripts();
+        } else {
+            setGADisableFlag(true);
+        }
+    }
+
+    function acceptAll() {
+        var consent = {
+            functional: true,
+            analytics: true,
+            marketing: true
+        };
+
+        saveConsent(consent);
+        applyConsent(consent);
+    }
+
+    function rejectAll() {
+        var consent = {
+            functional: true,
+            analytics: false,
+            marketing: false
+        };
+
+        saveConsent(consent);
+        applyConsent(consent);
+    }
+
+    function confirmPrefs() {
+        var consent = {
+            functional: true,
+            analytics: $('#ck-analytics').is(':checked'),
+            marketing: $('#ck-marketing').length ? $('#ck-marketing').is(':checked') : false
+        };
+
+        saveConsent(consent);
+        applyConsent(consent);
+    }
+
+    var saved = getConsent();
+
+    if (saved) {
+        applyConsent(saved);
+    } else {
+        setGADisableFlag(true);
+
+        gtag('consent', 'update', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'ad_user_data': 'denied',
+            'ad_personalization': 'denied',
+            'functionality_storage': 'granted',
+            'security_storage': 'granted'
+        });
+    }
+
+    w.cookieConsent = {
+        saveConsent: saveConsent,
+        getConsent: getConsent,
+        applyConsent: applyConsent,
+        acceptAll: acceptAll,
+        rejectAll: rejectAll,
+        confirmPrefs: confirmPrefs,
+        setGADisableFlag: setGADisableFlag,
+        updateGoogleConsent: updateGoogleConsent
+    };
+
+})(window, jQuery);
+    </script>
+
+    <script>
+    (function () {
+      function showCookieBanner(){
+        document.body.classList.add('cookie-lock');
+        var box = document.getElementById('container-cs-cookie');
+        if (!box) return;
+        box.classList.add('cookie-cs-visible','cookie-cs-center','cookie-cs-default-floating','cookie-cs-padded');
+        box.style.display = 'flex';
+      }
+
+      function hideCookieBanner(){
+        document.body.classList.remove('cookie-lock');
+        var box = document.getElementById('container-cs-cookie');
+        if (!box) return;
+        box.classList.remove('cookie-cs-visible');
+        box.style.display = 'none';
+      }
+
+      $(function () {
+        // Detecta /login y variantes
+        var path = (window.location.pathname || '').toLowerCase();
+        var hash = (window.location.hash || '').toLowerCase().replace(/^#/, '');
+        var isLoginPath = /(?:^|\/)login\/?$/.test(path);
+        var isLoginHash = /(?:^|\/)login\/?$/.test(hash);
+        var isLoginPage = isLoginPath || isLoginHash;
+
+        if (!isLoginPage && "1" == "1") {
+          console.log("0");
+          var CONSENT_KEY = 'cookie-consent-v3';
+          var hasConsent = !!localStorage.getItem(CONSENT_KEY);
+          console.log("hasConsent", hasConsent);
+          if (!hasConsent) showCookieBanner();
+
+          // Aceptar (banner)
+          $('.cookie-cs-accept-btn, .cookie-cs-btn-primary').off('click.cc').on('click.cc', function (e) {
+            e.preventDefault();
+            if (window.cookieConsent) window.cookieConsent.acceptAll();
+            hideCookieBanner();
+          });
+
+          // Configuración: abre modal, mantiene bloqueo
+          $('.cookie-cs-customize-btn').off('click.cc').on('click.cc', function (e) {
+            e.preventDefault();
+            $('#cookieModal').modal('show');
+          });
+
+          // Confirmar preferencias (modal)
+          $('#btnConfirmPrefs').off('click.cc').on('click.cc', function (e) {
+            e.preventDefault();
+            if (window.cookieConsent) window.cookieConsent.confirmPrefs();
+            hideCookieBanner();
+            $('#cookieModal').modal('hide');
+          });
+
+          // Rechazar todas (modal)
+          $('#btnRejectAll').off('click.cc').on('click.cc', function (e) {
+            e.preventDefault();
+            if (window.cookieConsent) window.cookieConsent.rejectAll();
+            hideCookieBanner();
+            $('#cookieModal').modal('hide');
+          });
+
+          // Al abrir modal, sincroniza switches
+          $('#cookieModal').off('show.bs.modal.cc').on('show.bs.modal.cc', function(){
+            var saved = (window.cookieConsent && window.cookieConsent.getConsent()) || {};
+            $('#ck-functional').prop('checked', !!saved.functional);
+            $('#ck-analytics').prop('checked',  !!saved.analytics);
+          });
+
+        } else if (!isLoginPage) {
+            //console.log("1");
+            window.cookieConsent.acceptAll();
+        } else {
+            //console.log("2");
+            // En /login: liberar todo
+            hideCookieBanner();
+            $('body').removeClass('cookie-lock');
+            // (Opcional) desactivar GA en login
+            // if (window.cookieConsent) window.cookieConsent.setGADisableFlag(true);
+        }
+      });
+    })();
+    </script>
+
+    <script src="/Content/newweb/js/firebaseConfig.js"></script>
+    <script src="/Content/newweb/js/auth.js"></script>
+    
+</body>
+</html>

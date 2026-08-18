@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title></title>
+    <link href="https://fuxion.com/static/web/dist/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <link type="text/css" rel="stylesheet" href="https://fuxion.com/static/web/dist/css/main.min.css">
+    <link sizes="16x16" rel="icon" href="https://fuxion.com/static/web/dist/images/favicon.png">
+    <link sizes="57x57" rel="apple-touch-icon" href="https://fuxion.com/static/web/dist/images/favicon.png">
+    <meta content="" name="description" />
+    <meta content="" name="keywords" />    
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content=""/>
+    <meta name="twitter:title" content=""/>
+    <meta name="twitter:image" content="https://fuxion.com/static/web/dist/images/"/>
+    <meta name="twitter:description" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:url" content=""/>
+    <meta property="og:type" content=""/>
+    <meta property="og:image" content="https://fuxion.com/static/web/dist/images/"/>
+    <meta property="og:title" content=""/>
+    <meta property="og:site_name" content=""/>
+    <meta name="facebook-domain-verification" content="faa5ip66z5azvyy4s32dn1ot2ya81u" />
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-102083689-1', 'auto');
+      ga('send', 'pageview');
+      var site ="https://fuxion.com/";
+    </script>
+  </head>
+  <body>
+    <header class="Header js-header">
+      <div class="Header__navbar">
+        <div class="u-container">
+          <div class="Header__logo"><a href="https://fuxion.com/pe" class="Header__logo-link">FUXION</a></div>
+          <button type="button" class="Header__navbar-button js-openNavbar">
+            <span class="Header__navbar-navicon"></span>
+          </button>
+          <nav class="Header__navigation">
+            <ul class="Header__navigation-list Header__navigation-list--actions">
+              <li class="Header__navigation-link">
+                <a href="http://offix.fuxion.com/login/" target="_blank"><span>OFFIX</span></a>
+		<!--<a> <span id="myModal">OFFIX</span></a>-->
+                <link rel="stylesheet" href="https://fuxion.com/static/web/dist/modal/estilos_modal.css">
+              </li>
+              <li class="Header__navigation-link Header__navigation-languages js-languagesBtn">
+                <a class="flag" href="">
+                  <span ><img src="https://fuxion.com/upload/images/country/2017/01/19/61f4e03cf962ece6.png" alt=""></span>
+                </a>
+              </li>
+              <li class="Header__navigation-link Header__navigation-socialBtn">
+                <a><span>Social</span></a>
+                <div class="Header__navigation-socialContent js-social">
+                                  <ul class="Header__navigation-socialList u-list-unstyled u-list-inline">
+                                      <li>
+                      <a href="" target="_blank" class="fuxicon-facebook"></a>
+                    </li>
+                                      <li>
+                      <a href="" target="_blank" class="fuxicon-twitter"></a>
+                    </li>
+                                      <li>
+                      <a href="" target="_blank" class="fuxicon-youtube"></a>
+                    </li>
+                                      <li>
+                      <a href="" target="_blank" class="fuxicon-instagram"></a>
+                    </li>
+                                      <li>
+                      <a href="" target="_blank" class="fuxicon-pinterest"></a>
+                    </li>
+                                      <!--<li>
+                      <a href="" target="_blank" class="fuxicon-blog">
+                        <img src="https://fuxion.com/static/web/dist/images/icon/rss-blog.png" alt="" class="img-responsive" style="width: 20px;">
+                      </a>
+                    </li>-->
+                                      </ul>
+                </div>
+              </li>
+            </ul>
+            <ul class="Header__navigation-list Header__navigation-list--desktop  u-list-unstyled">
+                              <li class="Header__navigation-link  "><a href="https://fuxion.com/pe/productos"><span>PRODUCTOS</span></a></li>
+                              <li class="Header__navigation-link  "><a href="https://fuxion.com/pe/oportunidad"><span>OPORTUNIDAD</span></a></li>
+                              <li class="Header__navigation-link  "><a href="https://fuxion.com/pe/ser-fuxion"><span>SER FUXION</span></a></li>
+                              <li class="Header__navigation-link  "><a href="https://fuxion.com/pe/nosotros"><span>NOSOTROS</span></a></li>
+                              <li class="Header__navigation-link  "><a href="https://fuxion.com/pe/contactanos"><span>CONTÁCTANOS</span></a></li>
+                          </ul>
+          </nav>
+        </div>
+      </div>
+
+      <nav class="Header__navbar-mobile">
+        <ul class="Header__navigation u-list-unstyled u-list-inline">
+                      <li class="Header__navigation-link "><a href="https://fuxion.com/pe/productos"><span>PRODUCTOS</span></a></li>
+                      <li class="Header__navigation-link "><a href="https://fuxion.com/pe/oportunidad"><span>OPORTUNIDAD</span></a></li>
+                      <li class="Header__navigation-link "><a href="https://fuxion.com/pe/ser-fuxion"><span>SER FUXION</span></a></li>
+                      <li class="Header__navigation-link "><a href="https://fuxion.com/pe/nosotros"><span>NOSOTROS</span></a></li>
+                      <li class="Header__navigation-link "><a href="https://fuxion.com/pe/contactanos"><span>CONTÁCTANOS</span></a></li>
+                  </ul>
+        <div class="Header__navigation-socialMobile">
+          <ul class="Header__navigation-socialList u-list-unstyled u-list-inline">
+            <li><a href="https://www.facebook.com/fuxion" target="_blank" class="fuxicon-facebook"></a></li>
+            <li><a href="https://twitter.com/fuxionoficial" target="_blank" class="fuxicon-twitter"></a></li>
+            <li><a href="https://www.youtube.com/user/fuxionoficial" target="_blank" class="fuxicon-youtube"></a></li>
+            <li><a href="https://instagram.com/fuxionoficial/" target="_blank" class="fuxicon-instagram"></a></li>
+            <li><a href="https://es.pinterest.com/fuxionoficial/" target="_blank" class="fuxicon-pinterest"></a></li>
+            <li><a href="http://fuxion.net/blogX/" target="_blank" class="fuxicon-blog"><img src="https://fuxion.com/static/web/dist/images/icon/rss-blog.png" alt="" class="img-responsive" style="width: 20px;"></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="Header__countriesSelect js-languages">
+        <div class="u-container">
+                  <div class="Header__countriesSelect-row">
+            <h4 class="Header__countriesSelect-title">Sudamérica</h4>
+            <ul class="Header__countriesSelect-list u-list-unstyled">
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/ar">
+                  <img src="https://fuxion.com/upload/images/country/2017/03/10/ad57def8d6a4412d.png" alt="" class="img-responsive">
+                  <span>Argentina</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/bo">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/4df530056bc4167c1.png" alt="" class="img-responsive">
+                  <span>Bolivia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/br">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/526e03fbb4a73207.png" alt="" class="img-responsive">
+                  <span>Brasil</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/cl">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/19d1032bd324d9fe.png" alt="" class="img-responsive">
+                  <span>Chile</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/co">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/1c9dfb61ef6369b7.png" alt="" class="img-responsive">
+                  <span>Colombia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/ec">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/6648bd48f57ff1c7.png" alt="" class="img-responsive">
+                  <span>Ecuador</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/pe">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/61f4e03cf962ece6.png" alt="" class="img-responsive">
+                  <span>Perú</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/uy">
+                  <img src="https://fuxion.com/upload/images/country/2025/07/25/uy.png" alt="" class="img-responsive">
+                  <span>Uruguay</span>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+                  <div class="Header__countriesSelect-row">
+            <h4 class="Header__countriesSelect-title">Centroamérica</h4>
+            <ul class="Header__countriesSelect-list u-list-unstyled">
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/cr">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/0884c4e6cbcf27d7.png" alt="" class="img-responsive">
+                  <span>Costa Rica</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/gt">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/a9bb0d3d17271d13.png" alt="" class="img-responsive">
+                  <span>Guatemala</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/hn">
+                  <img src="https://fuxion.com/upload/images/country/2025/05/20/hn.png" alt="" class="img-responsive">
+                  <span>Honduras</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/pa">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/03d5ac5a9957aad2.png" alt="" class="img-responsive">
+                  <span>Panamá</span>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+                  <div class="Header__countriesSelect-row">
+            <h4 class="Header__countriesSelect-title">Norteamérica</h4>
+            <ul class="Header__countriesSelect-list u-list-unstyled">
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/mx">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/5f4763a1a31840bb.png" alt="" class="img-responsive">
+                  <span>México</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/us">
+                  <img src="https://fuxion.com/upload/images/country/2017/01/19/a57474781c137564.png" alt="" class="img-responsive">
+                  <span>United States</span>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+                  <div class="Header__countriesSelect-row">
+            <h4 class="Header__countriesSelect-title">Europa</h4>
+            <ul class="Header__countriesSelect-list u-list-unstyled">
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/de">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/de.png" alt="" class="img-responsive">
+                  <span>Alemania</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/at">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/at.png" alt="" class="img-responsive">
+                  <span>Austria</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/be">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/be.png" alt="" class="img-responsive">
+                  <span>Belgica</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/cy">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/cy.png" alt="" class="img-responsive">
+                  <span>Chipre</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/hr">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/hr.png" alt="" class="img-responsive">
+                  <span>Croacia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/sk">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/sk.png" alt="" class="img-responsive">
+                  <span>Eslovaquia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/si">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/si.png" alt="" class="img-responsive">
+                  <span>Eslovenia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/es">
+                  <img src="https://fuxion.com/upload/images/country/2017/02/20/64d72a587af82398.png" alt="" class="img-responsive">
+                  <span>España</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/ee">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/ee.png" alt="" class="img-responsive">
+                  <span>Estonia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/fi">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/fi.png" alt="" class="img-responsive">
+                  <span>Finlandia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/fr">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/fr.png" alt="" class="img-responsive">
+                  <span>Francia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/gr">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/gr.png" alt="" class="img-responsive">
+                  <span>Grecia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/nl">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/nl.png" alt="" class="img-responsive">
+                  <span>Holanda</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/ie">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/ie.png" alt="" class="img-responsive">
+                  <span>Irlanda</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/it">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/it.png" alt="" class="img-responsive">
+                  <span>Italia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/lv">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/lv.png" alt="" class="img-responsive">
+                  <span>Letonia</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/lt">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/lt.png" alt="" class="img-responsive">
+                  <span>Lituania</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/lu">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/lu.png" alt="" class="img-responsive">
+                  <span>Luxemburgo</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/mt">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/mt.png" alt="" class="img-responsive">
+                  <span>Malta</span>
+                </a>
+              </li>
+                          <li class="Header__countriesSelect-country">
+                <a href="https://fuxion.com/pt">
+                  <img src="https://fuxion.com/upload/images/country/2025/02/20/pt.png" alt="" class="img-responsive">
+                  <span>Portugal</span>
+                </a>
+              </li>
+              
+            </ul>
+          </div>
+                </div>
+      </div>
+    </header>
+
+    <!-- 
+
+  Clase para Sistemas potenciadores: CategoryProducts--systems
+
+  Clase para Productos claves: CategoryProducts--keyProducts
+
+-->
+
+
+<main class="Wrapper CategoryProducts--keyProducts">
+
+  <div class="sectionContent">
+
+    <div class="section">
+	      <div style="background-image: url('https://fuxion.com/upload/images/level/2017/01/25/8eaceeaf75adee8d.jpg');" class="section-imageBg section-imageBg--hero new-backg">
+	        
+
+        <div class="sectionBack__wrap">
+
+          <div class="sectionBack">
+
+            <a href="https://fuxion.com/pe/productos" class="sectionBack__link">
+
+              <span class="sectionBack__icon"></span>
+
+              <span class="sectionBack__text">Volver</span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="section-imageBg-text ">
+
+          <div class="imageBg-text">
+
+            <h2>Dale a cada célula la nutrición que necesita</h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="u-container">
+
+        <div class="section-barProduct">
+
+          <div class="section-row section-row--90">
+
+            
+              <p>Son productos básicos para complementar tu nutrición y alcanzar la Salud Plena. Primero, necesitarás limpiar y equilibrar tu organismo, luego regenerar cada una de las células que lo componen y finalmente recargar al tope tu energía:</p>
+
+            </div> 
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="CategoryProducts">
+
+    <div class="CategoryProducts__tabs-container">
+
+      <div class="u-container">
+
+        <ul class="CategoryProducts__tabs CategoryProducts__tabs--3">
+
+    <!-- change color tabs -->
+
+    
+              <li class="CategoryProducts__tab " style="background: #94d60a">
+
+                <a href="https://fuxion.com/pe/limpieza">
+
+                  <figure class="CategoryProducts__tab-icon" >
+
+                  
+                  </figure>
+
+                  <div class="CategoryProducts__tab-text">
+                                          <div><strong>Limpieza</strong> </div>
+                                      </div>
+
+                </a>
+
+              </li>
+
+    
+              <li class="CategoryProducts__tab is-active" style="background: #009bdf">
+
+                <a href="https://fuxion.com/pe/nutricion-y-regeneracion">
+
+                  <figure class="CategoryProducts__tab-icon" >
+
+                  
+                  </figure>
+
+                  <div class="CategoryProducts__tab-text">
+                                          <div><strong>NUTRICIÓN</strong> Y REGENERACIÓN </div>
+                                      </div>
+
+                </a>
+
+              </li>
+
+    
+              <li class="CategoryProducts__tab " style="background: #f9ae40">
+
+                <a href="https://fuxion.com/pe/energia-y-revitalizacion">
+
+                  <figure class="CategoryProducts__tab-icon" >
+
+                  
+                  </figure>
+
+                  <div class="CategoryProducts__tab-text">
+                                          <div><strong>ENERGÍA Y REVITALIZACIÓN</strong></div>
+                                      </div>
+
+                </a>
+
+              </li>
+
+              
+
+        </ul>
+
+      </div>
+
+
+
+      <div class="CategoryProducts__tabs-content">
+
+        <div class="u-container">
+
+          <div class="CategoryProducts__tabs__content-bar" style="background: #009bdf;">
+
+            <p></p>
+
+          </div>
+
+        </div>
+
+        <div class="CategoryProducts__productList">
+
+        
+          <div class="Product">
+
+            <div class="u-container">
+
+              <div class="Product__icon-wrap">
+
+                <!-- <span class="Product__icon" style="background: "> -->
+                  <span class="Product__icon">
+                  <img src="https://fuxion.com/upload/images/sistemas/2017/05/22/5729f431bd40c743.png" alt="" class="img-responsive">
+
+                </span>
+
+              </div>
+
+              <div class="Product__row">
+
+                <figure class="Product__col"><img src="https://fuxion.com/upload/images/products/2018/10/11/2f31b0b063bfb1d9.jpg" alt="" class="img-responsive">
+
+                
+                <!-- Paises Restantes -->
+                
+                                
+                
+                
+                
+                
+                
+                
+                		
+		
+
+                
+                
+                
+                
+                
+                                
+                                  <div class="video-carac">
+                   
+                    <a class="video" href="https://player.vimeo.com/video/310883858?h=bf8f9c30a0"> video</a>
+                                      <a class="js-slogan-link product-text" data-slogan-text="<img src='https://offix.s3.amazonaws.com/img-webfuxion/sugerencias/PROTEINAS%20copia.png' width='205' heigth='244'">uso sugerido</a>           
+                                    </div>
+                
+                
+                <!-- -->
+
+                </figure>
+
+                <div class="Product__col">
+
+                  <div class="Product__text">
+
+                    <div class="Product__title" style="border-color: #009bdf;">
+
+                      <h2><!-- <strong>Ganomas </strong><br> Cappuccino --> BIOPRO+ TECT</h2>
+
+                    </div>
+
+                    <p class="Product__summary">                                    Delicioso batido instantáneo a base de la proteína de la más alta calidad: Bioprotein+ con Colostrum®, formulación patentada por Fuxion® con 100% de Valor Biológico. Complemento de una sana nutrición diaria que nutre y potencia el sistema de defensas del organismo.                                                                                                                                                                                                      </p>
+
+                    
+                      <h4 class="Product__phrase "  style="color: #009bdf;">¡ACTIVA TU SISTEMA NATURAL DE PROTECCIÓN!</h4>
+
+                    
+                    <div class="Product__imagePopup">
+
+                      <a href="https://fuxion.com/upload/images/products/2017/02/01/36a2a66fc4d28c8b.jpg" class="js-popupLink">
+
+                       Ver información nutricional
+                      </a>
+
+                    </div>
+
+                    
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          <div class="Product">
+
+            <div class="u-container">
+
+              <div class="Product__icon-wrap">
+
+                <!-- <span class="Product__icon" style="background: "> -->
+                  <span class="Product__icon">
+                  <img src="https://fuxion.com/upload/images/sistemas/2017/05/22/5729f431bd40c743.png" alt="" class="img-responsive">
+
+                </span>
+
+              </div>
+
+              <div class="Product__row">
+
+                <figure class="Product__col"><img src="https://fuxion.com/upload/images/products/2018/09/21/46cdd1ea400b871b.jpg" alt="" class="img-responsive">
+
+                
+                <!-- Paises Restantes -->
+                
+                                
+                
+                
+                
+                
+                
+                
+                		
+		
+
+                
+                
+                
+                
+                
+                                
+                                  <div class="video-carac">
+                   
+                    <a class="video" href="https://player.vimeo.com/video/295236666?h=2149ae6720f"> video</a>
+                                    </div>
+                
+                
+                <!-- -->
+
+                </figure>
+
+                <div class="Product__col">
+
+                  <div class="Product__text">
+
+                    <div class="Product__title" style="border-color: #009bdf;">
+
+                      <h2><!-- <strong>Ganomas </strong><br> Cappuccino --> PROTEIN ACTIVE</h2>
+
+                    </div>
+
+                    <p class="Product__summary">                                                      Primera proteína activa de origen 100% vegetal, de alta biodisponibilidad y alta digestibilidad que complementa perfectamente tu alimentación diaria para obtener una salud a prueba de todo. Este delicioso batido es una combinación de Bioprotein Active® -patente Fuxion en proceso– con aminoácidos, enzimas, vitaminas y calcio, cromo y zinc en molécula orgánica. Bioprotein Active® es una combinación de proteína activa a base de proteínas de algas y vegetales germinados procesadas a bajas temperaturas; lo que permite que los germinados se mantengan con sus nutrientes intactos.                                                                                                                                                                                                    </p>
+
+                    
+                      <h4 class="Product__phrase "  style="color: #009bdf;">¡DALE A TU CUERPO NUTRICIÓN AVANZADA!</h4>
+
+                    
+                    <div class="Product__imagePopup">
+
+                      <a href="https://fuxion.com/upload/images/products/2020/09/09/2225e7b7ac813a09.jpg" class="js-popupLink">
+
+                       Ver información nutricional
+                      </a>
+
+                    </div>
+
+                    
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</main>    
+    <!-- Inicio Modal -->
+      <div id="flotante">
+        <div class="modal">
+          <div class="offixbeta">
+            <a href="https://offix.fuxion.com/login">
+            <img src="https://fuxion.com/static/web/dist/modal/bo.jpg" alt="" style="width: 100%;">
+            </a>
+          </div>
+          <div class="offix">
+            <a href="https://offix.fuxion.net/backoffice/login">
+            <img src="https://fuxion.com/static/web/dist/modal/o.jpg" alt="" style="width: 100%;">
+            </a>
+          </div>
+          <span class="cerrar">X</span>
+        </div>
+      </div>
+    <!-- Inicio Modal -->
+    <footer class="Footer">
+      <div class="u-container">
+        <div class="Footer__copy" style='padding-top: 25px;' >
+          <p>&copy; Copyright 2017. <strong>FuXion®</strong></p>
+        </div>
+	        <div class="Footer__social">
+          <a href="http://reclamos.fuxion.net/" target="_blank">
+            <img src="https://fuxion.com/static/web/dist/images/lib-rec3.png" alt="" class="img-responsive" style="width: 100px;">
+          </a>
+        </div>
+        
+        <!-- <div class="Footer__social">
+
+          <ul class="Footer__social-list u-list-unstyled u-list-inline">
+
+            <li><a href="http://fuxion.net/blogX/" target="_blank" class="fuxicon-blogger"></a></li>
+
+            <li><a href="https://www.facebook.com/fuxion" target="_blank" class="fuxicon-facebook"></a></li>
+
+            <li><a href="https://twitter.com/fuxionoficial" target="_blank" class="fuxicon-twitter"></a></li>
+
+            <li><a href="https://www.youtube.com/user/fuxionoficial" target="_blank" class="fuxicon-youtube"></a></li>
+
+            <li><a href="https://instagram.com/fuxionoficial/" target="_blank" class="fuxicon-instagram"></a></li>
+
+            <li><a href="https://es.pinterest.com/fuxionoficial/" target="_blank" class="fuxicon-pinterest"></a></li>
+
+          </ul>
+
+        </div>-->
+      </div>
+    </footer>
+
+    <!-- BUTTON TO TOP -->
+        <a href="#" class="Button-toTop" id="toTop" title="Back to top"><span></span></a>
+    <script src="https://fuxion.com/static/web/dist/js/main.min.js"></script>
+    <!-- Inicio MODAL -->
+    <script src="https://fuxion.com/static/web/dist/modal/jquery-3.2.1.min.js"></script>
+    <script>
+      $(function(){$("#myModal").on("click",function(){$("#flotante").css("right","0px");})})
+      $(function(){$(".cerrar").on("click",function(){$("#flotante").css("right","-200%");})})
+      
+
+      var modal = document.getElementById("myModal2");
+      var span = document.getElementsByClassName("close-fux")[0];
+      var bodyDoc = document.getElementsByTagName('body');
+      var home = document.getElementsByClassName("modal-fux-open")[0];
+
+      span.onclick = function() {
+        $('body').removeClass('modal-fux-open')
+        modal.style.display = "none";
+      }
+
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          $('body').removeClass('modal-fux-open')
+          modal.style.display = "none";
+        }
+      }
+
+      $( ".Home" ).click(function() {
+        $('body').removeClass('modal-fux-open')
+          modal.style.display = "none";
+     });
+      window.addEventListener("load", function(event) {
+      //console.log("'Todos los recursos terminaron de cargar!");
+       /*$('body').addClass('modal-fux-open')
+        modal.style.display = "block";
+       });*/
+    </script>
+    <!-- Fin MODAL -->
+  </body>
+</html>

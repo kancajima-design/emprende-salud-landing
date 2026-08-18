@@ -1,0 +1,374 @@
+
+
+
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<link type="text/css" rel="stylesheet" href="/NextExperience/css/fonts.css">
+
+<link type="text/css" rel="stylesheet" href="/ninja/ninja.css">
+<link rel="stylesheet" type="text/css" href="/css/offix.css" />
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    .content-new-page {
+        display: flex;
+        width: 100%;
+        padding: 15px;
+        height: 100%;
+        align-items: center;
+    }
+
+    .item-page {
+        width: 100%;
+        max-width: 350px;
+        overflow: hidden;
+        margin: auto;
+        border-radius: 8px;
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+        box-shadow: 0px 0px 10px 1px rgba(216, 216, 216, 0.52);
+        border: 1px solid #d8d8d8;
+    }
+
+    .item-page-2 {
+        padding: 20px 25px;
+    }
+
+    .title-page {
+        font-size: 18px;
+        display: block;
+        text-align: center;
+        padding-bottom: 10px;
+        font-weight: 500;
+        color: #333333;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+        .title-page span {
+            font-size: 21px;
+            font-weight: 700;
+            color: #333333;
+        }
+
+    .item-page p {
+        color: #a0a0a0;
+        font-size: 16px;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .select-custom--blue:after {
+        position: absolute;
+        right: 0;
+        content: '';
+        top: 0;
+        width: 40px;
+        height: 36px;
+        background: #fdfdfd url(../NextExperience/images/icons/select-arrow-blue.png) no-repeat center center;
+        background-size: 100%;
+    }
+
+    .header-card {
+        width: 100%;
+        height: 70px;
+        padding: 10px;
+        background: url(../NextExperience/images/header/fuxion-logo.png) no-repeat center center #0094de;
+        background-size: 120px;
+    }
+
+    .select-custom {
+        border: 1px solid #ccc;
+        border-radius: 3px 6px 6px 3px;
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        margin: 18px 0;
+        position: relative;
+    }
+
+    select.form-control {
+        width: 100%;
+        outline: 0px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        text-indent: 1px;
+        text-overflow: '';
+        padding: 10px;
+        border: none;
+    }
+
+    .item-page select {
+        font-size: 15px;
+    }
+
+
+    .form-control {
+        display: block;
+        width: 100%;
+        height: 36px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        background-color: #fff;
+        border-radius: 4px;
+        -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    }
+
+    .Btn {
+        font-weight: normal;
+        font-size: 15px;
+        width: 100%;
+        border: 0 !important;
+        padding: 0.8em 1.46667em !important;
+        border-radius: 3px !important;
+        -webkit-transition: all 0.2s linear;
+        -moz-transition: all 0.2s linear;
+        -o-transition: all 0.2s linear;
+        -ms-transition: all 0.2s linear;
+        transition: all 0.2s linear;
+        text-align: center;
+        cursor: pointer;
+        background-color: #00a7fb !important;
+        display: inherit;
+    }
+
+    .Btn--blue:hover, .Btn--blue:focus {
+        color: #fff;
+        background-color: #00a7fb !important;
+    }
+
+    .Btn:hover, .Btn:focus {
+        text-decoration: none;
+    }
+
+    .Btn--blue {
+        color: #fff !important;
+        margin: auto;
+        background-color: #0094de !important;
+    }
+
+    /* ---------------------------------------- */
+
+    .mensaje {
+        font-size: 1.1rem;
+        text-align: center;
+        display: none;
+    }
+    .loader-fuxion{
+        margin-bottom:80px;
+    }
+</style>
+
+<div class="content-new-page">
+    <div class="item-page">
+        <div class="loader-fuxion">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+        <div class="header-card" style="display:none"></div>
+        <div class="item-page-2" style="display:none">
+            <h2 class="title-page">
+                Estas en: <span id="sp_country"></span>
+            </h2>
+            <p style="padding: 12px 0">
+                Elije otro Pais:
+            </p>
+            <div class="shopVirtual-country-select">
+                
+                <div class="select-custom select-custom--blue">
+
+                    <select class="form-control countryselect info_shop_register__select" name="select" id="cbo_country">
+                                <option value="IT"></option>
+                                <option value="AT"></option>
+                                <option value="FR"></option>
+                                <option value="BE"></option>
+                                <option value="IE"></option>
+                                <option value="PT"></option>
+                                <option value="NL"></option>
+                                <option value="LU"></option>
+                                <option value="HR"></option>
+                                <option value="GR"></option>
+                                <option value="FI"></option>
+                                <option value="SK"></option>
+                                <option value="SI"></option>
+                                <option value="HN"></option>
+                                <option value="MT"></option>
+                                <option value="CY"></option>
+                                <option value="UY"></option>
+                                <option value="LT"></option>
+                                <option value="LV"></option>
+                                <option value="EE"></option>
+                                <option value="AR">Argentina</option>
+                                <option value="BO">Bolivia</option>
+                                <option value="BR">Brazil</option>
+                                <option value="CL">Chile</option>
+                                <option value="CO">Colombia</option>
+                                <option value="CR">Costa Rica</option>
+                                <option value="DO">Dominican Republic</option>
+                                <option value="EC">Ecuador</option>
+                                <option value="SV">El Salvador</option>
+                                <option value="DE">Germany</option>
+                                <option value="GT">Guatemala</option>
+                                <option value="MX">Mexico</option>
+                                <option value="NI">Nicaragua</option>
+                                <option value="PA">Panama</option>
+                                <option value="PE">Peru</option>
+                                <option value="RU">Russia</option>
+                                <option value="ES">Spain</option>
+                                <option value="UA">Ukraine</option>
+                                <option value="VE">Venezuela</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="shopVirtual-country-action text-center" style="padding-bottom:5%">
+                <button class="Btn Btn--blue" type="button" id="btnChooseCountryExternal">Continuar »</button>
+            </div>
+            <br />
+            <div class="mensaje" id="mensaje">
+                <b>Hi!</b>
+                <br />
+                This link is not available in your country.
+                <br />
+                
+            </div>
+        </div>
+        <div class="item-page-3" style="display:none">
+            
+            <br />
+            <div class="mensaje" id="mensaje2">
+                <b>Hi!</b>
+                <br />
+                This link is not available in your country.
+                <br />
+                Contacté para mas información.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<input type="hidden" id="hdi_tk" value="MgB8AFAARQB8ADEAOAA4ADEAOAA1ADAAfABbADEANAAzADIAOAAzAC0AMQBdAHwARgB1AFgAaQBvAG4AJAAkACUAJQAyADAAMQA5AA==" />
+
+<script src="/Content/scripts/vendor/jquery.js"></script>
+
+<script>
+    $(document).ready(function () {
+        if (localStorage.getItem("pixelId") != null) {
+            localStorage.removeItem("pixelId");
+        }
+        console.log("GEO LOCALIZACION EXTERNA");
+
+        var ip_ = "";
+        var countryCode_ = "PE";
+
+        console.log(countryCode_);
+
+        $("#cbo_country").val(countryCode_);
+        $('#sp_country').text($("#cbo_country option:selected").text());
+        $('#sp_country2').text($("#cbo_country option:selected").text());
+
+        //$.getJSON('https://ipapi.co/json/', function (data) {
+        //    $('#sp_miip').text(data.ip);
+        //    $("#MarketName").val(data.country);
+        //    $('#sp_country').text($("#MarketName option:selected").text());
+        //});
+        if("1" == "1")
+        {
+            redireccionar();
+        } else {
+            $("#mensaje2").css("display", "block");
+            $(".item-page-3").css("display", "block");
+            $(".header-card").css("display", "block");
+            $(".loader-fuxion").css("display", "none");
+        }
+
+
+    });
+
+    $('#btnChooseCountryExternal').on("click", function (e) {
+        //$("#wr_modalGeo").slideUp()
+
+        var newCountry = $("#cbo_country option:selected").val();
+
+        var url_ = "/external/review";
+        var pixelId = "";
+        if (pixelId != "") {
+            localStorage.setItem('pixelId', pixelId);
+        }
+        //alert(newCountry);
+        localStorage.setItem('VarCountry', newCountry);
+        $.ajax({
+            url: url_,
+            type: "POST",
+            //dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+            data: JSON.stringify({ tk: $("#hdi_tk").val(), countryChoose: newCountry }),
+            success: function (response) {
+                //console.log(response);
+                if (response.success) {
+                    //location.reload();
+                    //console.log(response);
+                    if (response.success) {
+                        if (response.mensaje == "error") {
+                            $("#mensaje").css("display", "block");
+                        }
+                        else {
+                            location.href = response.url;
+                        }
+                    }
+                }
+            }
+        })
+    });
+
+    function redireccionar() {
+        var newCountry = 'PE';
+        var url_ = "/external/review";
+        var pixelId = "";
+        if (pixelId != "") {
+            localStorage.setItem('pixelId', pixelId);
+        }
+        //alert(newCountry);
+        localStorage.setItem('VarCountry', newCountry);
+        $.ajax({
+            url: url_,
+            type: "POST",
+            //dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            headers: { "__RequestVerificationToken": $('[name=__RequestVerificationToken]').val() },
+            data: JSON.stringify({ tk: $("#hdi_tk").val(), countryChoose: newCountry }),
+            success: function (response) {
+                //console.log(response);
+                if (response.success) {
+                    //location.reload();
+                    //console.log(response);
+                    if (response.success) {
+                        if (response.mensaje == "error") {
+                            $("#mensaje").css("display", "block");
+                        }
+                        else {
+                            location.href = response.url;
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+</script>

@@ -1,0 +1,5 @@
+
+  → Opening your browser to sign in — finish there.
+    https://backboard.railway.com/oauth/auth?response_type=code&client_id=rlwy_oaci_onEklvmksh1hRUiCo7E2zX12&redirect_uri=http%3A%2F%2F127.0.0.1%3A58533%2Fcallback&scope=openid+email+profile+offline_access+workspace%3Aadmin+project%3Aadmin+ssh_keys&code_challenge=Tc_FnuI1gCqarPyrCGg9RPnkGE5L4pJb3liJ_9BfhEA&code_challenge_method=S256&state=EtAO0cq39O_6Kjfog-QkF2_QuylBpvCRJjL5EOjraYI&prompt=consent&cli_caller=agent_unknown%3Anode
+
+  ✓ Signed in as Kervin Ancajima (kancajima@gmail.com)
