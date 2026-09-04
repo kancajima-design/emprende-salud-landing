@@ -1,0 +1,788 @@
+[
+{
+"nombre": "REXET",
+"linea": "Sistema Base",
+"tagline": "¡Prepara y reinicia tu cuerpo!",
+"para_que_sirve": [
+"Promover la función depurativa desde el sistema digestivo",
+"Mantener óptimas las funciones metabólicas del hígado",
+"Mantener el cuerpo en equilibrio, limpio de toxinas"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 36.50",
+"puntos": 5
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085882"
+},
+{
+"nombre": "LIQUID FIBER",
+"linea": "Sistema Base",
+"tagline": "¡Nutrición prebiótica, para un sistema digestivo puntual!",
+"para_que_sirve": [
+"Mejorar la nutrición y el balance de la flora intestinal",
+"Mejorar la frecuencia de las evacuaciones intestinales de manera natural",
+"Promover la salud digestiva"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 105.00",
+"puntos": 16
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085983"
+},
+{
+"nombre": "FLORA LIV",
+"linea": "Sistema Base",
+"tagline": "¡Protege tu organismo desde adentro!",
+"para_que_sirve": [
+"Regenerar y equilibrar la flora intestinal, necesaria para la correcta asimilación de los nutrientes",
+"Mantener activo tu sistema de defensa",
+"Prevenir trastornos digestivos",
+"Recuperar la flora intestinal luego de tratamientos que alteran el ecosistema intestinal"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 154.00",
+"puntos": 24
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085880"
+},
+{
+"nombre": "PRUNEX1",
+"linea": "Sistema Base",
+"tagline": "¡Libera el tránsito en tu sistema digestivo!",
+"para_que_sirve": [
+"Liberarte de desechos perjudiciales para tu organismo",
+"Sentirte más liviano sin las molestias de la hinchazón abdominal",
+"Tener un adecuado tránsito intestinal"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 76.00",
+"puntos": 10
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 21.00",
+"puntos": 2
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086017"
+},
+{
+"nombre": "ALPHA BALANCE",
+"linea": "Sistema Base",
+"tagline": "¡Mantén tu cuerpo balanceado, limpio y desintoxicado!",
+"para_que_sirve": [
+"Liberarte de residuos y toxinas perjudiciales para tu organismo",
+"Tener más energía para que tu cuerpo funcione correctamente",
+"Mantener tu organismo balanceado, limpio y desintoxicado"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085951"
+},
+{
+"nombre": "BERRY BALANCE",
+"linea": "Sistema Base",
+"tagline": "¡Protege tu organismo y mantenlo en perfecto equilibrio!",
+"para_que_sirve": [
+"Promover el equilibrio del pH de la flora que protege el tracto urinario",
+"Prevenir las molestias del tracto urinario",
+"Evitar la retención de líquidos"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 169.00",
+"puntos": 26
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085959"
+},
+{
+"nombre": "PROGRAMA DETOX 5-DÍAS",
+"linea": "Sistema Base",
+"tagline": "¡Renueva tu cuerpo!",
+"para_que_sirve": [
+"Crear hábitos positivos de estilo de vida para promover la limpieza y renovación constante del cuerpo y la mente",
+"Promover la eliminación de toxinas",
+"Revitalizar tu cuerpo y mejorar tu estado de ánimo",
+"Afinar tu metabolismo (alistar tu cuerpo para iniciar una dieta o un deporte)"
+],
+"precios": [
+{
+"presentacion": "Caja pack",
+"precio": "S/ 175.00",
+"puntos": 24
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086001"
+},
+{
+"nombre": "BIOPRO+ TECT",
+"linea": "Sistema Base",
+"tagline": "¡Activa tu sistema natural de protección!",
+"para_que_sirve": [
+"Mantener saludable el sistema de defensas del organismo",
+"Elevar cualitativa y cuantitativamente el perfil proteico de la dieta diaria",
+"Mejorar los procesos de regeneración celular",
+"Fortalecer los huesos"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g",
+"precio": "S/ 119.50",
+"puntos": 18
+},
+{
+"presentacion": "Pote 500g",
+"precio": "S/ 163.00",
+"puntos": 23
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085966"
+},
+{
+"nombre": "PROTEIN ACTIVE",
+"linea": "Sistema Base",
+"tagline": "¡Dale a tu cuerpo nutrición avanzada!",
+"para_que_sirve": [
+"Una asimilación óptima de aminoácidos esenciales para regenerar tejidos en menor tiempo",
+"Elevar el perfil proteico de la dieta diaria de forma más eficaz",
+"Reducir el daño oxidativo que afecta tu sistema natural de defensa y tu desempeño mental"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g (cada sabor)",
+"precio": "S/ 141.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086003"
+},
+{
+"nombre": "NUTRADAY",
+"linea": "Sistema Base",
+"tagline": "¡Brinda a tu cuerpo los nutrientes que necesita!",
+"para_que_sirve": [
+"Tener un óptimo desarrollo físico y mental",
+"Complementar tu nutrición con la dosis adecuada de antioxidantes, vitaminas y minerales",
+"Mantener en estado óptimo tu sistema inmunológico"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085989"
+},
+{
+"nombre": "VITA XTRA T+",
+"linea": "Sistema Base",
+"tagline": "¡Recupera tu vitalidad cada día!",
+"para_que_sirve": [
+"Reducir la oxidación de las células y la proliferación de radicales libres",
+"Mantenerte alerta y de buen ánimo",
+"Mejorar tu rendimiento físico y desempeño diario en general"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 36.50",
+"puntos": 5
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086022"
+},
+{
+"nombre": "VITAENERGIA",
+"linea": "Sistema Base",
+"tagline": "¡Para que le pongas ganas cada día!",
+"para_que_sirve": [
+"Reducir la oxidación de las células y la proliferación de radicales libres",
+"Disipar la sensación de fatiga gracias a sus componentes energéticos",
+"Mejorar la asimilación de proteínas, los procesos de regeneración celular y reforzar el sistema inmunológico"
+],
+"precios": [
+{
+"presentacion": "Caja 30 x 7.5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086023"
+},
+{
+"nombre": "XPEED",
+"linea": "Sistema Base",
+"tagline": "¡Energía líquida, lista para actuar!",
+"para_que_sirve": [
+"Brindar energía saludable y balanceada con poder antioxidante",
+"Contrarrestar la fatiga",
+"Contribuir al buen funcionamiento del sistema productor de energía"
+],
+"precios": [
+{
+"presentacion": "Pack x 4",
+"precio": "S/ 39.50",
+"puntos": 2
+}
+],
+"tienda": "http://ifuxion.com/emprendesalud"
+},
+{
+"nombre": "DUO DEFENSE",
+"linea": "Línea Inmunológica",
+"tagline": "Cuando dos cosas buenas se juntan, forman un dúo superior",
+"para_que_sirve": [
+"Fortalecer el sistema inmunológico y mantenerlo saludable",
+"Modular la generación de radicales libres por su potente efecto antioxidante",
+"Reducir el estrés oxidativo, protegiendo el sistema natural de defensas"
+],
+"precios": [
+{
+"presentacion": "2-pack",
+"precio": "S/ 23.00"
+},
+{
+"presentacion": "6-pack",
+"precio": "S/ 64.50"
+}
+],
+"tienda": "http://ifuxion.com/emprendesalud"
+},
+{
+"nombre": "VERA+",
+"linea": "Línea Inmunológica",
+"tagline": "¡Refuerza tu cuerpo de manera inteligente!",
+"para_que_sirve": [
+"Mantener activas tus defensas naturales",
+"Reducir el daño oxidativo que ocasiona deterioro celular"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 169.00",
+"puntos": 26
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086021"
+},
+{
+"nombre": "GANO+ T",
+"linea": "Línea Inmunológica",
+"tagline": "¡Optimiza tu sistema de protección!",
+"para_que_sirve": [
+"Mantener activas tus defensas naturales",
+"Reducir el daño oxidativo que ocasiona deterioro celular",
+"Modular tu sistema inmunológico para una vida plena"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 92.50",
+"puntos": 12
+}
+],
+"tienda": "http://ifuxion.com/emprendesalud"
+},
+{
+"nombre": "GANO+ CAPPUCCINO",
+"linea": "Línea Inmunológica",
+"tagline": "¡Optimiza tu sistema de protección!",
+"para_que_sirve": [
+"Reducir el daño oxidativo que afecta tu sistema natural de protección",
+"Modular un funcionamiento normal de tus defensas naturales"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 7.5g",
+"precio": "S/ 92.50",
+"puntos": 12
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085977"
+},
+{
+"nombre": "CAFÉ GANOMAX",
+"linea": "Línea Inmunológica",
+"tagline": "¡Refuerza y regula tu sistema inmune!",
+"para_que_sirve": [
+"Reforzar y regular el funcionamiento del sistema inmunológico",
+"Mantener tu actividad mientras tu organismo se defiende",
+"Reducir el daño oxidativo"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 146.00",
+"puntos": 22
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085974"
+},
+{
+"nombre": "THERMO T3",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Transforma la grasa en energía!",
+"para_que_sirve": [
+"Reducir medidas, al reducir la acumulación de grasa en el organismo (junto a dieta balanceada y ejercicio)",
+"Aumentar tu resistencia: recomendable consumirlo antes de una rutina de ejercicio",
+"Promover un óptimo metabolismo, generando energía a partir de la grasa acumulada"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 36.50",
+"puntos": 5
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086019"
+},
+{
+"nombre": "NOCARB-T",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Mantén los carbohidratos a raya!",
+"para_que_sirve": [
+"Mantener normales los niveles de glucosa (junto a dieta balanceada y ejercicio)",
+"Controlar los carbohidratos de tu dieta",
+"Reducir la acumulación de grasa en el organismo"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "http://ifuxion.com/emprendesalud"
+},
+{
+"nombre": "CHOCOLATE FIT",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Mantente en forma deliciosamente!",
+"para_que_sirve": [
+"Reducir medidas corporales, al acelerar el metabolismo de las grasas (junto a dieta balanceada y ejercicio)",
+"Incrementar la masa magra sobre la masa grasa",
+"Incrementar la satisfacción y reducir la ansiedad"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 15g",
+"precio": "S/ 92.50",
+"puntos": 12
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085976"
+},
+{
+"nombre": "CAFÉ & CAFÉ FIT",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Date un gusto sin perder la línea!",
+"para_que_sirve": [
+"Apoyar un programa de control de peso y medidas (junto a dieta balanceada y ejercicio)",
+"Reducir la sensación de cansancio y fatiga",
+"Reducir la sensación de apetito"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 159.50",
+"puntos": 24
+}
+],
+"tienda": "http://ifuxion.com/emprendesalud"
+},
+{
+"nombre": "CAFÉ & CAFÉ FIT CAPPUCCINO",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Date un gusto sin perder la línea!",
+"para_que_sirve": [
+"Apoyar un programa de control de peso y medidas (junto a dieta balanceada y ejercicio)",
+"Reducir la sensación de cansancio y fatiga",
+"Reducir la sensación de apetito"
+],
+"precios": [
+{
+"presentacion": "DP 14 x 15g",
+"precio": "S/ 109.50",
+"puntos": 24
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085968"
+},
+{
+"nombre": "PACK 5/14 KETO",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Pierde esos kilos de más y gana salud!",
+"para_que_sirve": [
+"Eliminar hasta el 5% de tu peso corporal alimentándote 5 veces al día (junto a dieta sana y ejercicio)",
+"Llevar tu metabolismo hacia un ritmo sano y natural",
+"Reducir grasa corporal y tonificar músculos, elevando tu energía y bienestar"
+],
+"precios": [
+{
+"presentacion": "Caja pack",
+"precio": "S/ 399.00",
+"puntos": 60
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085993"
+},
+{
+"nombre": "PACK 5/14 ACTIVE MITO",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Pierde esos kilos de más y gana salud!",
+"para_que_sirve": [
+"Eliminar hasta el 5% de tu peso corporal alimentándote 5 veces al día (junto a dieta sana y ejercicio)",
+"Llevar tu metabolismo hacia un ritmo sano y natural",
+"Reducir grasa corporal y tonificar músculos, elevando tu energía y bienestar"
+],
+"precios": [
+{
+"presentacion": "Caja pack",
+"precio": "S/ 435.00",
+"puntos": 64
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085994"
+},
+{
+"nombre": "BIOPRO+ FIT",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Mejora tu nutrición y reduce medidas!",
+"para_que_sirve": [
+"Reducir la sensación de apetito gracias a la proteína y la acción de Prolibra®",
+"Mejorar la nutrición celular, especialmente de las fibras musculares si haces ejercicio",
+"Acelerar el metabolismo para consumir más energía (calorías), eliminando grasa del cuerpo",
+"Apoyar un programa de control de peso"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g",
+"precio": "S/ 108.00",
+"puntos": 16
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085961"
+},
+{
+"nombre": "PROTEIN ACTIVE FIT",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Mejora tu nutrición y reduce medidas!",
+"para_que_sirve": [
+"Controlar tu peso y reducir medidas mientras tonificas músculos",
+"Asimilar de manera óptima aminoácidos esenciales para una mejor tonicidad",
+"Reducir la sensación de apetito gracias a la proteína vegetal"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g vainilla-canela",
+"precio": "S/ 149.00",
+"puntos": 21
+},
+{
+"presentacion": "Caja 14 x 25g chocolate-avellanas",
+"precio": "S/ 149.50",
+"puntos": 21
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086006"
+},
+{
+"nombre": "PROTEIN XOUP",
+"linea": "Línea Control de Peso y Medidas",
+"tagline": "¡Nutre tu cuerpo activamente y mantén la línea!",
+"para_que_sirve": [
+"Incrementar la sensación de saciedad (Slendesta®, avalado por 33 estudios clínicos)",
+"Acelerar el metabolismo y prevenir la acumulación de grasa (CLA + Bioprotein Active®)",
+"Promover una mejor nutrición a nivel celular y músculos más tonificados"
+],
+"precios": [
+{
+"presentacion": "Caja 7 x 25g (cada sabor)",
+"precio": "S/ 68.00",
+"puntos": 10
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086013"
+},
+{
+"nombre": "PROBAL",
+"linea": "Línea Anti-edad",
+"tagline": "¡Protege tu balance vital!",
+"para_que_sirve": [
+"Reforzar la salud femenina",
+"Controlar las molestias del periodo",
+"Mantener el balance durante la menopausia (cambios de humor y bochornos)"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 162.50",
+"puntos": 25
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/3144149"
+},
+{
+"nombre": "PASSION",
+"linea": "Línea Anti-edad",
+"tagline": "¡Incrementa tu vigor!",
+"para_que_sirve": [
+"Mejorar la vitalidad gracias a la L-arginina, isoleucina y glutamina",
+"Incrementar la energía por su contenido de maca, ginseng y teína del té negro",
+"Vigorizar el cuerpo gracias a su contenido de jalea real y zinc orgánico"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/3144145"
+},
+{
+"nombre": "YOUTH ELIXIR HGH",
+"linea": "Línea Anti-edad",
+"tagline": "¡Mantén un cuerpo joven por más tiempo!",
+"para_que_sirve": [
+"Aumentar la vitalidad, la elasticidad de la piel y mejorar la calidad del sueño",
+"Prevenir los efectos del envejecimiento prematuro producido por los radicales libres"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086026"
+},
+{
+"nombre": "GOLDEN FLX",
+"linea": "Línea Anti-edad",
+"tagline": "¡Protege tu organismo desde adentro!",
+"para_que_sirve": [
+"Contribuir a prevenir las molestias articulares ocasionadas por la edad, el sobrepeso y el ejercicio",
+"Contribuir a mejorar la flexibilidad y movilidad de las articulaciones",
+"Ayudar a controlar los procesos oxidativos"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 143.00",
+"puntos": 22
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085884"
+},
+{
+"nombre": "BEAUTY-IN",
+"linea": "Línea Anti-edad",
+"tagline": "¡El secreto de la verdadera belleza viene desde adentro!",
+"para_que_sirve": [
+"Mejorar la estructura de la dermis: piel con mayor elasticidad, más firme y uniforme",
+"Prevenir la aparición de signos de envejecimiento prematuro",
+"Nutrir, proteger y reparar la piel dañada",
+"Fortalecer también cabello y uñas"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 163.00",
+"puntos": 25
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085953"
+},
+{
+"nombre": "ON",
+"linea": "Línea Vigor Mental",
+"tagline": "¡Mente activa y alerta!",
+"para_que_sirve": [
+"Mantener tu mente activa y alerta",
+"Nutrir tu cerebro y mejorar tu función neuronal",
+"Reforzar tu función cognitiva"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 105.00",
+"puntos": 16
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 29.00",
+"puntos": 4
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085990"
+},
+{
+"nombre": "NO STRESS",
+"linea": "Línea Vigor Mental",
+"tagline": "¡Tranquilo y enfocado!",
+"para_que_sirve": [
+"Mantener la sensación de equilibrio frente al estrés y la ansiedad",
+"Mantener la concentración y el enfoque en momentos de gran tensión",
+"Mejorar la capacidad de relajación, sin producir somnolencia"
+],
+"precios": [
+{
+"presentacion": "DP 28 x 5g",
+"precio": "S/ 142.50",
+"puntos": 22
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 36.50",
+"puntos": 5
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085984"
+},
+{
+"nombre": "PRE SPORT PRO EDITION",
+"linea": "Línea Sport (Pro Edition)",
+"tagline": "¡Prepara tu cuerpo para darlo todo!",
+"para_que_sirve": [
+"Mantener la hidratación corporal gracias a su aporte de electrolitos",
+"Aumentar la resistencia, al promover la vasodilatación (mejora la nutrición y oxigenación muscular)",
+"Reducir la fatiga y mejorar el desempeño deportivo"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 143.00",
+"puntos": 22
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 38.50",
+"puntos": 22
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085997"
+},
+{
+"nombre": "XTRA MILE PRO EDITION",
+"linea": "Línea Sport (Pro Edition)",
+"tagline": "¡Energía para dar la milla extra!",
+"para_que_sirve": [
+"Mantener saludables los niveles de glucosa",
+"Mantener la energía de manera sostenida",
+"Reducir la fatiga durante el ejercicio"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 129.50",
+"puntos": 20
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 36.50",
+"puntos": 20
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086024"
+},
+{
+"nombre": "POST SPORT PRO EDITION",
+"linea": "Línea Sport (Pro Edition)",
+"tagline": "¡Ayuda a tu cuerpo a recuperarse luego del ejercicio!",
+"para_que_sirve": [
+"Reparar, incrementar y fortalecer las fibras musculares",
+"Reponer los electrolitos de forma natural, gracias al agua de coco",
+"Neutralizar el efecto catabólico del ejercicio intenso con antioxidantes (granada, acerola, romero, antocianinas)"
+],
+"precios": [
+{
+"presentacion": "Caja 28 x 5g",
+"precio": "S/ 143.00",
+"puntos": 22
+},
+{
+"presentacion": "Caja 7 x 5g",
+"precio": "S/ 38.50",
+"puntos": 22
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085996"
+},
+{
+"nombre": "BIOPRO+ SPORT PRO EDITION",
+"linea": "Línea Sport (Pro Edition)",
+"tagline": "¡Ejercicio saludable y músculos tonificados!",
+"para_que_sirve": [
+"Incrementar el flujo sanguíneo y el rendimiento gracias a Actinos® (péptido que favorece la producción de óxido nítrico)",
+"Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)",
+"Mejorar la recuperación y el aporte de oxígeno al músculo"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g",
+"precio": "S/ 132.50"
+},
+{
+"presentacion": "Pote 2 lb",
+"precio": "S/ 259.50"
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085963"
+},
+{
+"nombre": "PROTEIN ACTIVE SPORT PRO EDITION",
+"linea": "Línea Sport (Pro Edition)",
+"tagline": "¡Ejercicio saludable y músculos tonificados!",
+"para_que_sirve": [
+"Mantener el perfil proteico adecuado para la dieta de un deportista",
+"Mejorar la recuperación y el aporte de oxígeno al músculo",
+"Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)"
+],
+"precios": [
+{
+"presentacion": "Caja 14 x 25g vainilla-canela",
+"precio": "S/ 156.00"
+},
+{
+"presentacion": "Caja 14 x 25g chocolate-avellanas",
+"precio": "S/ 156.50"
+}
+],
+"tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086011"
+}
+]
