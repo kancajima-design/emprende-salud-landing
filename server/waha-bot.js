@@ -9,6 +9,13 @@
 // v3 (04-sep): LÍNEA DEPORTIVA + catálogo completo FuXion.
 //  Incluye Biopro+ Sport, Pre Sport, Post Sport, Xtra Mile, Protein Active Sport.
 //  Calificación actualizada con objetivo "deporte".
+// v4 (08-sep): PLAYBOOK DE SEGUIMIENTO (Estrategia PRO-LEV X) cargado al flujo.
+//  - Secuencias 2, 3 y 4 del playbook como disparadores REACTIVOS (el cliente
+//    escribe primero; el bot responde con el mensaje exacto de la secuencia).
+//  - Tracking de etapa: lead → cliente → autoenvio_pendiente → autoenvio → ef.
+//  - Sweep horario: alerta al personal de Kervin con contactos en día 25–28
+//    post-compra y en riesgo de fuga (35+ días). El envío del mensaje proactivo
+//    es MANUAL (asistido) — anti-baneo: Valeria nunca inicia conversaciones.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY (51964954743)
 // ─────────────────────────────────────────────────────────────
@@ -16,7 +23,7 @@
 const WAHA_URL = (process.env.WAHA_API_URL || '').replace(/\/$/, '')
 const WAHA_KEY = process.env.WAHA_API_KEY || ''
 const WAHA_SESSION = process.env.WAHA_SESSION || 'default'
-const NOTIFY = process.env.WAHA_NOTIFY || '51964954743' // personal de Kervin
+const NOTIFY = process.env.WAHA_NOTIFY || '51970848043' // personal de Kervin
 
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://www.emprendesalud.net'
@@ -50,10 +57,48 @@ const OPCION_2 = `¡Perfecto! 📲 Ya le avisé a *Kervin*. Te va a escribir per
 Mientras tanto puedes ir viendo los productos aquí:
 ${TIENDA} 💚`
 
-const OPCION_3 = `💼 Como *socio FuXion* generas ingresos recomendando productos de nutrición funcional: sin inventario, sin local — la empresa envía directo a tus clientes y tú ganas desde tu primera venta.
+const OPCION_3 = `💼 *Socio FuXion* — ganas recomendando productos de nutrición funcional que ya usas: sin inventario, sin local, la empresa envía directo a tus clientes.
 
-Kervin empezó igual que tú y te puede contar cómo funciona, sin compromiso.
-¿Te paso con él? Responde *2* y te contacto 📲`
+1️⃣ Código propio de Emprendedor (te registro yo, 15 min)
+2️⃣ Tu consumo con descuento del 20–50% desde el día 1
+3️⃣ 25% de bonificación por cada socio que tú asocies
+4️⃣ Bonos por duplicar tu equipo: US$50, US$200 y US$500
+
+No empiezas de cero: te enseño el paso a paso que ya funciona en Emprende Salud.
+¿Agendamos 20 min con Kervin sin compromiso? Responde *2* 📲`
+
+// ── Secuencias del playbook (reactivas, v4) ──────────────────
+// El cliente escribe primero; el bot responde con el mensaje exacto
+// de whatsapp-playbook-valeria.md. Nada de esto inicia conversaciones.
+const SEQ2_COMPRA = (nombre) => `¡Listo, ${nombre || 'crack'}! 🎉 Confirmo tu pedido: en pocos días llega a tu puerta.
+
+Tip para sacarle el máximo: constancia desde el día 1 — los cambios se ven con la rutina diaria, no con días sueltos.
+
+Cualquier duda me escribes, estoy pendiente. 💚 Te contacto en unos días para ver cómo te va.`
+
+const SEQ3_AUTOENVIO = `Te cuento para que no se te corte la rutina justo cuando empiezas a sentir cambios 😊
+
+Lo más cómodo es el *envío automático*: cada mes llega solo a tu casa, sin apps ni recordatorios.
+✨ Precio preferente de cliente
+🎁 Cada 60 puntos en autoenvío = 1 producto de regalo
+🚚 Envío a domicilio siempre
+
+¿Te lo activo igual que tu pedido anterior? Responde *sí* y lo dejamos listo.`
+
+const SEQ3_CIERRE = `¡Hecho! ✅ Tu envío automático quedó activado.
+
+Si algún mes quieres cambiar producto, fecha o pausar, me avisas y lo ajustamos. Tú tienes el control. 💚`
+
+const SEQ6_REACTIVACION = `Me acordé de ti 😊 ¿cómo estás?
+
+Cuéntame: ¿se te acabó el producto, lo pausaste por algo? Sin pena, solo quiero saber cómo sigues.
+
+Y si quieres retomar, aquí está la tienda: ${TIENDA}`
+
+// Disparadores de las secuencias
+const COMPRA_RE = /(ya compr[eé]|ya ped[ií]|hice el pedido|hice mi pedido|ya pagu[eé]|ya orden[eé]|acabo de comprar|acabo de pedir|reci[eé]n compr[eé]|ya hice la compra)/i
+const REORDER_RE = /(se me acab[oó]|ya se acab[oó]|se est[aá] acabando|necesito (otro|m[aá]s)|quiero pedir|repetir pedido|nuevo pedido|cu[aá]ndo llega|cuando llega|c[uú]ando llega)/i
+const AUTOENVIO_SI_RE = /^(s[ií]\b|sii+|dale|ok[kk]*|activa|perfecto|hag[aá]moslo|adelante|de una|listo)/i
 
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
@@ -195,6 +240,11 @@ function initTables(database) {
   const cols = db.prepare('PRAGMA table_info(wa_contacts)').all().map((c) => c.name)
   if (!cols.includes('objetivo')) db.exec("ALTER TABLE wa_contacts ADD COLUMN objetivo TEXT DEFAULT ''")
   if (!cols.includes('etiqueta')) db.exec("ALTER TABLE wa_contacts ADD COLUMN etiqueta TEXT DEFAULT 'nuevo'")
+  // Migración v4: etapa del playbook + fechas de compra y alertas
+  if (!cols.includes('etapa')) db.exec("ALTER TABLE wa_contacts ADD COLUMN etapa TEXT DEFAULT 'lead'")
+  if (!cols.includes('compra_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN compra_at INTEGER DEFAULT 0')
+  if (!cols.includes('alerta_2528_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_2528_at INTEGER DEFAULT 0')
+  if (!cols.includes('alerta_react_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_react_at INTEGER DEFAULT 0')
 }
 
 function getContact(chatId) {
@@ -384,12 +434,80 @@ async function handleMessage(payload) {
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
   }
 
-  // 3) Texto libre → Gemini (con contexto de objetivo y fallback al menú)
-  const contexto = contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : ''
+  // 3) Secuencias del playbook (reactivas — el contacto ya escribió)
+  // 3a) Confirmación de compra: marca compra_at + etapa cliente (Secuencia 2)
+  if (COMPRA_RE.test(lower) && contact.etapa !== 'ef') {
+    db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
+      alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
+      .run(Date.now(), chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ2_COMPRA(nombre))) consume()
+    return
+  }
+  // 3b) Cliente que se está quedando sin producto → pitch de autoenvío (Secuencia 3 ⭐)
+  if (REORDER_RE.test(lower) && ['cliente', 'autoenvio'].includes(contact.etapa)) {
+    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio_pendiente' WHERE chat_id = ?").run(chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ3_AUTOENVIO)) consume()
+    return
+  }
+  // 3c) Confirmación de autoenvío (Secuencia 3, cierre)
+  if (AUTOENVIO_SI_RE.test(lower) && contact.etapa === 'autoenvio_pendiente') {
+    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio', compra_at = ? WHERE chat_id = ?")
+      .run(Date.now(), chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ3_CIERRE)) consume()
+    return
+  }
+
+  // 4) Texto libre → Gemini (con contexto de objetivo, etapa y fallback al menú)
+  const contexto =
+    (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
+    (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '')
   const reply = await geminiReply(contexto + (body || 'La persona envió una imagen o audio. Pídele amablemente que te cuente por texto qué necesita.'))
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
   if (await waSend(chatId, final)) consume()
+}
+
+// ── Sweep horario de seguimiento (v4) ────────────────────────
+// Revisa contactos con compra registrada y avisa al personal de Kervin:
+//  · día 25–32 post-compra → toca mensaje de autoenvío (Secuencia 3, manual)
+//  · 35+ días sin recompra  → riesgo de fuga (Secuencia 6, manual)
+// El bot NO envía estos mensajes al cliente: Kervin/Valeria los envían
+// a mano desde el WhatsApp del 970 (anti-baneo: cero mensajes proactivos).
+const DIA_MS = 24 * 60 * 60 * 1000
+async function sweepSeguimiento() {
+  if (!WAHA_URL || !WAHA_KEY || !db) return
+  const now = Date.now()
+  const rows = db.prepare(
+    `SELECT chat_id, nombre, etapa, compra_at, alerta_2528_at, alerta_react_at
+     FROM wa_contacts WHERE compra_at > 0 AND etapa != 'ef'`,
+  ).all()
+  for (const r of rows) {
+    const dias = (now - Number(r.compra_at || 0)) / DIA_MS
+    try {
+      if (dias >= 25 && dias <= 32 && !Number(r.alerta_2528_at)) {
+        db.prepare('UPDATE wa_contacts SET alerta_2528_at = ? WHERE chat_id = ?').run(now, r.chat_id)
+        await alertaKervin(
+          '📦 *DÍA 25–28: toca autoenvío* (Secuencia 3 del playbook)',
+          r.chat_id, r.nombre,
+          `Última compra hace ${Math.round(dias)} días. Envíale el mensaje de invitación a autoenvío (whatsapp-playbook-valeria.md → Secuencia 3).`,
+          '',
+        )
+      } else if (dias > 35 && !Number(r.alerta_react_at)) {
+        db.prepare('UPDATE wa_contacts SET alerta_react_at = ? WHERE chat_id = ?').run(now, r.chat_id)
+        await alertaKervin(
+          '🔁 *REACTIVACIÓN: 35+ días sin compra* (Secuencia 6 del playbook)',
+          r.chat_id, r.nombre,
+          `Sin recompra hace ${Math.round(dias)} días. Envíale el mensaje de reactivación (whatsapp-playbook-valeria.md → Secuencia 6).`,
+          '',
+        )
+      }
+    } catch (e) {
+      console.error('sweep error', e?.message || e)
+    }
+  }
 }
 
 // ── Registro en Express ──────────────────────────────────────
@@ -424,4 +542,30 @@ export function registerWahaBot(app, database) {
     const rows = db.prepare('SELECT * FROM wa_contacts ORDER BY menu_at DESC LIMIT 300').all()
     res.json({ ok: true, contacts: rows })
   })
+
+  // Marcado manual de etapa/compra (admin): para registrar en el bot las ventas
+  // que Kervin cierra a mano o desde la tienda. Body: { key, chat_id, etapa?, compra?: bool }
+  app.post('/api/waha/estado', (req, res) => {
+    const key = req.body?.key || req.headers['x-admin-key']
+    if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
+      return res.status(401).json({ ok: false, error: 'Clave incorrecta' })
+    }
+    const chatId = String(req.body?.chat_id || '')
+    if (!chatId) return res.status(400).json({ ok: false, error: 'Falta chat_id' })
+    const ETAPAS = ['lead', 'cliente', 'autoenvio_pendiente', 'autoenvio', 'ef']
+    if (req.body?.etapa && ETAPAS.includes(req.body.etapa)) {
+      db.prepare('UPDATE wa_contacts SET etapa = ? WHERE chat_id = ?').run(req.body.etapa, chatId)
+    }
+    if (req.body?.compra) {
+      db.prepare(`UPDATE wa_contacts SET etapa = 'cliente', compra_at = ?,
+        alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
+        .run(Date.now(), chatId)
+    }
+    res.json({ ok: true, contact: db.prepare('SELECT chat_id, nombre, etapa, compra_at FROM wa_contacts WHERE chat_id = ?').get(chatId) })
+  })
+
+  // Sweep de seguimiento: corre al arrancar y cada hora (alertas a Kervin,
+  // nunca mensajes proactivos al cliente).
+  sweepSeguimiento()
+  setInterval(sweepSeguimiento, 60 * 60 * 1000)
 }
