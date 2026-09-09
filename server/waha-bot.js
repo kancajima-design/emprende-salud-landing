@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.3
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.4
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -12,6 +12,7 @@
 // v4.4 (09-sep): FIX bloques anidados + precio + negocio + fallback.
 // v4.4.2 (09-sep): anti-flood + multimedia protegido + precio primero.
 // v4.4.3 (09-sep): GUÍA_REGISTRO + INTENT_REGISTRO_RE (ayuda post-link).
+// v4.4.4 (09-sep): VIDEO_REGISTRO agregado a GUÍA_REGISTRO (tutorial paso a paso).
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -51,6 +52,8 @@ const OPCION_1_LINK = `Compra con precio preferente aquí:
 ${TIENDA}
 (verifica que aparezca *Emprende Salud* como patrocinador) 💚`
 
+const VIDEO_REGISTRO = 'https://awaretips.com/presentation?link=https%3A%2F%2Faware-cursos.s3.amazonaws.com%2FTutoriales%20para%20Clientes%2FComprar%20con%20Power%20Link.mp4'
+
 const GUÍA_REGISTRO = `📝 *Cómo registrarte y comprar* (es rápido, 3 min):
 
 1️⃣ Abre el link: ${TIENDA}
@@ -60,6 +63,9 @@ const GUÍA_REGISTRO = `📝 *Cómo registrarte y comprar* (es rápido, 3 min):
 5️⃣ Elige tus productos y agrégalos al carrito
 6️⃣ En *pago* puedes usar tarjeta de crédito/débito, Yape o Plin (según disponibilidad en tu país)
 7️⃣ Confirma y ¡listo! Te llega confirmación al correo 💚
+
+📹 *Si prefieres verlo en video*, aquí está el tutorial paso a paso:
+${VIDEO_REGISTRO}
 
 ¿Te quedó claro o quieres que te guíe con algún paso en particular? Responde con el número del paso.`
 
@@ -496,7 +502,7 @@ async function handleMessage(payload) {
     return
   }
 
-  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.3) ──────────────────
+  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.4) ──────────────────
   // Registro / problemas post-link — máxima prioridad (evita abandonos)
   if (INTENT_REGISTRO_RE.test(lower)) {
     await humanDelay(); if (await waSend(chatId, GUÍA_REGISTRO)) consume(); return
@@ -720,6 +726,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.3', ts: Date.now() }))
-  console.log('✅ Valeria v4.4.3 registrada (guía de registro + ayuda post-link)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.4', ts: Date.now() }))
+  console.log('✅ Valeria v4.4.4 registrada (guía de registro + video tutorial)')
 }
