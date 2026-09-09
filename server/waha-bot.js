@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -7,17 +7,10 @@
 //  - Si el lead pide hablar con Kervin → handoff: el bot se calla 24 h.
 //  - No responde grupos, estados ni difusiones.
 // v3 (04-sep): LÍNEA DEPORTIVA + catálogo completo FuXion.
-//  Incluye Biopro+ Sport, Pre Sport, Post Sport, Xtra Mile, Protein Active Sport.
-//  Calificación actualizada con objetivo "deporte".
-// v4 (08-sep): PLAYBOOK DE SEGUIMIENTO (Estrategia PRO-LEV X) cargado al flujo.
-//  - Secuencias 2, 3 y 4 del playbook como disparadores REACTIVOS (el cliente
-//    escribe primero; el bot responde con el mensaje exacto de la secuencia).
-//  - Tracking de etapa: lead → cliente → autoenvio_pendiente → autoenvio → ef.
-//  - Sweep horario: alerta al personal de Kervin con contactos en día 25–28
-//    post-compra y en riesgo de fuga (35+ días). El envío del mensaje proactivo
-//    es MANUAL (asistido) — anti-baneo: Valeria nunca inicia conversaciones.
+// v4 (08-sep): PLAYBOOK DE SEGUIMIENTO (Estrategia PRO-LEV X).
+// v4.4 (09-sep): FIX bloques anidados + precio + negocio + fallback.
 // Variables de entorno requeridas (Railway, servicio landing):
-//  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY (51964954743)
+//  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
 
 const WAHA_URL = (process.env.WAHA_API_URL || '').replace(/\/$/, '')
@@ -67,9 +60,26 @@ const OPCION_3 = `💼 *Socio FuXion* — ganas recomendando productos de nutric
 No empiezas de cero: te enseño el paso a paso que ya funciona en Emprende Salud.
 ¿Agendamos 20 min con Kervin sin compromiso? Responde *2* 📲`
 
-// ── Secuencias del playbook (reactivas, v4) ──────────────────
-// El cliente escribe primero; el bot responde con el mensaje exacto
-// de whatsapp-playbook-valeria.md. Nada de esto inicia conversaciones.
+const OPCION_3B = `💼 *Plan PRO-LEV X* — 10 fuentes de ingreso, sin inventario ni local:
+
+🥇 *Bono Pack Profesional*: 25% de la 1ra compra de cada socio que patrocines.
+🥈 *Venta Directa*: descuento 20–50% según tu volumen (revendes con margen).
+🥉 *Cliente Preferente*: hasta US$500/ciclo por armar equipo de clientes.
+🏆 *Bono Balance* (Leader X+): 5% semanal sobre tu red.
+🌱 *Bono Familia X*: 2–10% por niveles de tu Familia FuXion.
+🚗 *Estilo de Vida* (Elite+): S/1,260 – S/7,200 para tu auto.
+✈️ *Viajes y Fondos de Liderazgo* (Diamond+): % de la venta global.
+
+Tu inversión: un kit de inicio (desde S/99 en Perú).
+¿Agendamos 20 min con Kervin para revisar números reales? Responde *2* 📲`
+
+const OPCION_PRECIO = `💚 Para ver precios actualizados y armar tu pedido, entra directo a la tienda oficial:
+${TIENDA}
+
+Verifica que aparezca *Emprende Salud* como patrocinador ✅
+
+Si necesitas un pack personalizado, pago con Yape/Plin o delivery, responde *2* y te paso con Kervin.`
+
 const SEQ2_COMPRA = (nombre) => `¡Listo, ${nombre || 'crack'}! 🎉 Confirmo tu pedido: en pocos días llega a tu puerta.
 
 Tip para sacarle el máximo: constancia desde el día 1 — los cambios se ven con la rutina diaria, no con días sueltos.
@@ -95,20 +105,18 @@ Cuéntame: ¿se te acabó el producto, lo pausaste por algo? Sin pena, solo quie
 
 Y si quieres retomar, aquí está la tienda: ${TIENDA}`
 
-// Disparadores de las secuencias
 const COMPRA_RE = /(ya compr[eé]|ya ped[ií]|hice el pedido|hice mi pedido|ya pagu[eé]|ya orden[eé]|acabo de comprar|acabo de pedir|reci[eé]n compr[eé]|ya hice la compra)/i
 const REORDER_RE = /(se me acab[oó]|ya se acab[oó]|se est[aá] acabando|necesito (otro|m[aá]s)|quiero pedir|repetir pedido|nuevo pedido|cu[aá]ndo llega|cuando llega|c[uú]ando llega)/i
 const AUTOENVIO_SI_RE = /^(s[ií]\b|sii+|dale|ok[kk]*|activa|perfecto|hag[aá]moslo|adelante|de una|listo)/i
 
-// Disparador de intención deporte fuerte (incluye nombres de producto campaña)
 const INTENT_DEPORTE_RE = /(deport|gym|gimnasio|entren|m[úu]sculo|prote[ií]na|biopro|sport|pre[- ]?entreno|post[- ]?entreno|crossfit|pesas|running|runner|whey|rendimiento|recuperaci[oó]n|muscular)/i
-
-// Disparadores de intención fuerte para TODO el catálogo FuXion
 const INTENT_PESO_RE = /(peso|adelgaz|bajar|grasa|metabol|panza|abdomen|cintura|dieta|keto|thermo|nocarb|obesidad|sobrepeso|quema|fitness|tonificar|slim)/i
 const INTENT_DIGESTION_RE = /(digest|est[óo]mago|barriga|colon|gastritis|hinchaz|hinchaz[oó]n|estreñ|diarrea|acidez|reflujo|tr[aá]nsito|intestino|prunex|flora|detox|limpieza|depur|toxinas|heces)/i
 const INTENT_ENERGIA_RE = /(energ[ií]a|vitalidad|cansanc|fatiga|agotad|rendimiento|concentraci|foco|xpeed|vita xtra|vitaenergia|nutraday)/i
 const INTENT_DEFENSAS_RE = /(defensa|inmun|gripe|resfr|alergia|virus|infecci|ganoderma|vera|duo defense|camu|wellmune)/i
 const INTENT_BELLEZA_RE = /(belleza|piel|cabello|uñas|arrugas|rejuvenec|col[áa]geno|collagen|youth|beauty|anti-edad|articulaci|golden flx|probal|passion)/i
+const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá]nto sale|a cu[aá]nto|tarifa|tarifas)\b/i
+const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
 
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
@@ -166,7 +174,6 @@ const OPCION_9 = `✨ *Belleza desde adentro* — piel, cabello, uñas y articul
 
 ¿Tu foco es piel/cabello, articulaciones o rejuvenecimiento general? 💚`
 
-// ── Calificación: objetivos y señales de compra ──────────────
 const OBJETIVOS = [
   [/energ|cansanc|fatiga|agotad/i, 'energia'],
   [/peso|adelgaz|bajar|grasa|metabol|panza/i, 'peso'],
@@ -176,7 +183,6 @@ const OBJETIVOS = [
   [/negocio|dinero|ingreso|socio|emprend/i, 'negocio'],
   [/deport|gym|gimnasio|entren|músculo|musculo|proteína|proteina|rendimiento|recuperación|pre-entreno|post-entreno|crossfit|pesas|running|runner/i, 'deporte'],
 ]
-// Palabras que indican intención de compra → lead CALIENTE
 const HOT = /(precio|cu[aá]nto|cuesta|costo|comprar|c[oó]mo pago|yape|plin|oferta|descuento|promoci)/i
 
 const SYSTEM_PROMPT_WA = `Eres Valeria, asistente de WhatsApp de Emprende Salud, distribuidor independiente oficial de FuXion en Perú. Atiendes a personas que escriben primero al WhatsApp del negocio.
@@ -185,6 +191,7 @@ ESTILO
 - Español peruano, tuteo, cálida. MÁXIMO 50 palabras por mensaje. Usa *negritas* de WhatsApp con un asterisco.
 - 1 emoji ocasional (💚✨). Nunca más de 2.
 - No repitas el menú numerado; ese ya lo envía el sistema. Responde la duda directa.
+- SI preguntan precio exacto: NO lo inventes. Diles "Entra a la tienda para ver precios actualizados" o ofrece pasar con Kervin (opción 2).
 
 SABES ESTO
 - Catálogo FuXion: bebidas funcionales para energía, control de peso, digestión, defensas, belleza y rendimiento deportivo (NO medicamentos).
@@ -270,7 +277,6 @@ LÍMITES INNEGOCIABLES
 - No inventes precios exactos, testimonios ni resultados. Si no sabes algo, ofrece pasar con Kervin (opción 2).
 - Solo temas de bienestar y FuXion; lo demás redirige con amabilidad.`
 
-// ── Estado por contacto (SQLite) ─────────────────────────────
 let db = null
 function initTables(database) {
   db = database
@@ -292,11 +298,9 @@ function initTables(database) {
       created_at TEXT NOT NULL DEFAULT (datetime('now', 'localtime'))
     );
   `)
-  // Migración v2: columnas de calificación
   const cols = db.prepare('PRAGMA table_info(wa_contacts)').all().map((c) => c.name)
   if (!cols.includes('objetivo')) db.exec("ALTER TABLE wa_contacts ADD COLUMN objetivo TEXT DEFAULT ''")
   if (!cols.includes('etiqueta')) db.exec("ALTER TABLE wa_contacts ADD COLUMN etiqueta TEXT DEFAULT 'nuevo'")
-  // Migración v4: etapa del playbook + fechas de compra y alertas
   if (!cols.includes('etapa')) db.exec("ALTER TABLE wa_contacts ADD COLUMN etapa TEXT DEFAULT 'lead'")
   if (!cols.includes('compra_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN compra_at INTEGER DEFAULT 0')
   if (!cols.includes('alerta_2528_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_2528_at INTEGER DEFAULT 0')
@@ -320,7 +324,6 @@ const logMsg = (chatId, dir, text) => {
   } catch { /* log no crítico */ }
 }
 
-// ── Envío por WAHA ───────────────────────────────────────────
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 const humanDelay = () => sleep(1500 + Math.random() * 2000)
 
@@ -339,7 +342,6 @@ async function waSend(chatId, text) {
   return true
 }
 
-// ── Alerta al WhatsApp personal de Kervin ────────────────────
 async function alertaKervin(titulo, chatId, nombre, body, objetivo) {
   const idLimpio = chatId.replace('@c.us', '').replace('@lid', '')
   const esLid = chatId.endsWith('@lid')
@@ -349,7 +351,6 @@ async function alertaKervin(titulo, chatId, nombre, body, objetivo) {
   )
 }
 
-// ── Respuesta libre con Gemini ───────────────────────────────
 async function geminiReply(userText) {
   const key = process.env.GEMINI_API_KEY || ''
   if (!key) return null
@@ -379,16 +380,12 @@ async function geminiReply(userText) {
   }
 }
 
-// ── Lógica principal del bot ─────────────────────────────────
 async function handleMessage(payload) {
   if (!WAHA_URL || !WAHA_KEY) return
   const chatId = payload?.from || ''
   const body = String(payload?.body || '').trim()
 
-  // Filtros anti-riesgo
   if (payload.fromMe) return
-  // Solo chats 1-a-1: @c.us (clásico) o @lid (identificador nuevo de WhatsApp).
-  // Fuera: grupos, canales, difusiones y estados.
   const esPrivado = chatId.endsWith('@c.us') || chatId.endsWith('@lid')
   if (!esPrivado) return
   if (chatId.includes('status') || chatId.includes('broadcast')) return
@@ -399,15 +396,13 @@ async function handleMessage(payload) {
     db.prepare('UPDATE wa_contacts SET nombre = ? WHERE chat_id = ?').run(nombre, chatId)
   }
 
-  // Rate limit por contacto/día
   const today = new Date().toISOString().slice(0, 10)
   let { replies_day: day, replies_count: count } = contact
   if (day !== today) { day = today; count = 0 }
-  if (count >= MAX_REPLIES_DAY) return // silencio total, sin spam
+  if (count >= MAX_REPLIES_DAY) return
 
   logMsg(chatId, 'in', body || '(multimedia)')
 
-  // Handoff activo: Kervin está atendiendo, el bot no interfiere
   if (Date.now() < Number(contact.handoff_until || 0)) return
 
   const consume = () => {
@@ -417,8 +412,7 @@ async function handleMessage(payload) {
 
   const lower = body.toLowerCase()
 
-  // ── CALIFICACIÓN (antes de decidir la respuesta) ───────────
-  // 1) Objetivo del lead: si aún no lo tenemos, intentamos detectarlo
+  // ── CALIFICACIÓN ────────────────────────────────────────────
   if (!contact.objetivo) {
     for (const [re, obj] of OBJETIVOS) {
       if (re.test(lower)) {
@@ -431,16 +425,13 @@ async function handleMessage(payload) {
       }
     }
   }
-  // 2) Intención caliente (precio/compra): etiqueta + alerta inmediata a Kervin
   if (HOT.test(lower) && contact.etiqueta !== 'caliente') {
     db.prepare("UPDATE wa_contacts SET etiqueta = 'caliente' WHERE chat_id = ?").run(chatId)
     contact.etiqueta = 'caliente'
     await alertaKervin('🔥 *Lead CALIENTE* (intención de compra)', chatId, nombre, body, contact.objetivo)
   }
 
-  // 1) Secuencias del playbook (reactivas, prioridad sobre el menú: un cliente
-  //    que escribe "ya compré" o "se me acabó" recibe la secuencia, no el menú)
-  // 1a) Confirmación de compra: marca compra_at + etapa cliente (Secuencia 2)
+  // ── SECUENCIAS PLAYBOOK (reactivas) ─────────────────────────
   if (COMPRA_RE.test(lower) && contact.etapa !== 'ef') {
     db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
       alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
@@ -449,14 +440,12 @@ async function handleMessage(payload) {
     if (await waSend(chatId, SEQ2_COMPRA(nombre))) consume()
     return
   }
-  // 1b) Cliente que se está quedando sin producto → pitch de autoenvío (Secuencia 3 ⭐)
   if (REORDER_RE.test(lower) && ['cliente', 'autoenvio'].includes(contact.etapa)) {
     db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio_pendiente' WHERE chat_id = ?").run(chatId)
     await humanDelay()
     if (await waSend(chatId, SEQ3_AUTOENVIO)) consume()
     return
   }
-  // 1c) Confirmación de autoenvío (Secuencia 3, cierre)
   if (AUTOENVIO_SI_RE.test(lower) && contact.etapa === 'autoenvio_pendiente') {
     db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio', compra_at = ? WHERE chat_id = ?")
       .run(Date.now(), chatId)
@@ -465,9 +454,8 @@ async function handleMessage(payload) {
     return
   }
 
-
-  // 1d) Intención deporte fuerte en primer mensaje (ej. campaña Biopro+ Sport):
-  //     salta el menú genérico y va directo a la línea sport.
+  // ── RUTAS DIRECTAS POR INTENCIÓN (corregido v4.4) ──────────
+  // 1d) Deporte
   if (INTENT_DEPORTE_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'deporte',
@@ -475,8 +463,21 @@ async function handleMessage(payload) {
         WHERE chat_id = ?`).run(chatId)
     }
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
-
-  // 1e) Intención control de peso fuerte
+  }
+  // 1e) Precio (ANTES de Gemini — evita respuestas confusas)
+  if (PRECIO_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO)) consume(); return
+  }
+  // 1f) Negocio fuerte (Plan PRO-LEV X)
+  if (INTENT_NEGOCIO_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'negocio',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_3B)) consume(); return
+  }
+  // 1g) Peso
   if (INTENT_PESO_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'peso',
@@ -485,8 +486,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_5)) consume(); return
   }
-
-  // 1f) Intención digestión fuerte
+  // 1h) Digestión
   if (INTENT_DIGESTION_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'digestion',
@@ -495,8 +495,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_6)) consume(); return
   }
-
-  // 1g) Intención energía fuerte
+  // 1i) Energía
   if (INTENT_ENERGIA_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'energia',
@@ -505,8 +504,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_7)) consume(); return
   }
-
-  // 1h) Intención defensas fuerte
+  // 1j) Defensas
   if (INTENT_DEFENSAS_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'defensas',
@@ -515,8 +513,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_8)) consume(); return
   }
-
-  // 1i) Intención belleza fuerte
+  // 1k) Belleza
   if (INTENT_BELLEZA_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'belleza',
@@ -525,12 +522,11 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_9)) consume(); return
   }
-  }
 
+  // ── MENÚ Y OPCIONES NUMERADAS ───────────────────────────────
   const menuVencido = Date.now() - Number(contact.menu_at || 0) > MENU_TTL_MS
-  const esSaludo = /^(hola|buenas|buenos días|buenas tardes|buenas noches|hi|hello|hey|👋|información|info|precio|precios)\b/i.test(lower)
+  const esSaludo = /^(hola|buenas|buenos días|buenas tardes|buenas noches|hi|hello|hey|👋|información|info)\b/i.test(lower)
 
-  // 2) Menú de bienvenida: contacto nuevo, saludo, o menú vencido
   if (menuVencido && (esSaludo || !contact.menu_at || count === 0)) {
     await humanDelay()
     if (await waSend(chatId, MENU)) {
@@ -540,13 +536,12 @@ async function handleMessage(payload) {
     return
   }
 
-  // 3) Opciones del menú
   if (lower === '1' || lower === '1.') {
     await humanDelay()
     if (await waSend(chatId, OPCION_1)) {
       consume()
       await humanDelay()
-      await waSend(chatId, OPCION_1_LINK) // link aparte: mejor preview y no ensucia la pregunta
+      await waSend(chatId, OPCION_1_LINK)
     }
     return
   }
@@ -554,10 +549,8 @@ async function handleMessage(payload) {
     await humanDelay()
     if (await waSend(chatId, OPCION_2)) {
       consume()
-      // Handoff 24 h: el bot se retira para que atienda Kervin
       db.prepare('UPDATE wa_contacts SET handoff_until = ? WHERE chat_id = ?')
         .run(Date.now() + MENU_TTL_MS, chatId)
-      // Aviso al personal de Kervin (su propio número, único mensaje proactivo permitido)
       await alertaKervin('🔥 *Lead caliente* pide ASESORÍA', chatId, nombre, body, contact.objetivo)
     }
     return
@@ -579,22 +572,17 @@ async function handleMessage(payload) {
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
   }
 
-  // 4) Texto libre → Gemini (con contexto de objetivo, etapa y fallback al menú)
+  // ── FALLBACK GEMINI ─────────────────────────────────────────
   const contexto =
     (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
-    (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '')
+    (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
+    `[REGLA: si pregunta precio exacto, redirige a tienda o opción 2 con Kervin; nunca inventes precios.]`
   const reply = await geminiReply(contexto + (body || 'La persona envió una imagen o audio. Pídele amablemente que te cuente por texto qué necesita.'))
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
   if (await waSend(chatId, final)) consume()
 }
 
-// ── Sweep horario de seguimiento (v4) ────────────────────────
-// Revisa contactos con compra registrada y avisa al personal de Kervin:
-//  · día 25–32 post-compra → toca mensaje de autoenvío (Secuencia 3, manual)
-//  · 35+ días sin recompra  → riesgo de fuga (Secuencia 6, manual)
-// El bot NO envía estos mensajes al cliente: Kervin/Valeria los envían
-// a mano desde el WhatsApp del 970 (anti-baneo: cero mensajes proactivos).
 const DIA_MS = 24 * 60 * 60 * 1000
 async function sweepSeguimiento() {
   if (!WAHA_URL || !WAHA_KEY || !db) return
@@ -629,20 +617,23 @@ async function sweepSeguimiento() {
   }
 }
 
-// ── Registro en Express ──────────────────────────────────────
 export function registerWahaBot(app, database) {
   initTables(database)
 
   app.post('/api/waha-webhook', (req, res) => {
-    res.json({ ok: true }) // responder rápido, procesar async
-    const event = req.body?.event
-    if (event !== 'message') return
-    handleMessage(req.body?.payload || {}).catch((e) =>
-      console.error('WAHA bot error:', e?.message || e),
-    )
+    try {
+      res.json({ ok: true })
+      const event = req.body?.event
+      if (event !== 'message') return
+      handleMessage(req.body?.payload || {}).catch((e) =>
+        console.error('WAHA bot error:', e?.message || e),
+      )
+    } catch (e) {
+      console.error('WAHA webhook error:', e?.message || e)
+      res.status(200).json({ ok: true })
+    }
   })
 
-  // Historial del bot (admin)
   app.get('/api/waha/logs', (req, res) => {
     const key = req.query.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -652,7 +643,6 @@ export function registerWahaBot(app, database) {
     res.json({ ok: true, logs: rows })
   })
 
-  // Contactos del bot con calificación (admin)
   app.get('/api/waha/contacts', (req, res) => {
     const key = req.query.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -662,8 +652,6 @@ export function registerWahaBot(app, database) {
     res.json({ ok: true, contacts: rows })
   })
 
-  // Marcado manual de etapa/compra (admin): para registrar en el bot las ventas
-  // que Kervin cierra a mano o desde la tienda. Body: { key, chat_id, etapa?, compra?: bool }
   app.post('/api/waha/estado', (req, res) => {
     const key = req.body?.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -683,13 +671,9 @@ export function registerWahaBot(app, database) {
     res.json({ ok: true, contact: db.prepare('SELECT chat_id, nombre, etapa, compra_at FROM wa_contacts WHERE chat_id = ?').get(chatId) })
   })
 
-  // Sweep de seguimiento: corre al arrancar y cada hora (alertas a Kervin,
-  // nunca mensajes proactivos al cliente).
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  // Canario de diagnóstico: confirma que las rutas del bot quedaron registradas
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.3', ts: Date.now() }))
-  console.log('✅ Valeria v4.3 registrada (playbook PRO-LEV X activo)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4', ts: Date.now() }))
+  console.log('✅ Valeria v4.4 registrada (BUG anidación corregido + precio + PRO-LEV X)')
 }
-  console.log('✅ Valeria v4.3 registrada (catálogo completo FuXion activo)')
