@@ -103,6 +103,13 @@ const AUTOENVIO_SI_RE = /^(s[ií]\b|sii+|dale|ok[kk]*|activa|perfecto|hag[aá]mo
 // Disparador de intención deporte fuerte (incluye nombres de producto campaña)
 const INTENT_DEPORTE_RE = /(deport|gym|gimnasio|entren|m[úu]sculo|prote[ií]na|biopro|sport|pre[- ]?entreno|post[- ]?entreno|crossfit|pesas|running|runner|whey|rendimiento|recuperaci[oó]n|muscular)/i
 
+// Disparadores de intención fuerte para TODO el catálogo FuXion
+const INTENT_PESO_RE = /(peso|adelgaz|bajar|grasa|metabol|panza|abdomen|cintura|dieta|keto|thermo|nocarb|obesidad|sobrepeso|quema|fitness|tonificar|slim)/i
+const INTENT_DIGESTION_RE = /(digest|est[óo]mago|barriga|colon|gastritis|hinchaz|hinchaz[oó]n|estreñ|diarrea|acidez|reflujo|tr[aá]nsito|intestino|prunex|flora|detox|limpieza|depur|toxinas|heces)/i
+const INTENT_ENERGIA_RE = /(energ[ií]a|vitalidad|cansanc|fatiga|agotad|rendimiento|concentraci|foco|xpeed|vita xtra|vitaenergia|nutraday)/i
+const INTENT_DEFENSAS_RE = /(defensa|inmun|gripe|resfr|alergia|virus|infecci|ganoderma|vera|duo defense|camu|wellmune)/i
+const INTENT_BELLEZA_RE = /(belleza|piel|cabello|uñas|arrugas|rejuvenec|col[áa]geno|collagen|youth|beauty|anti-edad|articulaci|golden flx|probal|passion)/i
+
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
 • *Biopro+ Sport*: 25g de proteína por stick, con Actinos® (recuperación muscular más rápida). Sabor vainilla, se toma con agua fría post-entreno.
@@ -112,6 +119,52 @@ const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en s
 • *Protein Active Sport*: proteína 100% vegetal, sabores vainilla-canela y chocolate-avellanas.
 
 ¿Buscas proteína, energía pre-entreno o recuperación? Te armo el stack ideal 💚`
+
+const OPCION_5 = `⚖️ *Control de Peso* — sin pasar hambre ni contar calorías:
+
+• *Pack 5/14 Keto*: reto 14 días con plan de comidas, batidos Fit, NoCarb-T, Thermo T3 y Prunex1.
+• *Thermo T3*: acelera el metabolismo con 3 tés + L-carnitina + cetonas de frambuesa.
+• *NoCarb-T*: bloquea carbohidratos post-comida (fibras + té verde + cromo).
+• *Chocolate Fit*: cacao amazónico + proteína vegetal + café verde.
+
+¿Quieres el reto completo de 14 días o prefieres empezar con algo más suave? Te armo el plan 💚`
+
+const OPCION_6 = `🍃 *Digestión Liviana* — todo empieza depurando:
+
+• *Detox 5 días*: limpieza inicial con Rexet, Prunex1, Flora Liv, Berry Balance, Alpha Balance, Liquid Fiber, Thermo T3, Protein Active Fit + plan nutricional.
+• *Flora Liv*: probióticos + prebióticos + granadilla, todos los días. Preparar con agua fría o tibia.
+• *Prunex1*: té herbal de guindón para el tránsito. Solo noches, ciclos de 5-7 días.
+• *Liquid Fiber*: fibra prebiótica sabor limón para saciedad y tránsito.
+
+¿Empiezas con el Detox de 5 días o prefieres Flora Liv diario? 💚`
+
+const OPCION_7 = `⚡ *Energía sin bajones* — natural, sin cafeína sintética:
+
+• *Vita Xtra T+*: guayusa + té verde + maca + ginseng. En el desayuno (NO para hipertensos).
+• *Vitaenergia*: multivitamínico SIN energizantes. Para toda la familia.
+• *Xpeed*: guaraná + maca + teína. Pack x 4 sticks.
+• *Nutraday*: refresco multivitamínico con moringa.
+
+¿Buscas energía de inmediato o nutrición sostenida para todo el día? 💚`
+
+const OPCION_8 = `🛡️ *Defensas e Inmunidad* — refuerza tus barreras naturales:
+
+• *Duo Defense*: Camu-C + Vera+ (defensas combinadas).
+• *Vera+*: aloe vera + betaglucanos + Wellmune®.
+• *Flora Liv*: probióticos en el desayuno (70% del sistema inmune está en el intestino).
+• *Gano+ T*: té de Ganoderma lucidum + té blanco (antioxidante).
+• *Gano+ Cappuccino*: cappuccino con Ganoderma.
+
+¿Te sientes bajo de defensas o quieres prevenir? Te armo el stack 💚`
+
+const OPCION_9 = `✨ *Belleza desde adentro* — piel, cabello, uñas y articulaciones:
+
+• *Beauty-In*: péptidos de colágeno bioactivo + coenzima Q10 + biotina.
+• *Youth Elixir HGH*: aminoácidos + resveratrol + antioxidantes. Antes de dormir.
+• *Golden FLX*: cúrcuma orgánica + jengibre + leche de coco. Articulaciones.
+• *Flora Liv*: probióticos diarios (belleza empieza en el intestino).
+
+¿Tu foco es piel/cabello, articulaciones o rejuvenecimiento general? 💚`
 
 // ── Calificación: objetivos y señales de compra ──────────────
 const OBJETIVOS = [
@@ -422,6 +475,56 @@ async function handleMessage(payload) {
         WHERE chat_id = ?`).run(chatId)
     }
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
+
+  // 1e) Intención control de peso fuerte
+  if (INTENT_PESO_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'peso',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_5)) consume(); return
+  }
+
+  // 1f) Intención digestión fuerte
+  if (INTENT_DIGESTION_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'digestion',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_6)) consume(); return
+  }
+
+  // 1g) Intención energía fuerte
+  if (INTENT_ENERGIA_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'energia',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_7)) consume(); return
+  }
+
+  // 1h) Intención defensas fuerte
+  if (INTENT_DEFENSAS_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'defensas',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_8)) consume(); return
+  }
+
+  // 1i) Intención belleza fuerte
+  if (INTENT_BELLEZA_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'belleza',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_9)) consume(); return
+  }
   }
 
   const menuVencido = Date.now() - Number(contact.menu_at || 0) > MENU_TTL_MS
@@ -586,7 +689,7 @@ export function registerWahaBot(app, database) {
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
   // Canario de diagnóstico: confirma que las rutas del bot quedaron registradas
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.2', ts: Date.now() }))
-  console.log('✅ Valeria v4.2 registrada (playbook PRO-LEV X activo)')
-  console.log('✅ Valeria v4.2 registrada (playbook PRO-LEV X activo)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.3', ts: Date.now() }))
+  console.log('✅ Valeria v4.3 registrada (playbook PRO-LEV X activo)')
 }
+  console.log('✅ Valeria v4.3 registrada (catálogo completo FuXion activo)')
