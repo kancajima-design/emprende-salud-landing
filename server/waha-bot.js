@@ -382,10 +382,37 @@ async function handleMessage(payload) {
     await alertaKervin('🔥 *Lead CALIENTE* (intención de compra)', chatId, nombre, body, contact.objetivo)
   }
 
+  // 1) Secuencias del playbook (reactivas, prioridad sobre el menú: un cliente
+  //    que escribe "ya compré" o "se me acabó" recibe la secuencia, no el menú)
+  // 1a) Confirmación de compra: marca compra_at + etapa cliente (Secuencia 2)
+  if (COMPRA_RE.test(lower) && contact.etapa !== 'ef') {
+    db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
+      alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
+      .run(Date.now(), chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ2_COMPRA(nombre))) consume()
+    return
+  }
+  // 1b) Cliente que se está quedando sin producto → pitch de autoenvío (Secuencia 3 ⭐)
+  if (REORDER_RE.test(lower) && ['cliente', 'autoenvio'].includes(contact.etapa)) {
+    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio_pendiente' WHERE chat_id = ?").run(chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ3_AUTOENVIO)) consume()
+    return
+  }
+  // 1c) Confirmación de autoenvío (Secuencia 3, cierre)
+  if (AUTOENVIO_SI_RE.test(lower) && contact.etapa === 'autoenvio_pendiente') {
+    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio', compra_at = ? WHERE chat_id = ?")
+      .run(Date.now(), chatId)
+    await humanDelay()
+    if (await waSend(chatId, SEQ3_CIERRE)) consume()
+    return
+  }
+
   const menuVencido = Date.now() - Number(contact.menu_at || 0) > MENU_TTL_MS
   const esSaludo = /^(hola|buenas|buenos días|buenas tardes|buenas noches|hi|hello|hey|👋|información|info|precio|precios)\b/i.test(lower)
 
-  // 1) Menú de bienvenida: contacto nuevo, saludo, o menú vencido
+  // 2) Menú de bienvenida: contacto nuevo, saludo, o menú vencido
   if (menuVencido && (esSaludo || !contact.menu_at || count === 0)) {
     await humanDelay()
     if (await waSend(chatId, MENU)) {
@@ -395,7 +422,7 @@ async function handleMessage(payload) {
     return
   }
 
-  // 2) Opciones del menú
+  // 3) Opciones del menú
   if (lower === '1' || lower === '1.') {
     await humanDelay()
     if (await waSend(chatId, OPCION_1)) {
@@ -432,32 +459,6 @@ async function handleMessage(payload) {
         WHERE chat_id = ?`).run(chatId)
     }
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
-  }
-
-  // 3) Secuencias del playbook (reactivas — el contacto ya escribió)
-  // 3a) Confirmación de compra: marca compra_at + etapa cliente (Secuencia 2)
-  if (COMPRA_RE.test(lower) && contact.etapa !== 'ef') {
-    db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
-      alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
-      .run(Date.now(), chatId)
-    await humanDelay()
-    if (await waSend(chatId, SEQ2_COMPRA(nombre))) consume()
-    return
-  }
-  // 3b) Cliente que se está quedando sin producto → pitch de autoenvío (Secuencia 3 ⭐)
-  if (REORDER_RE.test(lower) && ['cliente', 'autoenvio'].includes(contact.etapa)) {
-    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio_pendiente' WHERE chat_id = ?").run(chatId)
-    await humanDelay()
-    if (await waSend(chatId, SEQ3_AUTOENVIO)) consume()
-    return
-  }
-  // 3c) Confirmación de autoenvío (Secuencia 3, cierre)
-  if (AUTOENVIO_SI_RE.test(lower) && contact.etapa === 'autoenvio_pendiente') {
-    db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio', compra_at = ? WHERE chat_id = ?")
-      .run(Date.now(), chatId)
-    await humanDelay()
-    if (await waSend(chatId, SEQ3_CIERRE)) consume()
-    return
   }
 
   // 4) Texto libre → Gemini (con contexto de objetivo, etapa y fallback al menú)
