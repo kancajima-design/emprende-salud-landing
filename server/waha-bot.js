@@ -1,14 +1,16 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.2
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
 //  - Máximo 25 respuestas automáticas por contacto por día.
+//  - Anti-flood: máximo 1 respuesta cada 8 segundos por contacto.
 //  - Si el lead pide hablar con Kervin → handoff: el bot se calla 24 h.
 //  - No responde grupos, estados ni difusiones.
 // v3 (04-sep): LÍNEA DEPORTIVA + catálogo completo FuXion.
 // v4 (08-sep): PLAYBOOK DE SEGUIMIENTO (Estrategia PRO-LEV X).
 // v4.4 (09-sep): FIX bloques anidados + precio + negocio + fallback.
+// v4.4.2 (09-sep): anti-flood + multimedia protegido + precio primero.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -23,6 +25,9 @@ const LANDING = 'https://www.emprendesalud.net'
 
 const MAX_REPLIES_DAY = 25
 const MENU_TTL_MS = 24 * 60 * 60 * 1000
+const FLOOD_MS = 8 * 1000 // anti-flood: 1 respuesta cada 8 segundos por chat
+
+const lastReplyTs = new Map() // chatId -> timestamp última respuesta
 
 const MENU = `¡Hola! 👋 Soy Valeria, asistente de *Emprende Salud* 💚
 ¿En qué te ayudo?
@@ -79,6 +84,13 @@ ${TIENDA}
 Verifica que aparezca *Emprende Salud* como patrocinador ✅
 
 Si necesitas un pack personalizado, pago con Yape/Plin o delivery, responde *2* y te paso con Kervin.`
+
+const MSG_MULTIMEDIA = `Veo que enviaste una imagen o audio 😊 Cuéntame por *texto* qué necesitas y te oriento al toque.
+
+1️⃣ Productos y promoción
+2️⃣ Asesoría gratis con Kervin
+3️⃣ Negocio FuXion
+4️⃣ Proteína y deporte 💪`
 
 const SEQ2_COMPRA = (nombre) => `¡Listo, ${nombre || 'crack'}! 🎉 Confirmo tu pedido: en pocos días llega a tu puerta.
 
@@ -390,6 +402,13 @@ async function handleMessage(payload) {
   if (!esPrivado) return
   if (chatId.includes('status') || chatId.includes('broadcast')) return
 
+  // Anti-flood in-memory: si ya respondimos hace menos de FLOOD_MS, ignorar
+  const lastTs = lastReplyTs.get(chatId) || 0
+  if (Date.now() - lastTs < FLOOD_MS) {
+    console.log('[anti-flood] Ignorado para', chatId)
+    return
+  }
+
   const nombre = payload?._data?.notifyName || payload?.notifyName || ''
   const contact = getContact(chatId)
   if (nombre && nombre !== contact.nombre) {
@@ -408,6 +427,7 @@ async function handleMessage(payload) {
   const consume = () => {
     db.prepare('UPDATE wa_contacts SET replies_day = ?, replies_count = ? WHERE chat_id = ?')
       .run(day, count + 1, chatId)
+    lastReplyTs.set(chatId, Date.now())
   }
 
   const lower = body.toLowerCase()
@@ -454,8 +474,19 @@ async function handleMessage(payload) {
     return
   }
 
-  // ── RUTAS DIRECTAS POR INTENCIÓN (corregido v4.4) ──────────
-  // 1d) Deporte
+  // ── MULTIMEDIA: respuesta única, NO va a Gemini ─────────────
+  if (!body) {
+    await humanDelay()
+    if (await waSend(chatId, MSG_MULTIMEDIA)) consume()
+    return
+  }
+
+  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.2) ──────────────────
+  // Precio — máxima prioridad
+  if (PRECIO_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO)) consume(); return
+  }
+  // Deporte
   if (INTENT_DEPORTE_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'deporte',
@@ -464,11 +495,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
   }
-  // 1e) Precio (ANTES de Gemini — evita respuestas confusas)
-  if (PRECIO_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO)) consume(); return
-  }
-  // 1f) Negocio fuerte (Plan PRO-LEV X)
+  // Negocio fuerte (Plan PRO-LEV X)
   if (INTENT_NEGOCIO_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'negocio',
@@ -477,7 +504,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_3B)) consume(); return
   }
-  // 1g) Peso
+  // Peso
   if (INTENT_PESO_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'peso',
@@ -486,7 +513,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_5)) consume(); return
   }
-  // 1h) Digestión
+  // Digestión
   if (INTENT_DIGESTION_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'digestion',
@@ -495,7 +522,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_6)) consume(); return
   }
-  // 1i) Energía
+  // Energía
   if (INTENT_ENERGIA_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'energia',
@@ -504,7 +531,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_7)) consume(); return
   }
-  // 1j) Defensas
+  // Defensas
   if (INTENT_DEFENSAS_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'defensas',
@@ -513,7 +540,7 @@ async function handleMessage(payload) {
     }
     await humanDelay(); if (await waSend(chatId, OPCION_8)) consume(); return
   }
-  // 1k) Belleza
+  // Belleza
   if (INTENT_BELLEZA_RE.test(lower)) {
     if (!contact.objetivo) {
       db.prepare(`UPDATE wa_contacts SET objetivo = 'belleza',
@@ -577,7 +604,7 @@ async function handleMessage(payload) {
     (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
     `[REGLA: si pregunta precio exacto, redirige a tienda o opción 2 con Kervin; nunca inventes precios.]`
-  const reply = await geminiReply(contexto + (body || 'La persona envió una imagen o audio. Pídele amablemente que te cuente por texto qué necesita.'))
+  const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
   if (await waSend(chatId, final)) consume()
@@ -674,6 +701,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4', ts: Date.now() }))
-  console.log('✅ Valeria v4.4 registrada (BUG anidación corregido + precio + PRO-LEV X)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.2', ts: Date.now() }))
+  console.log('✅ Valeria v4.4.2 registrada (anti-flood + multimedia + precio primero)')
 }
