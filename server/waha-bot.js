@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.2
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.3
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -11,6 +11,7 @@
 // v4 (08-sep): PLAYBOOK DE SEGUIMIENTO (Estrategia PRO-LEV X).
 // v4.4 (09-sep): FIX bloques anidados + precio + negocio + fallback.
 // v4.4.2 (09-sep): anti-flood + multimedia protegido + precio primero.
+// v4.4.3 (09-sep): GUÍA_REGISTRO + INTENT_REGISTRO_RE (ayuda post-link).
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -49,6 +50,18 @@ Para armarte el pack que llegue a los puntos, cuéntame: ¿cuál es tu objetivo 
 const OPCION_1_LINK = `Compra con precio preferente aquí:
 ${TIENDA}
 (verifica que aparezca *Emprende Salud* como patrocinador) 💚`
+
+const GUÍA_REGISTRO = `📝 *Cómo registrarte y comprar* (es rápido, 3 min):
+
+1️⃣ Abre el link: ${TIENDA}
+2️⃣ Verifica que arriba diga *Emprende Salud* como patrocinador ✅
+3️⃣ Toca *"Registrarme como Cliente Preferente"* (es GRATIS)
+4️⃣ Llena tus datos: nombre, DNI, celular, correo y dirección de envío
+5️⃣ Elige tus productos y agrégalos al carrito
+6️⃣ En *pago* puedes usar tarjeta de crédito/débito, Yape o Plin (según disponibilidad en tu país)
+7️⃣ Confirma y ¡listo! Te llega confirmación al correo 💚
+
+¿Te quedó claro o quieres que te guíe con algún paso en particular? Responde con el número del paso.`
 
 const OPCION_2 = `¡Perfecto! 📲 Ya le avisé a *Kervin*. Te va a escribir personalmente en cuanto se desocupe (normalmente en menos de 1 hora, de 8 am a 9 pm).
 
@@ -129,6 +142,7 @@ const INTENT_DEFENSAS_RE = /(defensa|inmun|gripe|resfr|alergia|virus|infecci|gan
 const INTENT_BELLEZA_RE = /(belleza|piel|cabello|uñas|arrugas|rejuvenec|col[áa]geno|collagen|youth|beauty|anti-edad|articulaci|golden flx|probal|passion)/i
 const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá]nto sale|a cu[aá]nto|tarifa|tarifas)\b/i
 const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
+const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar|c[oó]mo compro|c[oó]mo pago|qu[eé] hago despu[eé]s del link|ya abr[ií] el link|no me carga|error en la p[aá]gina|tutorial|paso a paso|c[oó]mo me inscribo|c[oó]mo hago la compra|no encuentro el producto|d[oó]nde agrego al carrito|no me llega confirmaci[oó]n)/i
 
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
@@ -211,6 +225,7 @@ SABES ESTO
 - Compra: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
 - Web: ${LANDING} — ahí descargan gratis la Guía de Nutrición Funcional.
 - Asesoría personalizada gratis con Kervin: solo para precios exactos, pago, delivery o si la persona pide hablar con un humano → dile "responde *2* y te paso con Kervin".
+- REGISTRO: Si alguien dice que ya abrió el link, no sabe cómo registrarse, no le carga la página, no encuentra el botón, no sabe cómo pagar, etc. → explica el paso a paso de registro como Cliente Preferente (es gratis) y cómo agregar productos al carrito. Ofrece pasar con Kervin (opción 2) solo si el problema persiste.
 
 PACKS POR OBJETIVO (tú misma armas el pack, sin esperar a Kervin)
 Cuando el lead cuente su objetivo, recomienda su pack (máx 3 productos), explica en 1 línea cómo se toma cada uno y cierra con el link de compra:
@@ -481,8 +496,12 @@ async function handleMessage(payload) {
     return
   }
 
-  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.2) ──────────────────
-  // Precio — máxima prioridad
+  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.3) ──────────────────
+  // Registro / problemas post-link — máxima prioridad (evita abandonos)
+  if (INTENT_REGISTRO_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, GUÍA_REGISTRO)) consume(); return
+  }
+  // Precio
   if (PRECIO_RE.test(lower)) {
     await humanDelay(); if (await waSend(chatId, OPCION_PRECIO)) consume(); return
   }
@@ -701,6 +720,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.2', ts: Date.now() }))
-  console.log('✅ Valeria v4.4.2 registrada (anti-flood + multimedia + precio primero)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.3', ts: Date.now() }))
+  console.log('✅ Valeria v4.4.3 registrada (guía de registro + ayuda post-link)')
 }
