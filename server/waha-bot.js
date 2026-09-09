@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.4.4
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.5.0
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -12,7 +12,8 @@
 // v4.4 (09-sep): FIX bloques anidados + precio + negocio + fallback.
 // v4.4.2 (09-sep): anti-flood + multimedia protegido + precio primero.
 // v4.4.3 (09-sep): GUÍA_REGISTRO + INTENT_REGISTRO_RE (ayuda post-link).
-// v4.4.4 (09-sep): VIDEO_REGISTRO agregado a GUÍA_REGISTRO (tutorial paso a paso).
+// v4.4.4 (09-sep): VIDEO_REGISTRO agregado a GUÍA_REGISTRO.
+// v4.5.0 (09-sep): CATÁLOGO DE PRECIOS + QV — Valeria entrega precios exactos.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -30,6 +31,180 @@ const MENU_TTL_MS = 24 * 60 * 60 * 1000
 const FLOOD_MS = 8 * 1000 // anti-flood: 1 respuesta cada 8 segundos por chat
 
 const lastReplyTs = new Map() // chatId -> timestamp última respuesta
+
+// ═════════════════════════════════════════════════════════════
+//  CATÁLOGO DE PRECIOS Y QV — FUXIÓN PERÚ SETIEMBRE 2026
+// ═════════════════════════════════════════════════════════════
+
+const CATALOGO = [
+  // BEBIDAS FUNCIONALES & TÉS
+  { nombre: 'Alpha Balance', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['alpha balance','alpha'] },
+  { nombre: 'Beauty-In', presentacion: '28 sticks x 5gr', precio: 163.00, qv: 25, keywords: ['beauty in','beauty-in','beauty'] },
+  { nombre: 'Berry Balance', presentacion: '28 sticks x 5gr', precio: 169.00, qv: 26, keywords: ['berry balance','berry'] },
+  { nombre: 'Flora Liv', presentacion: '28 sticks x 5gr', precio: 154.00, qv: 24, keywords: ['flora liv','flora'] },
+  { nombre: 'Golden FLX', presentacion: '28 sticks x 5gr', precio: 143.00, qv: 22, keywords: ['golden flx','golden','flx'] },
+  { nombre: 'Liquid Fiber', presentacion: '28 sticks x 5gr', precio: 105.00, qv: 16, keywords: ['liquid fiber','fiber','fibra'] },
+  { nombre: 'No Stress', presentacion: '28 sticks x 5gr', precio: 142.50, qv: 22, keywords: ['no stress','nostress'] },
+  { nombre: 'No Stress', presentacion: '7 sticks x 5gr', precio: 36.50, qv: 5, keywords: ['no stress 7','nostress 7'] },
+  { nombre: 'NoCarb-T', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['nocarb','nocarb-t','nocarb t','no carb'] },
+  { nombre: 'Nutraday', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['nutraday'] },
+  { nombre: 'ON', presentacion: '28 sticks x 5gr', precio: 105.00, qv: 16, keywords: ['on 28','on energia','on energía'] },
+  { nombre: 'ON', presentacion: '7 sticks x 5gr', precio: 29.00, qv: 4, keywords: ['on 7'] },
+  { nombre: 'Passion', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['passion'] },
+  { nombre: 'Prunex1', presentacion: '7 sticks x 5gr', precio: 21.00, qv: 2, keywords: ['prunex1 7','prunex 7','prunex'] },
+  { nombre: 'Prunex1', presentacion: '28 sticks x 5gr', precio: 76.00, qv: 10, keywords: ['prunex1','prunex'] },
+  { nombre: 'Prunex1', presentacion: '28 sticks x 5gr', precio: 76.00, qv: 10, keywords: ['prunex1','prunex','prunex1 28'] },
+  { nombre: 'Thermo T3', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['thermo t3','thermo','t3'] },
+  { nombre: 'Thermo T3', presentacion: '7 sticks x 5gr', precio: 36.50, qv: 5, keywords: ['thermo t3 7','thermo 7'] },
+  { nombre: 'Vera+', presentacion: '28 sticks x 5gr', precio: 169.00, qv: 26, keywords: ['vera+','vera plus','vera'] },
+  { nombre: 'Vita Xtra T+', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['vita xtra','vita xtra t+','vitaxtra','vita extra'] },
+  { nombre: 'Vita Xtra T+', presentacion: '7 sticks x 5gr', precio: 36.50, qv: 5, keywords: ['vita xtra 7','vitaxtra 7'] },
+  { nombre: 'Vita Xtra T+', presentacion: '7 sticks x 5gr', precio: 36.50, qv: 5, keywords: ['vita xtra 7','vitaxtra 7'] },
+  { nombre: 'Rexet', presentacion: '7 sticks x 5gr', precio: 36.50, qv: 5, keywords: ['rexet 7'] },
+  { nombre: 'Rexet', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['rexet'] },
+  { nombre: 'Youth Elixir', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['youth elixir','youth'] },
+  // CAFÉS
+  { nombre: 'Café & Café Fit Cappuccino', presentacion: '28 sticks x 15gr', precio: 159.50, qv: 24, keywords: ['cafe fit cappuccino','cappuccino cafe','cafe cappuccino','cafe'] },
+  { nombre: 'Café & Café Fit', presentacion: '28 sticks x 4gr', precio: 159.50, qv: 24, keywords: ['cafe fit','café fit','cafe & cafe fit','cafe'] },
+  { nombre: 'Café & Café Fit', presentacion: '28 sticks x 4gr', precio: 159.50, qv: 24, keywords: ['cafe fit','café fit','cafe & cafe fit'] },
+  { nombre: 'Café GanoMax', presentacion: '28 sticks x 5gr', precio: 146.00, qv: 22, keywords: ['ganomax','cafe ganomax','café ganomax'] },
+  { nombre: 'Chocolate Fit', presentacion: '14 sticks x 15gr', precio: 92.50, qv: 12, keywords: ['chocolate fit'] },
+  { nombre: 'Gano+ Cappuccino', presentacion: '28 sticks x 7.5gr', precio: 92.50, qv: 12, keywords: ['gano+ cappuccino','gano cappuccino','gano+','gano'] },
+  { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano'] },
+  { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano tea'] },
+  // PROTEÍNAS & SPORT
+  { nombre: 'Biopro+ Sport', presentacion: 'Pote x 2lb', precio: 259.50, qv: 36, keywords: ['biopro sport pote','biopro+ sport pote','biopro'] },
+  { nombre: 'Biopro+ Sport', presentacion: '14 sticks x 25gr', precio: 132.50, qv: 20, keywords: ['biopro sport','biopro+ sport','biopro'] },
+  { nombre: 'Biopro+ Tect', presentacion: 'Pote x 500gr', precio: 163.00, qv: 23, keywords: ['biopro tect pote','biopro+ tect pote','biopro'] },
+  { nombre: 'Biopro+ Tect', presentacion: '14 sticks x 25gr', precio: 119.50, qv: 18, keywords: ['biopro tect','biopro+ tect','biopro'] },
+  { nombre: 'Biopro+ Fit', presentacion: '14 sticks x 25gr', precio: 108.00, qv: 16, keywords: ['biopro fit','biopro+ fit','biopro'] },
+  { nombre: 'Biopro+ Sport', presentacion: '14 sticks x 25gr', precio: 132.50, qv: 20, keywords: ['biopro sport','biopro+ sport'] },
+  { nombre: 'Biopro+ Tect', presentacion: 'Pote x 500gr', precio: 163.00, qv: 23, keywords: ['biopro tect pote','biopro+ tect pote'] },
+  { nombre: 'Biopro+ Tect', presentacion: '14 sticks x 25gr', precio: 119.50, qv: 18, keywords: ['biopro tect','biopro+ tect'] },
+  { nombre: 'Biopro+ Fit', presentacion: '14 sticks x 25gr', precio: 108.00, qv: 16, keywords: ['biopro fit','biopro+ fit'] },
+  { nombre: 'Protein Active (Chocolate)', presentacion: '14 sticks x 25gr', precio: 141.50, qv: 20, keywords: ['protein active chocolate','proteina active chocolate','protein active'] },
+  { nombre: 'Protein Active (Vainilla)', presentacion: '14 sticks x 25gr', precio: 141.50, qv: 20, keywords: ['protein active vainilla','proteina active vainilla','protein active'] },
+  { nombre: 'Protein Active Fit (Chocolate)', presentacion: '14 sticks x 25gr', precio: 149.50, qv: 21, keywords: ['protein active fit chocolate','proteina active fit chocolate','protein active fit'] },
+  { nombre: 'Protein Active Fit (Vainilla)', presentacion: '14 sticks x 25gr', precio: 149.00, qv: 21, keywords: ['protein active fit vainilla','proteina active fit vainilla','protein active fit'] },
+  { nombre: 'Protein Active Sport (Chocolate)', presentacion: '14 sticks x 25gr', precio: 156.50, qv: 22, keywords: ['protein active sport chocolate','proteina active sport chocolate','protein active sport'] },
+  { nombre: 'Protein Active Sport (Vainilla)', presentacion: '14 sticks x 25gr', precio: 156.00, qv: 22, keywords: ['protein active sport vainilla','proteina active sport vainilla','protein active sport'] },
+  { nombre: 'Protein Xoup (Crema Criolla)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup criolla','protein xoup criolla','xoup'] },
+  { nombre: 'Protein Xoup (Brócoli)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup brocoli','protein xoup brocoli','xoup'] },
+  { nombre: 'Protein Xoup (Espárragos)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup esparragos','protein xoup esparragos','xoup'] },
+  { nombre: 'Protein Active (Vainilla)', presentacion: '14 sticks x 25gr', precio: 141.50, qv: 20, keywords: ['protein active vainilla','proteina active vainilla'] },
+  { nombre: 'Protein Active Fit (Chocolate)', presentacion: '14 sticks x 25gr', precio: 149.50, qv: 21, keywords: ['protein active fit chocolate','proteina active fit chocolate'] },
+  { nombre: 'Protein Active Fit (Vainilla)', presentacion: '14 sticks x 25gr', precio: 149.00, qv: 21, keywords: ['protein active fit vainilla','proteina active fit vainilla'] },
+  { nombre: 'Protein Active Sport (Chocolate)', presentacion: '14 sticks x 25gr', precio: 156.50, qv: 22, keywords: ['protein active sport chocolate','proteina active sport chocolate'] },
+  { nombre: 'Protein Active Sport (Vainilla)', presentacion: '14 sticks x 25gr', precio: 156.00, qv: 22, keywords: ['protein active sport vainilla','proteina active sport vainilla'] },
+  { nombre: 'Protein Xoup (Crema Criolla)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup criolla','protein xoup criolla'] },
+  { nombre: 'Protein Xoup (Brócoli)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup brocoli','protein xoup brocoli'] },
+  { nombre: 'Protein Xoup (Espárragos)', presentacion: '7 sticks x 25gr', precio: 68.00, qv: 10, keywords: ['xoup esparragos','protein xoup esparragos'] },
+  { nombre: 'Pre Sport', presentacion: '28 sticks x 5gr', precio: 143.00, qv: 22, keywords: ['pre sport'] },
+  { nombre: 'Post Sport', presentacion: '28 sticks x 5gr', precio: 143.00, qv: 22, keywords: ['post sport'] },
+  { nombre: 'Xpeed', presentacion: 'Pack x 4', precio: 39.50, qv: 2, keywords: ['xpeed'] },
+  // COCINA
+  { nombre: 'Base Madre Amarilla', presentacion: 'Sobre x 50gr', precio: 24.00, qv: 2, keywords: ['base madre amarilla','base madre'] },
+  { nombre: 'Base Madre Roja', presentacion: 'Sobre x 50gr', precio: 24.00, qv: 2, keywords: ['base madre roja','base madre'] },
+  { nombre: 'Base Madre Verde', presentacion: 'Sobre x 50gr', precio: 24.00, qv: 2, keywords: ['base madre verde','base madre'] },
+  { nombre: 'Base Madre Roja', presentacion: 'Sobre x 50gr', precio: 24.00, qv: 2, keywords: ['base madre roja'] },
+  { nombre: 'Base Madre Verde', presentacion: 'Sobre x 50gr', precio: 24.00, qv: 2, keywords: ['base madre verde'] },
+  { nombre: 'Probix', presentacion: '28 x 0.5gr', precio: 129.50, qv: 20, keywords: ['probix'] },
+  // PACKS
+  { nombre: 'Combo Ponte en Forma', presentacion: 'Combo', precio: 676.50, qv: 100, keywords: ['combo ponte en forma','ponte en forma'] },
+  { nombre: 'Pack 5/14 Active Mito', presentacion: 'Caja Pack', precio: 435.00, qv: 64, keywords: ['pack 5/14 mito','pack mito','active mito'] },
+  { nombre: 'Pack 5/14 Keto', presentacion: 'Caja Pack', precio: 399.00, qv: 60, keywords: ['pack 5/14 keto','pack keto','keto'] },
+  { nombre: 'Programa Detox 5 Días', presentacion: 'Caja Pack', precio: 175.00, qv: 24, keywords: ['detox 5 dias','detox','programa detox'] },
+  // OTROS
+  { nombre: 'Probal', presentacion: '28 sticks x 5gr', precio: 162.50, qv: 25, keywords: ['probal'] },
+  { nombre: 'Xtra Mile', presentacion: '28 sticks x 5gr', precio: 129.50, qv: 20, keywords: ['xtra mile'] },
+  { nombre: 'Vitaenergía', presentacion: '30 sticks x 7.5gr', precio: 129.50, qv: 20, keywords: ['vitaenergia','vita energia','vitaenergía'] },
+]
+
+// ── Helpers de matching ──
+const normalize = (s) => s.toLowerCase()
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9\s]/g, ' ')
+  .replace(/\s+/g, ' ').trim()
+
+function buscarProductos(texto) {
+  const n = normalize(texto)
+  const encontrados = []
+  const usados = new Set()
+  
+  // PASO 1: Matches específicos (keywords largas >= 8 chars)
+  // Evita que "biopro" matchee cuando el usuario dijo "biopro sport"
+  for (const prod of CATALOGO) {
+    for (const kw of prod.keywords) {
+      if (kw.length < 8) continue
+      const nk = normalize(kw)
+      if (n.includes(nk)) {
+        const key = prod.nombre + '|' + prod.presentacion
+        if (!usados.has(key)) {
+          encontrados.push(prod)
+          usados.add(key)
+        }
+        break
+      }
+    }
+  }
+  
+  // Si encontramos matches específicos, no buscar genéricos
+  if (encontrados.length > 0) return encontrados
+
+  // PASO 2: Matches genéricos (keywords cortas < 8 chars)
+  for (const prod of CATALOGO) {
+    for (const kw of prod.keywords) {
+      if (kw.length >= 8) continue
+      const nk = normalize(kw)
+      if (nk.length <= 3 && !n.split(' ').includes(nk)) continue
+      if (n.includes(nk)) {
+        const key = prod.nombre + '|' + prod.presentacion
+        if (!usados.has(key)) {
+          encontrados.push(prod)
+          usados.add(key)
+        }
+        break
+      }
+    }
+  }
+
+  return encontrados
+}
+
+function mensajePrecios(productos) {
+  if (!productos.length) return null
+  
+  let total = 0, totalQv = 0
+  let lineas = productos.map(p => {
+    total += p.precio
+    totalQv += p.qv
+    return `• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV`
+  })
+  
+  let promo = ''
+  if (totalQv >= 80) {
+    promo = `🎁 *¡Llegas a ${totalQv} puntos!* Te llevas *1 producto de regalo* en compra directa (80 QV). Con autoenvío mensual (60 QV) también. ✅`
+  } else if (totalQv >= 60) {
+    promo = `🎁 *¡Llegas a ${totalQv} puntos!* Con autoenvío mensual te llevas *1 producto de regalo* (60 QV). Te faltan ${80 - totalQv} QV para regalo en compra directa.`
+  } else {
+    const falta60 = 60 - totalQv
+    const falta80 = 80 - totalQv
+    promo = `🎁 Te faltan ${falta60} QV para 1 producto de regalo en autoenvío (60 QV), o ${falta80} QV en compra directa (80 QV).`
+  }
+  
+  return `💚 *Precios actualizados* FuXion Perú:
+
+${lineas.join('\n')}
+
+*Total: S/ ${total.toFixed(2)} — ${totalQv} QV* 💰
+
+${promo}
+
+Compra aquí: ${TIENDA}
+Verifica que aparezca *Emprende Salud* como patrocinador ✅
+
+¿Te armo el pedido o tienes alguna duda? 💚`
+}
 
 const MENU = `¡Hola! 👋 Soy Valeria, asistente de *Emprende Salud* 💚
 ¿En qué te ayudo?
@@ -97,7 +272,7 @@ const OPCION_3B = `💼 *Plan PRO-LEV X* — 10 fuentes de ingreso, sin inventar
 Tu inversión: un kit de inicio (desde S/99 en Perú).
 ¿Agendamos 20 min con Kervin para revisar números reales? Responde *2* 📲`
 
-const OPCION_PRECIO = `💚 Para ver precios actualizados y armar tu pedido, entra directo a la tienda oficial:
+const OPCION_PRECIO_FALLBACK = `💚 Para ver precios actualizados y armar tu pedido, entra directo a la tienda oficial:
 ${TIENDA}
 
 Verifica que aparezca *Emprende Salud* como patrocinador ✅
@@ -223,14 +398,15 @@ ESTILO
 - Español peruano, tuteo, cálida. MÁXIMO 50 palabras por mensaje. Usa *negritas* de WhatsApp con un asterisco.
 - 1 emoji ocasional (💚✨). Nunca más de 2.
 - No repitas el menú numerado; ese ya lo envía el sistema. Responde la duda directa.
-- SI preguntan precio exacto: NO lo inventes. Diles "Entra a la tienda para ver precios actualizados" o ofrece pasar con Kervin (opción 2).
+- SI preguntan precio exacto: revisa si el sistema ya detectó productos específicos. Si no, ofrece pasar con Kervin (opción 2) o la tienda.
 
 SABES ESTO
 - Catálogo FuXion: bebidas funcionales para energía, control de peso, digestión, defensas, belleza y rendimiento deportivo (NO medicamentos).
+- Precios y QV: el sistema entrega precios exactos cuando el cliente nombra productos. Si el sistema no detectó productos, redirige a tienda.
 - Promo Cliente Preferente: registro gratis; por cada 60 puntos en autoenvío mensual = 1 producto de regalo; por cada 80 puntos en compra directa = 1 producto de regalo.
 - Compra: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
 - Web: ${LANDING} — ahí descargan gratis la Guía de Nutrición Funcional.
-- Asesoría personalizada gratis con Kervin: solo para precios exactos, pago, delivery o si la persona pide hablar con un humano → dile "responde *2* y te paso con Kervin".
+- Asesoría personalizada gratis con Kervin: solo para precios exactos cuando el sistema no tiene el producto, pago, delivery o si la persona pide hablar con un humano → dile "responde *2* y te paso con Kervin".
 - REGISTRO: Si alguien dice que ya abrió el link, no sabe cómo registrarse, no le carga la página, no encuentra el botón, no sabe cómo pagar, etc. → explica el paso a paso de registro como Cliente Preferente (es gratis) y cómo agregar productos al carrito. Ofrece pasar con Kervin (opción 2) solo si el problema persiste.
 
 PACKS POR OBJETIVO (tú misma armas el pack, sin esperar a Kervin)
@@ -502,15 +678,25 @@ async function handleMessage(payload) {
     return
   }
 
-  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.4.4) ──────────────────
+  // ── RUTAS DIRECTAS POR INTENCIÓN (v4.5.0) ──────────────────
   // Registro / problemas post-link — máxima prioridad (evita abandonos)
   if (INTENT_REGISTRO_RE.test(lower)) {
     await humanDelay(); if (await waSend(chatId, GUÍA_REGISTRO)) consume(); return
   }
-  // Precio
-  if (PRECIO_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO)) consume(); return
+  
+  // Precio con productos específicos — intentar matching de catálogo
+  const productosEncontrados = buscarProductos(body)
+  if (productosEncontrados.length > 0) {
+    await humanDelay()
+    if (await waSend(chatId, mensajePrecios(productosEncontrados))) consume()
+    return
   }
+  
+  // Precio genérico (si no detectó productos específicos)
+  if (PRECIO_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO_FALLBACK)) consume(); return
+  }
+  
   // Deporte
   if (INTENT_DEPORTE_RE.test(lower)) {
     if (!contact.objetivo) {
@@ -628,7 +814,7 @@ async function handleMessage(payload) {
   const contexto =
     (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
-    `[REGLA: si pregunta precio exacto, redirige a tienda o opción 2 con Kervin; nunca inventes precios.]`
+    `[REGLA: si pregunta precio exacto, el sistema ya tiene catálogo. Si no detectó productos, redirige a tienda o opción 2 con Kervin.]`
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
@@ -726,6 +912,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.4.4', ts: Date.now() }))
-  console.log('✅ Valeria v4.4.4 registrada (guía de registro + video tutorial)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.5.0', ts: Date.now() }))
+  console.log('✅ Valeria v4.5.0 registrada (catálogo de precios + QV + promoción Cliente Preferente)')
 }
