@@ -100,6 +100,9 @@ const COMPRA_RE = /(ya compr[eé]|ya ped[ií]|hice el pedido|hice mi pedido|ya p
 const REORDER_RE = /(se me acab[oó]|ya se acab[oó]|se est[aá] acabando|necesito (otro|m[aá]s)|quiero pedir|repetir pedido|nuevo pedido|cu[aá]ndo llega|cuando llega|c[uú]ando llega)/i
 const AUTOENVIO_SI_RE = /^(s[ií]\b|sii+|dale|ok[kk]*|activa|perfecto|hag[aá]moslo|adelante|de una|listo)/i
 
+// Disparador de intención deporte fuerte (incluye nombres de producto campaña)
+const INTENT_DEPORTE_RE = /(deport|gym|gimnasio|entren|m[úu]sculo|prote[ií]na|biopro|sport|pre[- ]?entreno|post[- ]?entreno|crossfit|pesas|running|runner|whey|rendimiento|recuperaci[oó]n|muscular)/i
+
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
 • *Biopro+ Sport*: 25g de proteína por stick, con Actinos® (recuperación muscular más rápida). Sabor vainilla, se toma con agua fría post-entreno.
@@ -407,6 +410,18 @@ async function handleMessage(payload) {
     await humanDelay()
     if (await waSend(chatId, SEQ3_CIERRE)) consume()
     return
+  }
+
+
+  // 1d) Intención deporte fuerte en primer mensaje (ej. campaña Biopro+ Sport):
+  //     salta el menú genérico y va directo a la línea sport.
+  if (INTENT_DEPORTE_RE.test(lower)) {
+    if (!contact.objetivo) {
+      db.prepare(`UPDATE wa_contacts SET objetivo = 'deporte',
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
+        WHERE chat_id = ?`).run(chatId)
+    }
+    await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
   }
 
   const menuVencido = Date.now() - Number(contact.menu_at || 0) > MENU_TTL_MS
