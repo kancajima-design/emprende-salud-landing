@@ -1,8 +1,19 @@
-import { ArrowDown, CheckCircle2, ShoppingCart, MessageCircle } from 'lucide-react'
-import { BRAND, waLink } from '@/config'
+import { CheckCircle2, ShoppingCart, MessageCircle, Sparkles } from 'lucide-react'
+import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
 const bullets = ['Más energía sin bajones', 'Digestión liviana', 'Rutina simple de 5 minutos']
+
+function abrirChatValeria() {
+  window.dispatchEvent(
+    new CustomEvent('abrir-chat-valeria', {
+      detail: {
+        saludo:
+          '¡Hola! Soy Valeria 💚 Cuéntame qué quieres mejorar (más energía, digestión, peso o defensas) y te armo tu combinación ideal de productos FuXion.',
+      },
+    }),
+  )
+}
 
 export default function Hero() {
   return (
@@ -14,15 +25,16 @@ export default function Hero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#0B2033] shadow-lg shadow-lime-500/30">
-            Guía gratis + asesoría personalizada
+            Distribuidor oficial FuXion · Perú
           </span>
           <h1 className="mt-5 text-4xl font-extrabold leading-tight text-white md:text-5xl">
-            Energía real, digestión liviana y{' '}
-            <span className="text-[#B5D70F]">bienestar todos los días</span>
+            Siente más energía y ligereza{' '}
+            <span className="text-[#B5D70F]">desde adentro, todos los días</span>
           </h1>
           <p className="mt-4 max-w-lg text-base text-white/80 md:text-lg">
-            Descarga gratis la <strong className="text-white">Guía de Nutrición Funcional</strong> y
-            descubre qué producto FuXion va con tu objetivo. Te asesoro personalmente por WhatsApp.
+            Nutrición funcional peruana con ingredientes de los Andes y el Amazonas. Te ayudo a
+            elegir el producto ideal para tu objetivo, con asesoría personalizada de principio a
+            fin.
           </p>
           <ul className="mt-5 space-y-2">
             {bullets.map((b) => (
@@ -32,23 +44,21 @@ export default function Hero() {
             ))}
           </ul>
           <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a
-              href="#form"
-              className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-6 py-3.5 text-sm font-bold text-[#0B2033] shadow-xl shadow-lime-500/30 transition hover:brightness-105"
+            <button
+              onClick={abrirChatValeria}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#B5D70F] px-6 py-3.5 text-sm font-bold text-[#0B2033] shadow-xl shadow-lime-500/30 transition hover:brightness-105"
             >
-              Quiero mi guía gratis <ArrowDown className="h-4 w-4" />
-            </a>
+              <Sparkles className="h-4 w-4" /> Descubrir mi combinación ideal
+            </button>
             <a
-              href={BRAND.compraUrl}
-              target="_blank"
-              rel="noreferrer"
+              href="#catalogo"
               className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
             >
-              <ShoppingCart className="h-4 w-4" /> Ver productos
+              <ShoppingCart className="h-4 w-4" /> Ver productos y precios
             </a>
           </div>
           <p className="mt-4 text-xs text-white/60">
-            Sin spam. Tus datos solo los uso para enviarte la guía y asesorarte.
+            🚚 Envío a todo el Perú · 🛡️ Compra 100% oficial · 💚 Te asesoro personalmente
           </p>
           <a
             href={waLink('Hola, vi tu página Emprende Salud y quiero información sobre los productos FuXion 😊')}

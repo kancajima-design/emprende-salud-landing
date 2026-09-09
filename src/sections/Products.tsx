@@ -6,8 +6,78 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift } from 'lucide-react'
+import { CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift, Droplets, Scale, ShieldCheck, Brain, Dumbbell } from 'lucide-react'
 import { PRODUCTOS, waLink, type Producto } from '@/config'
+
+// Categorías del catálogo, ordenadas por potencial de conversión
+const CATEGORIAS = [
+  {
+    id: 'cat-base',
+    linea: 'Sistema Base',
+    icon: Droplets,
+    titulo: 'Sistema Base',
+    desc: 'La rutina diaria que lo cambia todo: limpieza, nutrición y energía de base.',
+  },
+  {
+    id: 'cat-peso',
+    linea: 'Línea Control de Peso y Medidas',
+    icon: Scale,
+    titulo: 'Control de Peso',
+    desc: 'Complementa tus hábitos y llega a tu peso ideal sin dietas imposibles.',
+  },
+  {
+    id: 'cat-defensas',
+    linea: 'Línea Inmunológica',
+    icon: ShieldCheck,
+    titulo: 'Defensas',
+    desc: 'Blindaje natural para ti y tu familia, durante todo el año.',
+  },
+  {
+    id: 'cat-antiedad',
+    linea: 'Línea Anti-edad',
+    icon: Sparkles,
+    titulo: 'Anti-edad',
+    desc: 'Belleza, piel y energía que se notan desde adentro hacia afuera.',
+  },
+  {
+    id: 'cat-mental',
+    linea: 'Línea Vigor Mental',
+    icon: Brain,
+    titulo: 'Enfoque Mental',
+    desc: 'Claridad, memoria y calma para rendir mejor todos los días.',
+  },
+  {
+    id: 'cat-sport',
+    linea: 'Línea Sport',
+    icon: Dumbbell,
+    titulo: 'Sport',
+    desc: 'Rendimiento, resistencia y recuperación para tu entrenamiento.',
+  },
+]
+
+const porCategoria = (linea: string) =>
+  PRODUCTOS.filter((p) => (p.linea ?? 'Sistema Base') === linea)
+
+// Precio más bajo del producto para mostrar en la tarjeta
+function precioDesde(p: Producto): string | null {
+  if (!p.precios?.length) return null
+  const valores = p.precios
+    .map((x) => parseFloat(x.precio.replace(/[^\d.]/g, '')))
+    .filter((n) => !isNaN(n))
+  if (!valores.length) return null
+  return `desde S/ ${Math.min(...valores).toFixed(2)}`
+}
+
+function abrirChatValeria() {
+  window.dispatchEvent(
+    new CustomEvent('abrir-chat-valeria', {
+      detail: {
+        saludo:
+          '¡Hola! Soy Valeria 💚 Veo que viste el catálogo. Cuéntame qué quieres mejorar y te digo exactamente qué producto te conviene y cómo comprarlo.',
+      },
+    }),
+  )
+}
 
 function ProductoImagen({ p, className }: { p: Producto; className?: string }) {
   if (p.img) {
@@ -31,40 +101,108 @@ export default function Products() {
   const [sel, setSel] = useState<Producto | null>(null)
 
   return (
-    <section className="bg-[#F3F6FB] py-16 md:py-20">
+    <section id="catalogo" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          Todo el catálogo FuXion
+          ¿Qué quieres sentir mejor desde hoy?
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm text-[#758E9B]">
-          Toca cualquier producto para ver <strong className="text-[#0B2033]">para qué sirve</strong>,
-          sus <strong className="text-[#0B2033]">ingredientes</strong> y comprarlo directo en mi
+          Energía, digestión, peso, defensas… elige tu objetivo, toca la tarjeta y ve{' '}
+          <strong className="text-[#0B2033]">para qué sirve</strong>, sus{' '}
+          <strong className="text-[#0B2033]">ingredientes</strong>, su precio y cómo comprarlo en mi
           tienda oficial.
         </p>
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {PRODUCTOS.map((p) => (
-            <button
-              key={p.nombre}
-              onClick={() => {
-                setSel(p)
-                trackEvent('ViewContent', { content_name: p.nombre })
-              }}
-              className="group flex flex-col rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-[#00498E]/5 transition hover:-translate-y-1 hover:shadow-lg"
+        {/* Navegación rápida por categoría */}
+        <div className="mt-8 flex flex-wrap justify-center gap-2">
+          {CATEGORIAS.map(({ id, icon: Icon, titulo }) => (
+            <a
+              key={id}
+              href={`#${id}`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#00498E] shadow-sm ring-1 ring-[#00498E]/10 transition hover:bg-[#00498E] hover:text-white"
             >
-              <ProductoImagen
-                p={p}
-                className="mx-auto h-28 w-full object-contain transition group-hover:scale-105"
-              />
-              <p className="mt-2 text-xs font-bold leading-snug text-[#0B2033] sm:text-sm">
-                {p.nombre}
-              </p>
-              {p.tag && <p className="mt-0.5 text-xs text-[#0094DE]">{p.tag}</p>}
-              <span className="mx-auto mt-2 inline-flex items-center gap-1 rounded-full bg-[#00498E]/5 px-2.5 py-1 text-[10px] font-semibold text-[#00498E] opacity-0 transition group-hover:opacity-100">
-                <Info className="h-3 w-3" /> Ver detalles
-              </span>
-            </button>
+              <Icon className="h-3.5 w-3.5" /> {titulo}
+            </a>
           ))}
+        </div>
+
+        {/* Catálogo por categorías */}
+        {CATEGORIAS.map(({ id, icon: Icon, titulo, desc, linea }) => {
+          const productos = porCategoria(linea)
+          if (!productos.length) return null
+          return (
+            <div key={id} id={id} className="scroll-mt-32 pt-12">
+              <div className="flex items-start gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00498E] to-[#0094DE] text-white shadow-md">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-[#00498E] md:text-xl">
+                    {titulo}{' '}
+                    <span className="ml-1 align-middle text-xs font-bold text-[#758E9B]">
+                      ({productos.length} {productos.length === 1 ? 'producto' : 'productos'})
+                    </span>
+                  </h3>
+                  <p className="mt-0.5 text-xs text-[#758E9B] md:text-sm">{desc}</p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                {productos.map((p) => (
+                  <button
+                    key={p.nombre}
+                    onClick={() => {
+                      setSel(p)
+                      trackEvent('ViewContent', { content_name: p.nombre })
+                    }}
+                    className="group flex flex-col rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-[#00498E]/5 transition hover:-translate-y-1 hover:shadow-lg"
+                  >
+                    <ProductoImagen
+                      p={p}
+                      className="mx-auto h-28 w-full object-contain transition group-hover:scale-105"
+                    />
+                    <p className="mt-2 text-xs font-bold leading-snug text-[#0B2033] sm:text-sm">
+                      {p.nombre}
+                    </p>
+                    {p.tag && <p className="mt-0.5 text-xs text-[#0094DE]">{p.tag}</p>}
+                    {precioDesde(p) && (
+                      <p className="mt-1.5 text-xs font-extrabold text-[#FF7A1A]">{precioDesde(p)}</p>
+                    )}
+                    <span className="mx-auto mt-2 inline-flex items-center gap-1 rounded-full bg-[#00498E]/5 px-2.5 py-1 text-[10px] font-semibold text-[#00498E] opacity-0 transition group-hover:opacity-100">
+                      <Info className="h-3 w-3" /> Ver detalles
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )
+        })}
+
+        {/* CTA asesoría con Valeria */}
+        <div className="mx-auto mt-10 max-w-2xl rounded-3xl bg-white p-6 text-center shadow-sm ring-1 ring-[#00498E]/10">
+          <p className="text-sm font-extrabold text-[#0B2033] md:text-base">
+            ¿No sabes cuál elegir?
+          </p>
+          <p className="mx-auto mt-1 max-w-md text-xs text-[#758E9B] md:text-sm">
+            Valeria te arma tu combinación ideal en 2 minutos, según tu objetivo y tu presupuesto.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={abrirChatValeria}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#00498E] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:brightness-110"
+            >
+              <Sparkles className="h-4 w-4" /> Hablar con Valeria ahora
+            </button>
+            <a
+              href={waLink('Hola, vi el catálogo de productos y quiero que me recomiendes cuál me conviene 😊')}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent('Contact', { content_name: 'catálogo' })}
+              className="inline-flex items-center gap-2 rounded-full border-2 border-[#25D366] px-6 py-3 text-sm font-bold text-[#1da851] transition hover:bg-[#25D366] hover:text-white"
+            >
+              <MessageCircle className="h-4 w-4" /> WhatsApp directo
+            </a>
+          </div>
         </div>
       </div>
 

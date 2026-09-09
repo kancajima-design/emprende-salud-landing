@@ -10,6 +10,9 @@ import {
   Trash2,
   MessageCircle,
   Loader2,
+  Eye,
+  TrendingUp,
+  MousePointerClick,
 } from 'lucide-react'
 
 type Lead = {
@@ -26,6 +29,10 @@ type Stats = {
   total: number
   porProducto: { producto: string; total: number }[]
   porDia: { dia: string; total: number }[]
+  visitasTotal: number
+  visitasPorDia: { dia: string; total: number }[]
+  visitasPorUtm: { origen: string; total: number }[]
+  leadsPorUtm: { origen: string; total: number }[]
 }
 
 export default function Admin() {
@@ -130,6 +137,11 @@ export default function Admin() {
 
   const hoy = new Date().toISOString().slice(0, 10)
   const leadsHoy = stats?.porDia.find((d) => d.dia === hoy)?.total ?? 0
+  const visitasHoy = stats?.visitasPorDia.find((d) => d.dia === hoy)?.total ?? 0
+  const conversion =
+    stats && stats.visitasTotal > 0
+      ? ((stats.total / stats.visitasTotal) * 100).toFixed(1)
+      : null
   const top = stats?.porProducto[0]
 
   // ── Panel ──
@@ -209,7 +221,84 @@ export default function Admin() {
           </div>
         </div>
 
-        {/* Tabla */}
+        {/* Tráfico */}
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-[#00498E]/5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00498E]/10">
+                <Eye className="h-5 w-5 text-[#00498E]" />
+              </div>
+              <div>
+                <p className="text-2xl font-extrabold text-[#0B2033]">{stats?.visitasTotal ?? '—'}</p>
+                <p className="text-xs text-[#758E9B]">Visitas totales a la web</p>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-[#00498E]/5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#0094DE]/10">
+                <MousePointerClick className="h-5 w-5 text-[#0094DE]" />
+              </div>
+              <div>
+                <p className="text-2xl font-extrabold text-[#0B2033]">{visitasHoy}</p>
+                <p className="text-xs text-[#758E9B]">Visitas hoy</p>
+              </div>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-[#00498E]/5">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#B5D70F]/15">
+                <TrendingUp className="h-5 w-5 text-[#5f7a08]" />
+              </div>
+              <div>
+                <p className="text-2xl font-extrabold text-[#0B2033]">
+                  {conversion !== null ? `${conversion}%` : '—'}
+                </p>
+                <p className="text-xs text-[#758E9B]">Conversión visita → prospecto</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Origen del tráfico */}
+        <div className="mt-4 grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-[#00498E]/5">
+            <h2 className="text-sm font-extrabold text-[#00498E]">De dónde vienen las visitas</h2>
+            {stats?.visitasPorUtm.length ? (
+              <ul className="mt-3 space-y-2">
+                {stats.visitasPorUtm.map((v) => (
+                  <li key={v.origen} className="flex items-center justify-between gap-3 text-sm">
+                    <span className="truncate text-[#3A4A57]">{v.origen}</span>
+                    <span className="rounded-full bg-[#0094DE]/10 px-2.5 py-0.5 text-xs font-bold text-[#00498E]">
+                      {v.total}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-xs text-[#758E9B]">
+                Aún sin datos. Comparte tus enlaces con UTM (ver enlaces-utm.md).
+              </p>
+            )}
+          </div>
+          <div className="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-[#00498E]/5">
+            <h2 className="text-sm font-extrabold text-[#00498E]">Qué origen trae prospectos</h2>
+            {stats?.leadsPorUtm.length ? (
+              <ul className="mt-3 space-y-2">
+                {stats.leadsPorUtm.map((v) => (
+                  <li key={v.origen} className="flex items-center justify-between gap-3 text-sm">
+                    <span className="truncate text-[#3A4A57]">{v.origen}</span>
+                    <span className="rounded-full bg-[#B5D70F]/15 px-2.5 py-0.5 text-xs font-bold text-[#5f7a08]">
+                      {v.total}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 text-xs text-[#758E9B]">Aún sin prospectos con origen.</p>
+            )}
+          </div>
+        </div>
         <div className="mt-6 overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-[#00498E]/5">
           {loading && leads.length === 0 ? (
             <div className="flex items-center justify-center gap-2 py-16 text-sm text-[#758E9B]">

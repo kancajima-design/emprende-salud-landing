@@ -1,4 +1,4 @@
-import { Crown, Gift, Truck, Percent, Play, Star, ShoppingCart } from 'lucide-react'
+import { Crown, Gift, Truck, Percent, Play, Star, ShoppingCart, RefreshCw, Package } from 'lucide-react'
 import { BRAND } from '@/config'
 
 const beneficios = [
@@ -14,8 +14,8 @@ const beneficios = [
   },
   {
     icon: Gift,
-    titulo: 'Promociones y recompensas',
-    texto: 'Participa en el programa FuXion Rewards y acumula beneficios con cada compra que realices.',
+    titulo: 'Productos de regalo',
+    texto: 'Por cada 60 puntos en autoenvío o 80 puntos en compra directa, FuXion te regala un producto.',
   },
   {
     icon: Crown,
@@ -42,6 +42,53 @@ export default function FuXionRewards() {
             precios especiales, envío a domicilio y el programa de recompensas{' '}
             <strong className="text-[#00498E]">FuXion Rewards</strong>.
           </p>
+        </div>
+
+        {/* Promoción: mecánica clara en 2 tarjetas */}
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          {/* Autoenvío */}
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00498E] to-[#0094DE] p-7 text-white shadow-xl">
+            <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-[#B5D70F]/25" />
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B5D70F]">
+                <RefreshCw className="h-6 w-6 text-[#0B2033]" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#B5D70F]">La opción con más beneficio</p>
+                <h3 className="text-lg font-extrabold md:text-xl">Autoenvío mensual</h3>
+              </div>
+            </div>
+            <p className="mt-4 text-2xl font-extrabold leading-snug md:text-3xl">
+              Por cada <span className="text-[#B5D70F]">60 puntos</span> en autoenvío
+              recibes <span className="text-[#FF7A1A]">1 producto de regalo</span> 🎁
+            </p>
+            <p className="mt-3 text-sm text-white/85">
+              Tu pedido llega solo a tu casa cada mes, sin que tengas que recordarlo. Acumulas puntos más rápido
+              y el regalo te sale con menos puntos.
+            </p>
+          </div>
+
+          {/* Compra directa */}
+          <div className="relative overflow-hidden rounded-3xl border-2 border-[#00498E]/15 bg-white p-7 shadow-lg">
+            <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-[#FF7A1A]/10" />
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF7A1A]">
+                <Package className="h-6 w-6 text-white" />
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#FF7A1A]">Compra cuando quieras</p>
+                <h3 className="text-lg font-extrabold text-[#0B2033] md:text-xl">Compra directa</h3>
+              </div>
+            </div>
+            <p className="mt-4 text-2xl font-extrabold leading-snug text-[#0B2033] md:text-3xl">
+              Por cada <span className="text-[#00498E]">80 puntos</span> en compra directa
+              recibes <span className="text-[#FF7A1A]">1 producto de regalo</span> 🎁
+            </p>
+            <p className="mt-3 text-sm text-[#758E9B]">
+              Compra una sola vez, cuando tú decidas, sin compromiso de permanencia. Tus puntos también acumulan
+              y te premian.
+            </p>
+          </div>
         </div>
 
         {/* Video + Beneficios */}
@@ -100,6 +147,10 @@ export default function FuXionRewards() {
               </a>
             </div>
             <p className="mt-3 text-xs text-[#758E9B]">
+              ⏱️ El registro es gratis y toma 3 minutos. Cada compra sin registrarte es puntos que
+              no acumulas y un regalo que dejas pasar.
+            </p>
+            <p className="mt-2 text-xs text-[#758E9B]">
               Al registrarte, asegúrate de que <strong className="text-[#0B2033]">Emprende Salud</strong> aparezca como
               tu patrocinador para recibir mi acompañamiento personalizado.
             </p>

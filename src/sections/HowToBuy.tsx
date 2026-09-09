@@ -1,5 +1,5 @@
 import { MousePointerClick, UserCheck, CreditCard, Play } from 'lucide-react'
-import { BRAND } from '@/config'
+import { BRAND, waLink } from '@/config'
 
 const pasos = [
   {
@@ -75,6 +75,20 @@ export default function HowToBuy() {
               >
                 Ir a la tienda oficial
               </a>
+            </li>
+            <li className="pt-1">
+              <p className="text-xs text-[#758E9B]">
+                ¿Se te trabó algún paso?{' '}
+                <a
+                  href={waLink('Hola, estoy comprando en la tienda FuXion y necesito ayuda con un paso 😅')}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-bold text-[#1da851] underline-offset-2 hover:underline"
+                >
+                  Escríbeme por WhatsApp
+                </a>{' '}
+                y te ayudo al toque.
+              </p>
             </li>
           </ol>
         </div>

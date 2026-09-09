@@ -6,7 +6,9 @@ export const BRAND = {
   nombre: 'Emprende Salud',
 
   // Tu número: código de país + número, solo dígitos
-  whatsapp: '51925828656',
+  // NÚMERO FIJO del negocio (línea Entel nueva, 24-ago-2026).
+  // El 51925828656 sigue en revisión por suspensión; si se reactiva, evaluar migración.
+  whatsapp: '51970848043',
 
   whatsappMsg:
     'Hola, vi tu página de Emprende Salud y quiero mi Guía de Nutrición Funcional 😊',

@@ -1,4 +1,4 @@
-import { BookOpen, CheckCircle2 } from 'lucide-react'
+import { BookOpen, CheckCircle2, ArrowDown } from 'lucide-react'
 import { BRAND } from '@/config'
 
 const incluye = [
@@ -9,6 +9,10 @@ const incluye = [
 ]
 
 export default function Gift() {
+  const irAlFormulario = () => {
+    document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section className="bg-white py-16 md:py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 md:grid-cols-2">
@@ -25,9 +29,17 @@ export default function Gift() {
           </div>
         </div>
         <div className="order-1 md:order-2">
-          <h2 className="text-2xl font-extrabold text-[#00498E] md:text-3xl">
-            Lo que recibes al dejar tus datos
+          <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F]/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5f7a08]">
+            Tu primer paso, sin costo
+          </span>
+          <h2 className="mt-4 text-2xl font-extrabold text-[#00498E] md:text-3xl">
+            ¿Todavía no estás seguro? Empieza con la guía gratis
           </h2>
+          <p className="mt-3 text-sm text-[#758E9B] md:text-base">
+            Déjame tus datos y te la envío al instante, junto con una{' '}
+            <strong className="text-[#0B2033]">asesoría personalizada por WhatsApp</strong> para
+            resolver todas tus dudas. Sin compromiso y sin spam.
+          </p>
           <ul className="mt-6 space-y-3.5">
             {incluye.map((i) => (
               <li key={i} className="flex items-start gap-3 text-sm text-[#0B2033] md:text-base">
@@ -36,9 +48,15 @@ export default function Gift() {
               </li>
             ))}
           </ul>
-          <p className="mt-6 rounded-xl bg-[#F3F6FB] p-4 text-sm text-[#758E9B]">
-            Además, te contacto personalmente por WhatsApp para resolver tus dudas y recomendarte el
-            producto ideal para ti. Sin compromiso.
+          <button
+            onClick={irAlFormulario}
+            className="mt-7 inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#FF7A1A] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-500/30 transition hover:bg-[#e66a10]"
+          >
+            Quiero mi guía gratis ahora <ArrowDown className="h-4 w-4" />
+          </button>
+          <p className="mt-3 text-xs text-[#758E9B]">
+            Además, te contacto personalmente por WhatsApp para recomendarte el producto ideal
+            para ti. Sin compromiso.
           </p>
         </div>
       </div>

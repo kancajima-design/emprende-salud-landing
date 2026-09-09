@@ -1,4 +1,4 @@
-import { Zap, Leaf, Flame, HeartPulse } from 'lucide-react'
+import { Zap, Leaf, Flame, HeartPulse, ArrowRight } from 'lucide-react'
 
 const items = [
   {
@@ -28,7 +28,7 @@ export default function Benefits() {
     <section className="bg-[#F3F6FB] py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          Nutrición funcional que <span className="text-[#0094DE]">se siente</span>
+          Lo que vas a <span className="text-[#0094DE]">notar</span> cuando tu cuerpo funciona bien
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-[#758E9B] md:text-base">
           FuXion fusiona ingredientes de los Andes y el Amazonas con biotecnología moderna, en
@@ -47,6 +47,15 @@ export default function Benefits() {
               <p className="mt-1.5 text-sm text-[#758E9B]">{texto}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <a
+            href="#catalogo"
+            className="inline-flex items-center gap-2 rounded-full bg-[#00498E] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:brightness-110"
+          >
+            Ver productos para mi objetivo <ArrowRight className="h-4 w-4" />
+          </a>
         </div>
       </div>
     </section>

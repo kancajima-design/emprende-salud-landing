@@ -89,12 +89,21 @@ export default function SistemaFuXion() {
               Una vez cubierta la base, eliges potenciadores de la línea que necesitas: control de
               peso, defensas, anti-edad, enfoque mental o sport.
             </p>
-            <a
-              href="#form"
-              className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#B5D70F] px-5 py-2.5 text-xs font-bold text-[#0B2033] transition hover:brightness-105"
+            <button
+              onClick={() => {
+                window.dispatchEvent(
+                  new CustomEvent('abrir-chat-valeria', {
+                    detail: {
+                      saludo:
+                        '¡Hola! Soy Valeria 💚 Veo que quieres descubrir tu combinación ideal de productos FuXion. Cuéntame: ¿cuál es tu objetivo principal? (más energía, control de peso, digestión, defensas, anti-edad, enfoque mental o deporte)',
+                    },
+                  }),
+                )
+              }}
+              className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#B5D70F] px-5 py-2.5 text-xs font-bold text-[#0B2033] transition hover:brightness-105 cursor-pointer"
             >
-              Descubre tu combinación ideal <ArrowRight className="h-3.5 w-3.5" />
-            </a>
+              Quiero mi combinación ideal <ArrowRight className="h-3.5 w-3.5" />
+            </button>
           </div>
         </div>
       </div>

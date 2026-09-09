@@ -9,32 +9,31 @@ import LeadForm from '@/sections/LeadForm'
 import Products from '@/sections/Products'
 import HowToBuy from '@/sections/HowToBuy'
 import FuXionRewards from '@/sections/FuXionRewards'
-import News from '@/sections/News'
+import BlogTeaser from '@/sections/BlogTeaser'
 import FinalCTA from '@/sections/FinalCTA'
 import Footer from '@/sections/Footer'
 import WhatsAppFloat from '@/sections/WhatsAppFloat'
-import ExitIntent from '@/sections/ExitIntent'
+import ChatWidget from '@/sections/ChatWidget'
 
 export default function Home() {
   return (
     <div className="min-h-screen">
       <Navbar />
       <Hero />
+      <Products />
       <Benefits />
       <SistemaFuXion />
-      <Gift />
       <Trust />
       <Advisor />
       <LeadForm />
-      <Products />
       <HowToBuy />
       <FuXionRewards />
-      <News />
-      <News />
+      <BlogTeaser />
       <FinalCTA />
+      <Gift />
       <Footer />
       <WhatsAppFloat />
-      <ExitIntent />
+      <ChatWidget />
     </div>
   )
 }

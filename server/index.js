@@ -10,6 +10,14 @@ import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { DatabaseSync } from 'node:sqlite'
 
+// Carga .env local si existe (desarrollo). En producción Railway
+// inyecta las variables directamente.
+try {
+  process.loadEnvFile(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '.env'))
+} catch {
+  // sin .env local, no pasa nada
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
 
@@ -51,6 +59,25 @@ db.exec(`
     created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))
   );
   CREATE INDEX IF NOT EXISTS idx_news_created ON news(created_at);
+  CREATE TABLE IF NOT EXISTS visits (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    path        TEXT    NOT NULL DEFAULT '/',
+    utm         TEXT    NOT NULL DEFAULT '',
+    referrer    TEXT    NOT NULL DEFAULT '',
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_visits_created ON visits(created_at);
+  CREATE TABLE IF NOT EXISTS articles (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    slug        TEXT    NOT NULL UNIQUE,
+    titulo      TEXT    NOT NULL,
+    resumen     TEXT    NOT NULL,
+    contenido   TEXT    NOT NULL,
+    categoria   TEXT    NOT NULL DEFAULT 'Nutrición',
+    keywords    TEXT    NOT NULL DEFAULT '',
+    created_at  TEXT    NOT NULL DEFAULT (datetime('now', 'localtime'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_articles_created ON articles(created_at);
 `)
 // Migración suave: columna utm (para saber qué anuncio trajo cada lead)
 try {
@@ -78,6 +105,40 @@ const insertNews = db.prepare(
 )
 const findNewsByTitle = db.prepare('SELECT id FROM news WHERE titulo = ?')
 const deleteNews = db.prepare('DELETE FROM news WHERE id = ?')
+const insertVisit = db.prepare(
+  'INSERT INTO visits (path, utm, referrer) VALUES (?, ?, ?)'
+)
+const countVisits = db.prepare('SELECT COUNT(*) AS total FROM visits')
+const visitsByDay = db.prepare(
+  `SELECT date(created_at) AS dia, COUNT(*) AS total
+   FROM visits GROUP BY dia ORDER BY dia DESC LIMIT 14`
+)
+const visitsByUtm = db.prepare(
+  `SELECT CASE WHEN utm = '' THEN '(directo / sin etiqueta)' ELSE utm END AS origen,
+          COUNT(*) AS total
+   FROM visits GROUP BY origen ORDER BY total DESC LIMIT 12`
+)
+const leadsByUtm = db.prepare(
+  `SELECT CASE WHEN utm = '' THEN '(directo / sin etiqueta)' ELSE utm END AS origen,
+          COUNT(*) AS total
+   FROM leads GROUP BY origen ORDER BY total DESC LIMIT 12`
+)
+const listArticles = db.prepare(
+  'SELECT id, slug, titulo, resumen, categoria, keywords, created_at FROM articles ORDER BY id DESC LIMIT 30'
+)
+const getArticleBySlug = db.prepare('SELECT * FROM articles WHERE slug = ?')
+const insertArticle = db.prepare(
+  `INSERT INTO articles (slug, titulo, resumen, contenido, categoria, keywords)
+   VALUES (?, ?, ?, ?, ?, ?)
+   ON CONFLICT(slug) DO UPDATE SET
+     titulo = excluded.titulo,
+     resumen = excluded.resumen,
+     contenido = excluded.contenido,
+     categoria = excluded.categoria,
+     keywords = excluded.keywords`
+)
+const deleteArticle = db.prepare('DELETE FROM articles WHERE id = ?')
+const listArticleSlugs = db.prepare('SELECT slug, created_at FROM articles ORDER BY id DESC LIMIT 200')
 
 // ── App ──────────────────────────────────────────────────────
 const app = express()
@@ -142,7 +203,21 @@ app.get('/api/stats', requireAdmin, (req, res) => {
     total: countLeads.get().total,
     porProducto: leadsByProduct.all(),
     porDia: leadsByDay.all(),
+    visitasTotal: countVisits.get().total,
+    visitasPorDia: visitsByDay.all(),
+    visitasPorUtm: visitsByUtm.all(),
+    leadsPorUtm: leadsByUtm.all(),
   })
+})
+
+// ── Contador de visitas (público, lo llama el frontend) ──────
+app.post('/api/track', (req, res) => {
+  const p = clean(req.body?.path, 120) || '/'
+  if (p.startsWith('/admin') || p.startsWith('/api')) return res.json({ ok: true, skip: true })
+  const utm = clean(req.body?.utm, 200)
+  const referrer = clean(req.body?.referrer, 300)
+  insertVisit.run(p, utm, referrer)
+  res.json({ ok: true })
 })
 
 // Exportar CSV compatible con Excel (admin)
@@ -193,7 +268,85 @@ app.delete('/api/news/:id', requireAdmin, (req, res) => {
   res.json({ ok: true })
 })
 
+// ── Blog SEO (artículos publicados por la tarea programada) ──
+// Listar artículos (público)
+app.get('/api/articles', (req, res) => {
+  res.json({ ok: true, articles: listArticles.all() })
+})
+
+// Leer un artículo por slug (público)
+app.get('/api/articles/:slug', (req, res) => {
+  const art = getArticleBySlug.get(clean(req.params.slug, 120))
+  if (!art) return res.status(404).json({ ok: false, error: 'Artículo no encontrado' })
+  res.json({ ok: true, article: art })
+})
+
+// Publicar/actualizar artículo (requiere clave de admin; la usa la tarea programada)
+app.post('/api/articles', requireAdmin, (req, res) => {
+  const titulo = clean(req.body?.titulo, 160)
+  const resumen = clean(req.body?.resumen, 400)
+  const contenido = String(req.body?.contenido ?? '').slice(0, 20000)
+  const categoria = clean(req.body?.categoria, 40) || 'Nutrición'
+  const keywords = clean(req.body?.keywords, 200)
+  let slug = clean(req.body?.slug, 120).toLowerCase()
+  slug = slug
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+  if (!slug) return res.status(400).json({ ok: false, error: 'Slug inválido' })
+  if (titulo.length < 8) return res.status(400).json({ ok: false, error: 'Título muy corto' })
+  if (resumen.length < 20) return res.status(400).json({ ok: false, error: 'Resumen muy corto' })
+  if (contenido.length < 200) return res.status(400).json({ ok: false, error: 'Contenido muy corto' })
+
+  insertArticle.run(slug, titulo, resumen, contenido, categoria, keywords)
+  res.json({ ok: true, slug })
+})
+
+// Borrar artículo (admin)
+app.delete('/api/articles/:id', requireAdmin, (req, res) => {
+  deleteArticle.run(Number(req.params.id))
+  res.json({ ok: true })
+})
+
+// ── Sitemap dinámico (incluye artículos del blog) ────────────
+app.get('/sitemap.xml', (req, res) => {
+  const base = 'https://www.emprendesalud.net'
+  const urls = [
+    { loc: '/', priority: '1.0' },
+    { loc: '/vsl', priority: '0.9' },
+    { loc: '/blog', priority: '0.8' },
+    ...listArticleSlugs.all().map((a) => ({
+      loc: `/blog/${a.slug}`,
+      lastmod: a.created_at.slice(0, 10),
+      priority: '0.7',
+    })),
+  ]
+  const xml =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    urls
+      .map(
+        (u) =>
+          `  <url><loc>${base}${u.loc}</loc>` +
+          (u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : '') +
+          `<priority>${u.priority}</priority></url>`
+      )
+      .join('\n') +
+    '\n</urlset>\n'
+  res.setHeader('Content-Type', 'application/xml; charset=utf-8')
+  res.send(xml)
+})
+
 // ── Frontend ─────────────────────────────────────────────────
+// Asistente IA del sitio (Valeria) — chat público con Gemini
+const { registerChat } = await import('./chat.js')
+registerChat(app, db)
+
+// Bot reactivo de WhatsApp (WAHA) — solo responde, nunca inicia
+const { registerWahaBot } = await import('./waha-bot.js')
+registerWahaBot(app, db)
+
 if (!isProd) {
   const { createServer } = await import('vite')
   const vite = await createServer({

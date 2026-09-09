@@ -1,4 +1,4 @@
-import { ShoppingCart, MessageCircle, Flame } from 'lucide-react'
+import { ShoppingCart, MessageCircle, Flame, BookOpen } from 'lucide-react'
 import { BRAND, waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
@@ -8,12 +8,12 @@ export default function Navbar() {
       {/* Barra de oferta */}
       <div className="bg-[#B5D70F] px-4 py-1.5 text-center">
         <a
-          href="#form"
+          href="#catalogo"
           className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#0B2033] sm:text-xs"
         >
           <Flame className="h-3.5 w-3.5" />
-          Esta semana: guía gratis + oferta especial en tu primera compra
-          <span className="font-extrabold">Aprovechar →</span>
+          Guía gratis + 1 producto de regalo con tus puntos
+          <span className="font-extrabold">Ver productos →</span>
         </a>
       </div>
       <header className="w-full border-b border-white/10 bg-[#00498E]/95 backdrop-blur">
@@ -26,6 +26,12 @@ export default function Navbar() {
           </span>
         </a>
         <div className="flex items-center gap-2">
+          <a
+            href="/blog"
+            className="hidden items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 sm:flex"
+          >
+            <BookOpen className="h-4 w-4" /> Blog
+          </a>
           <a
             href={waLink()}
             target="_blank"
