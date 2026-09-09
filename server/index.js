@@ -144,6 +144,15 @@ const listArticleSlugs = db.prepare('SELECT slug, created_at FROM articles ORDER
 const app = express()
 app.use(express.json({ limit: '50kb' }))
 
+// Captura errores de body-parser (JSON malformado de WAHA) — responde 200 para evitar reintentos
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    console.warn('[body-parser] JSON malformado ignorado:', req.path, err.message)
+    return res.status(200).json({ ok: true, ignored: true })
+  }
+  next(err)
+})
+
 // Rate limit simple en memoria para el formulario (10 envíos / 10 min / IP)
 const hits = new Map()
 function rateLimit(req, res, next) {
