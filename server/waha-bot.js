@@ -586,6 +586,7 @@ export function registerWahaBot(app, database) {
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
   // Canario de diagnóstico: confirma que las rutas del bot quedaron registradas
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.1', ts: Date.now() }))
-  console.log('✅ Valeria v4.1 registrada (playbook PRO-LEV X activo)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.2', ts: Date.now() }))
+  console.log('✅ Valeria v4.2 registrada (playbook PRO-LEV X activo)')
+  console.log('✅ Valeria v4.2 registrada (playbook PRO-LEV X activo)')
 }
