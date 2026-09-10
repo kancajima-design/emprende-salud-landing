@@ -279,7 +279,8 @@ function infoParaTexto(texto) {
     if (!tokens.length || !tokens.every((t) => n.includes(t))) continue
     const b = v.b.length > 380 ? v.b.slice(0, 380) + '…' : v.b
     const u = v.u.length > 220 ? v.u.slice(0, 220) + '…' : v.u
-    hits.push(`${nombre}: beneficios: ${b} Cómo se toma: ${u}`)
+    const ing = PRODUCT_INGREDIENTES[nombre]
+    hits.push(`${nombre}: beneficios: ${b}${ing ? ` Contiene: ${ing.slice(0, 220)}` : ''} Cómo se toma: ${u}`)
     if (hits.length >= 3) break
   }
   return hits
@@ -813,6 +814,35 @@ const PRODUCT_INFO = {
   "Youth Elixir|28 sticks x 5gr": { b: "Los componentes de Youth Elixir HGH te ayudarán a: - Aumentar la vitalidad, la elasticidad de la piel y mejorar la calidad del sueño. - Prevenir los efectos del envejecimiento prematuro, producido por los radicales libres.", u: "Disolver el contenido de un stick en un vaso con 180 ml de agua fría. Recomendación de Consumo Uno o dos sticks al día, de preferencia antes de acostarse." },
 }
 
+const PRODUCT_INGREDIENTES = {
+  "Beauty-In": "PÉPTIDOS DE COLÁGENO BIOACTIVO OPTIMIZADO + COENZIMA Q10 + SESBANIA (BIOTINA NATURAL) + CONCENTRADO DE SÚPER FRUTAS EXÓTICAS (VITAMINAS C Y E) + ZINC",
+  "Berry Balance": "CRANBERRY + CONCENTRADO DE BERRIES Y FRUTAS TROPICALES + INFUSIÓN DE PIÑA + BACTERIAS PROBIÓTICAS + ANTOCIANINA + CALCIO ORGÁNICO + VITAMINAS C Y E",
+  "Biopro+ Fit": "BIOPROTEIN + CON COLOSTRUM® + PROLIBRA® + AMINOÁCIDOS + TAMARINDO MALABAR + VITAMINAS + DHA Y ARA",
+  "Biopro+ Tect": "BIOPROTEIN + CON COLOSTRUM® + BIOFERRÍN® + AMINOÁCIDOS + CALCIO LÁCTEO + DHA Y ARA",
+  "Café & Café Fit": "CAFÉ TOSTADO LIOFILIZADO + EXTRACTO DE CAFÉ VERDE",
+  "Chocolate Fit": "CACAO PURO DEL AMAZONAS + PROTEÍNA VEGETAL + CAFÉ VERDE + CLA + CROMO ORGÁNICO",
+  "Flora Liv": "CULTIVOS PROBIÓTICOS + FIBRA PREBIÓTICA + PULPA DE GRANADILLA + AGUAYMANTO",
+  "Gano+ Cappuccino": "EXTRACTO DE GANODERMA LUCIDUM + QUILLAY + MICRONUTRIENTES",
+  "Gano+ T": "GANODERMA LUCIDUM + EXTRACTO DE TÉ BLANCO + VITAMINA C Y D",
+  "Golden FLX": "XTRACTO DE CÚRCUMA + JENGIBRE + CARDAMOMO + LECHE DE COCO + PIMIENTA NEGRA + CANELA",
+  "No Stress": "AMINOÁCIDOS (L- TEANINA, GLICINA, TRIPTÓFANO) + EXTRACTO DE SÚPER FRUTAS (ASHWAGANDHA, AMALAKI Y LIMÓN) + MAGNESIO EN MOLÉCULA ORGÁNICA + VITAMINAS DEL COMPLEJO B",
+  "NoCarb-T": "FIBRAS SOLUBLES (FIBRA DE YACÓN + FIBRA DE ACACIA + INULINA DE ACHICORIA + PECTINA DE MANZANA) + VERDOLAGA + CANELA + TÉ VERDE + CROMO",
+  "Nutraday": "EXTRACTO DE MORINGA + GUAYABA + LIMÓN + ALBAHACA + CAMU CAMU + ACAI BERRY + ACEROLA + QUINUA GERMINADA (FUENTES NATURALES DE ANTIOXIDANTES, 12 VITAMINAS Y 5 MINERALES ORGÁNICOS)",
+  "Passion": "AMINOÁCIDOS + EXTRACTO DE JALEA REAL + MACA + GINSENG + ZINC ORGÁNICO",
+  "Probal": "EXTRACTO DE AGUAJE + EXTRACTO DE DONG QUAI + EXTRACTO DE ORÉGANO + TRIPTÓFANO + MAGNESIO + EXTRACTO DE CAMU-CAMU + EXTRACTO DE MARIGOLD (LUTEÍNA)",
+  "Protein Active (Chocolate)": "DISFRÚTALA EN SUS SABORES DE VAINILLA Y CANELA Y CHOCOLATE CON AVELLANAS. BIOPROTEIN ACTIVE® (PROTEÍNA DE QUINUA GERMINADA, DE ARROZ INTEGRAL GERMINADO, DE ARVEJA, DE ALGAS) + AMINOÁCIDOS + VITAMINAS + DHA Y ARA + ACEITE DE COCO",
+  "Protein Active (Vainilla)": "DISFRÚTALA EN SUS SABORES DE VAINILLA Y CANELA Y CHOCOLATE CON AVELLANAS. BIOPROTEIN ACTIVE® (PROTEÍNA DE QUINUA GERMINADA, DE ARROZ INTEGRAL GERMINADO, DE ARVEJA, DE ALGAS) + AMINOÁCIDOS + VITAMINAS + DHA Y ARA + ACEITE DE COCO",
+  "Protein Active Fit (Chocolate)": "DISFRÚTALA EN SUS SABORES DE VAINILLA Y CANELA Y CHOCOLATE CON AVELLANAS. BIOPROTEIN ACTIVE® (PROTEÍNA DE QUINUA GERMINADA, DE ARVEJA, DE ARROZ INTEGRAL GERMINADO Y DE ALGAS) + AMINOÁCIDOS ESENCIALES + L-CARNITINA + TAMARINDO MALABAR + VITAMINAS + CALCIO, CROMO Y ZINC EN MOLÉCULA ORGÁNICA",
+  "Protein Active Fit (Vainilla)": "DISFRÚTALA EN SUS SABORES DE VAINILLA Y CANELA Y CHOCOLATE CON AVELLANAS. BIOPROTEIN ACTIVE® (PROTEÍNA DE QUINUA GERMINADA, DE ARVEJA, DE ARROZ INTEGRAL GERMINADO Y DE ALGAS) + AMINOÁCIDOS ESENCIALES + L-CARNITINA + TAMARINDO MALABAR + VITAMINAS + CALCIO, CROMO Y ZINC EN MOLÉCULA ORGÁNICA",
+  "Prunex1": "MIX DE FIBRAS (PSYLLIUM, INULINA DE ACHICORIA, MUCÍLAGO DE LINAZA) + EXTRACTO DE GUINDÓN + KELP + ANÍS ESTRELLA",
+  "Rexet": "MIX DE EXTRACTOS VEGETALES (TUNA ROJA, ALCACHOFA, HIERBA LUISA, PEREJIL, ACEROLA, CLOROFILA) + BICARBONATO DE SODIO + MIX DE MINERALES (ZINC, MAGNESIO) + TAURINA + VITAMINAS DEL COMPLEJO B, VITAMINA C Y D + ACETILCISTEÍNA",
+  "Thermo T3": "MIX DE TÉS (VERDE, NEGRO Y ROJO) + CETONAS DE FRAMBUESA + GARCINIA CAMBOGIA + L-CARNITINA + CAFÉ VERDE + ÁCIDO ALFA LIPOICO + VITAMINA B6 + CROMO",
+  "Vera+": "EXTRACTO DE ALOE VERA + BETA GLUCANOS + MIX DE AMINOÁCIDOS (N-ACETILCISTEÍNA + GLICINA + L-GLUTAMINA) + EXTRACTO DE HOJA DE OLIVA + AMALAKI (VITAMINA C)",
+  "Vita Xtra T+": "GUAYUSA + TÉ VERDE + ACAI BERRY + GOJI BERRY + MICELIO DE CORDYCEPS + MACA + GINSENG + ANTOCIANINA DE MAÍZ MORADO",
+  "Vitaenergía": "GUAYUSA + TÉ VERDE + ACAI BERRY + GOJI BERRY + MICELIO DE CORDYCEPS + MACA + GINSENG + ANTOCIANINA DE MAÍZ MORADO",
+  "Youth Elixir": "AMINOÁCIDOS + ANTIOXIDANTES + RESVERATROL + OPTIBERRY®",
+}
+
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
 • *Biopro+ Sport*: 25g de proteína por stick, con Actinos® (recuperación muscular más rápida). Sabor vainilla, se toma con agua fría post-entreno.
@@ -1040,6 +1070,7 @@ function initTables(database) {
   if (!cols.includes('alerta_react_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_react_at INTEGER DEFAULT 0')
   if (!cols.includes('last_in_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN last_in_at INTEGER DEFAULT 0')
   if (!cols.includes('alerta_seguimiento_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_seguimiento_at INTEGER DEFAULT 0')
+  if (!cols.includes('reactivacion_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN reactivacion_at INTEGER DEFAULT 0')
 }
 
 function getContact(chatId) {
@@ -1299,14 +1330,14 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
     if (prodsInfo.length > 0) {
       const p = prodsInfo[0]
       const info = PRODUCT_INFO[p.nombre + '|' + p.presentacion] || PRODUCT_INFO[p.nombre]
+      const ingredientes = PRODUCT_INGREDIENTES[p.nombre]
       await humanDelay()
       if (info) {
         const msg = `💚 *${p.nombre}* — te cuento al toque:
 
 *Para qué sirve:*
 ${info.b}
-
-*Cómo se toma:*
+${ingredientes ? `*Qué contiene:* ${ingredientes}\n` : ''}*Cómo se toma:*
 ${info.u}
 
 *Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
@@ -1594,9 +1625,66 @@ export function registerWahaBot(app, database) {
     res.json({ ok: true, contact: db.prepare('SELECT chat_id, nombre, etapa, compra_at FROM wa_contacts WHERE chat_id = ?').get(chatId) })
   })
 
+  // ── REACTIVACIÓN (v5.1.4): retomar conversación con leads de hoy sin respuesta ──
+  // Solo contactos que: escribieron HOY, no han comprado, el bot respondió y ellos no
+  // contestaron después, y aún no se les envió reactivación. Máx 20 por corrida.
+  const NUMEROS_KERVIN = ['51970848043@c.us', '51970848043@lid']
+  app.post('/api/waha/reactivar', async (req, res) => {
+    const key = req.body?.key || req.headers['x-admin-key']
+    if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
+      return res.status(401).json({ ok: false, error: 'Clave incorrecta' })
+    }
+    const hoy = new Date(); hoy.setHours(0, 0, 0, 0)
+    const inicioHoy = hoy.getTime()
+    const candidatos = db.prepare(`
+      SELECT c.chat_id, c.nombre, c.objetivo, c.etapa
+      FROM wa_contacts c
+      WHERE c.last_in_at >= ? AND c.compra_at = 0 AND c.reactivacion_at = 0
+        AND c.chat_id NOT IN ('51970848043@c.us', '51970848043@lid')
+      ORDER BY c.last_in_at ASC LIMIT 20`).all(inicioHoy)
+
+    const elegidos = []
+    for (const c of candidatos) {
+      // el bot respondió y el cliente NO contestó después
+      const ultIn = db.prepare(`SELECT created_at, text FROM wa_logs WHERE chat_id = ? AND direction = 'in' ORDER BY id DESC LIMIT 1`).get(c.chat_id)
+      const ultOut = db.prepare(`SELECT created_at FROM wa_logs WHERE chat_id = ? AND direction = 'out' ORDER BY id DESC LIMIT 1`).get(c.chat_id)
+      if (!ultIn || !ultOut) continue
+      const tIn = new Date(ultIn.created_at.replace(' ', 'T')).getTime()
+      const tOut = new Date(ultOut.created_at.replace(' ', 'T')).getTime()
+      if (isNaN(tIn) || isNaN(tOut) || tIn >= tOut) continue // aún está conversando
+      elegidos.push({ ...c, ultimoMsg: ultIn.text || '' })
+    }
+
+    res.json({ ok: true, total: elegidos.length, contactos: elegidos.map((e) => ({ chat_id: e.chat_id, nombre: e.nombre })) })
+
+    ;(async () => {
+      for (const c of elegidos) {
+        const prods = buscarProductos(c.ultimoMsg)
+        let personal = ''
+        if (prods.length > 0) {
+          personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. `
+        } else if (c.objetivo) {
+          personal = `Veo que hoy hablamos sobre tu objetivo de *${c.objetivo}*. `
+        }
+        const saludo = c.nombre ? `Hola ${c.nombre.split(' ')[0]} 💚` : 'Hola 💚'
+        const msg = `${saludo} Soy Valeria de Emprende Salud. ${personal}Te cuento algo importante: esta semana sigue activa la promoción de puntos QV — con tu compra acumulas puntos para llevarte un producto de regalo 🎁
+
+¿Quieres que te pase el link de compra directo o tienes alguna duda? Estoy aquí para lo que necesites 😊`
+        await humanDelay()
+        const okSend = await waSend(c.chat_id, msg)
+        if (okSend) {
+          db.prepare('UPDATE wa_contacts SET reactivacion_at = ? WHERE chat_id = ?').run(Date.now(), c.chat_id)
+          db.prepare(`INSERT INTO wa_logs (chat_id, direction, text) VALUES (?, 'out', ?)`).run(c.chat_id, '[reactivación] ' + msg.slice(0, 120))
+        }
+        await new Promise((r) => setTimeout(r, 45000 + Math.random() * 45000))
+      }
+      console.log(`✅ Reactivación completada: ${elegidos.length} contactos`)
+    })()
+  })
+
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.3', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.3 registrada (43 links + imágenes + tablas nutricionales + info oficial de productos)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.4', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.4 registrada (info oficial + ingredientes + reactivación de leads)')
 }
