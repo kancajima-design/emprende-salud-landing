@@ -280,7 +280,7 @@ function infoParaTexto(texto) {
     const b = v.b.length > 380 ? v.b.slice(0, 380) + '…' : v.b
     const u = v.u.length > 220 ? v.u.slice(0, 220) + '…' : v.u
     const ing = PRODUCT_INGREDIENTES[nombre]
-    const vid = PRODUCT_VIDEOS[nombre]
+    const vid = videoDe(nombre)
     hits.push(`${nombre}: beneficios: ${b}${ing ? ` Contiene: ${ing.slice(0, 220)}` : ''}${vid ? ` Video oficial: ${vid}` : ''} Cómo se toma: ${u}`)
     if (hits.length >= 3) break
   }
@@ -502,11 +502,52 @@ const PRODUCT_PATENTES = {
 }
 
 // Videos oficiales por producto (material de venta — autoridad y prueba)
+// v5.1.7: biblioteca completa de videos de Kervin (Vimeo oficiales FuXion)
 const PRODUCT_VIDEOS = {
+  // Línea deportiva
   'Biopro+ Sport': 'https://player.vimeo.com/video/310883791',
   'Post Sport': 'https://player.vimeo.com/video/310883977',
   'Xtra Mile': 'https://player.vimeo.com/video/310884835',
   'Pre Sport': 'https://player.vimeo.com/video/310884769',
+  // Bebidas funcionales & tés
+  'Rexet': 'https://vimeo.com/530903645/f86420d893',
+  'Flora Liv': 'https://player.vimeo.com/video/250346688',
+  'Prunex1': 'https://vimeo.com/530535912/5463d57132',
+  'Alpha Balance': 'https://vimeo.com/332545658/77c12da716',
+  'Berry Balance': 'https://player.vimeo.com/video/316830773',
+  'Nutraday': 'https://vimeo.com/530911770/2019a9a43b',
+  'Vita Xtra T+': 'https://player.vimeo.com/video/310883816',
+  'Thermo T3': 'https://player.vimeo.com/video/310884797',
+  'NoCarb-T': 'https://vimeo.com/546096164/2517ee1d22',
+  'Youth Elixir': 'https://vimeo.com/763552282/2e8b80ce3a',
+  'Golden FLX': 'https://player.vimeo.com/video/258003021',
+  'Beauty-In': 'https://player.vimeo.com/video/280813242',
+  'ON': 'https://player.vimeo.com/video/395314808',
+  'No Stress': 'https://player.vimeo.com/video/258004322',
+  'Vera+': 'https://player.vimeo.com/video/435791107',
+  'Xpeed': 'https://player.vimeo.com/video/1066590719?h=96a598b46a',
+  // Cafés & chocolates
+  'Gano+ Cappuccino': 'https://vimeo.com/716948037/5f44a85009',
+  'Café GanoMax': 'https://player.vimeo.com/video/352985774',
+  'Chocolate Fit': 'https://player.vimeo.com/video/395541190',
+  'Café & Café Fit': 'https://player.vimeo.com/video/250346390',
+  'Café & Café Fit Cappuccino': 'https://player.vimeo.com/video/250346603',
+  // Proteínas
+  'Protein Active': 'https://player.vimeo.com/video/295236666',
+  'Protein Active Fit': 'https://player.vimeo.com/video/295236666',
+  'Protein Xoup': 'https://player.vimeo.com/video/294844304',
+  'Biopro+ Tect': 'https://player.vimeo.com/video/310883858',
+  'Biopro+ Fit': 'https://player.vimeo.com/video/310883858',
+  // Packs
+  'Pack 5/14 Keto': 'https://player.vimeo.com/video/302932781',
+}
+
+// Resuelve el video de un producto: nombre exacto o nombre base (sin sabor/presentación entre paréntesis)
+const videoDe = (nombre) => {
+  if (!nombre) return null
+  if (PRODUCT_VIDEOS[nombre]) return PRODUCT_VIDEOS[nombre]
+  const base = nombre.replace(/\s*\([^)]*\)\s*/g, '').trim()
+  return PRODUCT_VIDEOS[base] || null
 }
 
 // Cross-sell de la línea deportiva (se recomienda el set completo al cliente sport)
@@ -1362,9 +1403,10 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
   if (INTENT_VIDEO_RE.test(lower)) {
     const prodsVid = buscarProductos(body)
     const pVid = prodsVid[0] || (contact.last_product ? buscarProductos(contact.last_product)[0] : null)
-    if (pVid && PRODUCT_VIDEOS[pVid.nombre]) {
+    const linkVid = pVid ? videoDe(pVid.nombre) : null
+    if (linkVid) {
       await humanDelay()
-      if (await waSend(chatId, `🎬 *Video oficial de ${pVid.nombre}:*\n${PRODUCT_VIDEOS[pVid.nombre]}\n\nMíralo y me dices si te armo tu pedido 💪`)) consume()
+      if (await waSend(chatId, `🎬 *Video oficial de ${pVid.nombre}:*\n${linkVid}\n\nMíralo y me dices si te armo tu pedido 💪`)) consume()
       return
     }
   }
@@ -1770,7 +1812,7 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
         let personal = ''
         if (prods.length > 0) {
           const pat = PRODUCT_PATENTES[prods[0].nombre]
-          const vid = PRODUCT_VIDEOS[prods[0].nombre]
+          const vid = videoDe(prods[0].nombre)
           personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. ${pat ? 'Tiene ' + pat.split('—')[0].trim() + ' — vale totalmente la pena. ' : ''}${vid ? `Te dejo el video oficial para que lo veas: ${vid} ` : ''}`
         } else if (c.objetivo) {
           personal = `Veo que hoy hablamos sobre tu objetivo de *${c.objetivo}*. `
@@ -1794,6 +1836,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.6', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.6 registrada (videos oficiales + cross-sell linea deportiva)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.7', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.7 registrada (biblioteca completa de 31 videos oficiales)')
 }
