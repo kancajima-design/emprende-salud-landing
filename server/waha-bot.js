@@ -1028,6 +1028,7 @@ async function sweepSeguimiento() {
   }
 
   const rows = db.prepare(`
+    SELECT chat_id, nombre, etapa, compra_at, alerta_2528_at, alerta_react_at
      FROM wa_contacts WHERE compra_at > 0 AND etapa != 'ef'`,
   ).all()
   for (const r of rows) {
