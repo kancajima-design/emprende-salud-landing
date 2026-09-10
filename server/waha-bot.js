@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v5.0.0
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v5.1.0
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -14,7 +14,8 @@
 // v4.4.3 (09-sep): GUÍA_REGISTRO + INTENT_REGISTRO_RE (ayuda post-link).
 // v4.4.4 (09-sep): VIDEO_REGISTRO agregado a GUÍA_REGISTRO.
 // v4.5.0 (09-sep): CATÁLOGO DE PRECIOS + QV — Valeria entrega precios exactos.
-// v5.0.0 (10-sep): CEREBRO v5 (Alex Dey+Klaric+Columbus) + links directos + imágenes + leads ads + alertas 24h.
+// v5.1.0 (10-sep): CEREBRO v5 (Alex Dey+Klaric+Columbus) + links directos + imágenes + leads ads + alertas 24h.
+// v5.1.0 (10-sep): 43 links de productos + explicación QV + multi-compra + países + tono humano.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -74,7 +75,7 @@ const CATALOGO = [
   { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano'] },
   { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano tea'] },
   // PROTEÍNAS & SPORT
-  { nombre: 'Biopro+ Sport', presentacion: 'Pote x 2lb', precio: 259.50, qv: 36, link: 'https://tiendafuxion.com/storelt/emprendesalud/3171015', keywords: ['biopro sport pote','biopro+ sport pote','biopro'] },
+  { nombre: 'Biopro+ Sport', presentacion: 'Pote x 2lb', precio: 259.50, qv: 36, keywords: ['biopro sport pote','biopro+ sport pote','biopro'] },
   { nombre: 'Biopro+ Sport', presentacion: '14 sticks x 25gr', precio: 132.50, qv: 20, keywords: ['biopro sport','biopro+ sport','biopro'] },
   { nombre: 'Biopro+ Tect', presentacion: 'Pote x 500gr', precio: 163.00, qv: 23, keywords: ['biopro tect pote','biopro+ tect pote','biopro'] },
   { nombre: 'Biopro+ Tect', presentacion: '14 sticks x 25gr', precio: 119.50, qv: 18, keywords: ['biopro tect','biopro+ tect','biopro'] },
@@ -191,6 +192,83 @@ function buscarProductos(texto) {
   return encontrados
 }
 
+// ═════════════════════════════════════════════════════════════
+//  LINKS DIRECTOS DE PRODUCTOS — tiendafuxion.com (docx sep-2026)
+// ═════════════════════════════════════════════════════════════
+const LINKS_PRODUCTO = {
+  'flora liv': 'https://tiendafuxion.com/storelt/emprendesalud/2085880',
+  'rexet': 'https://tiendafuxion.com/storelt/emprendesalud/2085882',
+  'golden flx': 'https://tiendafuxion.com/storelt/emprendesalud/2085884',
+  'alpha balance': 'https://tiendafuxion.com/storelt/emprendesalud/2085951',
+  'beauty in': 'https://tiendafuxion.com/storelt/emprendesalud/2085953',
+  'base madre amarilla': 'https://tiendafuxion.com/storelt/emprendesalud/2085955',
+  'base madre roja': 'https://tiendafuxion.com/storelt/emprendesalud/2085957',
+  'base madre verde': 'https://tiendafuxion.com/storelt/emprendesalud/2085958',
+  'berry balance': 'https://tiendafuxion.com/storelt/emprendesalud/2085959',
+  'biopro fit': 'https://tiendafuxion.com/storelt/emprendesalud/2085961',
+  'biopro sport pote': 'https://tiendafuxion.com/storelt/emprendesalud/2085963',
+  'biopro sport sobres': 'https://tiendafuxion.com/storelt/emprendesalud/2085965',
+  'biopro tect pote': 'https://tiendafuxion.com/storelt/emprendesalud/2085966',
+  'biopro tect sobres': 'https://tiendafuxion.com/storelt/emprendesalud/2085967',
+  'cafe y cafe fit cappuccino': 'https://tiendafuxion.com/storelt/emprendesalud/2085968',
+  'cafe ganomax': 'https://tiendafuxion.com/storelt/emprendesalud/2085974',
+  'chocolate fit': 'https://tiendafuxion.com/storelt/emprendesalud/2085976',
+  'gano cappuccino': 'https://tiendafuxion.com/storelt/emprendesalud/2085977',
+  'liquid fiber': 'https://tiendafuxion.com/storelt/emprendesalud/2085983',
+  'no stress': 'https://tiendafuxion.com/storelt/emprendesalud/2085984',
+  'nutraday': 'https://tiendafuxion.com/storelt/emprendesalud/2085989',
+  'on': 'https://tiendafuxion.com/storelt/emprendesalud/2085990',
+  'pack 5 14 keto': 'https://tiendafuxion.com/storelt/emprendesalud/2085993',
+  'pack 5 14 active mito': 'https://tiendafuxion.com/storelt/emprendesalud/2085994',
+  'passion': 'https://tiendafuxion.com/storelt/emprendesalud/3144145',
+  'post sport': 'https://tiendafuxion.com/storelt/emprendesalud/2085996',
+  'pre sport': 'https://tiendafuxion.com/storelt/emprendesalud/2085997',
+  'probal': 'https://tiendafuxion.com/storelt/emprendesalud/3144149',
+  'probix': 'https://tiendafuxion.com/storelt/emprendesalud/2085999',
+  'programa detox 5 dias': 'https://tiendafuxion.com/storelt/emprendesalud/2086001',
+  'protein active chocolate': 'https://tiendafuxion.com/storelt/emprendesalud/2086003',
+  'protein active vainilla': 'https://tiendafuxion.com/storelt/emprendesalud/2086005',
+  'protein active fit chocolate': 'https://tiendafuxion.com/storelt/emprendesalud/2086006',
+  'protein active fit vainilla': 'https://tiendafuxion.com/storelt/emprendesalud/2086008',
+  'protein active sport chocolate': 'https://tiendafuxion.com/storelt/emprendesalud/2086011',
+  'protein active sport vainilla': 'https://tiendafuxion.com/storelt/emprendesalud/2086012',
+  'protein xoup criolla': 'https://tiendafuxion.com/storelt/emprendesalud/2086013',
+  'protein xoup esparragos': 'https://tiendafuxion.com/storelt/emprendesalud/2086015',
+  'prunex1': 'https://tiendafuxion.com/storelt/emprendesalud/2086017',
+  'thermo t3': 'https://tiendafuxion.com/storelt/emprendesalud/2086019',
+  'vera': 'https://tiendafuxion.com/storelt/emprendesalud/2086021',
+  'vita xtra t': 'https://tiendafuxion.com/storelt/emprendesalud/2086022',
+  'vitaenergia': 'https://tiendafuxion.com/storelt/emprendesalud/2086023',
+  'xtra mile': 'https://tiendafuxion.com/storelt/emprendesalud/2086024',
+  'youth elixir': 'https://tiendafuxion.com/storelt/emprendesalud/2086026',
+}
+
+// v5.1: link directo de un producto del catálogo según su presentación/sabor
+function linkDeProducto(p) {
+  const k = normalize(p.nombre)
+  const pres = normalize(p.presentacion)
+  if (k.includes('biopro sport')) return LINKS_PRODUCTO[pres.includes('pote') ? 'biopro sport pote' : 'biopro sport sobres']
+  if (k.includes('biopro tect')) return LINKS_PRODUCTO[pres.includes('pote') ? 'biopro tect pote' : 'biopro tect sobres']
+  if (k.startsWith('protein active')) {
+    const sabor = k.includes('chocolate') ? 'chocolate' : k.includes('vainilla') ? 'vainilla' : null
+    if (k.includes('fit') && sabor) return LINKS_PRODUCTO[`protein active fit ${sabor}`]
+    if (k.includes('sport') && sabor) return LINKS_PRODUCTO[`protein active sport ${sabor}`]
+    if (sabor) return LINKS_PRODUCTO[`protein active ${sabor}`]
+  }
+  return LINKS_PRODUCTO[k] || null
+}
+
+// v5.1: links de productos mencionados en un texto (para contexto de Gemini)
+function linksParaTexto(texto) {
+  const n = normalize(texto)
+  const hits = []
+  for (const [k, url] of Object.entries(LINKS_PRODUCTO)) {
+    const tokens = k.split(' ').filter((t) => t.length > 2)
+    if (tokens.length >= 1 && tokens.every((t) => n.includes(t))) hits.push(`${k} → ${url}`)
+  }
+  return hits
+}
+
 function mensajePrecios(productos) {
   if (!productos.length) return null
 
@@ -208,11 +286,18 @@ function mensajePrecios(productos) {
     if (variants.length === 1) {
       const p = variants[0]
       totalQv += p.qv
-      lineas.push(`• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV${p.link ? `\n  👉 Link directo: ${p.link}` : ''}`)
+      const lk = linkDeProducto(p)
+      lineas.push(`• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV${lk ? `\
+  👉 ${lk}` : ''}`)
     } else {
       sumable = false
-      const sub = variants.map(p => `  - ${p.presentacion}: S/ ${p.precio.toFixed(2)} — ${p.qv} QV${p.link ? ` 👉 ${p.link}` : ''}`).join('\n')
-      lineas.push(`• *${nombre}* (elige tu formato):\n${sub}`)
+      const sub = variants.map((p) => {
+        const lk = linkDeProducto(p)
+        return `  - ${p.presentacion}: S/ ${p.precio.toFixed(2)} — ${p.qv} QV${lk ? ` 👉 ${lk}` : ''}`
+      }).join('\
+')
+      lineas.push(`• *${nombre}* (elige tu formato):\
+${sub}`)
     }
   }
 
@@ -226,19 +311,25 @@ function mensajePrecios(productos) {
     const falta80 = 80 - totalQv
     promo = `🎁 Te faltan ${falta60} QV para 1 producto de regalo en autoenvío (60 QV), o ${falta80} QV en compra directa (80 QV).`
   }
-  if (!sumable) promo += `\nℹ️ Los QV varían por formato: elige primero y te confirmo el total exacto.`
+  if (!sumable) promo += `\
+ℹ️ Los QV varían por formato: elige primero y te confirmo el total exacto.`
 
   const totalLine = sumable
     ? `*Total: S/ ${productos.reduce((s, p) => s + p.precio, 0).toFixed(2)} — ${totalQv} QV* 💰`
     : `*Puntos estimados: ${totalQv} QV* 💰`
 
-  return `💚 *Precios actualizados* FuXion Perú:
+  return `💚 *Precios FuXion Perú:*
 
-${lineas.join('\n')}
+${lineas.join('\
+')}
 
 ${totalLine}
 
+🎁 Junto a cada precio ves los *QV (puntos)*: con ellos obtienes *cajas de producto de regalo*.
+
 ${promo}
+
+🛒 ¿Vas a llevar más de uno? Entra a *cualquiera de los links* de arriba y desde ahí añade los demás productos al carrito.
 
 Compra aquí: ${TIENDA}
 Verifica que aparezca *Emprende Salud* como patrocinador ✅
@@ -365,7 +456,7 @@ const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá
 const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
 const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar|c[oó]mo compro|c[oó]mo pago|qu[eé] hago despu[eé]s del link|ya abr[ií] el link|no me carga|error en la p[aá]gina|tutorial|paso a paso|c[oó]mo me inscribo|c[oó]mo hago la compra|no encuentro el producto|d[oó]nde agrego al carrito|no me llega confirmaci[oó]n)/i
 
-// ── v5.0.0: cerebro comercial ────────────────────────────────────────
+// ── v5.1.0: cerebro comercial ────────────────────────────────────────
 const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quiero|dato|link|oferta|promo|descuento|anuncio|publicaci|fb|facebook|instagram)/i
 const INTENT_FOTO_RE = /(foto|imagen|picture|m[aá]ndame|mandame|muestrame|mu[eé]strame|ver el producto|c[oó]mo se ve)/i
 const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
@@ -463,6 +554,7 @@ const SYSTEM_PROMPT_WA = `Eres "Valeria", asesora de élite de FUXION Perú para
 
 IDENTIDAD Y ESTILO
 - Español peruano, tuteo, cercana pero autoritaria. MÁXIMO 3 líneas cortas por mensaje.
+- Humana, no robot: reconoce lo que acaba de decir el cliente ("¡Buena elección!", "Te entiendo", "Me cuentas que..."), varía tus frases y usa expresiones naturales ("al toque", "crack", "¿me cuentas?"). Nunca suenes a plantilla.
 - 1-2 emojis (💚💪✨). Cada mensaje termina en pregunta de avance o cierre.
 - Nunca repitas menús numerados; el sistema los envía. Responde la duda directa.
 
@@ -480,6 +572,8 @@ LINKS
 - Tienda general: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
 - Biopro+ Sport Pote 2lb directo: https://tiendafuxion.com/storelt/emprendesalud/3171015
 - Web: ${LANDING} — Guía de Nutrición Funcional gratis.
+- Si te pasan links directos en el mensaje del sistema, úsalos para el producto que mencione el cliente.
+- ¿"Por qué Perú?" / "¿solo en Perú?": FuXion está en 16 países — Alemania, Argentina, Bolivia, Brasil, Chile, Colombia, Costa Rica, Ecuador, España, Estados Unidos, Guatemala, Honduras, México, Panamá y Perú. Tu asesora (Valeria) opera desde Perú.
 
 ARSENAL DE VENTAS (natural, nunca robótico)
 - Cierre asumido: "¿Te lo envío en sobre o en caja?"
@@ -989,10 +1083,12 @@ ${p.link || TIENDA}
   }
 
   // ── FALLBACK GEMINI ─────────────────────────────────────────
+  const linksHits = linksParaTexto(body)
   const contexto =
     (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
-    `[REGLAS: 1) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 2) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 3) Si no sabes algo, opción 2 con Kervin.]`
+    (linksHits.length ? `[Links directos de productos que menciona: ${linksHits.join(' | ')}] ` : '') +
+    r`[REGLAS: 1) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 2) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 3) Si no sabes algo, opción 2 con Kervin.]`
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
@@ -1115,5 +1211,5 @@ export function registerWahaBot(app, database) {
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
   app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.0.0', ts: Date.now() }))
-  console.log('✅ Valeria v5.0.0 registrada (cerebro comercial + links directos + imágenes + alertas 24h)')
+  console.log('✅ Valeria v5.1.0 registrada (cerebro comercial + 43 links de productos + QV explicados + países)')
 }
