@@ -479,6 +479,25 @@ const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quier
 const INTENT_FOTO_RE = /(foto|imagen|picture|m[aá]ndame|mandame|muestrame|mu[eé]strame|ver el producto|c[oó]mo se ve)/i
 const INTENT_NUTRI_RE = /tabla nutricional|informaci[oó]n nutricional|valor(es)? nutricional|composici[oó]n|qu[eé] contiene|etiqueta nutricional/i
 const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
+const INTENT_QUiero_RE = /quiero|necesito|me llevo|pido|lo encargo|me apunto/i
+const INTENT_CALORIAS_RE = /calor[ií]as|kcal|cu[aá]nta (az[uú]car|prote[ií]na|grasa|sodio)|valores? nutricional|az[uú]car tiene|composici[oó]n nutricional/i
+
+// Ingredientes patentados que potencian cada producto (cerebro Dr. Columbus)
+const PRODUCT_PATENTES = {
+  'Biopro+ Sport': 'Actinos® — péptidos patentados que estimulan el óxido nítrico: más rendimiento y recuperación muscular más rápida',
+  'Biopro+ Tect': 'BioFerrín® (hierro orgánico de alto valor biológico) + Colostrum® (factores inmunes del calostro)',
+  'Biopro+ Fit': 'Prolibra® + Colostrum® — proteína láctea patentada que conserva la masa muscular magra en el control de peso',
+  'Protein Active (Chocolate)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Protein Active (Vainilla)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Protein Active Fit (Chocolate)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Protein Active Fit (Vainilla)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Protein Active Sport (Chocolate)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Protein Active Sport (Vainilla)': 'Proteína vegetal ACTIVE® (chía, arroz y chícharo) — absorción completa, sin lactosa',
+  'Youth Elixir': 'Optiberry® — mezcla patentada de berries antioxidantes + precursores naturales que apoyan la producción de HGH',
+  'Liquid Fiber': 'Synergy1® — fibras prebióticas patentadas de cadena corta y larga (inulina + oligofructuosa)',
+  'Vera+': 'Wellmune WGP® — beta-glucanos patentados que activan tus defensas naturales',
+  'Café GanoMax': 'Wellmune WGP® — beta-glucanos patentados que activan tus defensas naturales',
+}
 
 const MSG_CALIFICACION_ADS = `¡Hola! 💚 Soy *Valeria*, asesora oficial FuXion de *Emprende Salud*.
 
@@ -1071,6 +1090,7 @@ function initTables(database) {
   if (!cols.includes('last_in_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN last_in_at INTEGER DEFAULT 0')
   if (!cols.includes('alerta_seguimiento_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_seguimiento_at INTEGER DEFAULT 0')
   if (!cols.includes('reactivacion_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN reactivacion_at INTEGER DEFAULT 0')
+  if (!cols.includes('last_product')) db.exec("ALTER TABLE wa_contacts ADD COLUMN last_product TEXT DEFAULT ''")
 }
 
 function getContact(chatId) {
@@ -1304,21 +1324,50 @@ ${p.link || TIENDA}
     }
   }
 
-  // Tabla nutricional (v5.1.2) — foto de la etiqueta oficial por presentación
-  if (INTENT_NUTRI_RE.test(lower)) {
+  // Tabla nutricional (v5.1.2) + calorías/valores (v5.1.5) — etiqueta oficial, con contexto del producto
+  if (INTENT_NUTRI_RE.test(lower) || INTENT_CALORIAS_RE.test(lower)) {
     const prodsNutri = buscarProductos(body)
-    if (prodsNutri.length > 0) {
-      const p = prodsNutri[0]
-      const nutriUrl = NUTRI_IMAGES[p.nombre + '|' + p.presentacion] || NUTRI_IMAGES[p.nombre]
+    const pNutri = prodsNutri[0] || (contact.last_product ? buscarProductos(contact.last_product)[0] : null)
+    if (pNutri) {
+      const nutriUrl = NUTRI_IMAGES[pNutri.nombre + '|' + pNutri.presentacion] || NUTRI_IMAGES[pNutri.nombre]
       await humanDelay()
       if (nutriUrl) {
-        if (await waSendImage(chatId, nutriUrl, `📋 Tabla nutricional oficial de *${p.nombre}* (${p.presentacion}). Cualquier duda de ingredientes o valores, me dices 💚`)) consume()
+        if (await waSendImage(chatId, nutriUrl, `📋 Etiqueta oficial de *${pNutri.nombre}*: calorías, azúcar, proteína y valores completos. Cualquier duda, me dices 💚`)) consume()
       } else {
-        if (await waSend(chatId, `📋 La tabla nutricional completa de *${p.nombre}* está en su ficha oficial:
-${p.link || TIENDA}
+        if (await waSend(chatId, `📋 La tabla nutricional completa de *${pNutri.nombre}* está en su ficha oficial:
+${pNutri.link || TIENDA}
 
 Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)) consume()
       }
+      return
+    }
+  }
+
+  // "Quiero X" (v5.1.5): señal de compra con producto detectado → respuesta con valor + patente + cierre
+  if (INTENT_QUiero_RE.test(lower)) {
+    const prodsQuiero = buscarProductos(body)
+    if (prodsQuiero.length > 0) {
+      const p = prodsQuiero[0]
+      db.prepare('UPDATE wa_contacts SET last_product = ?, etiqueta = ? WHERE chat_id = ?')
+        .run(p.nombre, 'caliente', chatId)
+      const info = PRODUCT_INFO[p.nombre + '|' + p.presentacion] || PRODUCT_INFO[p.nombre]
+      const patente = PRODUCT_PATENTES[p.nombre]
+      const ingredientes = PRODUCT_INGREDIENTES[p.nombre]
+      const b = info ? info.b : ''
+      const msg = `💚 *${p.nombre}* — buena elección 😊
+
+*Para qué sirve:*
+${b || 'Te lo cuento en detalle:'}
+${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `⭐ *Contiene:* ${ingredientes}` : ''}
+
+*Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
+
+🛒 Link directo: ${p.link || TIENDA}
+Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
+
+¿Te lo envío por *Yape* o prefieres el *link de tarjeta*? 😊`
+      await humanDelay()
+      if (await waSend(chatId, msg)) consume()
       return
     }
   }
@@ -1329,7 +1378,11 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
     const prodsInfo = buscarProductos(body)
     if (prodsInfo.length > 0) {
       const p = prodsInfo[0]
+      db.prepare(`UPDATE wa_contacts SET last_product = ?,
+        etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END WHERE chat_id = ?`)
+        .run(p.nombre, chatId)
       const info = PRODUCT_INFO[p.nombre + '|' + p.presentacion] || PRODUCT_INFO[p.nombre]
+      const patente = PRODUCT_PATENTES[p.nombre]
       const ingredientes = PRODUCT_INGREDIENTES[p.nombre]
       await humanDelay()
       if (info) {
@@ -1337,7 +1390,7 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
 
 *Para qué sirve:*
 ${info.b}
-${ingredientes ? `*Qué contiene:* ${ingredientes}\n` : ''}*Cómo se toma:*
+${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `*Qué contiene:* ${ingredientes}\n` : ''}*Cómo se toma:*
 ${info.u}
 
 *Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
@@ -1366,6 +1419,8 @@ ${p.link || TIENDA}
   // Precio con productos específicos — intentar matching de catálogo
   const productosEncontrados = buscarProductos(body)
   if (productosEncontrados.length > 0) {
+    db.prepare('UPDATE wa_contacts SET last_product = ?, etiqueta = ? WHERE chat_id = ?')
+      .run(productosEncontrados[0].nombre, 'caliente', chatId)
     await humanDelay()
     if (await waSend(chatId, mensajePrecios(productosEncontrados))) consume()
     return
@@ -1618,9 +1673,26 @@ export function registerWahaBot(app, database) {
       db.prepare('UPDATE wa_contacts SET etapa = ? WHERE chat_id = ?').run(req.body.etapa, chatId)
     }
     if (req.body?.compra) {
-      db.prepare(`UPDATE wa_contacts SET etapa = 'cliente', compra_at = ?,
+      db.prepare(`UPDATE wa_contacts SET etapa = 'cliente', etiqueta = 'cliente', compra_at = ?,
         alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
         .run(Date.now(), chatId)
+      // Post-venta inmediata (v5.1.5): gracias + cómo tomarlo + siguiente pedido
+      const c = db.prepare('SELECT nombre, last_product FROM wa_contacts WHERE chat_id = ?').get(chatId)
+      const prod = c?.last_product ? (buscarProductos(c.last_product)[0] || null) : null
+      const info = prod ? (PRODUCT_INFO[prod.nombre + '|' + prod.presentacion] || PRODUCT_INFO[prod.nombre]) : null
+      const nombreC = c?.nombre ? c.nombre.split(' ')[0] : ''
+      ;(async () => {
+        await humanDelay()
+        const msg = `¡Gracias${nombreC ? ' ' + nombreC : ''}! 🎉 Tu pedido va en camino.
+${info ? `
+*Cómo tomar tu ${prod.nombre}:* ${info.u}` : ''}
+💡 Tu compra sumó puntos QV. En unos 25 días te escribo para tu siguiente pedido — así acumulas el producto de regalo 🎁
+
+Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
+        if (await waSend(chatId, msg)) {
+          db.prepare(`INSERT INTO wa_logs (chat_id, direction, text) VALUES (?, 'out', ?)`).run(chatId, '[postventa] ' + msg.slice(0, 120))
+        }
+      })()
     }
     res.json({ ok: true, contact: db.prepare('SELECT chat_id, nombre, etapa, compra_at FROM wa_contacts WHERE chat_id = ?').get(chatId) })
   })
@@ -1641,7 +1713,7 @@ export function registerWahaBot(app, database) {
       FROM wa_contacts c
       WHERE c.last_in_at >= ? AND c.compra_at = 0 AND c.reactivacion_at = 0
         AND c.chat_id NOT IN ('51970848043@c.us', '51970848043@lid')
-      ORDER BY c.last_in_at ASC LIMIT 20`).all(inicioHoy)
+      ORDER BY CASE WHEN c.etiqueta = 'caliente' THEN 0 ELSE 1 END, c.last_in_at ASC LIMIT 20`).all(inicioHoy)
 
     const elegidos = []
     for (const c of candidatos) {
@@ -1662,7 +1734,8 @@ export function registerWahaBot(app, database) {
         const prods = buscarProductos(c.ultimoMsg)
         let personal = ''
         if (prods.length > 0) {
-          personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. `
+          const pat = PRODUCT_PATENTES[prods[0].nombre]
+          personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. ${pat ? 'Tiene ' + pat.split('—')[0].trim() + ' — vale totalmente la pena. ' : ''}`
         } else if (c.objetivo) {
           personal = `Veo que hoy hablamos sobre tu objetivo de *${c.objetivo}*. `
         }
@@ -1685,6 +1758,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.4', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.4 registrada (info oficial + ingredientes + reactivación de leads)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.5', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.5 registrada (respuestas con patentes + calorías por contexto + etiquetas de leads)')
 }
