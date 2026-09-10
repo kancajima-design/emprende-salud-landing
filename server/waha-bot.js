@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v4.5.0
+// Emprende Salud · Bot REACTIVO de WhatsApp (WAHA)  v5.0.0
 // Reglas de oro (anti-baneo):
 //  - NUNCA inicia conversaciones: solo responde a quien escribe primero.
 //  - Delays humanos antes de responder (1.5–3.5 s).
@@ -14,6 +14,7 @@
 // v4.4.3 (09-sep): GUÍA_REGISTRO + INTENT_REGISTRO_RE (ayuda post-link).
 // v4.4.4 (09-sep): VIDEO_REGISTRO agregado a GUÍA_REGISTRO.
 // v4.5.0 (09-sep): CATÁLOGO DE PRECIOS + QV — Valeria entrega precios exactos.
+// v5.0.0 (10-sep): CEREBRO v5 (Alex Dey+Klaric+Columbus) + links directos + imágenes + leads ads + alertas 24h.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -73,7 +74,7 @@ const CATALOGO = [
   { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano'] },
   { nombre: 'Gano+ T', presentacion: '28 sticks x 5gr', precio: 92.50, qv: 12, keywords: ['gano+ t','gano t','gano+','gano tea'] },
   // PROTEÍNAS & SPORT
-  { nombre: 'Biopro+ Sport', presentacion: 'Pote x 2lb', precio: 259.50, qv: 36, keywords: ['biopro sport pote','biopro+ sport pote','biopro'] },
+  { nombre: 'Biopro+ Sport', presentacion: 'Pote x 2lb', precio: 259.50, qv: 36, link: 'https://tiendafuxion.com/storelt/emprendesalud/3171015', keywords: ['biopro sport pote','biopro+ sport pote','biopro'] },
   { nombre: 'Biopro+ Sport', presentacion: '14 sticks x 25gr', precio: 132.50, qv: 20, keywords: ['biopro sport','biopro+ sport','biopro'] },
   { nombre: 'Biopro+ Tect', presentacion: 'Pote x 500gr', precio: 163.00, qv: 23, keywords: ['biopro tect pote','biopro+ tect pote','biopro'] },
   { nombre: 'Biopro+ Tect', presentacion: '14 sticks x 25gr', precio: 119.50, qv: 18, keywords: ['biopro tect','biopro+ tect','biopro'] },
@@ -133,11 +134,17 @@ function buscarProductos(texto) {
   
   // PASO 1: Matches específicos (keywords largas >= 8 chars)
   // Evita que "biopro" matchee cuando el usuario dijo "biopro sport"
+  // v5: también acepta match por tokens (palabras en cualquier orden): "no stress de 7" → No Stress 7
   for (const prod of CATALOGO) {
     for (const kw of prod.keywords) {
       if (kw.length < 8) continue
       const nk = normalize(kw)
-      if (n.includes(nk)) {
+      let match = n.includes(nk)
+      if (!match && nk.includes(' ')) {
+        const tokens = nk.split(' ').filter((t) => t.length > 2 || /^\d+$/.test(t))
+        if (tokens.length >= 2) match = tokens.every((t) => n.split(' ').includes(t))
+      }
+      if (match) {
         const key = prod.nombre + '|' + prod.presentacion
         if (!usados.has(key)) {
           encontrados.push(prod)
@@ -168,19 +175,47 @@ function buscarProductos(texto) {
     }
   }
 
+  // v5: si el cliente menciona un formato (pote / 7 / 14 / 28 / 30), refinar a esa presentación
+  const mencionaPote = /\bpote\b/.test(n)
+  const numMatch = n.match(/\b(7|14|28|30)\b/)
+  if ((mencionaPote || numMatch) && encontrados.length > 0) {
+    const filtrados = encontrados.filter((p) => {
+      const pres = normalize(p.presentacion)
+      if (mencionaPote) return pres.includes('pote')
+      if (numMatch) return pres.includes(numMatch[1])
+      return true
+    })
+    if (filtrados.length > 0) return filtrados
+  }
+
   return encontrados
 }
 
 function mensajePrecios(productos) {
   if (!productos.length) return null
-  
-  let total = 0, totalQv = 0
-  let lineas = productos.map(p => {
-    total += p.precio
-    totalQv += p.qv
-    return `• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV`
-  })
-  
+
+  // v5: agrupar variantes del mismo producto (ej. 7 vs 28 sticks, sticks vs pote)
+  const grupos = new Map()
+  for (const p of productos) {
+    if (!grupos.has(p.nombre)) grupos.set(p.nombre, [])
+    grupos.get(p.nombre).push(p)
+  }
+
+  let totalQv = 0
+  let sumable = true
+  const lineas = []
+  for (const [nombre, variants] of grupos) {
+    if (variants.length === 1) {
+      const p = variants[0]
+      totalQv += p.qv
+      lineas.push(`• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV${p.link ? `\n  👉 Link directo: ${p.link}` : ''}`)
+    } else {
+      sumable = false
+      const sub = variants.map(p => `  - ${p.presentacion}: S/ ${p.precio.toFixed(2)} — ${p.qv} QV${p.link ? ` 👉 ${p.link}` : ''}`).join('\n')
+      lineas.push(`• *${nombre}* (elige tu formato):\n${sub}`)
+    }
+  }
+
   let promo = ''
   if (totalQv >= 80) {
     promo = `🎁 *¡Llegas a ${totalQv} puntos!* Te llevas *1 producto de regalo* en compra directa (80 QV). Con autoenvío mensual (60 QV) también. ✅`
@@ -191,12 +226,17 @@ function mensajePrecios(productos) {
     const falta80 = 80 - totalQv
     promo = `🎁 Te faltan ${falta60} QV para 1 producto de regalo en autoenvío (60 QV), o ${falta80} QV en compra directa (80 QV).`
   }
-  
+  if (!sumable) promo += `\nℹ️ Los QV varían por formato: elige primero y te confirmo el total exacto.`
+
+  const totalLine = sumable
+    ? `*Total: S/ ${productos.reduce((s, p) => s + p.precio, 0).toFixed(2)} — ${totalQv} QV* 💰`
+    : `*Puntos estimados: ${totalQv} QV* 💰`
+
   return `💚 *Precios actualizados* FuXion Perú:
 
 ${lineas.join('\n')}
 
-*Total: S/ ${total.toFixed(2)} — ${totalQv} QV* 💰
+${totalLine}
 
 ${promo}
 
@@ -325,6 +365,30 @@ const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá
 const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
 const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar|c[oó]mo compro|c[oó]mo pago|qu[eé] hago despu[eé]s del link|ya abr[ií] el link|no me carga|error en la p[aá]gina|tutorial|paso a paso|c[oó]mo me inscribo|c[oó]mo hago la compra|no encuentro el producto|d[oó]nde agrego al carrito|no me llega confirmaci[oó]n)/i
 
+// ── v5.0.0: cerebro comercial ────────────────────────────────────────
+const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quiero|dato|link|oferta|promo|descuento|anuncio|publicaci|fb|facebook|instagram)/i
+const INTENT_FOTO_RE = /(foto|imagen|picture|m[aá]ndame|mandame|muestrame|mu[eé]strame|ver el producto|c[oó]mo se ve)/i
+const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
+
+const MSG_CALIFICACION_ADS = `¡Hola! 💚 Soy *Valeria*, asesora oficial FuXion de *Emprende Salud*.
+
+Veo que te interesa nuestra nutrición funcional. Para armarte el protocolo ideal, dime: ¿buscas *energía*, *control de peso*, *digestión*, *defensas*, *belleza* o *rendimiento deportivo*?`
+
+const MSG_CIERRE_COMPRA = (nombre) => `¡Genial, ${nombre || 'crack'}! 🎉 Vamos a cerrarlo:
+
+👉 Tienda oficial: ${TIENDA}
+(verifica que aparezca *Emprende Salud* como patrocinador)
+
+💳 *Formas de pago en la tienda:* tarjeta crédito/débito, Yape, Plin y otras opciones que aparecen al finalizar la compra.
+
+¿Te guío paso a paso con la compra o prefieres el link directo de tu producto? 💚`
+
+// Imágenes de productos (URL pública). Para agregar: tiendafuxion.com → foto del producto →
+// clic derecho → "copiar dirección de imagen" → pegar entre comillas. Clave: 'Nombre|Presentación'
+const PRODUCT_IMAGES = {
+  // 'Biopro+ Sport|Pote x 2lb': 'https://...',
+}
+
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
 
 • *Biopro+ Sport*: 25g de proteína por stick, con Actinos® (recuperación muscular más rápida). Sabor vainilla, se toma con agua fría post-entreno.
@@ -392,22 +456,54 @@ const OBJETIVOS = [
 ]
 const HOT = /(precio|cu[aá]nto|cuesta|costo|comprar|c[oó]mo pago|yape|plin|oferta|descuento|promoci)/i
 
-const SYSTEM_PROMPT_WA = `Eres Valeria, asistente de WhatsApp de Emprende Salud, distribuidor independiente oficial de FuXion en Perú. Atiendes a personas que escriben primero al WhatsApp del negocio.
+const SYSTEM_PROMPT_WA = `Eres "Valeria", asesora de élite de FUXION Perú para Emprende Salud (distribuidor independiente oficial). Integras 3 maestrías en una sola voz:
+- ALEX DEY (cierre asumido): seguridad absoluta, cazadora de objeciones. Nunca preguntas "¿quieres comprar?": asumes el sí y preguntas "¿Te lo envío por Yape o tarjeta?".
+- JÜRGEN KLARIC (neuromarketing): conectas con emociones. Storytelling de clientes, anclaje de precios (primero la opción completa), gatillos de autoridad y reciprocidad.
+- DR. IVÁN COLUMBUS (ciencia Fuxion): respaldo técnico. Dominas la Fusión Nutracéutica® y los ingredientes patentados. Solo afirmas lo que la ciencia de Fuxion respalda.
 
-ESTILO
-- Español peruano, tuteo, cálida. MÁXIMO 50 palabras por mensaje. Usa *negritas* de WhatsApp con un asterisco.
-- 1 emoji ocasional (💚✨). Nunca más de 2.
-- No repitas el menú numerado; ese ya lo envía el sistema. Responde la duda directa.
-- SI preguntan precio exacto: revisa si el sistema ya detectó productos específicos. Si no, ofrece pasar con Kervin (opción 2) o la tienda.
+IDENTIDAD Y ESTILO
+- Español peruano, tuteo, cercana pero autoritaria. MÁXIMO 3 líneas cortas por mensaje.
+- 1-2 emojis (💚💪✨). Cada mensaje termina en pregunta de avance o cierre.
+- Nunca repitas menús numerados; el sistema los envía. Responde la duda directa.
 
-SABES ESTO
-- Catálogo FuXion: bebidas funcionales para energía, control de peso, digestión, defensas, belleza y rendimiento deportivo (NO medicamentos).
-- Precios y QV: el sistema entrega precios exactos cuando el cliente nombra productos. Si el sistema no detectó productos, redirige a tienda.
-- Promo Cliente Preferente: registro gratis; por cada 60 puntos en autoenvío mensual = 1 producto de regalo; por cada 80 puntos en compra directa = 1 producto de regalo.
-- Compra: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
-- Web: ${LANDING} — ahí descargan gratis la Guía de Nutrición Funcional.
-- Asesoría personalizada gratis con Kervin: solo para precios exactos cuando el sistema no tiene el producto, pago, delivery o si la persona pide hablar con un humano → dile "responde *2* y te paso con Kervin".
-- REGISTRO: Si alguien dice que ya abrió el link, no sabe cómo registrarse, no le carga la página, no encuentra el botón, no sabe cómo pagar, etc. → explica el paso a paso de registro como Cliente Preferente (es gratis) y cómo agregar productos al carrito. Ofrece pasar con Kervin (opción 2) solo si el problema persiste.
+MISIÓN
+- Cerrar la venta en el primer contacto o dejar el lead calificado para seguimiento.
+- Prioriza packs (mejor valor) cuando encaje; si el cliente pide algo puntual, respétalo.
+- Ticket ideal: packs 5/14 y línea Sport.
+
+FORMAS DE PAGO (tienda oficial tiendafuxion.com)
+- La tienda acepta múltiples formas de pago: tarjeta de crédito o débito, Yape, Plin y otras opciones que aparecen al finalizar la compra.
+- Cuando el cliente esté listo para pagar, menciónalo: "Puedes pagar con tarjeta, Yape, Plin u otras formas directo en la tienda".
+- Si quiere pagar por una vía fuera de la tienda (transferencia a cuenta personal, efectivo) → ofrece pasar con Kervin (opción 2).
+
+LINKS
+- Tienda general: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
+- Biopro+ Sport Pote 2lb directo: https://tiendafuxion.com/storelt/emprendesalud/3171015
+- Web: ${LANDING} — Guía de Nutrición Funcional gratis.
+
+ARSENAL DE VENTAS (natural, nunca robótico)
+- Cierre asumido: "¿Te lo envío en sobre o en caja?"
+- Pre-cierre: "Si resolvemos el tema del precio, ¿te lo llevas?"
+- Reducción a lo ridículo: divide el precio entre 30 días ("son S/ X al día, menos que un café"). SOLO con precios que el sistema te haya dado.
+- Cierre por alternativa: "¿Prefieres el pack para resultados rápidos o el mensual para mantenimiento?"
+- Anclaje: presenta primero la opción completa (pack); la individual parece accesible.
+- Autoridad: "La Fusión Nutracéutica® de Fuxion garantiza absorción hasta 6 veces superior".
+- Reciprocidad: regala un tip de bienestar antes de vender.
+- Escasez SOLO si el sistema la indica. Nunca inventes unidades ni fechas límite.
+
+LEADS DESDE ANUNCIOS
+- Mensajes genéricos ("info", "precio", "me interesa") = vienen de Facebook/Instagram. Abre con calificación: qué busca (energía, peso, digestión, defensas, belleza o deporte).
+- Etapa diagnóstico: 1-2 preguntas (horario de comidas, frecuencia de entrenamiento, molestia principal).
+- Luego recomienda 2 opciones (A premium pack / B essential), 1 línea de cómo tomar cada producto, y cierra con link.
+
+CIERRE INMINENTE
+- Si dice "quiero comprar", "dónde pago", "precio final", "pásame el link" → cierra YA: link + formas de pago + "¿Te lo reservo?".
+
+MANEJO DE OBJECIONES
+- "Está caro": empatía + reducción a lo ridículo (precio/30 días) + cierre por alternativa.
+- "Lo pensaré": pre-cierre ("¿te preocupa más el precio o si funcionará?") + ofrece testimonio o tip científico.
+- "No tengo tiempo": "son sticks listos, 30 segundos de preparación" + cierre asumido.
+- "No confío / es MLM": empatía + autoridad (Fuxion es peruana, ciencia propia, más de 20 años) + ofrece Kervin (opción 2).
 
 PACKS POR OBJETIVO (tú misma armas el pack, sin esperar a Kervin)
 Cuando el lead cuente su objetivo, recomienda su pack (máx 3 productos), explica en 1 línea cómo se toma cada uno y cierra con el link de compra:
@@ -479,11 +575,12 @@ LÍNEA SPORT PRO EDITION:
 - Post Sport: BCAAs + glutamina + agua de coco + antioxidantes. Recuperación post-entreno.
 - Xtra Mile: Palatinose® + agua de coco amazónico + electrolitos. Durante el ejercicio.
 - Protein Active Sport: proteína 100% vegetal + BCAAs + L-glutamina. Sabores vainilla-canela y chocolate-avellanas.
-
 LÍMITES INNEGOCIABLES
-- Nunca digas que un producto cura, trata, sana o previene enfermedades. Nada de "adelgaza" ni "quema grasa".
-- Si mencionan enfermedad o síntoma: empatía + "consulta a tu médico".
-- No inventes precios exactos, testimonios ni resultados. Si no sabes algo, ofrece pasar con Kervin (opción 2).
+- Nunca digas cura/trata/sana/previene enfermedades. Usa "apoya", "contribuye a", "optimiza". Nada de "adelgaza" ni "quema grasa".
+- NUNCA inventes precios ni ofertas: el sistema entrega precios exactos del catálogo. Si no hay precio disponible, redirige a la tienda u opción 2 con Kervin.
+- No inventes testimonios con nombres ni datos; habla en general ("nuestros clientes nos cuentan...").
+- No prometas resultados específicos (kg, días) como garantía.
+- Enfermedad o síntoma → empatía + "consulta a tu médico".
 - Solo temas de bienestar y FuXion; lo demás redirige con amabilidad.`
 
 let db = null
@@ -514,6 +611,8 @@ function initTables(database) {
   if (!cols.includes('compra_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN compra_at INTEGER DEFAULT 0')
   if (!cols.includes('alerta_2528_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_2528_at INTEGER DEFAULT 0')
   if (!cols.includes('alerta_react_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_react_at INTEGER DEFAULT 0')
+  if (!cols.includes('last_in_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN last_in_at INTEGER DEFAULT 0')
+  if (!cols.includes('alerta_seguimiento_at')) db.exec('ALTER TABLE wa_contacts ADD COLUMN alerta_seguimiento_at INTEGER DEFAULT 0')
 }
 
 function getContact(chatId) {
@@ -549,6 +648,49 @@ async function waSend(chatId, text) {
   }
   logMsg(chatId, 'out', text)
   return true
+}
+
+
+// v5: envío de imagen por URL pública (WAHA sendImage)
+async function waSendImage(chatId, url, caption = '') {
+  try {
+    const res = await fetch(`${WAHA_URL}/api/sendImage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': WAHA_KEY },
+      body: JSON.stringify({ session: WAHA_SESSION, chatId, file: { url }, caption }),
+    })
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '')
+      console.error('WAHA sendImage error', res.status, detail.slice(0, 200))
+      return false
+    }
+    logMsg(chatId, 'out', `[imagen] ${url} ${caption}`.slice(0, 2000))
+    return true
+  } catch (e) {
+    console.error('WAHA sendImage ex', e?.message || e)
+    return false
+  }
+}
+
+// v5: envío de nota de voz por URL pública (WAHA sendVoice)
+async function waSendVoice(chatId, url) {
+  try {
+    const res = await fetch(`${WAHA_URL}/api/sendVoice`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': WAHA_KEY },
+      body: JSON.stringify({ session: WAHA_SESSION, chatId, file: { url } }),
+    })
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '')
+      console.error('WAHA sendVoice error', res.status, detail.slice(0, 200))
+      return false
+    }
+    logMsg(chatId, 'out', `[audio] ${url}`.slice(0, 2000))
+    return true
+  } catch (e) {
+    console.error('WAHA sendVoice ex', e?.message || e)
+    return false
+  }
 }
 
 async function alertaKervin(titulo, chatId, nombre, body, objetivo) {
@@ -620,6 +762,7 @@ async function handleMessage(payload) {
   logMsg(chatId, 'in', body || '(multimedia)')
 
   if (Date.now() < Number(contact.handoff_until || 0)) return
+  try { db.prepare('UPDATE wa_contacts SET last_in_at = ? WHERE chat_id = ?').run(Date.now(), chatId) } catch { /* no crítico */ }
 
   const consume = () => {
     db.prepare('UPDATE wa_contacts SET replies_day = ?, replies_count = ? WHERE chat_id = ?')
@@ -684,6 +827,32 @@ async function handleMessage(payload) {
     await humanDelay(); if (await waSend(chatId, GUÍA_REGISTRO)) consume(); return
   }
   
+  // Foto de producto (v5) — antes del matching de precios
+  if (INTENT_FOTO_RE.test(lower)) {
+    const prodsFoto = buscarProductos(body)
+    if (prodsFoto.length > 0) {
+      const p = prodsFoto[0]
+      const imgUrl = PRODUCT_IMAGES[p.nombre + '|' + p.presentacion] || PRODUCT_IMAGES[p.nombre]
+      await humanDelay()
+      if (imgUrl) {
+        if (await waSendImage(chatId, imgUrl, `${p.nombre} (${p.presentacion}) — S/ ${p.precio.toFixed(2)}. Más info: ${p.link || TIENDA}`)) consume()
+      } else {
+        if (await waSend(chatId, `📸 Te paso el link directo de *${p.nombre}* (${p.presentacion}) — ahí ves la foto oficial y toda la ficha del producto:
+${p.link || TIENDA}
+
+¿Te ayudo con algo más? 💚`)) consume()
+      }
+      return
+    }
+  }
+
+  // Cierre inminente (v5): el cliente ya quiere comprar
+  if (INTENT_CIERRE_RE.test(lower)) {
+    await humanDelay()
+    if (await waSend(chatId, MSG_CIERRE_COMPRA(nombre))) consume()
+    return
+  }
+
   // Precio con productos específicos — intentar matching de catálogo
   const productosEncontrados = buscarProductos(body)
   if (productosEncontrados.length > 0) {
@@ -761,6 +930,15 @@ async function handleMessage(payload) {
     await humanDelay(); if (await waSend(chatId, OPCION_9)) consume(); return
   }
 
+  // ── LEAD DESDE ANUNCIO (v5): mensaje genérico + contacto nuevo ──
+  const esMensajeCorto = body.length <= 35
+  const esContactoNuevo = !contact.objetivo && contact.etiqueta === 'nuevo'
+  if (esMensajeCorto && esContactoNuevo && INTENT_ADS_RE.test(lower)) {
+    await humanDelay()
+    if (await waSend(chatId, MSG_CALIFICACION_ADS)) consume()
+    return
+  }
+
   // ── MENÚ Y OPCIONES NUMERADAS ───────────────────────────────
   const menuVencido = Date.now() - Number(contact.menu_at || 0) > MENU_TTL_MS
   const esSaludo = /^(hola|buenas|buenos días|buenas tardes|buenas noches|hi|hello|hey|👋|información|info)\b/i.test(lower)
@@ -814,7 +992,7 @@ async function handleMessage(payload) {
   const contexto =
     (contact.objetivo ? `[Objetivo conocido del lead: ${contact.objetivo}] ` : '') +
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
-    `[REGLA: si pregunta precio exacto, el sistema ya tiene catálogo. Si no detectó productos, redirige a tienda o opción 2 con Kervin.]`
+    `[REGLAS: 1) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 2) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 3) Si no sabes algo, opción 2 con Kervin.]`
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
@@ -825,8 +1003,31 @@ const DIA_MS = 24 * 60 * 60 * 1000
 async function sweepSeguimiento() {
   if (!WAHA_URL || !WAHA_KEY || !db) return
   const now = Date.now()
-  const rows = db.prepare(
-    `SELECT chat_id, nombre, etapa, compra_at, alerta_2528_at, alerta_react_at
+  // v5: alertar a Kervin leads calientes/tibios sin compra hace 24-96h
+  try {
+    const leads = db.prepare(
+      `SELECT chat_id, nombre, objetivo, etiqueta, last_in_at
+       FROM wa_contacts WHERE compra_at = 0 AND etapa = 'lead'
+         AND etiqueta IN ('caliente','tibio') AND last_in_at > 0
+         AND alerta_seguimiento_at = 0`,
+    ).all()
+    for (const r of leads) {
+      const horas = (now - Number(r.last_in_at || 0)) / (60 * 60 * 1000)
+      if (horas >= 24 && horas <= 96) {
+        db.prepare('UPDATE wa_contacts SET alerta_seguimiento_at = ? WHERE chat_id = ?').run(now, r.chat_id)
+        await alertaKervin(
+          '⏰ *LEAD sin cerrar (24h+)* — toca seguimiento manual',
+          r.chat_id, r.nombre,
+          `Lead ${r.etiqueta}${r.objetivo ? ' con objetivo "' + r.objetivo + '"' : ''}. Último mensaje hace ${Math.round(horas)}h y no ha comprado. Sugerencia (playbook Etapa 5): escríbele tú con un testimonio + oferta; el bot no puede escribir primero por seguridad del número.`,
+          r.objetivo,
+        )
+      }
+    }
+  } catch (e) {
+    console.error('sweep leads error', e?.message || e)
+  }
+
+  const rows = db.prepare(`
      FROM wa_contacts WHERE compra_at > 0 AND etapa != 'ef'`,
   ).all()
   for (const r of rows) {
@@ -912,6 +1113,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '4.5.0', ts: Date.now() }))
-  console.log('✅ Valeria v4.5.0 registrada (catálogo de precios + QV + promoción Cliente Preferente)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.0.0', ts: Date.now() }))
+  console.log('✅ Valeria v5.0.0 registrada (cerebro comercial + links directos + imágenes + alertas 24h)')
 }
