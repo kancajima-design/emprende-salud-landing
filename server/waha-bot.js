@@ -459,6 +459,7 @@ const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar
 // ── v5.1.0: cerebro comercial ────────────────────────────────────────
 const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quiero|dato|link|oferta|promo|descuento|anuncio|publicaci|fb|facebook|instagram)/i
 const INTENT_FOTO_RE = /(foto|imagen|picture|m[aá]ndame|mandame|muestrame|mu[eé]strame|ver el producto|c[oó]mo se ve)/i
+const INTENT_NUTRI_RE = /tabla nutricional|informaci[oó]n nutricional|valor(es)? nutricional|composici[oó]n|qu[eé] contiene|etiqueta nutricional/i
 const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
 
 const MSG_CALIFICACION_ADS = `¡Hola! 💚 Soy *Valeria*, asesora oficial FuXion de *Emprende Salud*.
@@ -583,6 +584,111 @@ const PRODUCT_IMAGES = {
   "Xtra Mile|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/imageProducts/PE/PE_143283_GRA_17092020_232916_MAIN.jpg",
   "Youth Elixir": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/imageProducts/PE/PE_145082_GRA_17092020_225522_MAIN.jpg",
   "Youth Elixir|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/imageProducts/PE/PE_145082_GRA_17092020_225522_MAIN.jpg",
+}
+
+const NUTRI_IMAGES = {
+  "Alpha Balance": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57454_ES_18012024_231255.jpg",
+  "Alpha Balance|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57454_ES_18012024_231255.jpg",
+  "Base Madre Amarilla": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58718_ES_04032024_173022.jpg",
+  "Base Madre Amarilla|Sobre x 50gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58718_ES_04032024_173022.jpg",
+  "Base Madre Roja": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58719_ES_04032024_173609.jpg",
+  "Base Madre Roja|Sobre x 50gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58719_ES_04032024_173609.jpg",
+  "Base Madre Verde": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58717_ES_28022024_232610.jpg",
+  "Base Madre Verde|Sobre x 50gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58717_ES_28022024_232610.jpg",
+  "Beauty-In": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55752_ES_01022024_161836.jpg",
+  "Beauty-In|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55752_ES_01022024_161836.jpg",
+  "Berry Balance": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57565_ES_18012024_231459.jpg",
+  "Berry Balance|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57565_ES_18012024_231459.jpg",
+  "Biopro+ Fit": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6036_ES_01022024_155450.jpg",
+  "Biopro+ Fit|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6036_ES_01022024_155450.jpg",
+  "Biopro+ Sport": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5395_ES_01022024_173103.jpg",
+  "Biopro+ Sport|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43594_ES_01022024_172850.jpg",
+  "Biopro+ Sport|Pote x 2lb": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5395_ES_01022024_173103.jpg",
+  "Biopro+ Tect": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5396_ES_18012024_232254.jpg",
+  "Biopro+ Tect|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6038_ES_18012024_231901.jpg",
+  "Biopro+ Tect|Pote x 500gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5396_ES_18012024_232254.jpg",
+  "Café & Café Fit": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5343_ES_16102024_155131.jpg",
+  "Café & Café Fit Cappuccino": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5343_ES_16102024_155131.jpg",
+  "Café & Café Fit Cappuccino|28 sticks x 15gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5343_ES_16102024_155131.jpg",
+  "Café & Café Fit|28 sticks x 4gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5343_ES_16102024_155131.jpg",
+  "Café GanoMax": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5196_ES_02022021_175647.jpg",
+  "Café GanoMax|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_5196_ES_02022021_175647.jpg",
+  "Chocolate Fit": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6316_ES_16122022_002603.png",
+  "Chocolate Fit|14 sticks x 15gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6316_ES_16122022_002603.png",
+  "Flora Liv": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6778_ES_16012024_181154.jpg",
+  "Flora Liv|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6778_ES_16012024_181154.jpg",
+  "Gano+ Cappuccino": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57395_ES_19012024_002009.jpg",
+  "Gano+ Cappuccino|28 sticks x 7.5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57395_ES_19012024_002009.jpg",
+  "Gano+ T": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55599_ES_02022021_175603.jpg",
+  "Gano+ T|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55599_ES_02022021_175603.jpg",
+  "Golden FLX": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55753_ES_01022024_162928.jpg",
+  "Golden FLX|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55753_ES_01022024_162928.jpg",
+  "Liquid Fiber": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55602_ES_02022021_173859.jpg",
+  "Liquid Fiber|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55602_ES_02022021_173859.jpg",
+  "No Stress": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55754_ES_01022024_172411.jpg",
+  "No Stress|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55754_ES_01022024_172411.jpg",
+  "No Stress|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55328_ES_01022024_172559.png",
+  "NoCarb-T": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55751_ES_01022024_154932.jpg",
+  "NoCarb-T|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55751_ES_01022024_154932.jpg",
+  "Nutraday": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57320_ES_18012024_235309.jpg",
+  "Nutraday|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57320_ES_18012024_235309.jpg",
+  "ON": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55750_ES_01022024_170110.jpg",
+  "ON|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55750_ES_01022024_170110.jpg",
+  "ON|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55327_ES_01022024_170255.png",
+  "Pack 5/14 Active Mito": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56978_ES_02022021_190903.jpg",
+  "Pack 5/14 Active Mito|Caja Pack": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56978_ES_02022021_190903.jpg",
+  "Pack 5/14 Keto": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56787_ES_02022021_190809.jpg",
+  "Pack 5/14 Keto|Caja Pack": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56787_ES_02022021_190809.jpg",
+  "Passion": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_62051_ES_08042026_164317.jpg",
+  "Passion|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_62051_ES_08042026_164317.jpg",
+  "Post Sport": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43595_ES_01022024_174651.jpg",
+  "Post Sport|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43595_ES_01022024_174651.jpg",
+  "Pre Sport": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43597_ES_01022024_173803.jpg",
+  "Pre Sport|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43597_ES_01022024_173803.jpg",
+  "Probix": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58831_ES_08032024_185003.png",
+  "Probix|28 x 0.5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_58831_ES_08032024_185003.png",
+  "Programa Detox 5 Días": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55603_ES_02022021_190716.jpg",
+  "Programa Detox 5 Días|Caja Pack": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55603_ES_02022021_190716.jpg",
+  "Protein Active (Chocolate)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55178_ES_18012024_232614.jpg",
+  "Protein Active (Chocolate)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55178_ES_18012024_232614.jpg",
+  "Protein Active (Vainilla)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55177_ES_18012024_232939.jpg",
+  "Protein Active (Vainilla)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55177_ES_18012024_232939.jpg",
+  "Protein Active Fit (Chocolate)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55180_ES_01022024_160029.jpg",
+  "Protein Active Fit (Chocolate)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55180_ES_01022024_160029.jpg",
+  "Protein Active Fit (Vainilla)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55179_ES_01022024_160235.jpg",
+  "Protein Active Fit (Vainilla)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55179_ES_01022024_160235.jpg",
+  "Protein Active Sport (Chocolate)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43593_ES_01022024_173305.jpg",
+  "Protein Active Sport (Chocolate)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43593_ES_01022024_173305.jpg",
+  "Protein Active Sport (Vainilla)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43598_ES_01022024_173513.jpg",
+  "Protein Active Sport (Vainilla)|14 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43598_ES_01022024_173513.jpg",
+  "Protein Xoup (Brócoli)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6293_ES_02022021_180907.jpg",
+  "Protein Xoup (Brócoli)|7 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6293_ES_02022021_180907.jpg",
+  "Protein Xoup (Crema Criolla)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6294_ES_02022021_180807.jpg",
+  "Protein Xoup (Crema Criolla)|7 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6294_ES_02022021_180807.jpg",
+  "Protein Xoup (Espárragos)": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6295_ES_02022021_180949.jpg",
+  "Protein Xoup (Espárragos)|7 sticks x 25gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6295_ES_02022021_180949.jpg",
+  "Prunex1": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6458_ES_16012024_180308.jpg",
+  "Prunex1|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6458_ES_16012024_180308.jpg",
+  "Prunex1|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_61053_ES_21072025_221036.jpg",
+  "Rexet": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57507_ES_16012024_214504.jpg",
+  "Rexet|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_57507_ES_16012024_214504.jpg",
+  "Rexet|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55370_ES_18012024_222903.png",
+  "Thermo T3": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6455_ES_01022024_153947.jpg",
+  "Thermo T3|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6455_ES_01022024_153947.jpg",
+  "Thermo T3|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55329_ES_01022024_154150.png",
+  "Vera+": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55933_ES_18012024_235653.jpg",
+  "Vera+|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55933_ES_18012024_235653.jpg",
+  "Vita Xtra T+": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6457_ES_02022021_175201.jpg",
+  "Vita Xtra T+|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_6457_ES_02022021_175201.jpg",
+  "Vita Xtra T+|7 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_55326_ES_18012024_235031.png",
+  "Vitaenergía": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_4838_ES_02022021_175019.jpg",
+  "Vitaenergía|30 sticks x 7.5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_4838_ES_02022021_175019.jpg",
+  "Xpeed": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_146291_ES_10012022_152122.jpg",
+  "Xpeed|Pack x 4": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_146291_ES_10012022_152122.jpg",
+  "Xtra Mile": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43596_ES_01022024_174042.jpg",
+  "Xtra Mile|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_43596_ES_01022024_174042.jpg",
+  "Youth Elixir": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56639_ES_01022024_162622.jpg",
+  "Youth Elixir|28 sticks x 5gr": "https://fuxionstorage.blob.core.windows.net/vhdfuxionoffix/newOffix/nutritionalInformation/PE/IN_PE_56639_ES_01022024_162622.jpg",
 }
 
 const OPCION_4 = `💪 *Línea Sport Pro Edition* — para quienes entrenan en serio:
@@ -1045,6 +1151,25 @@ ${p.link || TIENDA}
     }
   }
 
+  // Tabla nutricional (v5.1.2) — foto de la etiqueta oficial por presentación
+  if (INTENT_NUTRI_RE.test(lower)) {
+    const prodsNutri = buscarProductos(body)
+    if (prodsNutri.length > 0) {
+      const p = prodsNutri[0]
+      const nutriUrl = NUTRI_IMAGES[p.nombre + '|' + p.presentacion] || NUTRI_IMAGES[p.nombre]
+      await humanDelay()
+      if (nutriUrl) {
+        if (await waSendImage(chatId, nutriUrl, `📋 Tabla nutricional oficial de *${p.nombre}* (${p.presentacion}). Cualquier duda de ingredientes o valores, me dices 💚`)) consume()
+      } else {
+        if (await waSend(chatId, `📋 La tabla nutricional completa de *${p.nombre}* está en su ficha oficial:
+${p.link || TIENDA}
+
+Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)) consume()
+      }
+      return
+    }
+  }
+
   // Cierre inminente (v5): el cliente ya quiere comprar
   if (INTENT_CIERRE_RE.test(lower)) {
     await humanDelay()
@@ -1315,6 +1440,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.1', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.1 registrada (cerebro comercial + 43 links + 106 imágenes oficiales Ofifuxion)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.2', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.2 registrada (43 links + 106 imágenes + 102 tablas nutricionales Ofifuxion)')
 }
