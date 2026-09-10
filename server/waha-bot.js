@@ -1313,10 +1313,10 @@ async function handleMessage(payload) {
       const imgUrl = PRODUCT_IMAGES[p.nombre + '|' + p.presentacion] || PRODUCT_IMAGES[p.nombre]
       await humanDelay()
       if (imgUrl) {
-        if (await waSendImage(chatId, imgUrl, `${p.nombre} (${p.presentacion}) — S/ ${p.precio.toFixed(2)}. Más info: ${p.link || TIENDA}`)) consume()
+        if (await waSendImage(chatId, imgUrl, `${p.nombre} (${p.presentacion}) — S/ ${p.precio.toFixed(2)}. Más info: ${linkDeProducto(p) || p.link || TIENDA}`)) consume()
       } else {
         if (await waSend(chatId, `📸 Te paso el link directo de *${p.nombre}* (${p.presentacion}) — ahí ves la foto oficial y toda la ficha del producto:
-${p.link || TIENDA}
+${linkDeProducto(p) || p.link || TIENDA}
 
 ¿Te ayudo con algo más? 💚`)) consume()
       }
@@ -1362,7 +1362,7 @@ ${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `⭐ *Con
 
 *Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
-🛒 Link directo: ${p.link || TIENDA}
+🛒 Link directo: ${linkDeProducto(p) || p.link || TIENDA}
 Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
 
 ¿Te lo envío por *Yape* o prefieres el *link de tarjeta*? 😊`
@@ -1401,7 +1401,7 @@ ${info.u}
         if (await waSend(chatId, `💚 *${p.nombre}* (${p.presentacion}) — S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
 Toda la info oficial, beneficios y tabla nutricional está aquí:
-${p.link || TIENDA}
+${linkDeProducto(p) || p.link || TIENDA}
 
 ¿Te paso el link de compra directo? 😊`)) consume()
       }
