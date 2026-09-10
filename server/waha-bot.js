@@ -280,7 +280,8 @@ function infoParaTexto(texto) {
     const b = v.b.length > 380 ? v.b.slice(0, 380) + '…' : v.b
     const u = v.u.length > 220 ? v.u.slice(0, 220) + '…' : v.u
     const ing = PRODUCT_INGREDIENTES[nombre]
-    hits.push(`${nombre}: beneficios: ${b}${ing ? ` Contiene: ${ing.slice(0, 220)}` : ''} Cómo se toma: ${u}`)
+    const vid = PRODUCT_VIDEOS[nombre]
+    hits.push(`${nombre}: beneficios: ${b}${ing ? ` Contiene: ${ing.slice(0, 220)}` : ''}${vid ? ` Video oficial: ${vid}` : ''} Cómo se toma: ${u}`)
     if (hits.length >= 3) break
   }
   return hits
@@ -481,6 +482,7 @@ const INTENT_NUTRI_RE = /tabla nutricional|informaci[oó]n nutricional|valor(es)
 const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
 const INTENT_QUiero_RE = /quiero|necesito|me llevo|pido|lo encargo|me apunto/i
 const INTENT_CALORIAS_RE = /calor[ií]as|kcal|cu[aá]nta (az[uú]car|prote[ií]na|grasa|sodio)|valores? nutricional|az[uú]car tiene|composici[oó]n nutricional/i
+const INTENT_VIDEO_RE = /v[ií]deo|muestrame|muéstrame|c[oó]mo funciona|d[oó]nde lo veo|demo|ver m[aá]s/i
 
 // Ingredientes patentados que potencian cada producto (cerebro Dr. Columbus)
 const PRODUCT_PATENTES = {
@@ -498,6 +500,19 @@ const PRODUCT_PATENTES = {
   'Vera+': 'Wellmune WGP® — beta-glucanos patentados que activan tus defensas naturales',
   'Café GanoMax': 'Wellmune WGP® — beta-glucanos patentados que activan tus defensas naturales',
 }
+
+// Videos oficiales por producto (material de venta — autoridad y prueba)
+const PRODUCT_VIDEOS = {
+  'Biopro+ Sport': 'https://player.vimeo.com/video/310883791',
+  'Post Sport': 'https://player.vimeo.com/video/310883977',
+  'Xtra Mile': 'https://player.vimeo.com/video/310884835',
+  'Pre Sport': 'https://player.vimeo.com/video/310884769',
+}
+
+// Cross-sell de la línea deportiva (se recomienda el set completo al cliente sport)
+const SPORT_LINE = ['Pre Sport', 'Xtra Mile', 'Biopro+ Sport', 'Post Sport']
+const SPORT_CROSS_SELL = `💪 *Tip de la línea deportiva:* los atletas FuXion lo usan en secuencia: *Pre Sport* (energía antes) + *Xtra Mile* (rendimiento durante) + *Biopro+ Sport* (recuperación después) + *Post Sport* (reparación muscular).
+¿Quieres el protocolo completo o empezamos con el que más necesitas?`
 
 const MSG_CALIFICACION_ADS = `¡Hola! 💚 Soy *Valeria*, asesora oficial FuXion de *Emprende Salud*.
 
@@ -1343,6 +1358,17 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
     }
   }
 
+  // Video oficial del producto (v5.1.6) — prueba de autoridad para cerrar indecisos
+  if (INTENT_VIDEO_RE.test(lower)) {
+    const prodsVid = buscarProductos(body)
+    const pVid = prodsVid[0] || (contact.last_product ? buscarProductos(contact.last_product)[0] : null)
+    if (pVid && PRODUCT_VIDEOS[pVid.nombre]) {
+      await humanDelay()
+      if (await waSend(chatId, `🎬 *Video oficial de ${pVid.nombre}:*\n${PRODUCT_VIDEOS[pVid.nombre]}\n\nMíralo y me dices si te armo tu pedido 💪`)) consume()
+      return
+    }
+  }
+
   // "Quiero X" (v5.1.5): señal de compra con producto detectado → respuesta con valor + patente + cierre
   if (INTENT_QUiero_RE.test(lower)) {
     const prodsQuiero = buscarProductos(body)
@@ -1368,6 +1394,10 @@ Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
 ¿Te lo envío por *Yape* o prefieres el *link de tarjeta*? 😊`
       await humanDelay()
       if (await waSend(chatId, msg)) consume()
+      if (SPORT_LINE.includes(p.nombre)) {
+        await humanDelay()
+        if (await waSend(chatId, SPORT_CROSS_SELL)) consume()
+      }
       return
     }
   }
@@ -1396,7 +1426,12 @@ ${info.u}
 *Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
 ¿Quieres que te pase el link para pedirlo? 😊`
+        await humanDelay()
         if (await waSend(chatId, msg)) consume()
+        if (SPORT_LINE.includes(p.nombre)) {
+          await humanDelay()
+          if (await waSend(chatId, SPORT_CROSS_SELL)) consume()
+        }
       } else {
         if (await waSend(chatId, `💚 *${p.nombre}* (${p.presentacion}) — S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
@@ -1561,7 +1596,7 @@ ${linkDeProducto(p) || p.link || TIENDA}
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
     (infoHits.length ? `[INFO OFICIAL FUXION de productos que menciona — ÚSALA en tu respuesta: ${infoHits.join(' || ')}] ` : '') +
     (linksHits.length ? `[Links directos de productos que menciona: ${linksHits.join(' | ')}] ` : '') +
-    r`[REGLAS: 1) RESPONDE PRIMERO LO QUE EL CLIENTE PREGUNTÓ, sin rodeos. 2) Si pregunta por un producto (beneficios, para qué sirve, qué contiene, si le sirve para algo): responde con la INFO OFICIAL del contexto — para qué sirve en palabras simples + qué contiene (ingredientes clave) + cómo se toma + precio/link de compra como cierre. 3) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 4) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 5) Si no sabes algo, opción 2 con Kervin.]`
+    r`[REGLAS: 1) RESPONDE PRIMERO LO QUE EL CLIENTE PREGUNTÓ, sin rodeos. 2) Si pregunta por un producto (beneficios, para qué sirve, qué contiene, si le sirve para algo): responde con la INFO OFICIAL del contexto — para qué sirve en palabras simples + qué contiene (ingredientes clave, menciona la patente ®) + cómo se toma + precio/link de compra como cierre. 3) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 4) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 5) Si no sabes algo, opción 2 con Kervin. 6) Si el lead es de la línea deportiva, recomienda el protocolo completo (Pre Sport + Xtra Mile + Biopro+ Sport + Post Sport) — sube el ticket. 7) Si hay video oficial en el contexto, ofrécelo como prueba.]`
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
@@ -1735,7 +1770,8 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
         let personal = ''
         if (prods.length > 0) {
           const pat = PRODUCT_PATENTES[prods[0].nombre]
-          personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. ${pat ? 'Tiene ' + pat.split('—')[0].trim() + ' — vale totalmente la pena. ' : ''}`
+          const vid = PRODUCT_VIDEOS[prods[0].nombre]
+          personal = `Veo que hoy me preguntaste por *${prods[0].nombre}*. ${pat ? 'Tiene ' + pat.split('—')[0].trim() + ' — vale totalmente la pena. ' : ''}${vid ? `Te dejo el video oficial para que lo veas: ${vid} ` : ''}`
         } else if (c.objetivo) {
           personal = `Veo que hoy hablamos sobre tu objetivo de *${c.objetivo}*. `
         }
@@ -1758,6 +1794,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.5', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.5 registrada (respuestas con patentes + calorías por contexto + etiquetas de leads)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.6', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.6 registrada (videos oficiales + cross-sell linea deportiva)')
 }
