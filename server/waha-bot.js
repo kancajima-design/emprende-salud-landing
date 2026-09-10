@@ -1210,6 +1210,6 @@ export function registerWahaBot(app, database) {
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.0.0', ts: Date.now() }))
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.0', ts: Date.now() }))
   console.log('✅ Valeria v5.1.0 registrada (cerebro comercial + 43 links de productos + QV explicados + países)')
 }
