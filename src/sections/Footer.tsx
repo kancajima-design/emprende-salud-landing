@@ -13,13 +13,13 @@ export default function Footer() {
             </p>
             <div className="grid gap-2 text-xs leading-relaxed text-white/70 sm:grid-cols-2">
               <p>
-                <span className="font-semibold text-white/90">Nombre comercial:</span> Emprende Salud
+                <span className="font-semibold text-white/90">Nombre comercial:</span> EmprendeSalud (Emprende Salud)
               </p>
               <p>
                 <span className="font-semibold text-white/90">Titular:</span> Kervin Ancajima
               </p>
               <p>
-                <span className="font-semibold text-white/90">Ubicación:</span> Lima, Perú
+                <span className="font-semibold text-white/90">Dirección:</span> Jr. Real 479, Piura 20006, Perú
               </p>
               <p>
                 <span className="font-semibold text-white/90">Actividad:</span> venta de nutrición
