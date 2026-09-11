@@ -24,12 +24,15 @@ try {
   console.warn('⚠️  catalogo-chat.json no encontrado; el chat responderá sin catálogo')
 }
 
-// NÚMERO FIJO del negocio (línea Entel nueva, 24-ago-2026).
-// El +51 925 828 656 sigue en revisión por Meta; si se reactiva, evaluar migración.
-const WHATSAPP = '+51 970 848 043'
-const WA_LINK = 'https://wa.me/51970848043'
+// 10-09-2026: el número anterior fue BANEADO permanentemente por Meta (automatización no oficial).
+// El CTA de WhatsApp queda apagado hasta tener el número nuevo conectado a la API oficial.
+// Mientras tanto, todo CTA apunta a la tienda en línea (compra directa sin WhatsApp).
+const WHATSAPP = '' // se reactiva cuando el número nuevo esté en la API oficial
+const WA_LINK = ''
+const INSTAGRAM = 'https://instagram.com/emprendesalud'
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://emprendesalud.net'
+const CANAL_ASESORIA = `la tienda en línea (${TIENDA}) o Instagram (${INSTAGRAM})`
 
 function catalogoTexto() {
   return catalogo
@@ -54,7 +57,7 @@ QUÉ SÍ PUEDES HACER
 - Explicar qué es FuXion y la nutrición funcional.
 - Recomendar productos del catálogo según el objetivo de la persona (energía, control de peso, digestión, defensas, belleza, rendimiento).
 - Explicar la PROMOCIÓN DE CLIENTE PREFERENTE tal cual: registro GRATIS; por cada 60 puntos en autoenvío mensual recibe 1 producto de regalo; por cada 80 puntos en compra directa recibe 1 producto de regalo. El autoenvío es el pedido que llega solo cada mes.
-- Explicar cómo comprar: tienda en línea ${TIENDA} (que aparezca Emprende Salud como patrocinador) o por WhatsApp ${WHATSAPP}.
+- Explicar cómo comprar: tienda en línea ${TIENDA} (que aparezca Emprende Salud como patrocinador) o por ${CANAL_ASESORIA}.
 - Hablar de la guía gratis de Nutrición Funcional que se descarga en la página.
 - Orientar sobre la oportunidad de negocio FuXion a nivel general e invitar a conversarla por WhatsApp.
 - Si preguntan precios: da los precios de referencia del catálogo, aclarando que pueden variar y que el precio vigente se confirma en la tienda o por WhatsApp.
@@ -68,7 +71,7 @@ LÍMITES (INNEGOCIABLES)
 - No hables de política, religión ni temas ajenos a bienestar y FuXion; redirige con amabilidad.
 
 CTA FINAL
-- Cierra respuestas clave con UNA invitación suave: escribir por WhatsApp (${WA_LINK}) para asesoría personalizada, o comprar en la tienda (${TIENDA}). No repitas el CTA en cada mensaje si la conversación ya lo tiene.
+- Cierra respuestas clave con UNA invitación suave: comprar en la tienda (${TIENDA}) o escribirnos por ${CANAL_ASESORIA} para asesoría personalizada. No repitas el CTA en cada mensaje si la conversación ya lo tiene.
 
 CATÁLOGO FUXION PERÚ (referencia; precios ref. catálogo, confirmar vigentes):
 ${catalogoTexto()}
@@ -87,14 +90,14 @@ function chatRateLimit(req, res, next) {
   if (entry.count > 20) {
     return res.status(429).json({
       ok: false,
-      error: 'Vamos muy rápido 😅 Espera unos minutos o escríbeme directo al WhatsApp +51 970 848 043.',
+      error: 'Vamos muy rápido 😅 Espera unos minutos o compra directo en la tienda: https://ifuxion.com/emprendesalud',
     })
   }
   next()
 }
 
 const FALLBACK_REPLY =
-  'Ahorita no puedo responder automáticamente, pero te ayudo al toque por WhatsApp: +51 970 848 043 💚'
+  'Ahorita no puedo responder automáticamente, pero puedes comprar directo en la tienda: https://ifuxion.com/emprendesalud 💚'
 
 export function registerChat(app, db) {
   // Log de conversaciones (para saber qué pregunta la gente)

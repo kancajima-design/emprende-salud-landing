@@ -25,6 +25,17 @@ const WAHA_KEY = process.env.WAHA_API_KEY || ''
 const WAHA_SESSION = process.env.WAHA_SESSION || 'default'
 const NOTIFY = process.env.WAHA_NOTIFY || '51970848043' // personal de Kervin
 
+// ── Transporte WhatsApp (v5.1.9): 'waha' (no oficial) | 'cloud' (API oficial Meta) ──
+// MIGRACIÓN ANTI-BANEO: con 'cloud' los mensajes salen por la API oficial de Meta —
+// automatización 100% legal, sin riesgo de baneo. El cerebro de Valeria es idéntico.
+const TRANSPORT = process.env.WA_TRANSPORT || 'waha'
+const CLOUD_TOKEN = process.env.WA_CLOUD_TOKEN || ''       // token permanente de Meta (Graph API)
+const CLOUD_PHONE_ID = process.env.WA_CLOUD_PHONE_ID || '' // ID del número (phone_number_id)
+const CLOUD_WABA_ID = process.env.WA_CLOUD_WABA_ID || ''   // ID de la cuenta WhatsApp Business (WABA)
+const CLOUD_VERIFY = process.env.WA_CLOUD_VERIFY_TOKEN || 'emprende-salud-2026'
+const GRAPH = 'https://graph.facebook.com/v21.0'
+const cloudReady = () => TRANSPORT === 'cloud' && Boolean(CLOUD_TOKEN && CLOUD_PHONE_ID)
+
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://www.emprendesalud.net'
 
@@ -1183,7 +1194,46 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 // Modo anti-baneo (v5.1.8): 20-40 segundos antes de responder, como una persona que lee y escribe
 const humanDelay = () => sleep(20000 + Math.random() * 20000)
 
+// ── Núcleo de envío por la API oficial de Meta (Cloud API) ──
+// chatId puede venir como 5199...@c.us (WAHA) o 5199... (Cloud) — lo normalizamos
+const toE164 = (chatId) => String(chatId).replace(/@(c\.us|lid)$/, '')
+
+async function cloudSendRaw(to, payload) {
+  try {
+    const res = await fetch(`${GRAPH}/${CLOUD_PHONE_ID}/messages`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${CLOUD_TOKEN}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messaging_product: 'whatsapp', to: toE164(to), ...payload }),
+    })
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '')
+      console.error('Cloud send error', res.status, detail.slice(0, 300))
+      return false
+    }
+    return true
+  } catch (e) {
+    console.error('Cloud send ex', e?.message || e)
+    return false
+  }
+}
+
+// Plantilla aprobada por Meta — necesaria para escribir a alguien después de 24h sin respuesta
+async function waSendTemplate(chatId, templateName, components = [], lang = 'es_PE') {
+  if (!cloudReady()) return false
+  const ok = await cloudSendRaw(chatId, {
+    type: 'template',
+    template: { name: templateName, language: { code: lang }, ...(components.length ? { components } : {}) },
+  })
+  if (ok) logMsg(chatId, 'out', `[plantilla] ${templateName}`)
+  return ok
+}
+
 async function waSend(chatId, text) {
+  if (cloudReady()) {
+    const ok = await cloudSendRaw(chatId, { type: 'text', text: { body: text, preview_url: true } })
+    if (ok) logMsg(chatId, 'out', text)
+    return ok
+  }
   const res = await fetch(`${WAHA_URL}/api/sendText`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-Api-Key': WAHA_KEY },
@@ -1199,9 +1249,14 @@ async function waSend(chatId, text) {
 }
 
 
-// v5: envío de imagen por URL pública (WAHA sendImage)
+// v5: envío de imagen por URL pública (WAHA sendImage / Cloud image link)
 async function waSendImage(chatId, url, caption = '') {
   try {
+    if (cloudReady()) {
+      const ok = await cloudSendRaw(chatId, { type: 'image', image: { link: url, caption } })
+      if (ok) logMsg(chatId, 'out', `[imagen] ${url} ${caption}`.slice(0, 2000))
+      return ok
+    }
     const res = await fetch(`${WAHA_URL}/api/sendImage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': WAHA_KEY },
@@ -1220,9 +1275,14 @@ async function waSendImage(chatId, url, caption = '') {
   }
 }
 
-// v5: envío de nota de voz por URL pública (WAHA sendVoice)
+// v5: envío de nota de voz por URL pública (WAHA sendVoice / Cloud audio link)
 async function waSendVoice(chatId, url) {
   try {
+    if (cloudReady()) {
+      const ok = await cloudSendRaw(chatId, { type: 'audio', audio: { link: url } })
+      if (ok) logMsg(chatId, 'out', `[audio] ${url}`.slice(0, 2000))
+      return ok
+    }
     const res = await fetch(`${WAHA_URL}/api/sendVoice`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Api-Key': WAHA_KEY },
@@ -1280,7 +1340,7 @@ async function geminiReply(userText) {
 }
 
 async function handleMessage(payload) {
-  if (!WAHA_URL || !WAHA_KEY) return
+  if (!cloudReady() && (!WAHA_URL || !WAHA_KEY)) return
   const chatId = payload?.from || ''
   const body = String(payload?.body || '').trim()
 
@@ -1741,6 +1801,47 @@ export function registerWahaBot(app, database) {
     }
   })
 
+  // ── API OFICIAL DE WHATSAPP (Cloud API de Meta) — migración anti-baneo v5.1.9 ──
+  // Meta exige verificar el webhook con un token; configurar en el panel de la app:
+  //   URL de callback: https://www.emprendesalud.net/api/whatsapp/webhook
+  //   Verify token:    (el valor de WA_CLOUD_VERIFY_TOKEN)
+  app.get('/api/whatsapp/webhook', (req, res) => {
+    const mode = req.query['hub.mode']
+    const token = req.query['hub.verify_token']
+    const challenge = req.query['hub.challenge']
+    if (mode === 'subscribe' && token === CLOUD_VERIFY) {
+      console.log('✅ Webhook oficial de WhatsApp verificado por Meta')
+      return res.status(200).send(challenge)
+    }
+    return res.sendStatus(403)
+  })
+
+  app.post('/api/whatsapp/webhook', (req, res) => {
+    res.sendStatus(200) // responder rápido a Meta; procesar async
+    try {
+      const entries = req.body?.entry || []
+      for (const e of entries) {
+        for (const ch of e.changes || []) {
+          const v = ch.value || {}
+          if (!Array.isArray(v.messages)) continue
+          const nombre = v.contacts?.[0]?.profile?.name || ''
+          for (const m of v.messages) {
+            if (!m.from) continue
+            const bodyText = m.type === 'text' ? String(m.text?.body || '') : ''
+            handleMessage({
+              from: `${m.from}@c.us`,
+              body: bodyText,
+              fromMe: false,
+              _data: { notifyName: nombre },
+            }).catch((err) => console.error('Cloud bot error:', err?.message || err))
+          }
+        }
+      }
+    } catch (e) {
+      console.error('Cloud webhook error:', e?.message || e)
+    }
+  })
+
   app.get('/api/waha/logs', (req, res) => {
     const key = req.query.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -1862,6 +1963,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.8', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.8 registrada (MODO ANTI-BANEO: 12 rpt/día, delay 20-40s, horario 8-21h Lima)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.9', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady() }))
+  console.log(`✅ Valeria v5.1.9 registrada (MODO ANTI-BANEO + API oficial lista | transporte: ${TRANSPORT})`)
 }
