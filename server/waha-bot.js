@@ -28,9 +28,22 @@ const NOTIFY = process.env.WAHA_NOTIFY || '51970848043' // personal de Kervin
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://www.emprendesalud.net'
 
-const MAX_REPLIES_DAY = 25
+// MODO ANTI-BANEO (v5.1.8): límites conservadores tras el baneo del 10/09/2026
+const MAX_REPLIES_DAY = 12
 const MENU_TTL_MS = 24 * 60 * 60 * 1000
-const FLOOD_MS = 8 * 1000 // anti-flood: 1 respuesta cada 8 segundos por chat
+const FLOOD_MS = 30 * 1000 // anti-flood: 1 respuesta cada 30 segundos por chat
+const REACTIVAR_MAX = 8 // máximo contactos reactivados por día
+const REACTIVAR_MIN_MS = 90 * 1000 // mínimo 90 seg entre mensajes de reactivación
+const REACTIVAR_MAX_MS = 180 * 1000 // máximo 180 seg
+
+// Horario humano de atención (Lima, Perú): 8:00 - 21:00
+// Fuera de ese rango Valeria NO responde — responder de madrugada es señal clara de bot
+const horarioAtencion = () => {
+  try {
+    const h = Number(new Intl.DateTimeFormat('en-US', { hour: 'numeric', hour12: false, timeZone: 'America/Lima' }).format(new Date()))
+    return h >= 8 && h < 21
+  } catch { return true }
+}
 
 const lastReplyTs = new Map() // chatId -> timestamp última respuesta
 
@@ -1167,7 +1180,8 @@ const logMsg = (chatId, dir, text) => {
 }
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
-const humanDelay = () => sleep(1500 + Math.random() * 2000)
+// Modo anti-baneo (v5.1.8): 20-40 segundos antes de responder, como una persona que lee y escribe
+const humanDelay = () => sleep(20000 + Math.random() * 20000)
 
 async function waSend(chatId, text) {
   const res = await fetch(`${WAHA_URL}/api/sendText`, {
@@ -1305,6 +1319,13 @@ async function handleMessage(payload) {
   }
 
   const lower = body.toLowerCase()
+
+  // Modo anti-baneo (v5.1.8): fuera del horario de atención (8am-9pm Lima) NO se responde.
+  // El mensaje queda registrado y se atiende cuando abre el horario — como una tienda real.
+  if (!horarioAtencion()) {
+    console.log('[horario] Fuera de atención, mensaje guardado para', chatId)
+    return
+  }
 
   // ── CALIFICACIÓN ────────────────────────────────────────────
   if (!contact.objetivo) {
@@ -1790,7 +1811,7 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
       FROM wa_contacts c
       WHERE c.last_in_at >= ? AND c.compra_at = 0 AND c.reactivacion_at = 0
         AND c.chat_id NOT IN ('51970848043@c.us', '51970848043@lid')
-      ORDER BY CASE WHEN c.etiqueta = 'caliente' THEN 0 ELSE 1 END, c.last_in_at ASC LIMIT 20`).all(inicioHoy)
+      ORDER BY CASE WHEN c.etiqueta = 'caliente' THEN 0 ELSE 1 END, c.last_in_at ASC LIMIT ${REACTIVAR_MAX}`).all(inicioHoy)
 
     const elegidos = []
     for (const c of candidatos) {
@@ -1808,6 +1829,8 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
 
     ;(async () => {
       for (const c of elegidos) {
+        // Modo anti-baneo: solo reactivar dentro del horario de atención
+        if (!horarioAtencion()) { console.log('[horario] Reactivación pausada — fuera de atención'); break }
         const prods = buscarProductos(c.ultimoMsg)
         let personal = ''
         if (prods.length > 0) {
@@ -1818,16 +1841,19 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
           personal = `Veo que hoy hablamos sobre tu objetivo de *${c.objetivo}*. `
         }
         const saludo = c.nombre ? `Hola ${c.nombre.split(' ')[0]} 💚` : 'Hola 💚'
-        const msg = `${saludo} Soy Valeria de Emprende Salud. ${personal}Te cuento algo importante: esta semana sigue activa la promoción de puntos QV — con tu compra acumulas puntos para llevarte un producto de regalo 🎁
-
-¿Quieres que te pase el link de compra directo o tienes alguna duda? Estoy aquí para lo que necesites 😊`
+        // Variantes anti-baneo: mensajes no calcados entre contactos
+        const variantes = [
+          `${saludo} Soy Valeria de Emprende Salud. ${personal}Te cuento algo importante: esta semana sigue activa la promoción de puntos QV — con tu compra acumulas puntos para llevarte un producto de regalo 🎁\n\n¿Quieres que te pase el link de compra directo o tienes alguna duda? Estoy aquí para lo que necesites 😊`,
+          `${saludo} ¿Cómo estás? Soy Valeria de Emprende Salud 😊 ${personal}Recordarte que la promoción de puntos QV sigue vigente esta semana: tus compras suman puntos y puedes ganar un producto de regalo 🎁\n\nSi te quedó alguna duda o quieres el link de compra, aquí estoy 💚`,
+        ]
+        const msg = variantes[Math.floor(Math.random() * variantes.length)]
         await humanDelay()
         const okSend = await waSend(c.chat_id, msg)
         if (okSend) {
           db.prepare('UPDATE wa_contacts SET reactivacion_at = ? WHERE chat_id = ?').run(Date.now(), c.chat_id)
           db.prepare(`INSERT INTO wa_logs (chat_id, direction, text) VALUES (?, 'out', ?)`).run(c.chat_id, '[reactivación] ' + msg.slice(0, 120))
         }
-        await new Promise((r) => setTimeout(r, 45000 + Math.random() * 45000))
+        await new Promise((r) => setTimeout(r, REACTIVAR_MIN_MS + Math.random() * (REACTIVAR_MAX_MS - REACTIVAR_MIN_MS)))
       }
       console.log(`✅ Reactivación completada: ${elegidos.length} contactos`)
     })()
@@ -1836,6 +1862,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.7', ts: Date.now() }))
-  console.log('✅ Valeria v5.1.7 registrada (biblioteca completa de 31 videos oficiales)')
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.8', ts: Date.now() }))
+  console.log('✅ Valeria v5.1.8 registrada (MODO ANTI-BANEO: 12 rpt/día, delay 20-40s, horario 8-21h Lima)')
 }
