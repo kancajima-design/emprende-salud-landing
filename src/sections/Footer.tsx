@@ -46,8 +46,14 @@ export default function Footer() {
             vida saludable; no están destinados a diagnosticar, tratar, curar ni prevenir
             enfermedades.
           </p>
+          <p className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs text-white/60">
+            <a href="/empresa" className="underline hover:text-white">Información del negocio y términos</a>
+            <a href="/empresa#privacidad" className="underline hover:text-white">Política de privacidad</a>
+            <a href="/empresa#devoluciones" className="underline hover:text-white">Devoluciones</a>
+            <a href="/empresa#atencion" className="underline hover:text-white">Atención al cliente</a>
+          </p>
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} Emprende Salud · Hecho con 💚 en Perú
+            © {new Date().getFullYear()} Emprende Salud · Jr. Real 479, Piura, Perú · Hecho con 💚 en Perú
           </p>
         </div>
       </div>

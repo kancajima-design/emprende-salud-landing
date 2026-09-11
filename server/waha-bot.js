@@ -384,7 +384,7 @@ const MENU = `¡Hola! 👋 Soy Valeria, asistente de *Emprende Salud* 💚
 
 1️⃣ Productos y promoción (producto de regalo 🎁)
 2️⃣ Asesoría personalizada GRATIS con Kervin
-3️⃣ Ganar dinero como socio FuXion
+3️⃣ Info sobre ser distribuidor independiente FuXion
 4️⃣ Proteína y rendimiento deportivo 💪
 
 Responde con el número o cuéntame tu objetivo (energía, peso, digestión, defensas, belleza, deporte…) y te oriento.`
@@ -422,28 +422,21 @@ const OPCION_2 = `¡Perfecto! 📲 Ya le avisé a *Kervin*. Te va a escribir per
 Mientras tanto puedes ir viendo los productos aquí:
 ${TIENDA} 💚`
 
-const OPCION_3 = `💼 *Socio FuXion* — ganas recomendando productos de nutrición funcional que ya usas: sin inventario, sin local, la empresa envía directo a tus clientes.
+const OPCION_3 = `💼 *Programa de Distribuidor Independiente FuXion*
 
-1️⃣ Código propio de Emprendedor (te registro yo, 15 min)
-2️⃣ Tu consumo con descuento del 20–50% desde el día 1
-3️⃣ 25% de bonificación por cada socio que tú asocies
-4️⃣ Bonos por duplicar tu equipo: US$50, US$200 y US$500
+Si te gustan los productos, FuXion te permite registrarte como distribuidor independiente: compras con precio preferente y decides si vendes a tu ritmo, sin inventario ni local — la empresa envía directo a tus clientes.
 
-No empiezas de cero: te enseño el paso a paso que ya funciona en Emprende Salud.
-¿Agendamos 20 min con Kervin sin compromiso? Responde *2* 📲`
+Cada caso es distinto: el plan completo (costos, descuentos y condiciones vigentes) te lo explica Kervin en una conversación personal, con datos reales y sin compromiso.
 
-const OPCION_3B = `💼 *Plan PRO-LEV X* — 10 fuentes de ingreso, sin inventario ni local:
+¿Agendamos 20 minutos con Kervin? Responde *2* 📲`
 
-🥇 *Bono Pack Profesional*: 25% de la 1ra compra de cada socio que patrocines.
-🥈 *Venta Directa*: descuento 20–50% según tu volumen (revendes con margen).
-🥉 *Cliente Preferente*: hasta US$500/ciclo por armar equipo de clientes.
-🏆 *Bono Balance* (Leader X+): 5% semanal sobre tu red.
-🌱 *Bono Familia X*: 2–10% por niveles de tu Familia FuXion.
-🚗 *Estilo de Vida* (Elite+): S/1,260 – S/7,200 para tu auto.
-✈️ *Viajes y Fondos de Liderazgo* (Diamond+): % de la venta global.
+const OPCION_3B = `💼 *Programa de Distribuidor Independiente FuXion*
 
-Tu inversión: un kit de inicio (desde S/99 en Perú).
-¿Agendamos 20 min con Kervin para revisar números reales? Responde *2* 📲`
+FuXion permite a personas emprendedoras registrarse como distribuidoras independientes y vender sus productos con acceso a precio preferente.
+
+Cada caso es distinto, así que la información del plan (costos, descuentos y condiciones vigentes) te la comparte Kervin en una conversación personal, donde también responde todas tus preguntas.
+
+¿Agendamos 20 minutos con Kervin para contarte cómo funciona? Responde *2* 📲`
 
 const OPCION_PRECIO_FALLBACK = `💚 Para ver precios actualizados y armar tu pedido, entra directo a la tienda oficial:
 ${TIENDA}
