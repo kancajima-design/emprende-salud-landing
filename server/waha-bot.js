@@ -498,6 +498,10 @@ const INTENT_BELLEZA_RE = /(belleza|piel|cabello|uñas|arrugas|rejuvenec|col[áa
 const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá]nto sale|a cu[aá]nto|tarifa|tarifas)\b/i
 const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
 const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar|c[oó]mo compro|c[oó]mo pago|qu[eé] hago despu[eé]s del link|ya abr[ií] el link|no me carga|error en la p[aá]gina|tutorial|paso a paso|c[oó]mo me inscribo|c[oó]mo hago la compra|no encuentro el producto|d[oó]nde agrego al carrito|no me llega confirmaci[oó]n)/i
+// MOFU (v5.2.0): objeciones de precio/duda — se responde con valor, no con descuento
+const OBJECION_RE = /(muy caro|es caro|est[aá] caro|me parece caro|cuestan mucho|no tengo plata|no tengo dinero|estoy quebrado|a fin de mes|reci[eé]n cobro|lo voy a pensar|d[eé]jame pensar|d[eé]jame verlo|lo consulto|av[ií]same despu[eé]s|m[aá]s adelante te aviso|reci[eé]n es mi primer sueldo|no alcanza)/i
+// BOFU (v5.2.0): afirmativa corta después de la oferta de cierre → se guía hasta el final
+const CIERRE_SI_RE = /^(si|s[ií]|dale|ok|bueno|va|perfecto|gu[ií]ame|s[ií] gu[ií]ame|s[ií] dale|hag[aá]moslo|adelante|s[ií] por favor|porfa|dalo|vamos|yes|de una|d[eé]jalo|dalo por hecho)[\s!.😊👍]*$/i
 
 // ── v5.1.0: cerebro comercial ────────────────────────────────────────
 const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quiero|dato|link|oferta|promo|descuento|anuncio|publicaci|fb|facebook|instagram)/i
@@ -591,6 +595,20 @@ const MSG_CIERRE_COMPRA = (nombre) => `¡Genial, ${nombre || 'crack'}! 🎉 Vamo
 💳 *Formas de pago en la tienda:* tarjeta crédito/débito, Yape, Plin y otras opciones que aparecen al finalizar la compra.
 
 ¿Te guío paso a paso con la compra o prefieres el link directo de tu producto? 💚`
+
+// MOFU (v5.2.0): manejo de objeción de precio/duda — valor real + prueba, nunca descuento inventado
+const MSG_OBJECION = (p, nombre) => {
+  const pat = p ? PRODUCT_PATENTES[p.nombre] : null
+  const vid = p ? videoDe(p.nombre) : null
+  const porDia = p ? ` Sale a unos *S/ ${(p.precio / 30).toFixed(2)} al día* — menos de lo que cuesta un cafecio ☕` : ''
+  return `Te entiendo, ${nombre || 'crack'} 💚 y es justo pensarlo. Míralo así:
+
+${p ? `*${p.nombre}* no es un gasto, es tu ${p.qv} puntos QV acumulando para tu producto de regalo 🎁.${porDia}` : 'Cada compra suma puntos QV que se convierten en producto de regalo 🎁.'}${pat ? `
+Lo que lo hace diferente: ${pat}.` : ''}${vid ? `
+Si quieres verlo con calma, aquí está el video oficial: ${vid}` : ''}
+
+No te presiono para nada — cuando lo veas claro, aquí estoy. ¿Te guardo el dato o te paso el link para cuando decidas? 😊`
+}
 
 // Imágenes de productos (URL pública). Para agregar: tiendafuxion.com → foto del producto →
 // clic derecho → "copiar dirección de imagen" → pegar entre comillas. Clave: 'Nombre|Presentación'
@@ -1525,6 +1543,14 @@ Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
     }
   }
 
+  // MOFU (v5.2.0): objeción de precio/duda — valor real + prueba + cierre suave (sin presión)
+  if (OBJECION_RE.test(lower)) {
+    const pObj = (contact.last_product ? buscarProductos(contact.last_product)[0] : null) || buscarProductos(body)[0] || null
+    await humanDelay()
+    if (await waSend(chatId, MSG_OBJECION(pObj, nombre))) consume()
+    return
+  }
+
   // Pregunta por producto (v5.1.3): para qué sirve / qué contiene / beneficios
   // Respuesta directa con info oficial + precio + CTA (sin depender de Gemini)
   if (INTENT_PRODUCTO_RE.test(lower)) {
@@ -1571,6 +1597,22 @@ ${linkDeProducto(p) || p.link || TIENDA}
   if (INTENT_CIERRE_RE.test(lower)) {
     await humanDelay()
     if (await waSend(chatId, MSG_CIERRE_COMPRA(nombre))) consume()
+    return
+  }
+
+  // BOFU (v5.2.0): afirmativa corta tras la oferta de cierre → se lleva al cliente hasta el final
+  // (link directo del producto que pidió + guía de registro con video — corrige la fuga post-link)
+  if (CIERRE_SI_RE.test(lower)) {
+    const pSi = contact.last_product ? buscarProductos(contact.last_product)[0] : null
+    if (pSi) {
+      await humanDelay()
+      if (await waSend(chatId, `🛒 *Link directo de ${pSi.nombre}:*
+${linkDeProducto(pSi) || pSi.link || TIENDA}
+
+(verifica que aparezca *Emprende Salud* como patrocinador 💚)`)) consume()
+    }
+    await humanDelay()
+    if (await waSend(chatId, GUÍA_REGISTRO)) consume()
     return
   }
 
@@ -1949,7 +1991,11 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
         ]
         const msg = variantes[Math.floor(Math.random() * variantes.length)]
         await humanDelay()
-        const okSend = await waSend(c.chat_id, msg)
+        let okSend = await waSend(c.chat_id, msg)
+        // v5.2.0: si falló por ventana de 24h (API oficial), intentar con plantilla aprobada
+        if (!okSend && cloudReady() && process.env.WA_CLOUD_TEMPLATE_SEGUIMIENTO) {
+          okSend = await waSendTemplate(c.chat_id, process.env.WA_CLOUD_TEMPLATE_SEGUIMIENTO)
+        }
         if (okSend) {
           db.prepare('UPDATE wa_contacts SET reactivacion_at = ? WHERE chat_id = ?').run(Date.now(), c.chat_id)
           db.prepare(`INSERT INTO wa_logs (chat_id, direction, text) VALUES (?, 'out', ?)`).run(c.chat_id, '[reactivación] ' + msg.slice(0, 120))
@@ -1963,6 +2009,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.1.9', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady() }))
-  console.log(`✅ Valeria v5.1.9 registrada (MODO ANTI-BANEO + API oficial lista | transporte: ${TRANSPORT})`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.2.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady() }))
+  console.log(`✅ Valeria v5.2.0 registrada (embudo TOFU/MOFU/BOFU: objeciones + cierre guiado + plantillas)`)
 }
