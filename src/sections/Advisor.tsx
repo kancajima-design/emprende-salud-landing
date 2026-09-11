@@ -7,19 +7,19 @@ const pilares = [
     icon: Sparkles,
     titulo: 'Desarrollo personal',
     texto:
-      'Crecimiento constante en mentalidad, liderazgo y hábitos. Aquí no solo vendes productos: te conviertes en tu mejor versión.',
+      'Crecimiento constante en mentalidad, liderazgo y hábitos. Aquí no solo compartes productos: te conviertes en tu mejor versión.',
   },
   {
     icon: Users,
-    titulo: 'Sistema franquiciado probado',
+    titulo: 'Sistema con respaldo internacional',
     texto:
-      'Un modelo de negocio internacional con el respaldo de FuXion: no empiezas de cero, te subes a un sistema que ya funciona.',
+      'El respaldo de una marca internacional con años en el mercado: productos, capacitación y tienda en línea ya funcionando.',
   },
   {
     icon: TrendingUp,
-    titulo: 'Ingresos residuales',
+    titulo: 'Emprendimiento con respaldo',
     texto:
-      'Cada persona a la que ayudo se convierte en parte de un activo que crece mes a mes, no solo en una venta de una sola vez.',
+      'Puedes emprender a tu ritmo: compras con precio preferente y decides si vendes a personas de tu círculo, con la empresa enviando directo a tus clientes.',
   },
 ]
 
@@ -34,7 +34,7 @@ export default function Advisor() {
               <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-[#B5D70F]/30 via-[#0094DE]/20 to-[#FF7A1A]/20 blur-xl" />
               <img
                 src="/brand/emprende-salud-logo.png"
-                alt="Emprende Salud · Cuida tu salud, gana mientras lo haces"
+                alt="Emprende Salud · Bienestar y emprendimiento"
                 className="relative w-full rounded-[2rem] shadow-2xl ring-1 ring-[#00498E]/10"
                 loading="lazy"
               />
@@ -53,15 +53,15 @@ export default function Advisor() {
               Emprende Salud nació cuando descubrí que podía unir dos cosas que me apasionan:{' '}
               <strong className="text-[#0B2033]">el bienestar y el crecimiento personal</strong>. En
               FuXion vi mucho más que productos de nutrición funcional: vi un{' '}
-              <strong className="text-[#0B2033]">sistema de franquicia personal</strong> que me
-              permite crecer como persona, construir mi propio negocio y generar{' '}
-              <strong className="text-[#0B2033]">ingresos residuales</strong> mientras ayudo a
-              otros a sentirse mejor cada día.
+              <strong className="text-[#0B2033]">sistema con respaldo internacional</strong> que me
+              permite crecer como persona y construir mi propio{' '}
+              <strong className="text-[#0B2033]">emprendimiento de bienestar</strong> mientras ayudo
+              a otros a sentirse mejor cada día.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#0B2033]/80 md:text-base">
               Hoy mi misión es simple: que más personas en Perú cuiden su salud con productos
-              respaldados por la ciencia… y que quienes busquen una oportunidad real encuentren en
-              este sistema el mismo camino que yo encontré.
+              respaldados por la ciencia… y que quienes busquen emprender encuentren en este
+              sistema el mismo camino que yo encontré.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -91,10 +91,10 @@ export default function Advisor() {
                 <MessageCircle className="h-4 w-4" /> Conversemos por WhatsApp
               </a>
               <a
-                href={waLink('Hola, me interesa la oportunidad de negocio con FuXion. ¿Me cuentas cómo funciona?')}
+                href={waLink('Hola, me interesa información sobre el programa de distribuidor independiente FuXion')}
                 target="_blank"
                 rel="noreferrer"
-                onClick={() => trackEvent('Contact', { content_name: 'oportunidad negocio' })}
+                onClick={() => trackEvent('Contact', { content_name: 'programa distribuidor' })}
                 className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#FF7A1A] px-6 py-3.5 text-sm font-bold text-[#FF7A1A] transition hover:bg-[#FF7A1A] hover:text-white"
               >
                 <TrendingUp className="h-4 w-4" /> Quiero emprender contigo
