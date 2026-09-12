@@ -44,7 +44,11 @@ export default function LeadForm() {
         else setServerError(data.error || 'Algo salió mal. Inténtalo de nuevo.')
         return
       }
-      trackEvent('Lead', { content_name: form.producto })
+      trackEvent(
+        'Lead',
+        { content_name: form.producto },
+        { email: form.correo, phone: form.whatsapp, name: form.nombre }
+      )
       sessionStorage.setItem('es_lead_done', '1')
       setDone(true)
     } catch {

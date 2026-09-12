@@ -9,6 +9,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { DatabaseSync } from 'node:sqlite'
+import { sendCapiEvent } from './capi.js'
 
 // Carga .env local si existe (desarrollo). En producción Railway
 // inyecta las variables directamente.
@@ -217,6 +218,25 @@ app.get('/api/stats', requireAdmin, (req, res) => {
     visitasPorUtm: visitsByUtm.all(),
     leadsPorUtm: leadsByUtm.all(),
   })
+})
+
+// ── Conversions API: espejo server-side del pixel (deduplicado por event_id) ──
+app.post('/api/capi', (req, res) => {
+  const b = req.body || {}
+  const clientIp = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket?.remoteAddress || ''
+  // Responder al navegador de inmediato; el envío a Meta ocurre en segundo plano
+  res.json({ ok: true })
+  sendCapiEvent({
+    event_name: clean(b.event_name, 40),
+    event_id: clean(b.event_id, 80),
+    user_data: b.user_data && typeof b.user_data === 'object' ? b.user_data : undefined,
+    custom_data: b.custom_data && typeof b.custom_data === 'object' ? b.custom_data : undefined,
+    fbp: clean(b.fbp, 120),
+    fbc: clean(b.fbc, 300),
+    event_source_url: clean(b.url, 300),
+    client_ip: clientIp,
+    user_agent: clean(req.headers['user-agent'], 400),
+  }).catch(() => {})
 })
 
 // ── Contador de visitas (público, lo llama el frontend) ──────
