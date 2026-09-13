@@ -36,6 +36,15 @@ const CLOUD_VERIFY = process.env.WA_CLOUD_VERIFY_TOKEN || 'emprende-salud-2026'
 const GRAPH = 'https://graph.facebook.com/v21.0'
 const cloudReady = () => TRANSPORT === 'cloud' && Boolean(CLOUD_TOKEN && CLOUD_PHONE_ID)
 
+// ── Transporte Instagram DM (v5.3.0): API oficial de mensajería de Meta ──
+// Mientras el WhatsApp del portafolio está restringido, Valeria atiende por IG.
+// Los contactos de IG viven con prefijo 'ig:' en chat_id para no chocar con números WA.
+const IG_TOKEN = process.env.IG_PAGE_TOKEN || ''   // token permanente (usuario del sistema con instagram_manage_messages)
+const IG_VERIFY = process.env.IG_VERIFY_TOKEN || 'emprende-salud-ig-2026'
+const IG_PAGE_ID = process.env.IG_PAGE_ID || ''    // ID de la Página de Facebook vinculada (info/logs)
+const igReady = () => Boolean(IG_TOKEN)
+const isIg = (chatId) => String(chatId).startsWith('ig:')
+
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://www.emprendesalud.net'
 
@@ -1228,6 +1237,27 @@ async function cloudSendRaw(to, payload) {
   }
 }
 
+// ── Envío por Instagram DM (Messenger Platform para Instagram) — v5.3.0 ──
+async function igSendRaw(igId, message) {
+  if (!IG_TOKEN) return false
+  try {
+    const res = await fetch(`${GRAPH}/me/messages?access_token=${IG_TOKEN}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipient: { id: igId }, message }),
+    })
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '')
+      console.error('IG send error', res.status, detail.slice(0, 300))
+      return false
+    }
+    return true
+  } catch (e) {
+    console.error('IG send ex', e?.message || e)
+    return false
+  }
+}
+
 // Plantilla aprobada por Meta — necesaria para escribir a alguien después de 24h sin respuesta
 async function waSendTemplate(chatId, templateName, components = [], lang = 'es_PE') {
   if (!cloudReady()) return false
@@ -1240,6 +1270,11 @@ async function waSendTemplate(chatId, templateName, components = [], lang = 'es_
 }
 
 async function waSend(chatId, text) {
+  if (isIg(chatId)) {
+    const ok = await igSendRaw(chatId.slice(3), { text })
+    if (ok) logMsg(chatId, 'out', text)
+    return ok
+  }
   if (cloudReady()) {
     const ok = await cloudSendRaw(chatId, { type: 'text', text: { body: text, preview_url: true } })
     if (ok) logMsg(chatId, 'out', text)
@@ -1263,6 +1298,13 @@ async function waSend(chatId, text) {
 // v5: envío de imagen por URL pública (WAHA sendImage / Cloud image link)
 async function waSendImage(chatId, url, caption = '') {
   try {
+    if (isIg(chatId)) {
+      // IG no soporta caption dentro del adjunto: enviamos imagen y luego el texto
+      const ok = await igSendRaw(chatId.slice(3), { attachment: { type: 'image', payload: { url, is_reusable: true } } })
+      if (ok) logMsg(chatId, 'out', `[imagen] ${url} ${caption}`.slice(0, 2000))
+      if (ok && caption) await igSendRaw(chatId.slice(3), { text: caption })
+      return ok
+    }
     if (cloudReady()) {
       const ok = await cloudSendRaw(chatId, { type: 'image', image: { link: url, caption } })
       if (ok) logMsg(chatId, 'out', `[imagen] ${url} ${caption}`.slice(0, 2000))
@@ -1289,6 +1331,11 @@ async function waSendImage(chatId, url, caption = '') {
 // v5: envío de nota de voz por URL pública (WAHA sendVoice / Cloud audio link)
 async function waSendVoice(chatId, url) {
   try {
+    if (isIg(chatId)) {
+      const ok = await igSendRaw(chatId.slice(3), { attachment: { type: 'audio', payload: { url, is_reusable: true } } })
+      if (ok) logMsg(chatId, 'out', `[audio] ${url}`.slice(0, 2000))
+      return ok
+    }
     if (cloudReady()) {
       const ok = await cloudSendRaw(chatId, { type: 'audio', audio: { link: url } })
       if (ok) logMsg(chatId, 'out', `[audio] ${url}`.slice(0, 2000))
@@ -1313,11 +1360,12 @@ async function waSendVoice(chatId, url) {
 }
 
 async function alertaKervin(titulo, chatId, nombre, body, objetivo) {
+  const esIgLead = isIg(chatId)
   const idLimpio = chatId.replace('@c.us', '').replace('@lid', '')
   const esLid = chatId.endsWith('@lid')
   await waSend(
     `${NOTIFY}@c.us`,
-    `${titulo}\nNombre: ${nombre || 'sin nombre'}\nContacto: ${esLid ? 'ID ' + idLimpio + ' (respóndele desde el WhatsApp del 970)' : '+' + idLimpio}\nObjetivo: ${objetivo || 'aún no definido'}\nMensaje: "${body.slice(0, 150)}"${esLid ? '' : `\nEscríbele: https://wa.me/${idLimpio}`}`,
+    `${titulo}\nNombre: ${nombre || 'sin nombre'}\nContacto: ${esIgLead ? 'lead de INSTAGRAM (ID ' + idLimpio + ') — respóndele por IG DM' : esLid ? 'ID ' + idLimpio + ' (respóndele desde el WhatsApp del 970)' : '+' + idLimpio}\nObjetivo: ${objetivo || 'aún no definido'}\nMensaje: "${body.slice(0, 150)}"${esIgLead || esLid ? '' : `\nEscríbele: https://wa.me/${idLimpio}`}`,
   )
 }
 
@@ -1351,14 +1399,14 @@ async function geminiReply(userText) {
 }
 
 async function handleMessage(payload) {
-  if (!cloudReady() && (!WAHA_URL || !WAHA_KEY)) return
   const chatId = payload?.from || ''
   const body = String(payload?.body || '').trim()
 
   if (payload.fromMe) return
-  const esPrivado = chatId.endsWith('@c.us') || chatId.endsWith('@lid')
+  const esPrivado = chatId.endsWith('@c.us') || chatId.endsWith('@lid') || isIg(chatId)
   if (!esPrivado) return
   if (chatId.includes('status') || chatId.includes('broadcast')) return
+  if (!isIg(chatId) && !cloudReady() && (!WAHA_URL || !WAHA_KEY)) return
 
   // Anti-flood in-memory: si ya respondimos hace menos de FLOOD_MS, ignorar
   const lastTs = lastReplyTs.get(chatId) || 0
@@ -1877,6 +1925,46 @@ export function registerWahaBot(app, database) {
     }
   })
 
+  // ── INSTAGRAM DM (Messenger Platform para Instagram) — v5.3.0 ──
+  // En la app de Meta developers (producto Messenger → Configuración del webhook):
+  //   URL de callback: https://www.emprendesalud.net/api/instagram/webhook
+  //   Verify token:    (el valor de IG_VERIFY_TOKEN)
+  //   Campo: messages  ·  La cuenta IG profesional debe estar vinculada a la Página.
+  app.get('/api/instagram/webhook', (req, res) => {
+    const mode = req.query['hub.mode']
+    const token = req.query['hub.verify_token']
+    const challenge = req.query['hub.challenge']
+    if (mode === 'subscribe' && token === IG_VERIFY) {
+      console.log('✅ Webhook de Instagram verificado por Meta')
+      return res.status(200).send(challenge)
+    }
+    return res.sendStatus(403)
+  })
+
+  app.post('/api/instagram/webhook', (req, res) => {
+    res.sendStatus(200) // responder rápido a Meta; procesar async
+    try {
+      const entries = req.body?.entry || []
+      for (const e of entries) {
+        for (const ev of e.messaging || []) {
+          if (!ev.message || ev.message.is_echo) continue
+          const sender = ev.sender?.id
+          if (!sender) continue
+          const bodyText = ev.message.text ? String(ev.message.text) : ''
+          // Si es solo multimedia (sin texto), body queda '' y handleMessage responde MSG_MULTIMEDIA
+          handleMessage({
+            from: `ig:${sender}`,
+            body: bodyText,
+            fromMe: false,
+            _data: { notifyName: '' },
+          }).catch((err) => console.error('IG bot error:', err?.message || err))
+        }
+      }
+    } catch (e) {
+      console.error('IG webhook error:', e?.message || e)
+    }
+  })
+
   app.get('/api/waha/logs', (req, res) => {
     const key = req.query.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -1986,7 +2074,7 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
         await humanDelay()
         let okSend = await waSend(c.chat_id, msg)
         // v5.2.0: si falló por ventana de 24h (API oficial), intentar con plantilla aprobada
-        if (!okSend && cloudReady() && process.env.WA_CLOUD_TEMPLATE_SEGUIMIENTO) {
+        if (!okSend && !isIg(c.chat_id) && cloudReady() && process.env.WA_CLOUD_TEMPLATE_SEGUIMIENTO) {
           okSend = await waSendTemplate(c.chat_id, process.env.WA_CLOUD_TEMPLATE_SEGUIMIENTO)
         }
         if (okSend) {
@@ -2002,6 +2090,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.2.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady() }))
-  console.log(`✅ Valeria v5.2.0 registrada (embudo TOFU/MOFU/BOFU: objeciones + cierre guiado + plantillas)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.3.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
+  console.log(`✅ Valeria v5.3.0 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM)`)
 }
