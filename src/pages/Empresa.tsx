@@ -1,5 +1,6 @@
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const INSTAGRAM = 'https://instagram.com/emprendesalud'
+const EMAIL = 'kancajima@gmail.com'
 
 const datos = [
   ['Nombre comercial', 'EmprendeSalud (Emprende Salud)'],
@@ -8,6 +9,7 @@ const datos = [
   ['Dirección fiscal', 'Jr. Real 479, Piura 20006, Perú'],
   ['Sitio web', 'https://www.emprendesalud.net'],
   ['Instagram (atención al cliente)', '@emprendesalud'],
+  ['Correo electrónico', 'kancajima@gmail.com'],
   ['Tienda oficial de venta', 'ifuxion.com/emprendesalud'],
   ['Actividad comercial', 'Venta al por menor de alimentos y bebidas funcionales (nutrición funcional) de la marca FuXion, realizada 100% en línea a través de la tienda oficial.'],
 ]
@@ -147,6 +149,11 @@ export default function Empresa() {
               Kervin, titular del negocio.
             </li>
             <li>
+              <strong>Correo electrónico:</strong>{' '}
+              <a href={`mailto:${EMAIL}`} className="underline">{EMAIL}</a> — para consultas,
+              reclamos y solicitudes sobre tus datos personales.
+            </li>
+            <li>
               <strong>WhatsApp:</strong> canal oficial de atención, activo en horario de 8:00 a
               21:00 (hora de Perú).
             </li>
@@ -171,8 +178,11 @@ export default function Empresa() {
           ajenos a la atención de tu pedido (la tienda oficial de FuXion procesa la compra con
           sus propios términos).</p>
           <p><strong>Tus derechos:</strong> puedes solicitar en cualquier momento la
-          actualización o eliminación de tus datos escribiéndonos a Instagram
-          (@emprendesalud) y lo atenderemos en un plazo máximo de 7 días hábiles.</p>
+          actualización o eliminación de tus datos escribiéndonos a nuestro correo
+          electrónico (<a href={`mailto:${EMAIL}`} className="underline">{EMAIL}</a>) o a
+          Instagram (@emprendesalud). Lo atenderemos en un plazo máximo de 7 días hábiles.</p>
+          <p><strong>Responsable del tratamiento de datos:</strong> Kervin Ancajima, titular
+          de EmprendeSalud, con domicilio en Jr. Real 479, Piura 20006, Perú.</p>
           <p><strong>Cookies y medición:</strong> este sitio usa herramientas de medición
           (como el píxel de Meta) para mejorar la experiencia de navegación y mostrar
           contenido relevante. Puedes desactivarlas desde la configuración de tu navegador.</p>
@@ -180,7 +190,8 @@ export default function Empresa() {
 
         <Seccion id="aviso" titulo="8. Aviso legal">
           <p className="text-xs text-[#5A6B7C]">
-            EmprendeSalud © {new Date().getFullYear()} · Jr. Real 479, Piura 20006, Perú ·
+            EmprendeSalud © {new Date().getFullYear()} · Titular: Kervin Ancajima · Jr. Real 479,
+            Piura 20006, Perú · Contacto: kancajima@gmail.com ·
             Distribuidor independiente de FuXion Biotech. Los productos mencionados son
             alimentos y bebidas funcionales y no sustituyen una alimentación variada y
             equilibrada ni la orientación de un profesional de la salud. Las promociones de

@@ -36,6 +36,10 @@ export default function Footer() {
                 <a href="https://instagram.com/emprendesalud" className="underline hover:text-white" target="_blank" rel="noreferrer">
                   Instagram @emprendesalud
                 </a>
+                {' · '}
+                <a href="mailto:kancajima@gmail.com" className="underline hover:text-white">
+                  kancajima@gmail.com
+                </a>
               </p>
             </div>
           </div>
