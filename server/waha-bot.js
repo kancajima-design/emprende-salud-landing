@@ -531,6 +531,37 @@ const PRODUCT_PATENTES = {
   'Café GanoMax': 'Wellmune WGP® — beta-glucanos patentados que activan tus defensas naturales',
 }
 
+// ── POSICIONAMIENTO vs COMPETENCIA (v5.4.0) — investigación de mercado 14-sep ──
+// REGLA DE ORO: nunca desprestigiar a la competencia por nombre. Se educa con la etiqueta:
+// la mayoría de suplementos usa azúcar, sucralosa/acesulfamo-K y colorantes artificiales;
+// FuXion es Clean Label (100% natural, stevia, patentes internacionales, proceso EmulXion®).
+const COMPETIDORES_RE = /\b(herbalife|omnilife|amway|nutrilite|4life|4\s?life|usana|isagenix|modere|dxn|organo\s?gold|gano\s?excel|forever\s?living|optimum|gold\s?standard|dymatize|iso\s?100|myprotein|my\s?protein|muscletech|nitrotech|mutant|scitec|isopure|hydroxycut|vitagel|collamin|colag|bimanan|slimfast|teatox|t[eé]\s?detox|neolife|arbonne|young\s?living|nuskin|nu\s?skin|yanbal|belcorp|esika|lbel|oriflame|natura|avon|gnc)\b/i
+const COMPARATIVA_RE = /\b(vs|versus|mejor que|peor que|diferencia|comparar|comparaci[oó]n|prefiero|consumo|tomo|uso de|me conviene)\b/i
+const CLEAN_LABEL_RE = /clean\s?label|etiqueta limpia|100% natural|todo natural|ingredientes naturales|sin qu[ií]micos|sin az[uú]car(?!.*precio)|org[aá]nico|aditivos|edulcorantes/i
+const PRECIO_VALOR_RE = /\b(muy caro|car[ií]simo|por (qu[eé]|ke) tan caro|est[aá] caro|es caro|me parece caro|algo caro|sale caro|m[aá]s barato|baratito|econ[oó]mico|precio justo|descuento)\b/i
+
+const REPLY_COMPETENCIA = (prods) => `Buena pregunta 💚 Te invito a comparar *etiquetas*, no marcas: la mayoría de suplementos lleva azúcar, sucralosa o colorantes artificiales.
+
+FuXion es *Clean Label*: ingredientes 100% naturales, endulzado con stevia, sabores y colores de frutas reales, con patentes internacionales que garantizan absorción.${
+  prods.length ? `\n\nPara lo que buscas, *${prods[0].nombre}* encaja perfecto 👇` : '\n\n¿Qué objetivo tienes? Te recomiendo el ideal con gusto 💚'}`
+
+const REPLY_CLEAN_LABEL = `Te cuento lo que significa *Clean Label* 🌿 — es nuestro sello FuXion:
+• Ingredientes 100% naturales y libres de químicos
+• Endulzado con stevia (cero azúcar añadida)
+• Sabores y colores de frutas y vegetales reales
+• Vitaminas de extractos naturales y minerales orgánicos
+• Respaldado por 13 patentes internacionales + proceso EmulXion® que multiplica la absorción
+
+La mayoría de marcas no puede decir esto en su etiqueta. Nosotros sí 💚
+
+¿Qué producto te interesa? Te paso precio y link de una vez 👌`
+
+const REPLY_PRECIO_VALOR = `Te entiendo 😊 Hagamos cuentas: un producto FuXion te sale *menos de S/ 5 al día* — menos que un cafecito con leche ☕ — y estás metiendo tecnología patentada sin químicos a tu cuerpo.
+
+Lo "barato" con azúcar y edulcorantes artificiales sale caro en salud. Aquí pagas por *Clean Label + patentes + resultados* 💚
+
+¿Te paso el link de compra directo o prefieres que te arme el pack con mejor valor? 👌`
+
 // Videos oficiales por producto (material de venta — autoridad y prueba)
 // v5.1.7: biblioteca completa de videos de Kervin (Vimeo oficiales FuXion)
 const PRODUCT_VIDEOS = {
@@ -1057,6 +1088,15 @@ LINKS
 - Si te pasan links directos en el mensaje del sistema, úsalos para el producto que mencione el cliente.
 - ¿"Por qué Perú?" / "¿solo en Perú?": FuXion está en 16 países — Alemania, Argentina, Bolivia, Brasil, Chile, Colombia, Costa Rica, Ecuador, España, Estados Unidos, Guatemala, Honduras, México, Panamá y Perú. Tu asesora (Valeria) opera desde Perú.
 
+POSICIONAMIENTO CLEAN LABEL (tu arma educativa — investigación de competencia 14-sep)
+- Si el cliente menciona otra marca (Herbalife, Omnilife, DXN, Optimum, proteínas de gym, colágenos de farmacia…): NUNCA la critiques por nombre. Educa con la etiqueta: "compara ingredientes: nosotros endulzamos con stevia, sin colorantes, con patentes; la mayoría usa azúcar, sucralosa o colorantes".
+- Ventaja FuXion para educar: Clean Label (100% natural, ingredientes de la Amazonía, vitaminas de extractos naturales, minerales orgánicos, sabores de frutas reales), 13 patentes internacionales y proceso EmulXion® que multiplica la absorción.
+- Línea deportiva: Biopro+ Sport = 0 azúcar, stevia, 2 patentes (Bioprotein+ Colostrum® + Actinos®); las wheys tradicionales usan sucralosa/acesulfamo-K y colorantes.
+- Café funcional: GanoMax/Gano+ sin azúcar añadida; el café con ganoderma típico de la competencia lleva azúcar blanca.
+- Control de peso: ProLibra® conserva la masa muscular magra mientras bajas; no es un batido de hambre (los batidos típicos usan fructosa y apenas 9g de proteína).
+- Si se quejan del precio: ancla al costo por día (menos de S/ 5, menos que un cafecito) y recuerda que lo barato con azúcar/edulcorantes sale caro en salud.
+- Cierra siempre con link de compra + pregunta de avance.
+
 ARSENAL DE VENTAS (natural, nunca robótico)
 - Cierre asumido: "¿Te lo envío en sobre o en caja?"
 - Pre-cierre: "Si resolvemos el tema del precio, ¿te lo llevas?"
@@ -1465,6 +1505,18 @@ async function handleMessage(payload) {
     await alertaKervin('🔥 *Lead CALIENTE* (intención de compra)', chatId, nombre, body, contact.objetivo)
   }
 
+  // ── POSICIONAMIENTO vs COMPETENCIA (v5.4.0): educar con la etiqueta, nunca atacar marcas ──
+  if (COMPETIDORES_RE.test(body) && COMPARATIVA_RE.test(lower)) {
+    const prodsVs = buscarProductos(body)
+    await humanDelay()
+    if (await waSend(chatId, REPLY_COMPETENCIA(prodsVs))) consume()
+    if (prodsVs.length > 0) {
+      await humanDelay()
+      await waSend(chatId, `🛒 *${prodsVs[0].nombre}:* ${linkDeProducto(prodsVs[0]) || prodsVs[0].link || TIENDA}\n\n(verifica que aparezca *Emprende Salud* como patrocinador 💚)`)
+    }
+    return
+  }
+
   // ── SECUENCIAS PLAYBOOK (reactivas) ─────────────────────────
   if (COMPRA_RE.test(lower) && contact.etapa !== 'ef') {
     db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
@@ -1671,7 +1723,15 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
   if (PRECIO_RE.test(lower)) {
     await humanDelay(); if (await waSend(chatId, OPCION_PRECIO_FALLBACK)) consume(); return
   }
-  
+
+  // ── EDUCACIÓN CLEAN LABEL + OBJECIÓN DE VALOR (v5.4.0) ─────
+  if (CLEAN_LABEL_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, REPLY_CLEAN_LABEL)) consume(); return
+  }
+  if (PRECIO_VALOR_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, REPLY_PRECIO_VALOR)) consume(); return
+  }
+
   // Deporte
   if (INTENT_DEPORTE_RE.test(lower)) {
     if (!contact.objetivo) {
@@ -2090,6 +2150,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.3.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
-  console.log(`✅ Valeria v5.3.0 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
+  console.log(`✅ Valeria v5.4.0 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + posicionamiento Clean Label)`)
 }
