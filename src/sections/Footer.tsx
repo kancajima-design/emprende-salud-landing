@@ -19,7 +19,10 @@ export default function Footer() {
                 <span className="font-semibold text-white/90">Titular:</span> Kervin Ancajima
               </p>
               <p>
-                <span className="font-semibold text-white/90">Dirección:</span> Jr. Real 479, Piura 20006, Perú
+                <span className="font-semibold text-white/90">Dirección:</span> Jr. Ica Tienda Nro. 18, Catacaos, Piura, Perú
+              </p>
+              <p>
+                <span className="font-semibold text-white/90">Representado por:</span> Ancajima Taboada Kervin Andershon | RUC: 10466510454
               </p>
               <p>
                 <span className="font-semibold text-white/90">Actividad:</span> venta de nutrición
@@ -57,7 +60,7 @@ export default function Footer() {
             <a href="/empresa#atencion" className="underline hover:text-white">Atención al cliente</a>
           </p>
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} Emprende Salud · Jr. Real 479, Piura, Perú · Hecho con 💚 en Perú
+            © {new Date().getFullYear()} Emprende Salud · Jr. Ica Tienda Nro. 18, Catacaos, Piura, Perú · Hecho con 💚 en Perú
           </p>
         </div>
       </div>
