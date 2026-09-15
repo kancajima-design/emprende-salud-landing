@@ -360,6 +360,7 @@ function mensajePrecios(productos) {
   👉 ${lk}` : ''}`)
     } else {
       sumable = false
+      totalQv += Math.min(...variants.map((v) => v.qv))
       maxQv += Math.max(...variants.map((v) => v.qv))
       const sub = variants.map((p) => {
         const lk = linkDeProducto(p)

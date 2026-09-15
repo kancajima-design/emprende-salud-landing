@@ -70,6 +70,15 @@ async function leadEscribe(chatId, body, nombre = 'Lead Prueba') {
 let n = 0
 const nuevoChat = () => `5199${String(900000 + (n++ * 1111)).slice(0, 6)}@c.us`
 
+// Transcripción legible para Kervin (se guarda al final del test)
+const transcripcion = []
+async function leadEscribeTx(titulo, nombre, body) {
+  const chatId = nuevoChat()
+  const r = await leadEscribe(chatId, body, nombre)
+  transcripcion.push({ titulo, nombre, body, replies: r })
+  return r
+}
+
 let passed = 0, failed = 0
 function check(nombre, cond, detalle = '') {
   if (cond) { passed++; console.log(`  ✅ ${nombre}`) }
@@ -81,7 +90,7 @@ console.log('🧪 TEST v5.4.0 — Pruebas con código real de Valeria (mensajes 
 
 // ── CASO A: primer lead de la campaña Biopro Sport ─────────────────────────
 console.log('A. Lead de campaña: "Hola vi el anuncio del biopro sport, quiero información"')
-let r = await leadEscribe(nuevoChat(), 'Hola vi el anuncio del biopro sport quiero información', 'Carlos')
+let r = await leadEscribeTx('A. Lead campaña: vi el anuncio del biopro sport', 'Carlos', 'Hola vi el anuncio del biopro sport quiero información')
 let t = unido(r)
 if (r.length) console.log('   ↳ ' + t.slice(0, 200).replace(/\n/g, ' | '))
 check('responde algo', r.length > 0)
@@ -89,7 +98,7 @@ check('menciona Biopro Sport', /biopro/i.test(t), `\n${t.slice(0, 300)}`)
 
 // ── CASO B: lead que pregunta precio (el error clásico de los primeros días) ─
 console.log('\nB. Lead: "cuánto cuesta el biopro sport"')
-r = await leadEscribe(nuevoChat(), 'cuánto cuesta el biopro sport', 'Ana')
+r = await leadEscribeTx('B. Pregunta de precio: biopro sport', 'Ana', 'cuánto cuesta el biopro sport')
 t = unido(r)
 console.log('   ↳ ' + t.slice(0, 350).replace(/\n/g, ' | '))
 check('muestra AMBAS presentaciones (pote y sobres)', /Pote x 2lb/.test(t) && /14 sticks/.test(t), `\n${t.slice(0, 400)}`)
@@ -101,17 +110,17 @@ check('saltos de línea entre bullets (formato WhatsApp)', /\n•\s*\*/.test(t))
 
 // ── CASO C: lead que pide 2 productos → muestra formatos + puntos estimados ─
 console.log('\nC. Lead: "precio de biopro sport y flora liv"')
-r = await leadEscribe(nuevoChat(), 'precio de biopro sport y flora liv', 'Luis')
+r = await leadEscribeTx('C. Dos productos: biopro sport y flora liv', 'Luis', 'precio de biopro sport y flora liv')
 t = unido(r)
 console.log('   ↳ ' + t.slice(0, 400).replace(/\n/g, ' | '))
 check('Flora Liv S/ 154.00 (24 QV)', /Flora Liv.*154\.00.*24 QV/s.test(t))
 check('Biopro en pote y sobres (ambos formatos)', /Pote x 2lb.*259\.50/s.test(t) && /14 sticks.*132\.50/s.test(t))
-check('puntos estimados en rango honesto (24–60: elige 1 formato)', /Puntos estimados: 24–60 QV/.test(t), `\n${t.slice(0, 400)}`)
+check('puntos estimados en rango honesto (44–60: elige 1 formato)', /Puntos estimados: 44–60 QV/.test(t), `\n${t.slice(0, 400)}`)
 check('promo: llega a 60 puntos = regalo en autoenvío', /Puedes llegar a 60 puntos/.test(t))
 
 // ── CASO D: lead que pide el link de compra ────────────────────────────────
 console.log('\nD. Lead: "me pasas el link de compra" (FIX v5.4.1)')
-r = await leadEscribe(nuevoChat(), 'me pasas el link de compra', 'María')
+r = await leadEscribeTx('D. Pide link de compra (genérico)', 'María', 'me pasas el link de compra')
 t = unido(r)
 console.log('   ↳ ' + t.slice(0, 300).replace(/\n/g, ' | '))
 check('envía link de tienda (no el menú de calificación)', /ifuxion\.com\/emprendesalud/.test(t), `\n${t.slice(0, 300)}`)
@@ -120,13 +129,13 @@ check('adjunta guía de registro post-link', /registr|video|awaretips/i.test(t))
 
 // ── CASO D2: link de compra CON producto ───────────────────────────────────
 console.log('\nD2. Lead: "me pasas el link del biopro sport en pote" (FIX v5.4.1)')
-r = await leadEscribe(nuevoChat(), 'me pasas el link del biopro sport en pote', 'María')
+r = await leadEscribeTx('D2. Pide link del biopro sport en pote', 'María', 'me pasas el link del biopro sport en pote')
 t = unido(r)
 check('link directo del pote 3171015', /3171015/.test(t), `\n${t.slice(0, 300)}`)
 
 // ── CASO E: NUEVO — comparativa con competidor de gym ─────────────────────
 console.log('\nE. Lead: "biopro sport vs optimum nutrition" (NUEVO v5.4.0)')
-r = await leadEscribe(nuevoChat(), 'biopro sport vs optimum nutrition', 'Pedro')
+r = await leadEscribeTx('E. Comparativa: biopro sport vs optimum nutrition', 'Pedro', 'biopro sport vs optimum nutrition')
 t = unido(r)
 check('dispara respuesta de comparativa', /etiqueta/i.test(t) && /marca/i.test(t), `\n${t.slice(0, 400)}`)
 check('educa sin atacar la marca por nombre', !/optimum|gold standard|dymatize/i.test(t))
@@ -134,7 +143,7 @@ check('cierra con link del producto', /tiendafuxion\.com|ifuxion\.com/.test(t))
 
 // ── CASO F: NUEVO — "estoy tomando herbalife, me conviene cambiar?" ─────────
 console.log('\nF. Lead: "estoy tomando herbalife, me conviene cambiar?" (NUEVO v5.4.0)')
-r = await leadEscribe(nuevoChat(), 'estoy tomando herbalife me conviene cambiar', 'Jorge')
+r = await leadEscribeTx('F. Usa herbalife, me conviene cambiar', 'Jorge', 'estoy tomando herbalife me conviene cambiar')
 t = unido(r)
 check('responde comparativa (no dispara flujo de compra)', /etiqueta/i.test(t), `\n${t.slice(0, 400)}`)
 check('NO menciona "Herbalife" despectivamente', !/herbalife/i.test(t))
@@ -142,26 +151,26 @@ check('NO manda mensaje de "compra realizada" por error', !/pedido confirmado|co
 
 // ── CASO G: NUEVO — pregunta por lo natural ───────────────────────────────
 console.log('\nG. Lead: "¿es 100% natural? ¿qué tiene de especial?" (NUEVO v5.4.0)')
-r = await leadEscribe(nuevoChat(), 'es 100% natural que tiene de especial', 'Rosa')
+r = await leadEscribeTx('G. Pregunta si es 100% natural', 'Rosa', 'es 100% natural que tiene de especial')
 t = unido(r)
 check('explica Clean Label', /Clean Label/i.test(t), `\n${t.slice(0, 400)}`)
 check('menciona ingredientes naturales/patentes', /natural|patent/i.test(t))
 
 // ── CASO H: NUEVO — objeción de precio ─────────────────────────────────────
 console.log('\nH. Lead: "está muy caro" (NUEVO v5.4.0)')
-r = await leadEscribe(nuevoChat(), 'esta muy caro la verdad', 'Carmen')
+r = await leadEscribeTx('H. Objeción: está muy caro', 'Carmen', 'esta muy caro la verdad')
 t = unido(r)
 check('reencuadre de valor por día', /S\/ 5 al d/i.test(t), `\n${t.slice(0, 400)}`)
 
 // ── CASO I: nota de voz / multimedia sin texto ─────────────────────────────
 console.log('\nI. Lead envía nota de voz (body vacío)')
-r = await leadEscribe(nuevoChat(), '', 'Diego')
+r = await leadEscribeTx('I. Nota de voz (sin texto)', 'Diego', '')
 t = unido(r)
 check('pide que escriba o atiende multimedia', r.length > 0, `\n${t.slice(0, 200)}`)
 
 // ── CASO J: guía de registro post-link ─────────────────────────────────────
 console.log('\nJ. Lead: "no puedo registrarme"')
-r = await leadEscribe(nuevoChat(), 'no puedo registrarme en la pagina', 'Sofía')
+r = await leadEscribeTx('J. Problema para registrarse', 'Sofía', 'no puedo registrarme en la pagina')
 t = unido(r)
 check('envía guía de registro con video', /registr|video|awaretips/i.test(t), `\n${t.slice(0, 300)}`)
 
@@ -169,4 +178,22 @@ check('envía guía de registro con video', /registr|video|awaretips/i.test(t), 
 console.log(`\n═══════════════════════════════════════`)
 console.log(`RESULTADO: ${passed} pasaron · ${failed} fallaron`)
 console.log(`═══════════════════════════════════════`)
+
+// ── Transcripción legible para revisar cómo responde Valeria ───────────────
+const { writeFileSync } = await import('node:fs')
+const { fileURLToPath } = await import('node:url')
+const out = ['# 🧪 Transcripción de prueba — Valeria v5.4.1\n',
+  `Fecha: ${new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' })} (Lima)\n`,
+  'Conversaciones simuladas contra el código real (entorno de prueba, nada salió a WhatsApp).\n'].join('\n')
+  + transcripcion.map((c) => (
+    `\n\n---\n\n## ${c.titulo}\n\n**${c.nombre}:** ${c.body || '(nota de voz / imagen)'}\n\n`
+    + c.replies.map((m) => (
+      m.image
+        ? `**Valeria:** 📷 [imagen] ${m.image}\n${m.caption || ''}\n`
+        : `**Valeria:** ${m.text}\n`
+    )).join('\n')
+  )).join('')
+const outPath = fileURLToPath(new URL('../transcripcion-prueba-valeria.md', import.meta.url))
+writeFileSync(outPath, out, 'utf-8')
+console.log(`\n📝 Transcripción guardada en: ${outPath}`)
 process.exit(failed ? 1 : 0)
