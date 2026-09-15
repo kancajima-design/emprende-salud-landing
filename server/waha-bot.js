@@ -190,7 +190,23 @@ function buscarProductos(texto) {
   }
   
   // Si encontramos matches específicos, no buscar genéricos
-  if (encontrados.length > 0) return encontrados
+  if (encontrados.length > 0) {
+    // v5.4.1: si el cliente NO especificó formato (pote/7/14/28...), mostrar TODAS las
+    // presentaciones del producto — educa al cliente (ej. Biopro Sport en pote y en sobres)
+    const mencionaFormato = /\b(pote|sobre|stick|sticks|7|14|28|30)\b/.test(n)
+    if (!mencionaFormato) {
+      const nombres = new Set(encontrados.map((p) => p.nombre))
+      for (const prod of CATALOGO) {
+        if (!nombres.has(prod.nombre)) continue
+        const key = prod.nombre + '|' + prod.presentacion
+        if (!usados.has(key)) {
+          encontrados.push(prod)
+          usados.add(key)
+        }
+      }
+    }
+    return encontrados
+  }
 
   // PASO 2: Matches genéricos (keywords cortas < 8 chars)
   for (const prod of CATALOGO) {
@@ -239,7 +255,7 @@ const LINKS_PRODUCTO = {
   'base madre verde': 'https://tiendafuxion.com/storelt/emprendesalud/2085958',
   'berry balance': 'https://tiendafuxion.com/storelt/emprendesalud/2085959',
   'biopro fit': 'https://tiendafuxion.com/storelt/emprendesalud/2085961',
-  'biopro sport pote': 'https://tiendafuxion.com/storelt/emprendesalud/2085963',
+  'biopro sport pote': 'https://tiendafuxion.com/storelt/emprendesalud/3171015',
   'biopro sport sobres': 'https://tiendafuxion.com/storelt/emprendesalud/2085965',
   'biopro tect pote': 'https://tiendafuxion.com/storelt/emprendesalud/2085966',
   'biopro tect sobres': 'https://tiendafuxion.com/storelt/emprendesalud/2085967',
@@ -330,49 +346,50 @@ function mensajePrecios(productos) {
     grupos.get(p.nombre).push(p)
   }
 
-  let totalQv = 0
+  let totalQv = 0   // suma exacta (solo cuando todos los productos tienen formato elegido)
+  let maxQv = 0     // mejor caso cuando hay productos con formato a elegir
   let sumable = true
   const lineas = []
   for (const [nombre, variants] of grupos) {
     if (variants.length === 1) {
       const p = variants[0]
       totalQv += p.qv
+      maxQv += p.qv
       const lk = linkDeProducto(p)
-      lineas.push(`• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV${lk ? `\
+      lineas.push(`• *${p.nombre}* (${p.presentacion}): S/ ${p.precio.toFixed(2)} — ${p.qv} QV${lk ? `
   👉 ${lk}` : ''}`)
     } else {
       sumable = false
+      maxQv += Math.max(...variants.map((v) => v.qv))
       const sub = variants.map((p) => {
         const lk = linkDeProducto(p)
         return `  - ${p.presentacion}: S/ ${p.precio.toFixed(2)} — ${p.qv} QV${lk ? ` 👉 ${lk}` : ''}`
-      }).join('\
-')
-      lineas.push(`• *${nombre}* (elige tu formato):\
+      }).join('\n')
+      lineas.push(`• *${nombre}* (elige tu formato):
 ${sub}`)
     }
   }
 
   let promo = ''
-  if (totalQv >= 80) {
-    promo = `🎁 *¡Llegas a ${totalQv} puntos!* Te llevas *1 producto de regalo* en compra directa (80 QV). Con autoenvío mensual (60 QV) también. ✅`
-  } else if (totalQv >= 60) {
-    promo = `🎁 *¡Llegas a ${totalQv} puntos!* Con autoenvío mensual te llevas *1 producto de regalo* (60 QV). Te faltan ${80 - totalQv} QV para regalo en compra directa.`
+  if (maxQv >= 80) {
+    promo = `🎁 *¡Puedes llegar a ${maxQv} puntos!* Te llevas *1 producto de regalo* en compra directa (80 QV). Con autoenvío mensual (60 QV) también. ✅`
+  } else if (maxQv >= 60) {
+    promo = `🎁 *¡Puedes llegar a ${maxQv} puntos!* Con autoenvío mensual te llevas *1 producto de regalo* (60 QV). Te faltan ${80 - maxQv} QV para regalo en compra directa.`
   } else {
-    const falta60 = 60 - totalQv
-    const falta80 = 80 - totalQv
+    const falta60 = 60 - maxQv
+    const falta80 = 80 - maxQv
     promo = `🎁 Te faltan ${falta60} QV para 1 producto de regalo en autoenvío (60 QV), o ${falta80} QV en compra directa (80 QV).`
   }
-  if (!sumable) promo += `\
+  if (!sumable) promo += `
 ℹ️ Los QV varían por formato: elige primero y te confirmo el total exacto.`
 
   const totalLine = sumable
     ? `*Total: S/ ${productos.reduce((s, p) => s + p.precio, 0).toFixed(2)} — ${totalQv} QV* 💰`
-    : `*Puntos estimados: ${totalQv} QV* 💰`
+    : `*Puntos estimados: ${totalQv}–${maxQv} QV según el formato que elijas* 💰`
 
   return `💚 *Precios FuXion Perú:*
 
-${lineas.join('\
-')}
+${lineas.join('\n')}
 
 ${totalLine}
 
@@ -510,6 +527,8 @@ const INTENT_ADS_RE = /(info|informaci|precio|cu[aá]nto|valor|me interesa|quier
 const INTENT_FOTO_RE = /(foto|imagen|picture|m[aá]ndame|mandame|muestrame|mu[eé]strame|ver el producto|c[oó]mo se ve)/i
 const INTENT_NUTRI_RE = /tabla nutricional|informaci[oó]n nutricional|valor(es)? nutricional|composici[oó]n|qu[eé] contiene|etiqueta nutricional/i
 const INTENT_CIERRE_RE = /(quiero comprar|lo quiero|lo compro|lo llevo|me lo llevo|d[oó]nde pago|precio final|precio total|p[aá]same el link|p[aá]samelo|hag[aá]moslo|te lo compro|cerramos|cierro|lo reservo|reservado|cu[aá]l es tu yape|tienes yape)/i
+// v5.4.1: pedido explícito de link/enlace (lead nuevo que ya quiere comprar)
+const INTENT_LINK_RE = /\b(link|enlace)\b|pasame.*\b(link|enlace)\b|mandame.*\b(link|enlace)\b|quiero (comprar|pedir|ordenar)|d[oó]nde (compro|pido|puedo comprar|hago el pedido)|c[oó]mo (compro|pido|ordeno|hago mi pedido)/i
 const INTENT_QUiero_RE = /quiero|necesito|me llevo|pido|lo encargo|me apunto/i
 const INTENT_CALORIAS_RE = /calor[ií]as|kcal|cu[aá]nta (az[uú]car|prote[ií]na|grasa|sodio)|valores? nutricional|az[uú]car tiene|composici[oó]n nutricional/i
 const INTENT_VIDEO_RE = /v[ií]deo|muestrame|muéstrame|c[oó]mo funciona|d[oó]nde lo veo|demo|ver m[aá]s/i
@@ -538,7 +557,7 @@ const PRODUCT_PATENTES = {
 const COMPETIDORES_RE = /\b(herbalife|omnilife|amway|nutrilite|4life|4\s?life|usana|isagenix|modere|dxn|organo\s?gold|gano\s?excel|forever\s?living|optimum|gold\s?standard|dymatize|iso\s?100|myprotein|my\s?protein|muscletech|nitrotech|mutant|scitec|isopure|hydroxycut|vitagel|collamin|colag|bimanan|slimfast|teatox|t[eé]\s?detox|neolife|arbonne|young\s?living|nuskin|nu\s?skin|yanbal|belcorp|esika|lbel|oriflame|natura|avon|gnc)\b/i
 const COMPARATIVA_RE = /\b(vs|versus|mejor que|peor que|diferencia|comparar|comparaci[oó]n|prefiero|consumo|tomo|uso de|me conviene)\b/i
 const CLEAN_LABEL_RE = /clean\s?label|etiqueta limpia|100% natural|todo natural|ingredientes naturales|sin qu[ií]micos|sin az[uú]car(?!.*precio)|org[aá]nico|aditivos|edulcorantes/i
-const PRECIO_VALOR_RE = /\b(muy caro|car[ií]simo|por (qu[eé]|ke) tan caro|est[aá] caro|es caro|me parece caro|algo caro|sale caro|m[aá]s barato|baratito|econ[oó]mico|precio justo|descuento)\b/i
+const PRECIO_VALOR_RE = /\b(muy caro|tan caro|bastante caro|algo caro|car[ií]simo|caro (?:para mi|la verdad)|est[aá] (?:muy |tan )?caro|es caro|me parece caro|sale caro|por (qu[eé]|ke) tan caro|m[aá]s barato|baratito|econ[oó]mico|precio justo|descuento|oferta|no (?:tengo|me alcanza)(?: el)? presupuesto)\b/i
 
 const REPLY_COMPETENCIA = (prods) => `Buena pregunta 💚 Te invito a comparar *etiquetas*, no marcas: la mayoría de suplementos lleva azúcar, sucralosa o colorantes artificiales.
 
@@ -1636,6 +1655,37 @@ Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
     }
   }
 
+  // Link de compra explícito (v5.4.1): el lead pide el link/enlace → se lo damos DE UNA,
+  // con formas de pago y guía de registro (corrige la fuga post-link). Con producto → link directo.
+  if (INTENT_LINK_RE.test(lower)) {
+    const prodsLink = buscarProductos(body)
+    const pLink = prodsLink[0] || null
+    await humanDelay()
+    if (await waSend(chatId, pLink
+      ? `🛒 *Link directo de ${pLink.nombre} (${pLink.presentacion}):*
+${linkDeProducto(pLink) || pLink.link || TIENDA}
+
+Formas de pago: tarjeta, Yape o Plin ✅
+(verifica que aparezca *Emprende Salud* como patrocinador 💚)`
+      : `🛒 *Tienda oficial Emprende Salud:*
+${TIENDA}
+
+Formas de pago: tarjeta, Yape o Plin ✅
+(verifica que aparezca *Emprende Salud* como patrocinador 💚)`)) consume()
+    await humanDelay()
+    if (await waSend(chatId, GUÍA_REGISTRO)) consume()
+    return
+  }
+
+  // ── EDUCACIÓN CLEAN LABEL + OBJECIÓN DE VALOR (v5.4.0/5.4.1) ──
+  // Van ANTES de la objeción genérica: una queja de precio merece el reencuadre de valor completo.
+  if (CLEAN_LABEL_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, REPLY_CLEAN_LABEL)) consume(); return
+  }
+  if (PRECIO_VALOR_RE.test(lower)) {
+    await humanDelay(); if (await waSend(chatId, REPLY_PRECIO_VALOR)) consume(); return
+  }
+
   // MOFU (v5.2.0): objeción de precio/duda — valor real + prueba + cierre suave (sin presión)
   if (OBJECION_RE.test(lower)) {
     const pObj = (contact.last_product ? buscarProductos(contact.last_product)[0] : null) || buscarProductos(body)[0] || null
@@ -1722,14 +1772,6 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
   // Precio genérico (si no detectó productos específicos)
   if (PRECIO_RE.test(lower)) {
     await humanDelay(); if (await waSend(chatId, OPCION_PRECIO_FALLBACK)) consume(); return
-  }
-
-  // ── EDUCACIÓN CLEAN LABEL + OBJECIÓN DE VALOR (v5.4.0) ─────
-  if (CLEAN_LABEL_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, REPLY_CLEAN_LABEL)) consume(); return
-  }
-  if (PRECIO_VALOR_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, REPLY_PRECIO_VALOR)) consume(); return
   }
 
   // Deporte
@@ -2150,6 +2192,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
-  console.log(`✅ Valeria v5.4.0 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + posicionamiento Clean Label)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.1', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
+  console.log(`✅ Valeria v5.4.1 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + posicionamiento Clean Label + fixes formato/link/variantes)`)
 }
