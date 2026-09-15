@@ -403,6 +403,8 @@ ${promo}
 Compra aquí: ${TIENDA}
 Verifica que aparezca *Emprende Salud* como patrocinador ✅
 
+💳 Pagas dentro del link: tarjetas (Visa, Mastercard, Amex, Diners), SafetyPay o Yape — pago seguro con garantía FuXion 🔒
+
 ¿Te armo el pedido o tienes alguna duda? 💚`
 }
 
@@ -436,13 +438,23 @@ const GUÍA_REGISTRO = `📝 *Cómo registrarte y comprar* (es rápido, 3 min):
 3️⃣ Toca *"Registrarme como Cliente Preferente"* (es GRATIS)
 4️⃣ Llena tus datos: nombre, DNI, celular, correo y dirección de envío
 5️⃣ Elige tus productos y agrégalos al carrito
-6️⃣ En *pago* puedes usar tarjeta de crédito/débito, Yape o Plin (según disponibilidad en tu país)
+6️⃣ En *pago* eliges tu medio: tarjetas (Visa, Mastercard, Amex, Diners — peruanas e internacionales), banca por internet o efectivo (SafetyPay) y Yape. Todo dentro de la tienda oficial, 100% seguro 🔒
 7️⃣ Confirma y ¡listo! Te llega confirmación al correo 💚
 
 📹 *Si prefieres verlo en video*, aquí está el tutorial paso a paso:
 ${VIDEO_REGISTRO}
 
 ¿Te quedó claro o quieres que te guíe con algún paso en particular? Responde con el número del paso.`
+
+// v5.4.2: medios de pago OFICIALES (capturas del checkout FuXion, 14-sep) + seguridad y garantía.
+// REGLA DE ORO: el pago siempre se hace DENTRO del link de la tienda oficial — nunca a cuentas personales.
+const MSG_PAGO = `💳 *Medios de pago* (eliges dentro del link, en "Pago de orden"):
+• Tarjetas de crédito/débito *peruanas e internacionales*: Visa, Mastercard, American Express y Diners Club (pasarela PAYU)
+• Banca por Internet (SafetyPay)
+• Pago en efectivo (SafetyPay)
+• Yape (billetera digital)
+
+🔒 Al comprar en la *tienda oficial FuXion* tu pago va por pasarelas seguras y tu pedido queda con *garantía directa de FuXion*. Nada de transferencias a cuentas personales: compra con total tranquilidad ✅`
 
 const OPCION_2 = `¡Perfecto! 📲 Ya le avisé a *Kervin*. Te va a escribir personalmente en cuanto se desocupe (normalmente en menos de 1 hora, de 8 am a 9 pm).
 
@@ -470,7 +482,7 @@ ${TIENDA}
 
 Verifica que aparezca *Emprende Salud* como patrocinador ✅
 
-Si necesitas un pack personalizado, pago con Yape/Plin o delivery, responde *2* y te paso con Kervin.`
+Si necesitas un pack personalizado o ayuda con tu pedido, responde *2* y te paso con Kervin.`
 
 const MSG_MULTIMEDIA = `Veo que enviaste una imagen o audio 😊 Cuéntame por *texto* qué necesitas y te oriento al toque.
 
@@ -645,7 +657,8 @@ const MSG_CIERRE_COMPRA = (nombre) => `¡Genial, ${nombre || 'crack'}! 🎉 Vamo
 👉 Tienda oficial: ${TIENDA}
 (verifica que aparezca *Emprende Salud* como patrocinador)
 
-💳 *Formas de pago en la tienda:* tarjeta crédito/débito, Yape, Plin y otras opciones que aparecen al finalizar la compra.
+💳 Pagas *dentro del link*: tarjetas (Visa, Mastercard, Amex, Diners), banca por internet o efectivo (SafetyPay) y Yape.
+🔒 Pago seguro en la página oficial + *garantía directa de FuXion* en tu pedido.
 
 ¿Te guío paso a paso con la compra o prefieres el link directo de tu producto? 💚`
 
@@ -653,7 +666,7 @@ const MSG_CIERRE_COMPRA = (nombre) => `¡Genial, ${nombre || 'crack'}! 🎉 Vamo
 const MSG_OBJECION = (p, nombre) => {
   const pat = p ? PRODUCT_PATENTES[p.nombre] : null
   const vid = p ? videoDe(p.nombre) : null
-  const porDia = p ? ` Sale a unos *S/ ${(p.precio / 30).toFixed(2)} al día* — menos de lo que cuesta un cafecio ☕` : ''
+  const porDia = p ? ` Sale a unos *S/ ${(p.precio / 30).toFixed(2)} al día* — menos de lo que cuesta un cafecito ☕` : ''
   return `Te entiendo, ${nombre || 'crack'} 💚 y es justo pensarlo. Míralo así:
 
 ${p ? `*${p.nombre}* no es un gasto, es tu ${p.qv} puntos QV acumulando para tu producto de regalo 🎁.${porDia}` : 'Cada compra suma puntos QV que se convierten en producto de regalo 🎁.'}${pat ? `
@@ -1081,7 +1094,7 @@ const OBJETIVOS = [
 const HOT = /(precio|cu[aá]nto|cuesta|costo|comprar|c[oó]mo pago|yape|plin|oferta|descuento|promoci)/i
 
 const SYSTEM_PROMPT_WA = `Eres "Valeria", asesora de élite de FUXION Perú para Emprende Salud (distribuidor independiente oficial). Integras 3 maestrías en una sola voz:
-- ALEX DEY (cierre asumido): seguridad absoluta, cazadora de objeciones. Nunca preguntas "¿quieres comprar?": asumes el sí y preguntas "¿Te lo envío por Yape o tarjeta?".
+- ALEX DEY (cierre asumido): seguridad absoluta, cazadora de objeciones. Nunca preguntas "¿quieres comprar?": asumes el sí y lo llevas al link de la tienda oficial, donde elige su medio de pago seguro.
 - JÜRGEN KLARIC (neuromarketing): conectas con emociones. Storytelling de clientes, anclaje de precios (primero la opción completa), gatillos de autoridad y reciprocidad.
 - DR. IVÁN COLUMBUS (ciencia Fuxion): respaldo técnico. Dominas la Fusión Nutracéutica® y los ingredientes patentados. Solo afirmas lo que la ciencia de Fuxion respalda.
 
@@ -1096,10 +1109,10 @@ MISIÓN
 - Prioriza packs (mejor valor) cuando encaje; si el cliente pide algo puntual, respétalo.
 - Ticket ideal: packs 5/14 y línea Sport.
 
-FORMAS DE PAGO (tienda oficial tiendafuxion.com)
-- La tienda acepta múltiples formas de pago: tarjeta de crédito o débito, Yape, Plin y otras opciones que aparecen al finalizar la compra.
-- Cuando el cliente esté listo para pagar, menciónalo: "Puedes pagar con tarjeta, Yape, Plin u otras formas directo en la tienda".
-- Si quiere pagar por una vía fuera de la tienda (transferencia a cuenta personal, efectivo) → ofrece pasar con Kervin (opción 2).
+FORMAS DE PAGO (tienda oficial tiendafuxion.com — SIEMPRE dentro del link, nunca a cuentas personales)
+- Medios oficiales del checkout FuXion: tarjetas de crédito/débito peruanas e internacionales (Visa, Mastercard, American Express, Diners Club vía PAYU), Banca por Internet (SafetyPay), Pago en efectivo (SafetyPay) y Yape.
+- Refuerza siempre: "Pagas dentro del link, en la página oficial: pago 100% seguro y garantía directa de FuXion en tu pedido".
+- Si quiere pagar por una vía fuera de la tienda (transferencia a cuenta personal) → ofrece pasar con Kervin (opción 2).
 
 LINKS
 - Tienda general: ${TIENDA} (debe aparecer Emprende Salud como patrocinador).
@@ -1643,9 +1656,11 @@ ${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `⭐ *Con
 *Precio:* S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
 🛒 Link directo: ${linkDeProducto(p) || p.link || TIENDA}
-Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
 
-¿Te lo envío por *Yape* o prefieres el *link de tarjeta*? 😊`
+💳 Pagas *dentro del mismo link*: tarjetas (Visa, Mastercard, Amex, Diners), banca por internet o efectivo (SafetyPay) y Yape.
+🔒 Pago seguro en la tienda oficial + *garantía directa de FuXion* ✅
+
+¿Vas directo al link o te guío paso a paso? 😊`
       await humanDelay()
       if (await waSend(chatId, msg)) consume()
       if (SPORT_LINE.includes(p.nombre)) {
@@ -1656,8 +1671,8 @@ Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
     }
   }
 
-  // Link de compra explícito (v5.4.1): el lead pide el link/enlace → se lo damos DE UNA,
-  // con formas de pago y guía de registro (corrige la fuga post-link). Con producto → link directo.
+  // Link de compra explícito (v5.4.1/5.4.2): el lead pide el link/enlace → se lo damos DE UNA,
+  // con medios de pago (dentro del link) y guía de registro (corrige la fuga post-link).
   if (INTENT_LINK_RE.test(lower)) {
     const prodsLink = buscarProductos(body)
     const pLink = prodsLink[0] || null
@@ -1666,13 +1681,13 @@ Formas de pago: tarjeta (hasta 3 cuotas), Yape o Plin ✅
       ? `🛒 *Link directo de ${pLink.nombre} (${pLink.presentacion}):*
 ${linkDeProducto(pLink) || pLink.link || TIENDA}
 
-Formas de pago: tarjeta, Yape o Plin ✅
 (verifica que aparezca *Emprende Salud* como patrocinador 💚)`
       : `🛒 *Tienda oficial Emprende Salud:*
 ${TIENDA}
 
-Formas de pago: tarjeta, Yape o Plin ✅
 (verifica que aparezca *Emprende Salud* como patrocinador 💚)`)) consume()
+    await humanDelay()
+    if (await waSend(chatId, MSG_PAGO)) consume()
     await humanDelay()
     if (await waSend(chatId, GUÍA_REGISTRO)) consume()
     return
@@ -1905,7 +1920,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
     (contact.etapa && contact.etapa !== 'lead' ? `[Etapa en el embudo: ${contact.etapa}] ` : '') +
     (infoHits.length ? `[INFO OFICIAL FUXION de productos que menciona — ÚSALA en tu respuesta: ${infoHits.join(' || ')}] ` : '') +
     (linksHits.length ? `[Links directos de productos que menciona: ${linksHits.join(' | ')}] ` : '') +
-    r`[REGLAS: 1) RESPONDE PRIMERO LO QUE EL CLIENTE PREGUNTÓ, sin rodeos. 2) Si pregunta por un producto (beneficios, para qué sirve, qué contiene, si le sirve para algo): responde con la INFO OFICIAL del contexto — para qué sirve en palabras simples + qué contiene (ingredientes clave, menciona la patente ®) + cómo se toma + precio/link de compra como cierre. 3) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 4) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + formas de pago de la tienda (tarjeta, Yape, Plin u otras) + pregunta de confirmación. 5) Si no sabes algo, opción 2 con Kervin. 6) Si el lead es de la línea deportiva, recomienda el protocolo completo (Pre Sport + Xtra Mile + Biopro+ Sport + Post Sport) — sube el ticket. 7) Si hay video oficial en el contexto, ofrécelo como prueba.]`
+    r`[REGLAS: 1) RESPONDE PRIMERO LO QUE EL CLIENTE PREGUNTÓ, sin rodeos. 2) Si pregunta por un producto (beneficios, para qué sirve, qué contiene, si le sirve para algo): responde con la INFO OFICIAL del contexto — para qué sirve en palabras simples + qué contiene (ingredientes clave, menciona la patente ®) + cómo se toma + precio/link de compra como cierre. 3) Si pregunta precio exacto, el sistema ya tiene catálogo; si no detectó productos, redirige a tienda. 4) Si está listo para comprar (dijo quiero comprar/dónde pago/precio final), cierra YA: link ${TIENDA} + recuérdale que paga DENTRO del link (tarjetas Visa/Mastercard/Amex/Diners, SafetyPay banca/efectivo, Yape) con pago seguro y garantía directa FuXion. 5) Si no sabes algo, opción 2 con Kervin. 6) Si el lead es de la línea deportiva, recomienda el protocolo completo (Pre Sport + Xtra Mile + Biopro+ Sport + Post Sport) — sube el ticket. 7) Si hay video oficial en el contexto, ofrécelo como prueba.]`
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
@@ -2193,6 +2208,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.1', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
-  console.log(`✅ Valeria v5.4.1 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + posicionamiento Clean Label + fixes formato/link/variantes)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.2', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
+  console.log(`✅ Valeria v5.4.2 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + Clean Label + pagos oficiales/garantía FuXion)`)
 }

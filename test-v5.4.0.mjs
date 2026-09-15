@@ -95,6 +95,8 @@ let t = unido(r)
 if (r.length) console.log('   ↳ ' + t.slice(0, 200).replace(/\n/g, ' | '))
 check('responde algo', r.length > 0)
 check('menciona Biopro Sport', /biopro/i.test(t), `\n${t.slice(0, 300)}`)
+check('aclara que paga DENTRO del link', /dentro del (mismo )?link/i.test(t), `\n${t.slice(0, 400)}`)
+check('menciona garantía FuXion / pago seguro', /garant[ií]a|seguro/i.test(t))
 
 // ── CASO B: lead que pregunta precio (el error clásico de los primeros días) ─
 console.log('\nB. Lead: "cuánto cuesta el biopro sport"')
@@ -124,7 +126,8 @@ r = await leadEscribeTx('D. Pide link de compra (genérico)', 'María', 'me pasa
 t = unido(r)
 console.log('   ↳ ' + t.slice(0, 300).replace(/\n/g, ' | '))
 check('envía link de tienda (no el menú de calificación)', /ifuxion\.com\/emprendesalud/.test(t), `\n${t.slice(0, 300)}`)
-check('menciona formas de pago', /Yape|Plin|tarjeta/i.test(t))
+check('enumera medios oficiales del checkout', /SafetyPay/.test(t) && /Yape/.test(t) && /Visa/.test(t), `\n${t.slice(0, 500)}`)
+check('refuerza pago dentro del link + garantía FuXion', /dentro del link/i.test(t) && /garant[ií]a directa de FuXion/i.test(t))
 check('adjunta guía de registro post-link', /registr|video|awaretips/i.test(t))
 
 // ── CASO D2: link de compra CON producto ───────────────────────────────────
