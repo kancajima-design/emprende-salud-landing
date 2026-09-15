@@ -6,7 +6,7 @@ const datos = [
   ['Nombre comercial', 'EmprendeSalud (Emprende Salud)'],
   ['Titular del negocio', 'Kervin Ancajima'],
   ['Identificación fiscal', 'RUC 10466510454'],
-  ['Dirección fiscal', 'Jr. Ica Tienda Nro. 18, Catacaos, Piura, Perú'],
+  ['Dirección fiscal', 'Ca. Real 479, Catacaos, Piura, Perú'],
   ['Representado por', 'Ancajima Taboada Kervin Andershon | RUC: 10466510454'],
   ['Sitio web', 'https://www.emprendesalud.net'],
   ['Instagram (atención al cliente)', '@emprendesalud'],
@@ -183,7 +183,7 @@ export default function Empresa() {
           electrónico (<a href={`mailto:${EMAIL}`} className="underline">{EMAIL}</a>) o a
           Instagram (@emprendesalud). Lo atenderemos en un plazo máximo de 7 días hábiles.</p>
           <p><strong>Responsable del tratamiento de datos:</strong> Kervin Ancajima, titular
-          de EmprendeSalud, con domicilio en Jr. Ica Tienda Nro. 18, Catacaos, Piura, Perú.</p>
+          de EmprendeSalud, con domicilio en Ca. Real 479, Catacaos, Piura, Perú.</p>
           <p><strong>Cookies y medición:</strong> este sitio usa herramientas de medición
           (como el píxel de Meta) para mejorar la experiencia de navegación y mostrar
           contenido relevante. Puedes desactivarlas desde la configuración de tu navegador.</p>
@@ -192,7 +192,7 @@ export default function Empresa() {
         <Seccion id="aviso" titulo="8. Aviso legal">
           <p className="text-xs text-[#5A6B7C]">
             EmprendeSalud © {new Date().getFullYear()} · Titular: Kervin Ancajima · Representado por:
-            Ancajima Taboada Kervin Andershon | RUC: 10466510454 · Jr. Ica Tienda Nro. 18, Catacaos,
+            Ancajima Taboada Kervin Andershon | RUC: 10466510454 · Ca. Real 479, Catacaos,
             Piura, Perú · Contacto: kancajima@gmail.com ·
             Distribuidor independiente de FuXion Biotech. Los productos mencionados son
             alimentos y bebidas funcionales y no sustituyen una alimentación variada y
