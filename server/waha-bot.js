@@ -1463,7 +1463,7 @@ async function geminiReply(userText) {
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: SYSTEM_PROMPT_WA }] },
         contents: [{ role: 'user', parts: [{ text: userText.slice(0, 800) }] }],
-        generationConfig: { temperature: 0.6, maxOutputTokens: 600 },
+        generationConfig: { temperature: 0.6, maxOutputTokens: 900 },
       }),
       signal: controller.signal,
     })
@@ -1508,7 +1508,7 @@ async function entenderMedia(media) {
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify({
         contents: [{ role: 'user', parts: [{ inlineData: { mimeType: media.mimetype || (isAudio ? 'audio/ogg' : 'image/jpeg'), data: b64 } }, { text: prompt }] }],
-        generationConfig: { temperature: 0.2, maxOutputTokens: 300 },
+        generationConfig: { temperature: 0.2, maxOutputTokens: 600 },
       }),
       signal: controller.signal,
     })
