@@ -1483,15 +1483,19 @@ async function geminiReply(userText) {
 // Imagen: devuelve { descripcion, respuesta } — la respuesta ya viene en voz Valeria (con el system prompt).
 async function entenderMedia(media) {
   const key = process.env.GEMINI_API_KEY || ''
-  if (!key || !media?.url) return null
+  if (!key || (!media?.url && !media?._b64)) return null
   const isAudio = /audio|ogg|opus|mpeg|mp3|m4a|aac|wav|webm|mp4/i.test(media.mimetype || '')
   const isImage = /image|jpeg|jpg|png|webp/i.test(media.mimetype || '')
   if (!isAudio && !isImage) return null
   try {
-    // 1) Descargar el archivo desde WAHA (Media Storage, autenticado con la API key)
-    const fileRes = await fetch(media.url, { headers: { 'X-Api-Key': WAHA_KEY } })
-    if (!fileRes.ok) return null
-    const b64 = Buffer.from(await fileRes.arrayBuffer()).toString('base64')
+    // 1) Obtener los bytes: ya vienen descargados (_b64, vía Cloud API) o se descargan de WAHA
+    let b64 = media._b64 || null
+    if (!b64) {
+      if (!media.url) return null
+      const fileRes = await fetch(media.url, { headers: { 'X-Api-Key': WAHA_KEY } })
+      if (!fileRes.ok) return null
+      b64 = Buffer.from(await fileRes.arrayBuffer()).toString('base64')
+    }
     // 2) Mandarlo a Gemini multimodal
     const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash'
     const prompt = isAudio
@@ -1626,7 +1630,7 @@ async function handleMessage(payload) {
     if (ok && pidioAudio) await ttsResponder(cid, text)
     return ok
   }
-  if (!body && payload?.hasMedia && payload?.media?.url) {
+  if (!body && payload?.hasMedia && (payload?.media?.url || payload?.media?._b64)) {
     const entendido = await entenderMedia(payload.media)
     if (entendido?.tipo === 'audio' && entendido.texto) {
       body = entendido.texto.slice(0, 500)
@@ -2151,28 +2155,50 @@ export function registerWahaBot(app, database) {
 
   app.post('/api/whatsapp/webhook', (req, res) => {
     res.sendStatus(200) // responder rápido a Meta; procesar async
-    try {
-      const entries = req.body?.entry || []
-      for (const e of entries) {
-        for (const ch of e.changes || []) {
-          const v = ch.value || {}
-          if (!Array.isArray(v.messages)) continue
-          const nombre = v.contacts?.[0]?.profile?.name || ''
-          for (const m of v.messages) {
-            if (!m.from) continue
-            const bodyText = m.type === 'text' ? String(m.text?.body || '') : ''
-            handleMessage({
-              from: `${m.from}@c.us`,
-              body: bodyText,
-              fromMe: false,
-              _data: { notifyName: nombre },
-            }).catch((err) => console.error('Cloud bot error:', err?.message || err))
+    ;(async () => {
+      try {
+        const entries = req.body?.entry || []
+        for (const e of entries) {
+          for (const ch of e.changes || []) {
+            const v = ch.value || {}
+            if (!Array.isArray(v.messages)) continue
+            const nombre = v.contacts?.[0]?.profile?.name || ''
+            for (const m of v.messages) {
+              if (!m.from) continue
+              // v5.5.1: media entrante (nota de voz / imagen) → descargar de Graph y entender con Gemini
+              let mediaField = null
+              let mediaB64 = null
+              if ((m.type === 'audio' || m.type === 'image') && m[m.type]?.id && CLOUD_TOKEN) {
+                try {
+                  const meta = await fetch(`${GRAPH}/${m[m.type].id}`, { headers: { Authorization: `Bearer ${CLOUD_TOKEN}` } })
+                  if (meta.ok) {
+                    const { url } = await meta.json()
+                    if (url) {
+                      const file = await fetch(url)
+                      if (file.ok) mediaB64 = Buffer.from(await file.arrayBuffer()).toString('base64')
+                    }
+                  }
+                } catch { /* sin media: cae al mensaje estándar */ }
+                if (mediaB64) mediaField = { mimetype: m[m.type].mime_type, _b64: mediaB64 }
+              }
+              const bodyText = m.type === 'text' ? String(m.text?.body || '')
+                : m.type === 'image' ? String(m.image?.caption || '')
+                : m.type === 'audio' ? '' : ''
+              handleMessage({
+                from: `${m.from}@c.us`,
+                body: bodyText,
+                fromMe: false,
+                hasMedia: Boolean(mediaField),
+                media: mediaField || undefined,
+                _data: { notifyName: nombre },
+              }).catch((err) => console.error('Cloud bot error:', err?.message || err))
+            }
           }
         }
+      } catch (e) {
+        console.error('Cloud webhook error:', e?.message || e)
       }
-    } catch (e) {
-      console.error('Cloud webhook error:', e?.message || e)
-    }
+    })()
   })
 
   // ── INSTAGRAM DM (Messenger Platform para Instagram) — v5.3.0 ──
@@ -2347,6 +2373,6 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
     res.sendFile(join(MEDIA_DIR, safe))
   })
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.5.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady(), tts: process.env.WA_TTS !== 'off' }))
-  console.log(`✅ Valeria v5.5.0 registrada (embudo TOFU/MOFU/BOFU + Cloud API + Instagram DM + Clean Label + pagos/garantía + multimedia: entiende audios e imágenes, responde por audio TTS)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.5.1', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady(), tts: process.env.WA_TTS !== 'off' }))
+  console.log(`✅ Valeria v5.5.1 registrada (embudo TOFU/MOFU/BOFU + Cloud API + Instagram DM + Clean Label + pagos/garantía + multimedia: entiende audios e imágenes, responde por audio TTS)`)
 }
