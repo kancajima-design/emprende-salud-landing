@@ -4,7 +4,7 @@
 
 process.env.WAHA_API_URL = 'http://waha.local'
 process.env.WAHA_API_KEY = 'test-key'
-delete process.env.GEMINI_API_KEY // fuerza rutas deterministas (sin Gemini)
+process.env.GEMINI_API_KEY = 'test-gemini' // activa rutas multimedia (stubbed, sin costo real)
 
 const { DatabaseSync } = await import('node:sqlite')
 
@@ -12,8 +12,9 @@ const { DatabaseSync } = await import('node:sqlite')
 const realSetTimeout = globalThis.setTimeout
 globalThis.setTimeout = (fn, ms, ...a) => realSetTimeout(fn, ms >= 500 ? 1 : ms, ...a)
 
-// ── 2. Interceptar fetch: WAHA siempre responde OK, Gemini responde error ──
+// ── 2. Interceptar fetch: WAHA siempre responde OK, Gemini simulado según el tipo de llamada ──
 const sentMessages = []
+const geminiCalls = { multimodal: 0, tts: 0 }
 globalThis.fetch = async (url, opts = {}) => {
   const u = String(url)
   if (u.includes('/api/sendText')) {
@@ -26,8 +27,38 @@ globalThis.fetch = async (url, opts = {}) => {
     sentMessages.push({ to: body.chatId, image: body.file?.url, caption: body.caption })
     return { ok: true, status: 200, json: async () => ({}), text: async () => '' }
   }
-  if (u.includes('/api/sendVoice')) return { ok: true, status: 200, json: async () => ({}), text: async () => '' }
-  if (u.includes('generativelanguage')) return { ok: false, status: 500, json: async () => ({}), text: async () => 'no-gemini' }
+  if (u.includes('/api/sendVoice')) {
+    const body = JSON.parse(opts.body || '{}')
+    sentMessages.push({ to: body.chatId, voice: body.file?.url })
+    return { ok: true, status: 200, json: async () => ({}), text: async () => '' }
+  }
+  if (u.includes('/api/files/')) {
+    // Descarga de media desde el Media Storage de WAHA
+    return { ok: true, status: 200, arrayBuffer: async () => new TextEncoder().encode('FAKE-AUDIO-OR-IMAGE-BYTES').buffer, json: async () => ({}), text: async () => '' }
+  }
+  if (u.includes('generativelanguage')) {
+    const body = JSON.parse(opts.body || '{}')
+    if (body.generationConfig?.responseModalities?.includes('AUDIO')) {
+      // Llamada TTS → devuelve audio fake en base64
+      geminiCalls.tts++
+      return { ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ inlineData: { mimeType: 'audio/mp3', data: Buffer.from('fake-mp3').toString('base64') } }] } }] }), text: async () => '' }
+    }
+    if (JSON.stringify(body).includes('inlineData')) {
+      // Llamada multimodal (audio/imagen entrante)
+      geminiCalls.multimodal++
+      const isAudio = JSON.stringify(body).includes('audio/')
+      const replyText = isAudio
+        ? 'cuánto cuesta el biopro sport'
+        : 'Captura de la tienda FuXion mostrando el carrito con Biopro+ Sport. El cliente necesita ayuda para completar el pago.'
+      return { ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ text: replyText }] } }] }), text: async () => '' }
+    }
+    // Texto simple (geminiReply): responde solo si el contexto es una imagen analizada
+    const ut = String(body.contents?.[0]?.parts?.[0]?.text || '')
+    if (ut.includes('imagen')) {
+      return { ok: true, status: 200, json: async () => ({ candidates: [{ content: { parts: [{ text: 'Veo tu captura del carrito con Biopro+ Sport 😊 Estás a un paso: entra al link, elige tu medio de pago (tarjeta, SafetyPay o Yape) y confirma. ¿Te guío paso a paso?' }] } }] }), text: async () => '' }
+    }
+    return { ok: false, status: 500, json: async () => ({}), text: async () => 'no-gemini' }
+  }
   return { ok: false, status: 404, json: async () => ({}), text: async () => '' }
 }
 
@@ -50,9 +81,9 @@ if (!webhook) throw new Error('No se registró /api/waha-webhook')
 
 const sleep = (ms) => new Promise((r) => realSetTimeout(r, ms))
 
-async function leadEscribe(chatId, body, nombre = 'Lead Prueba') {
+async function leadEscribe(chatId, body, nombre = 'Lead Prueba', extra = {}) {
   const antes = sentMessages.length
-  const req = { body: { event: 'message', payload: { from: chatId, body, fromMe: false, _data: { notifyName: nombre } } } }
+  const req = { body: { event: 'message', payload: { from: chatId, body, fromMe: false, _data: { notifyName: nombre }, ...extra } } }
   const res = { json: () => {}, status: () => ({ json: () => {} }) }
   webhook(req, res)
   // esperar a que handleMessage termine (nuevos mensajes enviados o timeout)
@@ -60,7 +91,7 @@ async function leadEscribe(chatId, body, nombre = 'Lead Prueba') {
     await sleep(25)
     if (sentMessages.length > antes) {
       // darle un momento por si manda un segundo mensaje (bloques dobles)
-      await sleep(150)
+      await sleep(200)
       break
     }
   }
@@ -72,10 +103,10 @@ const nuevoChat = () => `5199${String(900000 + (n++ * 1111)).slice(0, 6)}@c.us`
 
 // Transcripción legible para Kervin (se guarda al final del test)
 const transcripcion = []
-async function leadEscribeTx(titulo, nombre, body) {
+async function leadEscribeTx(titulo, nombre, body, extra = {}) {
   const chatId = nuevoChat()
-  const r = await leadEscribe(chatId, body, nombre)
-  transcripcion.push({ titulo, nombre, body, replies: r })
+  const r = await leadEscribe(chatId, body, nombre, extra)
+  transcripcion.push({ titulo, nombre, body: body || `(${extra.media?.mimetype?.includes('audio') ? 'nota de voz' : 'imagen'} adjunta)`, replies: r })
   return r
 }
 
@@ -177,6 +208,32 @@ r = await leadEscribeTx('J. Problema para registrarse', 'Sofía', 'no puedo regi
 t = unido(r)
 check('envía guía de registro con video', /registr|video|awaretips/i.test(t), `\n${t.slice(0, 300)}`)
 
+// ── CASO K: NOTA DE VOZ preguntando precio (v5.5.0) ────────────────────────
+console.log('\nK. Lead envía NOTA DE VOZ: "cuánto cuesta el biopro sport" (NUEVO v5.5.0)')
+{
+  const ttsAntes = geminiCalls.tts
+  r = await leadEscribeTx('K. Nota de voz: cuánto cuesta el biopro sport', 'Marta', '', {
+    hasMedia: true,
+    media: { url: 'http://waha.local/api/files/nota-marta.ogg', mimetype: 'audio/ogg' },
+  })
+  t = unido(r)
+  check('transcribe y entiende la intención (responde precios)', /Precios FuXion Perú/i.test(t), `\n${t.slice(0, 400)}`)
+  check('menciona Biopro en la respuesta', /Biopro/i.test(t))
+  check('responde TAMBIÉN por audio (nota de voz)', geminiCalls.tts > ttsAntes && r.concat(sentMessages).some((m) => m.voice), 'no se generó TTS')
+}
+
+// ── CASO L: IMAGEN (captura del carrito) ───────────────────────────────────
+console.log('\nL. Lead envía IMAGEN: captura del carrito (NUEVO v5.5.0)')
+{
+  r = await leadEscribeTx('L. Imagen: captura del carrito', 'Paolo', '', {
+    hasMedia: true,
+    media: { url: 'http://waha.local/api/files/foto-paolo.jpg', mimetype: 'image/jpeg' },
+  })
+  t = unido(r)
+  check('entiende la imagen y responde algo útil', r.length > 0 && !/enviaste una imagen o audio/i.test(t), `\n${t.slice(0, 300)}`)
+  check('NO responde con el mensaje genérico de "escríbeme por texto"', !/Cuéntame por \*texto\*/i.test(t))
+}
+
 // ── Resumen ────────────────────────────────────────────────────────────────
 console.log(`\n═══════════════════════════════════════`)
 console.log(`RESULTADO: ${passed} pasaron · ${failed} fallaron`)
@@ -191,9 +248,11 @@ const out = ['# 🧪 Transcripción de prueba — Valeria v5.4.1\n',
   + transcripcion.map((c) => (
     `\n\n---\n\n## ${c.titulo}\n\n**${c.nombre}:** ${c.body || '(nota de voz / imagen)'}\n\n`
     + c.replies.map((m) => (
-      m.image
-        ? `**Valeria:** 📷 [imagen] ${m.image}\n${m.caption || ''}\n`
-        : `**Valeria:** ${m.text}\n`
+      m.voice
+        ? `**Valeria:** 🎙️ [nota de voz] ${m.voice}\n`
+        : m.image
+          ? `**Valeria:** 📷 [imagen] ${m.image}\n${m.caption || ''}\n`
+          : `**Valeria:** ${m.text}\n`
     )).join('\n')
   )).join('')
 const outPath = fileURLToPath(new URL('../transcripcion-prueba-valeria.md', import.meta.url))

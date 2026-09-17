@@ -48,6 +48,13 @@ const isIg = (chatId) => String(chatId).startsWith('ig:')
 const TIENDA = 'http://ifuxion.com/emprendesalud'
 const LANDING = 'https://www.emprendesalud.net'
 
+// ── MULTIMEDIA v5.5.0: entender audios/imágenes (Gemini) y responder por audio (TTS) ──
+import { mkdirSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
+import { dirname, join, basename } from 'node:path'
+import { fileURLToPath } from 'node:url'
+const MEDIA_DIR = join(dirname(fileURLToPath(import.meta.url)), 'data', 'media')
+try { mkdirSync(MEDIA_DIR, { recursive: true }) } catch { /* existe */ }
+
 // MODO ANTI-BANEO (v5.1.8): límites conservadores tras el baneo del 10/09/2026
 const MAX_REPLIES_DAY = 12
 const MENU_TTL_MS = 24 * 60 * 60 * 1000
@@ -1471,9 +1478,108 @@ async function geminiReply(userText) {
   }
 }
 
+// ── v5.5.0: ENTENDER multimedia entrante (audio → texto, imagen → contexto) con Gemini ──
+// Audio: transcribe y la transcripción sigue el flujo normal de intenciones (precio, producto…).
+// Imagen: devuelve { descripcion, respuesta } — la respuesta ya viene en voz Valeria (con el system prompt).
+async function entenderMedia(media) {
+  const key = process.env.GEMINI_API_KEY || ''
+  if (!key || !media?.url) return null
+  const isAudio = /audio|ogg|opus|mpeg|mp3|m4a|aac|wav|webm|mp4/i.test(media.mimetype || '')
+  const isImage = /image|jpeg|jpg|png|webp/i.test(media.mimetype || '')
+  if (!isAudio && !isImage) return null
+  try {
+    // 1) Descargar el archivo desde WAHA (Media Storage, autenticado con la API key)
+    const fileRes = await fetch(media.url, { headers: { 'X-Api-Key': WAHA_KEY } })
+    if (!fileRes.ok) return null
+    const b64 = Buffer.from(await fileRes.arrayBuffer()).toString('base64')
+    // 2) Mandarlo a Gemini multimodal
+    const model = process.env.GEMINI_MODEL || 'gemini-3.6-flash'
+    const prompt = isAudio
+      ? 'Este audio es un mensaje de un cliente de una tienda de nutrición (WhatsApp). Transcribe EXACTAMENTE lo que dice (en español). Responde ÚNICAMENTE con la transcripción literal, sin comentarios, sin comillas.'
+      : 'El cliente envió esta imagen por WhatsApp a una tienda de nutrición funcional FuXion. Analízala: ¿muestra un producto FuXion (identifica cuál), una captura de error del proceso de compra/registro, un comprobante de pago, o algo más? Devuelve ÚNICAMENTE una línea con: qué muestra + qué necesita el cliente (máx 30 palabras), en español.'
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ inlineData: { mimeType: media.mimetype || (isAudio ? 'audio/ogg' : 'image/jpeg'), data: b64 } }, { text: prompt }] }],
+        generationConfig: { temperature: 0.2, maxOutputTokens: 300 },
+      }),
+      signal: controller.signal,
+    })
+    clearTimeout(timeout)
+    if (!res.ok) return null
+    const data = await res.json()
+    const text = data?.candidates?.[0]?.content?.parts?.map((p) => p.text || '').join('').trim()
+    if (!text) return null
+    if (isAudio) return { tipo: 'audio', texto: text }
+    // Imagen: la respuesta la genera Valeria con cerebro completo (voz normal)
+    const respuesta = await geminiReply(`El cliente envió una imagen. Análisis de la imagen: "${text}". Responde tú como Valeria a lo que el cliente necesita (menciona qué viste en la imagen).`)
+    return { tipo: 'imagen', texto: text, respuesta }
+  } catch (e) {
+    console.error('[media] entenderMedia error:', e?.message || e)
+    return null
+  }
+}
+
+// ── v5.5.0: RESPONDER POR AUDIO (TTS) cuando el cliente habló por nota de voz ──
+// Costo aprox: US$ 0.005-0.01 por audio de ~20 seg (gemini-2.5-flash-preview-tts).
+// Se desactiva con WA_TTS=off. Anti-spam: máx 1 audio de vuelta por chat cada 2 h.
+const ultimoTtsPorChat = new Map()
+async function ttsResponder(chatId, text) {
+  const key = process.env.GEMINI_API_KEY || ''
+  if (!key || process.env.WA_TTS === 'off') return false
+  if (isIg(chatId)) return false // IG DM: por ahora solo texto
+  const ahora = Date.now()
+  if (ahora - (ultimoTtsPorChat.get(chatId) || 0) < 2 * 60 * 60 * 1000) return false
+  try {
+    const corto = text.replace(/\*+/g, '').slice(0, 280).trim()
+    if (corto.length < 20) return false
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30000)
+    const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `Lee esto como Valeria, asesora cálida y segura de Emprende Salud (español peruano, ritmo natural, sin exagerar): ${corto}` }] }],
+        generationConfig: {
+          responseModalities: ['AUDIO'],
+          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Aoede' } } },
+        },
+      }),
+      signal: controller.signal,
+    })
+    clearTimeout(timeout)
+    if (!res.ok) return false
+    const data = await res.json()
+    const audioB64 = data?.candidates?.[0]?.content?.parts?.find((p) => p.inlineData)?.inlineData?.data
+    if (!audioB64) return false
+    const fname = `tts_${chatId.replace(/[^0-9]/g, '')}_${Date.now()}.mp3`
+    writeFileSync(join(MEDIA_DIR, fname), Buffer.from(audioB64, 'base64'))
+    const ok = await waSendVoice(chatId, `${LANDING}/media/${fname}`)
+    if (ok) ultimoTtsPorChat.set(chatId, ahora)
+    return ok
+  } catch (e) {
+    console.error('[tts] error:', e?.message || e)
+    return false
+  }
+}
+
+// Limpieza de audios TTS antiguos (se llama en el sweep horario)
+function limpiarMediaDir() {
+  try {
+    const limite = Date.now() - 2 * 60 * 60 * 1000
+    for (const f of readdirSync(MEDIA_DIR)) {
+      const p = join(MEDIA_DIR, f)
+      if (statSync(p).mtimeMs < limite) unlinkSync(p)
+    }
+  } catch { /* no crítico */ }
+}
+
 async function handleMessage(payload) {
   const chatId = payload?.from || ''
-  const body = String(payload?.body || '').trim()
+  let body = String(payload?.body || '').trim()
 
   if (payload.fromMe) return
   const esPrivado = chatId.endsWith('@c.us') || chatId.endsWith('@lid') || isIg(chatId)
@@ -1510,6 +1616,31 @@ async function handleMessage(payload) {
     lastReplyTs.set(chatId, Date.now())
   }
 
+  // ── v5.5.0: ENTENDER multimedia entrante (audio/imagen) ──
+  // Audio → transcripción que sigue el flujo normal. Imagen → respuesta directa de Valeria.
+  const pidioAudio = Boolean(payload?.hasMedia) && /audio|voice|ptt|ogg/i.test(String(payload?.media?.mimetype || ''))
+  // v5.5.0: si el lead habló por nota de voz, Valeria también responde por audio (WA_TTS=off para desactivar)
+  const waSendOriginal = waSend
+  const waSendL = async (cid, text) => {
+    const ok = await waSendOriginal(cid, text)
+    if (ok && pidioAudio) await ttsResponder(cid, text)
+    return ok
+  }
+  if (!body && payload?.hasMedia && payload?.media?.url) {
+    const entendido = await entenderMedia(payload.media)
+    if (entendido?.tipo === 'audio' && entendido.texto) {
+      body = entendido.texto.slice(0, 500)
+      logMsg(chatId, 'in', `[audio→texto] ${body.slice(0, 150)}`)
+    } else if (entendido?.tipo === 'imagen') {
+      logMsg(chatId, 'in', `[imagen] ${(entendido.texto || '').slice(0, 150)}`)
+      if (entendido.respuesta) {
+        await humanDelay()
+        if (await waSendL(chatId, entendido.respuesta)) consume()
+        return
+      }
+    }
+  }
+
   const lower = body.toLowerCase()
 
   // Modo anti-baneo (v5.1.8): fuera del horario de atención (8am-9pm Lima) NO se responde.
@@ -1542,10 +1673,10 @@ async function handleMessage(payload) {
   if (COMPETIDORES_RE.test(body) && COMPARATIVA_RE.test(lower)) {
     const prodsVs = buscarProductos(body)
     await humanDelay()
-    if (await waSend(chatId, REPLY_COMPETENCIA(prodsVs))) consume()
+    if (await waSendL(chatId, REPLY_COMPETENCIA(prodsVs))) consume()
     if (prodsVs.length > 0) {
       await humanDelay()
-      await waSend(chatId, `🛒 *${prodsVs[0].nombre}:* ${linkDeProducto(prodsVs[0]) || prodsVs[0].link || TIENDA}\n\n(verifica que aparezca *Emprende Salud* como patrocinador 💚)`)
+      await waSendL(chatId, `🛒 *${prodsVs[0].nombre}:* ${linkDeProducto(prodsVs[0]) || prodsVs[0].link || TIENDA}\n\n(verifica que aparezca *Emprende Salud* como patrocinador 💚)`)
     }
     return
   }
@@ -1556,34 +1687,34 @@ async function handleMessage(payload) {
       alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
       .run(Date.now(), chatId)
     await humanDelay()
-    if (await waSend(chatId, SEQ2_COMPRA(nombre))) consume()
+    if (await waSendL(chatId, SEQ2_COMPRA(nombre))) consume()
     return
   }
   if (REORDER_RE.test(lower) && ['cliente', 'autoenvio'].includes(contact.etapa)) {
     db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio_pendiente' WHERE chat_id = ?").run(chatId)
     await humanDelay()
-    if (await waSend(chatId, SEQ3_AUTOENVIO)) consume()
+    if (await waSendL(chatId, SEQ3_AUTOENVIO)) consume()
     return
   }
   if (AUTOENVIO_SI_RE.test(lower) && contact.etapa === 'autoenvio_pendiente') {
     db.prepare("UPDATE wa_contacts SET etapa = 'autoenvio', compra_at = ? WHERE chat_id = ?")
       .run(Date.now(), chatId)
     await humanDelay()
-    if (await waSend(chatId, SEQ3_CIERRE)) consume()
+    if (await waSendL(chatId, SEQ3_CIERRE)) consume()
     return
   }
 
   // ── MULTIMEDIA: respuesta única, NO va a Gemini ─────────────
   if (!body) {
     await humanDelay()
-    if (await waSend(chatId, MSG_MULTIMEDIA)) consume()
+    if (await waSendL(chatId, MSG_MULTIMEDIA)) consume()
     return
   }
 
   // ── RUTAS DIRECTAS POR INTENCIÓN (v4.5.0) ──────────────────
   // Registro / problemas post-link — máxima prioridad (evita abandonos)
   if (INTENT_REGISTRO_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, GUÍA_REGISTRO)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, GUÍA_REGISTRO)) consume(); return
   }
   
   // Foto de producto (v5) — antes del matching de precios
@@ -1596,7 +1727,7 @@ async function handleMessage(payload) {
       if (imgUrl) {
         if (await waSendImage(chatId, imgUrl, `${p.nombre} (${p.presentacion}) — S/ ${p.precio.toFixed(2)}. Más info: ${linkDeProducto(p) || p.link || TIENDA}`)) consume()
       } else {
-        if (await waSend(chatId, `📸 Te paso el link directo de *${p.nombre}* (${p.presentacion}) — ahí ves la foto oficial y toda la ficha del producto:
+        if (await waSendL(chatId, `📸 Te paso el link directo de *${p.nombre}* (${p.presentacion}) — ahí ves la foto oficial y toda la ficha del producto:
 ${linkDeProducto(p) || p.link || TIENDA}
 
 ¿Te ayudo con algo más? 💚`)) consume()
@@ -1615,7 +1746,7 @@ ${linkDeProducto(p) || p.link || TIENDA}
       if (nutriUrl) {
         if (await waSendImage(chatId, nutriUrl, `📋 Etiqueta oficial de *${pNutri.nombre}*: calorías, azúcar, proteína y valores completos. Cualquier duda, me dices 💚`)) consume()
       } else {
-        if (await waSend(chatId, `📋 La tabla nutricional completa de *${pNutri.nombre}* está en su ficha oficial:
+        if (await waSendL(chatId, `📋 La tabla nutricional completa de *${pNutri.nombre}* está en su ficha oficial:
 ${pNutri.link || TIENDA}
 
 Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)) consume()
@@ -1631,7 +1762,7 @@ Si quieres te explico los ingredientes principales por aquí. ¿Te ayudo? 💚`)
     const linkVid = pVid ? videoDe(pVid.nombre) : null
     if (linkVid) {
       await humanDelay()
-      if (await waSend(chatId, `🎬 *Video oficial de ${pVid.nombre}:*\n${linkVid}\n\nMíralo y me dices si te armo tu pedido 💪`)) consume()
+      if (await waSendL(chatId, `🎬 *Video oficial de ${pVid.nombre}:*\n${linkVid}\n\nMíralo y me dices si te armo tu pedido 💪`)) consume()
       return
     }
   }
@@ -1662,10 +1793,10 @@ ${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `⭐ *Con
 
 ¿Vas directo al link o te guío paso a paso? 😊`
       await humanDelay()
-      if (await waSend(chatId, msg)) consume()
+      if (await waSendL(chatId, msg)) consume()
       if (SPORT_LINE.includes(p.nombre)) {
         await humanDelay()
-        if (await waSend(chatId, SPORT_CROSS_SELL)) consume()
+        if (await waSendL(chatId, SPORT_CROSS_SELL)) consume()
       }
       return
     }
@@ -1677,7 +1808,7 @@ ${patente ? `⭐ *Tecnología patentada:* ${patente}` : ingredientes ? `⭐ *Con
     const prodsLink = buscarProductos(body)
     const pLink = prodsLink[0] || null
     await humanDelay()
-    if (await waSend(chatId, pLink
+    if (await waSendL(chatId, pLink
       ? `🛒 *Link directo de ${pLink.nombre} (${pLink.presentacion}):*
 ${linkDeProducto(pLink) || pLink.link || TIENDA}
 
@@ -1687,26 +1818,26 @@ ${TIENDA}
 
 (verifica que aparezca *Emprende Salud* como patrocinador 💚)`)) consume()
     await humanDelay()
-    if (await waSend(chatId, MSG_PAGO)) consume()
+    if (await waSendL(chatId, MSG_PAGO)) consume()
     await humanDelay()
-    if (await waSend(chatId, GUÍA_REGISTRO)) consume()
+    if (await waSendL(chatId, GUÍA_REGISTRO)) consume()
     return
   }
 
   // ── EDUCACIÓN CLEAN LABEL + OBJECIÓN DE VALOR (v5.4.0/5.4.1) ──
   // Van ANTES de la objeción genérica: una queja de precio merece el reencuadre de valor completo.
   if (CLEAN_LABEL_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, REPLY_CLEAN_LABEL)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, REPLY_CLEAN_LABEL)) consume(); return
   }
   if (PRECIO_VALOR_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, REPLY_PRECIO_VALOR)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, REPLY_PRECIO_VALOR)) consume(); return
   }
 
   // MOFU (v5.2.0): objeción de precio/duda — valor real + prueba + cierre suave (sin presión)
   if (OBJECION_RE.test(lower)) {
     const pObj = (contact.last_product ? buscarProductos(contact.last_product)[0] : null) || buscarProductos(body)[0] || null
     await humanDelay()
-    if (await waSend(chatId, MSG_OBJECION(pObj, nombre))) consume()
+    if (await waSendL(chatId, MSG_OBJECION(pObj, nombre))) consume()
     return
   }
 
@@ -1735,13 +1866,13 @@ ${info.u}
 
 ¿Quieres que te pase el link para pedirlo? 😊`
         await humanDelay()
-        if (await waSend(chatId, msg)) consume()
+        if (await waSendL(chatId, msg)) consume()
         if (SPORT_LINE.includes(p.nombre)) {
           await humanDelay()
-          if (await waSend(chatId, SPORT_CROSS_SELL)) consume()
+          if (await waSendL(chatId, SPORT_CROSS_SELL)) consume()
         }
       } else {
-        if (await waSend(chatId, `💚 *${p.nombre}* (${p.presentacion}) — S/ ${p.precio.toFixed(2)} (${p.qv} QV)
+        if (await waSendL(chatId, `💚 *${p.nombre}* (${p.presentacion}) — S/ ${p.precio.toFixed(2)} (${p.qv} QV)
 
 Toda la info oficial, beneficios y tabla nutricional está aquí:
 ${linkDeProducto(p) || p.link || TIENDA}
@@ -1755,7 +1886,7 @@ ${linkDeProducto(p) || p.link || TIENDA}
   // Cierre inminente (v5): el cliente ya quiere comprar
   if (INTENT_CIERRE_RE.test(lower)) {
     await humanDelay()
-    if (await waSend(chatId, MSG_CIERRE_COMPRA(nombre))) consume()
+    if (await waSendL(chatId, MSG_CIERRE_COMPRA(nombre))) consume()
     return
   }
 
@@ -1765,13 +1896,13 @@ ${linkDeProducto(p) || p.link || TIENDA}
     const pSi = contact.last_product ? buscarProductos(contact.last_product)[0] : null
     if (pSi) {
       await humanDelay()
-      if (await waSend(chatId, `🛒 *Link directo de ${pSi.nombre}:*
+      if (await waSendL(chatId, `🛒 *Link directo de ${pSi.nombre}:*
 ${linkDeProducto(pSi) || pSi.link || TIENDA}
 
 (verifica que aparezca *Emprende Salud* como patrocinador 💚)`)) consume()
     }
     await humanDelay()
-    if (await waSend(chatId, GUÍA_REGISTRO)) consume()
+    if (await waSendL(chatId, GUÍA_REGISTRO)) consume()
     return
   }
 
@@ -1781,13 +1912,13 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
     db.prepare('UPDATE wa_contacts SET last_product = ?, etiqueta = ? WHERE chat_id = ?')
       .run(productosEncontrados[0].nombre, 'caliente', chatId)
     await humanDelay()
-    if (await waSend(chatId, mensajePrecios(productosEncontrados))) consume()
+    if (await waSendL(chatId, mensajePrecios(productosEncontrados))) consume()
     return
   }
   
   // Precio genérico (si no detectó productos específicos)
   if (PRECIO_RE.test(lower)) {
-    await humanDelay(); if (await waSend(chatId, OPCION_PRECIO_FALLBACK)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_PRECIO_FALLBACK)) consume(); return
   }
 
   // Deporte
@@ -1797,7 +1928,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_4)) consume(); return
   }
   // Negocio fuerte (Plan PRO-LEV X)
   if (INTENT_NEGOCIO_RE.test(lower)) {
@@ -1806,7 +1937,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_3B)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_3B)) consume(); return
   }
   // Peso
   if (INTENT_PESO_RE.test(lower)) {
@@ -1815,7 +1946,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_5)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_5)) consume(); return
   }
   // Digestión
   if (INTENT_DIGESTION_RE.test(lower)) {
@@ -1824,7 +1955,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_6)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_6)) consume(); return
   }
   // Energía
   if (INTENT_ENERGIA_RE.test(lower)) {
@@ -1833,7 +1964,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_7)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_7)) consume(); return
   }
   // Defensas
   if (INTENT_DEFENSAS_RE.test(lower)) {
@@ -1842,7 +1973,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_8)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_8)) consume(); return
   }
   // Belleza
   if (INTENT_BELLEZA_RE.test(lower)) {
@@ -1851,7 +1982,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_9)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_9)) consume(); return
   }
 
   // ── LEAD DESDE ANUNCIO (v5): mensaje genérico + contacto nuevo ──
@@ -1859,7 +1990,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
   const esContactoNuevo = !contact.objetivo && contact.etiqueta === 'nuevo'
   if (esMensajeCorto && esContactoNuevo && INTENT_ADS_RE.test(lower)) {
     await humanDelay()
-    if (await waSend(chatId, MSG_CALIFICACION_ADS)) consume()
+    if (await waSendL(chatId, MSG_CALIFICACION_ADS)) consume()
     return
   }
 
@@ -1869,7 +2000,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
 
   if (menuVencido && (esSaludo || !contact.menu_at || count === 0)) {
     await humanDelay()
-    if (await waSend(chatId, MENU)) {
+    if (await waSendL(chatId, MENU)) {
       db.prepare('UPDATE wa_contacts SET menu_at = ? WHERE chat_id = ?').run(Date.now(), chatId)
       consume()
     }
@@ -1878,16 +2009,16 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
 
   if (lower === '1' || lower === '1.') {
     await humanDelay()
-    if (await waSend(chatId, OPCION_1)) {
+    if (await waSendL(chatId, OPCION_1)) {
       consume()
       await humanDelay()
-      await waSend(chatId, OPCION_1_LINK)
+      await waSendL(chatId, OPCION_1_LINK)
     }
     return
   }
   if (lower === '2' || lower === '2.' || lower.includes('asesor') || lower.includes('hablar con') || lower.includes('kervin')) {
     await humanDelay()
-    if (await waSend(chatId, OPCION_2)) {
+    if (await waSendL(chatId, OPCION_2)) {
       consume()
       db.prepare('UPDATE wa_contacts SET handoff_until = ? WHERE chat_id = ?')
         .run(Date.now() + MENU_TTL_MS, chatId)
@@ -1901,7 +2032,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_3)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_3)) consume(); return
   }
   if (lower === '4' || lower === '4.' || lower.includes('deporte') || lower.includes('gym') || lower.includes('gimnasio') || lower.includes('proteína') || lower.includes('entreno') || lower.includes('rendimiento')) {
     if (!contact.objetivo) {
@@ -1909,7 +2040,7 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
         etiqueta = CASE WHEN etiqueta IN ('nuevo','') THEN 'tibio' ELSE etiqueta END
         WHERE chat_id = ?`).run(chatId)
     }
-    await humanDelay(); if (await waSend(chatId, OPCION_4)) consume(); return
+    await humanDelay(); if (await waSendL(chatId, OPCION_4)) consume(); return
   }
 
   // ── FALLBACK GEMINI ─────────────────────────────────────────
@@ -1924,12 +2055,13 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
   const reply = await geminiReply(contexto + body)
   await humanDelay()
   const final = reply || `Para ayudarte mejor, elige una opción:\n1️⃣ Productos y promoción\n2️⃣ Asesoría gratis con Kervin\n3️⃣ Negocio FuXion\n4️⃣ Proteína y deporte 💪`
-  if (await waSend(chatId, final)) consume()
+  if (await waSendL(chatId, final)) consume()
 }
 
 const DIA_MS = 24 * 60 * 60 * 1000
 async function sweepSeguimiento() {
   if (!WAHA_URL || !WAHA_KEY || !db) return
+  limpiarMediaDir() // v5.5.0: borrar audios TTS con más de 2 h
   const now = Date.now()
   // v5: alertar a Kervin leads calientes/tibios sin compra hace 24-96h
   try {
@@ -2208,6 +2340,13 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   sweepSeguimiento()
   setInterval(sweepSeguimiento, 60 * 60 * 1000)
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.4.2', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady() }))
-  console.log(`✅ Valeria v5.4.2 registrada (embudo TOFU/MOFU/BOFU + WhatsApp Cloud API + Instagram DM + Clean Label + pagos oficiales/garantía FuXion)`)
+  // v5.5.0: servir los audios TTS que WAHA/Meta descargan al enviar notas de voz
+  app.get('/media/:file', (req, res) => {
+    const safe = basename(req.params.file || '')
+    if (!safe.startsWith('tts_') || !safe.endsWith('.mp3')) return res.sendStatus(404)
+    res.sendFile(join(MEDIA_DIR, safe))
+  })
+
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.5.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady(), tts: process.env.WA_TTS !== 'off' }))
+  console.log(`✅ Valeria v5.5.0 registrada (embudo TOFU/MOFU/BOFU + Cloud API + Instagram DM + Clean Label + pagos/garantía + multimedia: entiende audios e imágenes, responde por audio TTS)`)
 }
