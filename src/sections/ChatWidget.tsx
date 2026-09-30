@@ -21,24 +21,58 @@ const SALUDO: Msg = {
   text: '¡Hola! Soy Valeria, tu asesora de bienestar en Emprende Salud 💚 Cuéntame qué buscas (más energía, mejor digestión, control de peso) y te digo qué producto va contigo.',
 }
 
-// Convierte URLs del texto en enlaces clicables
+// ── Mini-render del formato de Valeria: **negrita**, [texto](url) y URLs sueltas ──
+type Token =
+  | { tipo: 'texto'; valor: string }
+  | { tipo: 'negrita'; valor: string }
+  | { tipo: 'link'; texto: string; href: string }
+
+const RE_TOKEN = /(\*\*[^*]+\*\*)|(\[[^\]]+\]\(([^)\s]+)\))|(https?:\/\/[^\s)]+)/g
+
+function tokenizar(text: string): Token[] {
+  const tokens: Token[] = []
+  let ultimo = 0
+  for (const m of text.matchAll(RE_TOKEN)) {
+    const idx = m.index ?? 0
+    if (idx > ultimo) tokens.push({ tipo: 'texto', valor: text.slice(ultimo, idx) })
+    if (m[1]) {
+      tokens.push({ tipo: 'negrita', valor: m[1].slice(2, -2) })
+    } else if (m[2]) {
+      // Enlace markdown [texto](url). Normalizar: si no trae protocolo, https.
+      const href = /^https?:\/\//i.test(m[3]) ? m[3] : `https://${m[3]}`
+      if (/^https?:\/\//i.test(href)) {
+        tokens.push({ tipo: 'link', texto: m[2].replace(/^\[([^\]]+)\]\(.+$/, '$1'), href })
+      } else {
+        tokens.push({ tipo: 'texto', valor: m[2] })
+      }
+    } else if (m[4]) {
+      // URL suelta: mostrarla sin protocolo para que quepa mejor
+      tokens.push({ tipo: 'link', texto: m[4].replace(/^https?:\/\//, '').replace(/\/$/, ''), href: m[4] })
+    }
+    ultimo = idx + m[0].length
+  }
+  if (ultimo < text.length) tokens.push({ tipo: 'texto', valor: text.slice(ultimo) })
+  return tokens
+}
+
 function TextoConLinks({ text }: { text: string }) {
-  const partes = text.split(/(https?:\/\/[^\s)]+)/g)
   return (
     <>
-      {partes.map((p, i) =>
-        /^https?:\/\//.test(p) ? (
+      {tokenizar(text).map((t, i) =>
+        t.tipo === 'negrita' ? (
+          <strong key={i} className="font-bold">{t.valor}</strong>
+        ) : t.tipo === 'link' ? (
           <a
             key={i}
-            href={p}
+            href={t.href}
             target="_blank"
             rel="noreferrer"
-            className="font-semibold underline decoration-2 underline-offset-2"
+            className="break-all font-semibold underline decoration-2 underline-offset-2"
           >
-            {p.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+            {t.texto}
           </a>
         ) : (
-          <span key={i}>{p}</span>
+          <span key={i}>{t.valor}</span>
         ),
       )}
     </>
@@ -171,8 +205,8 @@ export default function ChatWidget({
                 <div
                   className={
                     m.role === 'user'
-                      ? 'max-w-[85%] whitespace-pre-line rounded-2xl rounded-br-md bg-[#00498E] px-3.5 py-2.5 text-sm text-white'
-                      : 'max-w-[85%] whitespace-pre-line rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-[#0B2033] shadow-sm ring-1 ring-[#00498E]/10'
+                      ? 'max-w-[85%] whitespace-pre-line break-words rounded-2xl rounded-br-md bg-[#00498E] px-3.5 py-2.5 text-sm text-white'
+                      : 'max-w-[85%] whitespace-pre-line break-words rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-sm text-[#0B2033] shadow-sm ring-1 ring-[#00498E]/10'
                   }
                 >
                   <TextoConLinks text={m.text} />
