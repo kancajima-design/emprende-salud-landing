@@ -72,7 +72,7 @@ function TextoConLinks({ text }: { text: string }) {
             {t.texto}
           </a>
         ) : (
-          <span key={i}>{t.valor}</span>
+          <span key={i}>{t.valor.replace(/(^|\n)\* /g, '$1• ')}</span>
         ),
       )}
     </>
