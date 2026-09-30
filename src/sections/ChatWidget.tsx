@@ -105,13 +105,13 @@ export default function ChatWidget({
       } else {
         setMensajes([
           ...nuevos,
-          { role: 'model', text: data?.error || 'Ups, algo falló. Escríbeme por WhatsApp: +51 970 848 043' },
+          { role: 'model', text: data?.error || 'Ups, algo falló. Escríbeme por WhatsApp: +51 907 793 042' },
         ])
       }
     } catch {
       setMensajes([
         ...nuevos,
-        { role: 'model', text: 'No pude conectar en este momento. Escríbeme por WhatsApp: +51 970 848 043 💚' },
+        { role: 'model', text: 'No pude conectar en este momento. Escríbeme por WhatsApp: +51 907 793 042 💚' },
       ])
     } finally {
       setCargando(false)
@@ -140,7 +140,10 @@ export default function ChatWidget({
 
       {/* Panel del chat */}
       {abierto && (
-        <div className={`fixed ${clasePosicion} z-50 flex h-[70vh] max-h-[560px] w-[calc(100vw-2.5rem)] max-w-sm flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-[#00498E]/15`}>
+        /* Móvil: anclado a ambos lados (right-4) para que nunca se salga de
+           pantalla aunque 100vw sea mayor que el viewport visible (zoom,
+           scrollbar). Desktop: ancho fijo desde la izquierda. */
+        <div className={`fixed ${clasePosicion} right-4 z-50 flex h-[70vh] max-h-[560px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-[#00498E]/15 sm:right-auto sm:w-96`}>
           {/* Header */}
           <div className="flex items-center justify-between bg-gradient-to-r from-[#00498E] to-[#0094DE] px-4 py-3">
             <div className="flex items-center gap-2.5">
@@ -213,7 +216,7 @@ export default function ChatWidget({
               onChange={(e) => setInput(e.target.value)}
               placeholder="Escribe tu pregunta…"
               maxLength={500}
-              className="flex-1 rounded-full bg-[#F3F6FB] px-4 py-2.5 text-sm text-[#0B2033] outline-none ring-1 ring-transparent transition focus:ring-[#0094DE]"
+              className="min-w-0 flex-1 rounded-full bg-[#F3F6FB] px-4 py-2.5 text-sm text-[#0B2033] outline-none ring-1 ring-transparent transition focus:ring-[#0094DE]"
             />
             <button
               type="submit"
