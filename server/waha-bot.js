@@ -16,6 +16,14 @@
 // v4.5.0 (09-sep): CATÁLOGO DE PRECIOS + QV — Valeria entrega precios exactos.
 // v5.1.0 (10-sep): CEREBRO v5 (Alex Dey+Klaric+Columbus) + links directos + imágenes + leads ads + alertas 24h.
 // v5.1.1 (10-sep): 106 imágenes oficiales desde Ofifuxion + explicación QV + multi-compra + países + tono humano.
+// v6.0.0 (01-oct): CEREBRO CRM — memoria de prospecto (ficha automática + inferencia),
+//   comandos "v" para Kervin, secuencias S1–S8 como sugerencias listas para copiar (anti-baneo:
+//   Valeria nunca escribe primero a leads), panel semanal, puntos/rachas/insignias (valeria-crm.js).
+//   Ver: plan-maestro-valeria.md · modulo-memoria-prospecto-valeria.md · modulo-secuencias-seguimiento-valeria.md
+// v6.1.0 (01-oct): BASE DE CONOCIMIENTO COMPLETA (auditoría previa a deploy) —
+//   info oficial de Probal/Combo Ponte en Forma/Camu-C/Duo Defense, negocio PRO-LEV X con
+//   cifras reales (descuentos 20–50%, 10 bonos, disclaimer anti-promesas), FAQ de envíos,
+//   bloques de envíos/garantía/seguridad en el system prompt.
 // Variables de entorno requeridas (Railway, servicio landing):
 //  WAHA_API_URL, WAHA_API_KEY, WAHA_SESSION (default), WAHA_NOTIFY
 // ─────────────────────────────────────────────────────────────
@@ -23,7 +31,7 @@
 const WAHA_URL = (process.env.WAHA_API_URL || '').replace(/\/$/, '')
 const WAHA_KEY = process.env.WAHA_API_KEY || ''
 const WAHA_SESSION = process.env.WAHA_SESSION || 'default'
-const NOTIFY = process.env.WAHA_NOTIFY || '51970848043' // personal de Kervin
+const NOTIFY = process.env.WAHA_NOTIFY || '51907793042' // personal de Kervin
 
 // ── Transporte WhatsApp (v5.1.9): 'waha' (no oficial) | 'cloud' (API oficial Meta) ──
 // MIGRACIÓN ANTI-BANEO: con 'cloud' los mensajes salen por la API oficial de Meta —
@@ -52,6 +60,8 @@ const LANDING = 'https://www.emprendesalud.net'
 import { mkdirSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
 import { dirname, join, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
+// v6.0.0: cerebro CRM (memoria + secuencias + tablero/gamificación) — ver plan-maestro-valeria.md
+import { initCrm, crmMessageHook, crmCommand, crmSweep, crmDaily, crmOnCompra, crmPanelData, esKervin } from './valeria-crm.js'
 const MEDIA_DIR = join(dirname(fileURLToPath(import.meta.url)), 'data', 'media')
 try { mkdirSync(MEDIA_DIR, { recursive: true }) } catch { /* existe */ }
 
@@ -470,19 +480,41 @@ ${TIENDA} 💚`
 
 const OPCION_3 = `💼 *Programa de Distribuidor Independiente FuXion*
 
-Si te gustan los productos, FuXion te permite registrarte como distribuidor independiente: compras con precio preferente y decides si vendes a tu ritmo, sin inventario ni local — la empresa envía directo a tus clientes.
+FuXion —empresa peruana fundada en 2006— reparte cerca del *50% de sus ingresos* con su red de distribuidores. En números concretos:
 
-Cada caso es distinto: el plan completo (costos, descuentos y condiciones vigentes) te lo explica Kervin en una conversación personal, con datos reales y sin compromiso.
+• *Registro: GRATIS* — desde la tienda oficial, con tu primera compra
+• *Tu primera compra ya trae descuento:* 20% (40+ pts) · 25% (100+ pts) · 30% (600+ pts)
+• *Compras siguientes:* descuento del 20% al 50% según puntos acumulados cada 4 semanas
+• *Sin inventario ni local:* FuXion envía directo a tus clientes
+• Plan PRO-LEV X: *10 bonos* semanales (venta directa, clientes preferentes, mentoría, equipo…)
+• Los ingresos dependen del esfuerzo de cada persona — no hay montos garantizados
 
-¿Agendamos 20 minutos con Kervin? Responde *2* 📲`
+El plan completo con números de tu caso te lo explica Kervin en 20 minutos, sin compromiso.
 
-const OPCION_3B = `💼 *Programa de Distribuidor Independiente FuXion*
+¿Agendamos? Responde *2* 📲`
 
-FuXion permite a personas emprendedoras registrarse como distribuidoras independientes y vender sus productos con acceso a precio preferente.
+const OPCION_3B = `💼 *Negocio FuXion — así funciona*
 
-Cada caso es distinto, así que la información del plan (costos, descuentos y condiciones vigentes) te la comparte Kervin en una conversación personal, donde también responde todas tus preguntas.
+• Registro GRATIS como Emprendedor FuXion desde la tienda oficial
+• Descuentos del *20% al 50%* en tus compras (según volumen de cada 4 semanas)
+• *Bono del 25%* sobre la primera compra de cada nuevo distribuidor que patrocinas
+• Plan PRO-LEV X: 10 bonos semanales — Venta Directa, Clientes Preferentes (hasta US$500 por período), Mentoría 5–10%, Familia X hasta 6 niveles, Balance, Legado… pagos *todas las semanas*
+• FuXion reparte cerca del *50% de sus ingresos netos* con la red
+• Sin inventario: la empresa envía directo a tus clientes
 
-¿Agendamos 20 minutos con Kervin para contarte cómo funciona? Responde *2* 📲`
+⚠️ Los ingresos varían según el esfuerzo de cada persona — nadie puede prometerte montos.
+
+¿Quieres que Kervin te arme una proyección con datos reales de tu caso? Responde *2* 📲`
+
+// v6.1.0: FAQ de envíos (brecha detectada en auditoría de conocimiento)
+const MSG_ENVIOS = `🚚 *Envíos FuXion*
+
+• FuXion envía a *todo el Perú* por courier/servicio de delivery, directo a la dirección de tu registro
+• El *costo y tiempo de entrega* se calculan en el checkout según tu zona (Lima suele ser más rápido; provincia puede tomar algunos días más)
+• Tu pedido va con *comprobante de pago* y respaldo directo de FuXion
+• Al comprar en la tienda oficial recibes producto *100% original*, sin intermediarios
+
+¿Te paso el link de la tienda o los precios de algún producto? 💚`
 
 const OPCION_PRECIO_FALLBACK = `💚 Para ver precios actualizados y armar tu pedido, entra directo a la tienda oficial:
 ${TIENDA}
@@ -537,6 +569,8 @@ const INTENT_BELLEZA_RE = /(belleza|piel|cabello|uñas|arrugas|rejuvenec|col[áa
 const PRECIO_RE = /\b(precio|precios|cu[aá]nto|cuesta|costo|costos|valor|cu[aá]nto sale|a cu[aá]nto|tarifa|tarifas)\b/i
 const INTENT_NEGOCIO_RE = /\b(negocio|emprender|emprendimiento|plan de compensaci[oó]n|plan pro-lev|ingreso|ganar dinero|rentabilidad|bono|bonos|socio|distribuidor|multinivel|mlm|equipo|red|l[ií]der|diamante)\b/i
 const INTENT_REGISTRO_RE = /(registr|no s[eé] registr|no me deja|no puedo pagar|c[oó]mo compro|c[oó]mo pago|qu[eé] hago despu[eé]s del link|ya abr[ií] el link|no me carga|error en la p[aá]gina|tutorial|paso a paso|c[oó]mo me inscribo|c[oó]mo hago la compra|no encuentro el producto|d[oó]nde agrego al carrito|no me llega confirmaci[oó]n)/i
+// v6.1.0: FAQ envíos (la reactivación de clientes sigue manejándose antes con REORDER_RE)
+const ENVIO_RE = /(cu[aá]nto tarda|tiempo de entrega|d[ií]as tarda|hacen env[ií]os?|env[ií]an a|a qu[eé] (departamentos|zonas|ciudades|regiones)|\bdelivery\b|a provincia|costo (de|del) env[ií]o|cu[aá]nto cuesta (el|la) (env[ií]o|entrega)|llega (mi|el) (pedido|producto|paquete)|d[oó]nde est[aá] mi pedido|cu[aá]ndo llega\b)/i
 // MOFU (v5.2.0): objeciones de precio/duda — se responde con valor, no con descuento
 const OBJECION_RE = /(muy caro|es caro|est[aá] caro|me parece caro|cuestan mucho|no tengo plata|no tengo dinero|estoy quebrado|a fin de mes|reci[eé]n cobro|lo voy a pensar|d[eé]jame pensar|d[eé]jame verlo|lo consulto|av[ií]same despu[eé]s|m[aá]s adelante te aviso|reci[eé]n es mi primer sueldo|no alcanza)/i
 // BOFU (v5.2.0): afirmativa corta después de la oferta de cierre → se guía hasta el final
@@ -1002,6 +1036,11 @@ const PRODUCT_INFO = {
   "Xtra Mile|28 sticks x 5gr": { b: "Su consumo durante el ejercicio te ayuda a: - Mantener adecuados niveles de glucosa. - Mantener la energía de manera sostenida. - Reducir la fatiga durante el ejercicio.", u: "Disolver el contenido de un stick en un vaso con 180 ml de agua fría. Recomendación de Consumo Tomar un stick al día, antes o durante del entrenamiento." },
   "Youth Elixir": { b: "Los componentes de Youth Elixir HGH te ayudarán a: - Aumentar la vitalidad, la elasticidad de la piel y mejorar la calidad del sueño. - Prevenir los efectos del envejecimiento prematuro, producido por los radicales libres.", u: "Disolver el contenido de un stick en un vaso con 180 ml de agua fría. Recomendación de Consumo Uno o dos sticks al día, de preferencia antes de acostarse." },
   "Youth Elixir|28 sticks x 5gr": { b: "Los componentes de Youth Elixir HGH te ayudarán a: - Aumentar la vitalidad, la elasticidad de la piel y mejorar la calidad del sueño. - Prevenir los efectos del envejecimiento prematuro, producido por los radicales libres.", u: "Disolver el contenido de un stick en un vaso con 180 ml de agua fría. Recomendación de Consumo Uno o dos sticks al día, de preferencia antes de acostarse." },
+  // v6.1.0: cobertura completa — productos que el prompt mencionaba sin info oficial
+  "Camu-C": { b: "Concentrado de vitamina C natural del camu camu, fruta amazónica con uno de los contenidos más altos de vitamina C que se conocen, para apoyar tus defensas naturales y la protección antioxidante diaria.", u: "Disuelve el contenido de un stick en un vaso con 180 ml de agua fría. Recomendación de Consumo Un stick al día." },
+  "Duo Defense": { b: "Combinación de la línea inmunológica: Camu-C (vitamina C natural del camu camu) + Vera+ (aloe vera, betaglucanos y Wellmune®), para un apoyo doble de tus defensas naturales.", u: "Toma un stick de cada producto al día, cada uno disuelto en un vaso con 180 ml de agua fría." },
+  "Probal": { b: "Bebida de la línea anti-edad con extractos naturales como aguaje, dong quai y orégano, tradicionalmente usados para acompañar el bienestar femenino en cada etapa.", u: "Disuelve el contenido de un stick en un vaso con 180 ml de agua fría o tibia. Recomendación de Consumo Un stick al día." },
+  "Combo Ponte en Forma": { b: "Combo oficial de la línea de control de peso: reúne los productos clave del programa en un solo pack con precio especial. El detalle completo del contenido está publicado en la tienda oficial.", u: "Sigue las indicaciones de consumo de cada producto incluido en el combo." },
 }
 
 const PRODUCT_INGREDIENTES = {
@@ -1231,8 +1270,26 @@ LÍNEA SPORT PRO EDITION:
 - Post Sport: BCAAs + glutamina + agua de coco + antioxidantes. Recuperación post-entreno.
 - Xtra Mile: Palatinose® + agua de coco amazónico + electrolitos. Durante el ejercicio.
 - Protein Active Sport: proteína 100% vegetal + BCAAs + L-glutamina. Sabores vainilla-canela y chocolate-avellanas.
+
+NEGOCIO FUXION (datos reales PRO-LEV X — úsalos, no inventes otros)
+- Empresa peruana fundada en 2006 en Lima por Álvaro Zúñiga; reparte cerca del 50% de sus ingresos netos con la red de distribuidores; reconocida por Forbes (2024).
+- Registro de Emprendedor: GRATIS, desde la tienda oficial con la primera compra. Descuento inicial: 20% (40+ pts) · 25% (100+ pts) · 30% (600+ pts).
+- Descuentos recurrentes por volumen de cada 4 semanas: 60–99 pts = 20% · 100–299 = 25% · 300–499 = 30% · 500–799 = 40% · 800+ = 50% (desde 300 pts se exige volumen de clientes).
+- Plan PRO-LEV X: 10 bonos semanales — Venta Directa, Pack Profesional (25% de la primera compra de tus patrocinados), Cliente Preferente (hasta US$500 por período), Mentoría (5–10%), Familia X (hasta 6 niveles), Balance, Legado, Estilo de Vida, Fondos de Liderazgo y Viaje anual. Pagos semanales.
+- REGLA DE ORO: nunca prometas montos de ingresos. Frase permitida: "los ingresos dependen del esfuerzo y constancia de cada persona".
+- Si piden el plan en detalle → da 2-3 datos concretos de arriba y ofrece la sesión con Kervin (opción 2) para números de su caso.
+
+ENVÍOS Y GARANTÍA
+- FuXion envía a todo el Perú por courier, directo a la dirección del registro. El costo y tiempo exactos se calculan en el checkout según la zona (Lima más rápido; provincia unos días más). NUNCA inventes plazos ni costos de envío: para la cifra exacta, que revise el checkout o pase con Kervin (opción 2).
+- Todo pedido va con comprobante y garantía directa de FuXion; en la tienda oficial el producto es 100% original, sin intermediarios.
+
+SEGURIDAD (líneas rojas de recomendación)
+- Embarazo, lactancia, menores o personas con tratamiento médico: empatía + "consúltalo primero con tu médico".
+- Con energizantes (Vita Xtra T+, ON, Xpeed) no insistas con hipertensos; Xpeed ya indica consultar al médico si hay hipertensión.
+- Duo Defense y Camu-C forman parte de la línea inmunológica pero su precio NO está en el catálogo del sistema: si piden precio, redirige a la tienda o a Kervin (nunca lo inventes).
 LÍMITES INNEGOCIABLES
 - Nunca digas cura/trata/sana/previene enfermedades. Usa "apoya", "contribuye a", "optimiza". Nada de "adelgaza" ni "quema grasa".
+- Si pide no ser contactado ("olvídame", "no me escribas más", "déjame en paz") → respeta de inmediato: despídete amable y NO vuelvas a escribirle primero jamás. El sistema lo marca como opt-out.
 - NUNCA inventes precios ni ofertas: el sistema entrega precios exactos del catálogo. Si no hay precio disponible, redirige a la tienda u opción 2 con Kervin.
 - No inventes testimonios con nombres ni datos; habla en general ("nuestros clientes nos cuentan...").
 - No prometas resultados específicos (kg, días) como garantía.
@@ -1647,6 +1704,22 @@ async function handleMessage(payload) {
 
   const lower = body.toLowerCase()
 
+  // ── v6.0.0: COMANDOS CRM (solo Kervin, funcionan a toda hora) ──
+  if (esKervin(chatId) && /^v\s+\S/i.test(body || '')) {
+    try {
+      const respuestas = crmCommand({ chatId, body: body || '' }) || []
+      consume()
+      for (const r of respuestas) {
+        await waSendL(chatId, r)
+        await sleep(1200)
+      }
+    } catch (e) { console.error('crm command error', e?.message || e) }
+    return
+  }
+
+  // ── v6.0.0: MEMORIA DE PROSPECTO (inferencia en cada mensaje entrante) ──
+  try { crmMessageHook({ chatId, body: body || '', contact, buscarProductos }) } catch (e) { console.error('crm hook error', e?.message || e) }
+
   // Modo anti-baneo (v5.1.8): fuera del horario de atención (8am-9pm Lima) NO se responde.
   // El mensaje queda registrado y se atiende cuando abre el horario — como una tienda real.
   if (!horarioAtencion()) {
@@ -1690,6 +1763,7 @@ async function handleMessage(payload) {
     db.prepare(`UPDATE wa_contacts SET compra_at = ?, etapa = 'cliente',
       alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
       .run(Date.now(), chatId)
+    try { crmOnCompra(chatId) } catch (e) { console.error('crm compra error', e?.message || e) }
     await humanDelay()
     if (await waSendL(chatId, SEQ2_COMPRA(nombre))) consume()
     return
@@ -1910,6 +1984,11 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
     return
   }
 
+  // v6.1.0: FAQ envíos (antes del matching de precios: "¿cuánto tarda Vita Xtra?" también es de envío)
+  if (ENVIO_RE.test(lower)) {
+    await humanDelay(); if (await waSendL(chatId, MSG_ENVIOS)) consume(); return
+  }
+
   // Precio con productos específicos — intentar matching de catálogo
   const productosEncontrados = buscarProductos(body)
   if (productosEncontrados.length > 0) {
@@ -2064,9 +2143,14 @@ ${linkDeProducto(pSi) || pSi.link || TIENDA}
 
 const DIA_MS = 24 * 60 * 60 * 1000
 async function sweepSeguimiento() {
-  if (!WAHA_URL || !WAHA_KEY || !db) return
+  // v6.0.0: el sweep vive aunque WAHA esté caído (solo necesita la base de datos)
+  if (!db) return
   limpiarMediaDir() // v5.5.0: borrar audios TTS con más de 2 h
   const now = Date.now()
+
+  // ── v6.0.0: CRM — secuencias sugeridas (S1–S8) + racha/resumen del juego ──
+  try { await crmSweep({ send: waSend, notify: NOTIFY, TIENDA }) } catch (e) { console.error('crmSweep error', e?.message || e) }
+  try { crmDaily({ send: waSend, notify: NOTIFY }) } catch (e) { console.error('crmDaily error', e?.message || e) }
   // v5: alertar a Kervin leads calientes/tibios sin compra hace 24-96h
   try {
     const leads = db.prepare(
@@ -2123,6 +2207,7 @@ async function sweepSeguimiento() {
 
 export function registerWahaBot(app, database) {
   initTables(database)
+  initCrm(database) // v6.0.0: tablas del cerebro CRM (wa_eventos, crm_sugerencias, crm_juego)
 
   app.post('/api/waha-webhook', (req, res) => {
     try {
@@ -2274,6 +2359,7 @@ export function registerWahaBot(app, database) {
       db.prepare(`UPDATE wa_contacts SET etapa = 'cliente', etiqueta = 'cliente', compra_at = ?,
         alerta_2528_at = 0, alerta_react_at = 0 WHERE chat_id = ?`)
         .run(Date.now(), chatId)
+      try { crmOnCompra(chatId) } catch (e) { console.error('crm compra error', e?.message || e) }
       // Post-venta inmediata (v5.1.5): gracias + cómo tomarlo + siguiente pedido
       const c = db.prepare('SELECT nombre, last_product FROM wa_contacts WHERE chat_id = ?').get(chatId)
       const prod = c?.last_product ? (buscarProductos(c.last_product)[0] || null) : null
@@ -2298,7 +2384,7 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
   // ── REACTIVACIÓN (v5.1.4): retomar conversación con leads de hoy sin respuesta ──
   // Solo contactos que: escribieron HOY, no han comprado, el bot respondió y ellos no
   // contestaron después, y aún no se les envió reactivación. Máx 20 por corrida.
-  const NUMEROS_KERVIN = ['51970848043@c.us', '51970848043@lid']
+  const NUMEROS_KERVIN = ['51907793042@c.us', '51907793042@lid']
   app.post('/api/waha/reactivar', async (req, res) => {
     const key = req.body?.key || req.headers['x-admin-key']
     if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
@@ -2310,7 +2396,7 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
       SELECT c.chat_id, c.nombre, c.objetivo, c.etapa
       FROM wa_contacts c
       WHERE c.last_in_at >= ? AND c.compra_at = 0 AND c.reactivacion_at = 0
-        AND c.chat_id NOT IN ('51970848043@c.us', '51970848043@lid')
+        AND c.chat_id NOT IN ('51907793042@c.us', '51907793042@lid')
       ORDER BY CASE WHEN c.etiqueta = 'caliente' THEN 0 ELSE 1 END, c.last_in_at ASC LIMIT ${REACTIVAR_MAX}`).all(inicioHoy)
 
     const elegidos = []
@@ -2373,6 +2459,15 @@ Cualquier duda me escribes. ¡Éxitos con tu nueva etapa! 💚`
     res.sendFile(join(MEDIA_DIR, safe))
   })
 
-  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '5.5.1', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady(), tts: process.env.WA_TTS !== 'off' }))
-  console.log(`✅ Valeria v5.5.1 registrada (embudo TOFU/MOFU/BOFU + Cloud API + Instagram DM + Clean Label + pagos/garantía + multimedia: entiende audios e imágenes, responde por audio TTS)`)
+  app.get('/api/waha/ping', (_req, res) => res.json({ ok: true, v: '6.1.0', ts: Date.now(), transport: TRANSPORT, cloud: cloudReady(), instagram: igReady(), tts: process.env.WA_TTS !== 'off' }))
+
+  // ── v6.0.0: panel CRM (JSON para la mini app del líder) ──
+  app.get('/api/waha/crm/panel', (req, res) => {
+    const key = req.query.key || req.headers['x-admin-key']
+    if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
+      return res.status(401).json({ ok: false, error: 'Clave incorrecta' })
+    }
+    try { res.json({ ok: true, panel: crmPanelData() }) } catch (e) { res.status(500).json({ ok: false, error: e?.message || String(e) }) }
+  })
+  console.log(`✅ Valeria v6.1.0 registrada (CRM: memoria de prospecto + comandos "v" + secuencias sugeridas S1–S8 + panel/puntos/rachas/insignias + embudo TOFU/MOFU/BOFU + Cloud API + Instagram DM + Clean Label + multimedia)`)
 }

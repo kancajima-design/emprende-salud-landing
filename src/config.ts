@@ -8,7 +8,7 @@ export const BRAND = {
   // Tu número: código de país + número, solo dígitos
   // NÚMERO FIJO del negocio (línea Entel nueva, 24-ago-2026).
   // El 51925828656 sigue en revisión por suspensión; si se reactiva, evaluar migración.
-  whatsapp: '51970848043',
+  whatsapp: '51907793042',
 
   whatsappMsg:
     'Hola, vi tu página de Emprende Salud y quiero mi Guía de Nutrición Funcional 😊',
