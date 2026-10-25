@@ -36,5 +36,4 @@ export type { Producto } from './data/catalogo'
 // Opciones extra para el formulario (no son productos de catálogo)
 export const OPCIONES_EXTRA = [
   'Aún no sé, quiero asesoría',
-  'Oportunidad de negocio FuXion',
 ]
