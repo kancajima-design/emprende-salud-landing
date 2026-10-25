@@ -19,7 +19,7 @@ export default function Footer() {
                 <span className="font-semibold text-white/90">Titular:</span> Kervin Ancajima
               </p>
               <p>
-                <span className="font-semibold text-white/90">Dirección:</span> Ca. Real 479, Catacaos, Piura, Perú
+                <span className="font-semibold text-white/90">Domicilio fiscal:</span> Ca. Real 479, Catacaos, Piura, Perú · Tienda 100 % virtual, sin atención presencial
               </p>
               <p>
                 <span className="font-semibold text-white/90">Representado por:</span> Ancajima Taboada Kervin Andershon | RUC: 10466510454

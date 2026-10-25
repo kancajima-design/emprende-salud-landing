@@ -1,25 +1,25 @@
-import { TrendingUp, Users, Sparkles, MessageCircle } from 'lucide-react'
+import { Truck, ShieldCheck, Sparkles, MessageCircle } from 'lucide-react'
 import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
 const pilares = [
   {
     icon: Sparkles,
-    titulo: 'Desarrollo personal',
+    titulo: 'Asesoría personalizada',
     texto:
-      'Crecimiento constante en mentalidad, liderazgo y hábitos. Aquí no solo compartes productos: te conviertes en tu mejor versión.',
+      'Te ayudo a elegir el producto que va con tu objetivo y tu rutina, sin que compres de más.',
   },
   {
-    icon: Users,
-    titulo: 'Sistema con respaldo internacional',
+    icon: ShieldCheck,
+    titulo: 'Productos originales',
     texto:
-      'El respaldo de una marca internacional con años en el mercado: productos, capacitación y tienda en línea ya funcionando.',
+      'Compras en la tienda en línea oficial de FuXion, una marca internacional con años en el mercado.',
   },
   {
-    icon: TrendingUp,
-    titulo: 'Emprendimiento con respaldo',
+    icon: Truck,
+    titulo: 'Envío a todo el Perú',
     texto:
-      'Puedes emprender a tu ritmo: compras con precio preferente y decides si vendes a personas de tu círculo, con la empresa enviando directo a tus clientes.',
+      'Somos una tienda 100 % virtual: haces tu pedido en línea y te llega a tu casa.',
   },
 ]
 
@@ -34,7 +34,7 @@ export default function Advisor() {
               <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-[#B5D70F]/30 via-[#0094DE]/20 to-[#FF7A1A]/20 blur-xl" />
               <img
                 src="/brand/emprende-salud-logo.png"
-                alt="Emprende Salud · Bienestar y emprendimiento"
+                alt="Emprende Salud · Nutrición funcional FuXion"
                 className="relative w-full rounded-[2rem] shadow-2xl ring-1 ring-[#00498E]/10"
                 loading="lazy"
               />
@@ -50,18 +50,15 @@ export default function Advisor() {
               La historia detrás de <span className="text-[#0094DE]">Emprende Salud</span>
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-[#0B2033]/80 md:text-base">
-              Emprende Salud nació cuando descubrí que podía unir dos cosas que me apasionan:{' '}
-              <strong className="text-[#0B2033]">el bienestar y el crecimiento personal</strong>. En
-              FuXion vi mucho más que productos de nutrición funcional: vi un{' '}
-              <strong className="text-[#0B2033]">sistema con respaldo internacional</strong> que me
-              permite crecer como persona y construir mi propio{' '}
-              <strong className="text-[#0B2033]">emprendimiento de bienestar</strong> mientras ayudo
-              a otros a sentirse mejor cada día.
+              Emprende Salud nació de algo que me apasiona:{' '}
+              <strong className="text-[#0B2033]">el bienestar</strong>. Con la nutrición funcional
+              de FuXion encontré una forma práctica de complementar mi alimentación, y hoy{' '}
+              <strong className="text-[#0B2033]">asesoro a otras personas</strong> para que elijan
+              el producto que va con su objetivo.
             </p>
             <p className="mt-3 text-sm leading-relaxed text-[#0B2033]/80 md:text-base">
-              Hoy mi misión es simple: que más personas en Perú cuiden su salud con productos
-              respaldados por la ciencia… y que quienes busquen emprender encuentren en este
-              sistema el mismo camino que yo encontré.
+              Mi misión es simple: que más personas en Perú cuiden su bienestar con productos
+              originales, una recomendación honesta y envío directo a su casa.
             </p>
 
             <div className="mt-8 space-y-4">
@@ -89,15 +86,6 @@ export default function Advisor() {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-green-500/30 transition hover:brightness-105"
               >
                 <MessageCircle className="h-4 w-4" /> Conversemos por WhatsApp
-              </a>
-              <a
-                href={waLink('Hola, me interesa información sobre el programa de distribuidor independiente FuXion')}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => trackEvent('Contact', { content_name: 'programa distribuidor' })}
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#FF7A1A] px-6 py-3.5 text-sm font-bold text-[#FF7A1A] transition hover:bg-[#FF7A1A] hover:text-white"
-              >
-                <TrendingUp className="h-4 w-4" /> Quiero emprender contigo
               </a>
             </div>
           </div>
