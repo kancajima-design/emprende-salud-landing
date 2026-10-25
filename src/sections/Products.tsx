@@ -23,7 +23,7 @@ const CATEGORIAS = [
     linea: 'Línea Control de Peso y Medidas',
     icon: Scale,
     titulo: 'Control de Peso',
-    desc: 'Complementa tus hábitos y llega a tu peso ideal sin dietas imposibles.',
+    desc: 'Complementa tus hábitos con nutrición funcional para cuidar tus medidas.',
   },
   {
     id: 'cat-defensas',
