@@ -11,15 +11,15 @@ export const BRAND = {
   whatsapp: '51907793042',
 
   whatsappMsg:
-    'Hola, vi tu página de Emprende Salud y quiero mi Guía de Nutrición Funcional 😊',
+    'Hola, vi tu página de Emprende Salud y quiero mi Guía Sport gratis 😊',
 
   // Enlace genérico de tu tienda (navbar, CTA final y productos sin enlace propio)
   compraUrl: 'http://ifuxion.com/emprendesalud',
 
   regalo: {
-    titulo: 'Guía de Nutrición Funcional',
+    titulo: 'Guía Sport: rinde más y recupérate mejor',
     descripcion:
-      'Aprende cómo funcionan las bebidas funcionales FuXion, qué producto va con tu objetivo y cómo armar tu rutina de bienestar en 5 minutos al día.',
+      'Tu nutrición antes, durante y después de entrenar, para corredores, gym y ciclistas. 10 páginas pensadas para leer en el celular, en 10 minutos.',
     path: '/regalo.pdf',
   },
 }

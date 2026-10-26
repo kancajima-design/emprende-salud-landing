@@ -68,8 +68,8 @@ export default function ExitIntent() {
         </div>
         <h2 className="mt-4 text-2xl font-extrabold text-[#00498E]">¡Espera! Antes de irte…</h2>
         <p className="mt-2 text-sm leading-relaxed text-[#758E9B]">
-          Llévate <strong className="text-[#0B2033]">gratis</strong> la Guía de Nutrición Funcional
-          y descubre qué producto FuXion va con tu objetivo. Solo toma 30 segundos.
+          Llévate <strong className="text-[#0B2033]">gratis</strong> la Guía Sport: qué comer y
+          tomar antes, durante y después de entrenar. Solo toma 30 segundos.
         </p>
         <button
           onClick={irAlForm}
