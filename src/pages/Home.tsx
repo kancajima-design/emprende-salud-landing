@@ -11,6 +11,7 @@ import HowToBuy from '@/sections/HowToBuy'
 import FuXionRewards from '@/sections/FuXionRewards'
 import BlogTeaser from '@/sections/BlogTeaser'
 import FinalCTA from '@/sections/FinalCTA'
+import FAQ from '@/sections/FAQ'
 import Footer from '@/sections/Footer'
 import WhatsAppFloat from '@/sections/WhatsAppFloat'
 import ChatWidget from '@/sections/ChatWidget'
@@ -25,12 +26,13 @@ export default function Home() {
       <SistemaFuXion />
       <Trust />
       <Advisor />
-      <LeadForm />
       <HowToBuy />
       <FuXionRewards />
-      <BlogTeaser />
-      <FinalCTA />
+      <FAQ />
       <Gift />
+      <LeadForm />
+      <FinalCTA />
+      <BlogTeaser />
       <Footer />
       <WhatsAppFloat />
       <ChatWidget />

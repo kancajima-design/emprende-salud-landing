@@ -64,10 +64,10 @@ export default function Blog() {
             Blog Emprende Salud
           </span>
           <h1 className="mt-4 text-3xl font-extrabold text-[#00498E] md:text-4xl">
-            Nutrición funcional, bienestar y emprendimiento
+            Nutrición funcional y bienestar
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
-            Artículos prácticos para cuidar tu salud y hacer crecer tu negocio,
+            Artículos prácticos para cuidar tu salud y tu alimentación,
             investigados y redactados por nuestra asistente de inteligencia artificial.
           </p>
         </div>
