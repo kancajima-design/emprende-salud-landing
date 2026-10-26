@@ -193,7 +193,7 @@ app.post('/api/leads', rateLimit, (req, res) => {
   const errors = {}
   if (nombre.length < 2) errors.nombre = 'Ingresa tu nombre'
   if (whatsapp.replace(/\D/g, '').length < 7) errors.whatsapp = 'Ingresa un WhatsApp válido'
-  if (!EMAIL_RE.test(correo)) errors.correo = 'Ingresa un correo válido'
+  if (correo && !EMAIL_RE.test(correo)) errors.correo = 'Ingresa un correo válido'
   if (!producto) errors.producto = 'Elige un producto de interés'
   if (Object.keys(errors).length) return res.status(400).json({ ok: false, errors })
 

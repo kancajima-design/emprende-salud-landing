@@ -47,7 +47,7 @@ export default function LeadForm() {
       trackEvent(
         'Lead',
         { content_name: form.producto },
-        { email: form.correo, phone: form.whatsapp, name: form.nombre }
+        { email: form.correo || undefined, phone: form.whatsapp, name: form.nombre }
       )
       sessionStorage.setItem('es_lead_done', '1')
       setDone(true)
@@ -145,7 +145,7 @@ export default function LeadForm() {
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-semibold text-[#0B2033]">
-                    Correo electrónico *
+                    Correo electrónico (opcional)
                   </label>
                   <input
                     className={inputCls(errors.correo)}

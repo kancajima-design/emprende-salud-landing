@@ -76,16 +76,19 @@ export default function Hero() {
         <div className="relative mx-auto w-full max-w-md">
           <div className="rounded-3xl bg-white/10 p-6 backdrop-blur-sm">
             <img
-              src="/productos/pack-5-14-keto.png"
+              src="/productos/pack-5-14-keto.webp"
               alt="Pack 5/14 Keto FuXion"
-              className="mx-auto w-full max-w-xs drop-shadow-2xl"
+              width={900}
+              height={598}
+              fetchPriority="high"
+              className="mx-auto h-auto w-full max-w-xs drop-shadow-2xl"
             />
           </div>
           <div className="absolute -bottom-6 -left-4 w-28 rounded-2xl bg-white p-2 shadow-2xl md:-left-10 md:w-36">
-            <img src="/productos/on.png" alt="ON FuXion" className="w-full" />
+            <img src="/productos/on.webp" alt="ON FuXion" width={900} height={843} className="h-auto w-full" />
           </div>
           <div className="absolute -right-3 -top-6 w-24 rounded-2xl bg-white p-2 shadow-2xl md:-right-8 md:w-32">
-            <img src="/productos/no-stress.png" alt="No Stress FuXion" className="w-full" />
+            <img src="/productos/no-stress.webp" alt="No Stress FuXion" width={900} height={886} className="h-auto w-full" />
           </div>
         </div>
       </div>

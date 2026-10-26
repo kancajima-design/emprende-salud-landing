@@ -1,5 +1,5 @@
 import { ShoppingCart, MessageCircle, Flame, BookOpen } from 'lucide-react'
-import { BRAND, waLink } from '@/config'
+import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
 export default function Navbar() {
@@ -42,9 +42,7 @@ export default function Navbar() {
             <MessageCircle className="h-4 w-4" /> WhatsApp
           </a>
           <a
-            href={BRAND.compraUrl}
-            target="_blank"
-            rel="noreferrer"
+            href="#catalogo"
             className="flex items-center gap-1.5 rounded-full bg-[#FF7A1A] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-orange-500/30 transition hover:bg-[#e66a10]"
           >
             <ShoppingCart className="h-4 w-4" /> Comprar

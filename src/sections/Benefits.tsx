@@ -9,7 +9,7 @@ const items = [
   {
     icon: Leaf,
     titulo: 'Digestión liviana',
-    texto: 'Apoya tu tránsito y desinflama con ingredientes ancestrales como la maca y el camu-camu.',
+    texto: 'Apoya tu tránsito intestinal con ingredientes ancestrales como la maca y el camu-camu.',
   },
   {
     icon: Flame,
@@ -19,7 +19,7 @@ const items = [
   {
     icon: HeartPulse,
     titulo: 'Vitalidad y defensas',
-    texto: 'Nutrición celular de alta biodisponibilidad para verte y sentirte mejor cada día.',
+    texto: 'Vitaminas, minerales y antioxidantes que acompañan tu bienestar cada día.',
   },
 ]
 

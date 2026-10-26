@@ -30,7 +30,7 @@ const CATEGORIAS = [
     linea: 'Línea Inmunológica',
     icon: ShieldCheck,
     titulo: 'Defensas',
-    desc: 'Blindaje natural para ti y tu familia, durante todo el año.',
+    desc: 'Apoyo natural para tus defensas y las de tu familia, todo el año.',
   },
   {
     id: 'cat-antiedad',
@@ -79,11 +79,14 @@ function abrirChatValeria() {
   )
 }
 
+// Las fotos se sirven en WebP (≈8 veces más livianas que el PNG original)
+const imgUrl = (img: string) => `/productos/${img.replace(/\.png$/, '.webp')}`
+
 function ProductoImagen({ p, className }: { p: Producto; className?: string }) {
   if (p.img) {
     return (
       <img
-        src={`/productos/${p.img}`}
+        src={imgUrl(p.img)}
         alt={p.nombre}
         className={className}
         loading="lazy"
@@ -215,7 +218,7 @@ export default function Products() {
               <div className="bg-gradient-to-br from-[#00498E] to-[#0094DE] px-6 pb-6 pt-8 text-center">
                 {sel.img ? (
                   <img
-                    src={`/productos/${sel.img}`}
+                    src={imgUrl(sel.img)}
                     alt={sel.nombre}
                     className="mx-auto h-36 object-contain drop-shadow-xl"
                   />

@@ -1,5 +1,4 @@
 import { ShoppingCart, Sparkles } from 'lucide-react'
-import { BRAND } from '@/config'
 
 export default function FinalCTA() {
   return (
@@ -16,12 +15,10 @@ export default function FinalCTA() {
           </p>
           <div className="relative mt-7 flex flex-wrap items-center justify-center gap-3">
             <a
-              href={BRAND.compraUrl}
-              target="_blank"
-              rel="noreferrer"
+              href="#catalogo"
               className="inline-flex items-center gap-2 rounded-full bg-[#FF7A1A] px-8 py-4 text-sm font-bold text-white shadow-xl shadow-orange-500/30 transition hover:bg-[#e66a10]"
             >
-              <ShoppingCart className="h-5 w-5" /> Ir a la tienda oficial
+              <ShoppingCart className="h-5 w-5" /> Elegir mi producto
             </a>
             <button
               onClick={() => {
