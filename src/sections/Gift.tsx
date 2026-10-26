@@ -2,10 +2,10 @@ import { BookOpen, CheckCircle2, ArrowDown } from 'lucide-react'
 import { BRAND } from '@/config'
 
 const incluye = [
-  'Qué es la nutrición funcional y por qué funciona distinto',
-  'Mapa de productos FuXion según tu objetivo (energía, peso, digestión, defensas)',
-  'Rutina diaria de 5 minutos con el ritual del stick',
-  'Errores comunes al empezar y cómo evitarlos',
+  'Qué comer antes, durante y después de entrenar',
+  'Tu prueba de sudor para cuidar tu hidratación y evitar quedarte sin energía',
+  'Cuánta proteína necesitas según tu peso, con comida peruana',
+  'Semana modelo para corredor y gym, más un reto de 14 días',
 ]
 
 export default function Gift() {
@@ -33,7 +33,7 @@ export default function Gift() {
             Tu primer paso, sin costo
           </span>
           <h2 className="mt-4 text-2xl font-extrabold text-[#00498E] md:text-3xl">
-            ¿Todavía no estás seguro? Empieza con la guía gratis
+            ¿Entrenas? Empieza con la Guía Sport gratis
           </h2>
           <p className="mt-3 text-sm text-[#758E9B] md:text-base">
             Déjame tus datos y te la envío al instante, junto con una{' '}
