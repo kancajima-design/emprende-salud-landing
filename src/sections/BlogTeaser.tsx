@@ -53,7 +53,7 @@ export default function BlogTeaser() {
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
             Artículos prácticos investigados a diario por nuestra asistente de inteligencia
-            artificial para ayudarte a cuidar tu salud y hacer crecer tu negocio.
+            artificial para ayudarte a cuidar tu salud y tu alimentación.
           </p>
         </div>
 
