@@ -563,7 +563,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Línea Control de Peso y Medidas",
     tagline: "¡Mejora tu nutrición y reduce medidas!",
     descripcion: "Delicioso batido de proteínas bajo en calorías. Prolibra® (derivado del suero lácteo) está clínicamente comprobado que disminuye la grasa corporal manteniendo la masa magra.",
-    beneficios: ["Reducir la sensación de apetito gracias a la proteína y la acción de Prolibra®", "Mejorar la nutrición celular, especialmente de las fibras musculares si haces ejercicio", "Acelerar el metabolismo para consumir más energía (calorías), eliminando grasa del cuerpo", "Apoyar un programa de control de peso"],
+    beneficios: ["Reducir la sensación de apetito gracias a la proteína y la acción de Prolibra®", "Mejorar la nutrición celular, especialmente de las fibras musculares si haces ejercicio", "Acompañar un metabolismo activo junto con ejercicio y buena alimentación", "Apoyar un programa de control de peso"],
     ingredientes: "Bioprotein+ con Colostrum® + Prolibra® + aminoácidos + tamarindo malabar + vitaminas + DHA y ARA",
     precios: [
       {
@@ -610,7 +610,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Línea Control de Peso y Medidas",
     tagline: "¡Nutre tu cuerpo activamente y mantén la línea!",
     descripcion: "Deliciosas sopas instantáneas de proteínas funcionales vegetales. Sabores: crema de espárragos y alcachofa / crema de brócoli parmesano / crema criolla.",
-    beneficios: ["Incrementar la sensación de saciedad (Slendesta®, avalado por 33 estudios clínicos)", "Acelerar el metabolismo y prevenir la acumulación de grasa (CLA + Bioprotein Active®)", "Promover una mejor nutrición a nivel celular y músculos más tonificados"],
+    beneficios: ["Incrementar la sensación de saciedad (Slendesta®, avalado por 33 estudios clínicos)", "Acompañar tu plan de control de peso con CLA + Bioprotein Active®", "Promover una mejor nutrición a nivel celular y músculos más tonificados"],
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + Slendesta® (péptido extraído de la papa) + CLA + minerales (hierro, zinc, magnesio)",
     precios: [
       {
