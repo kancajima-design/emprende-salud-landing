@@ -174,7 +174,7 @@ export default function ArticleView() {
                 ¿Quieres llevar tu nutrición al siguiente nivel?
               </p>
               <p className="mt-1 text-sm text-white/80">
-                Descarga gratis la Guía de Nutrición Funcional: qué tomar según tu objetivo.
+                Descarga gratis la Guía Sport: tu nutrición antes, durante y después de entrenar.
               </p>
               <a
                 href="/#form"
