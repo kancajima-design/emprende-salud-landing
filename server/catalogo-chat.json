@@ -254,7 +254,7 @@
         "puntos": 2
       }
     ],
-    "tienda": "http://ifuxion.com/emprendesalud"
+    "tienda": ""
   },
   {
     "nombre": "DUO DEFENSE",
@@ -275,7 +275,7 @@
         "precio": "S/ 64.50"
       }
     ],
-    "tienda": "http://ifuxion.com/emprendesalud"
+    "tienda": ""
   },
   {
     "nombre": "VERA+",
@@ -310,7 +310,7 @@
         "puntos": 12
       }
     ],
-    "tienda": "http://ifuxion.com/emprendesalud"
+    "tienda": ""
   },
   {
     "nombre": "GANO+ CAPPUCCINO",
@@ -386,7 +386,7 @@
         "puntos": 20
       }
     ],
-    "tienda": "http://ifuxion.com/emprendesalud"
+    "tienda": ""
   },
   {
     "nombre": "CHOCOLATE FIT",
@@ -422,7 +422,7 @@
         "puntos": 24
       }
     ],
-    "tienda": "http://ifuxion.com/emprendesalud"
+    "tienda": ""
   },
   {
     "nombre": "CAFÉ & CAFÉ FIT CAPPUCCINO",
@@ -670,113 +670,108 @@
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085984"
   },
   {
-    "nombre": "PRE SPORT PRO EDITION",
-    "linea": "Línea Sport (Pro Edition)",
+    "nombre": "PRE SPORT",
+    "linea": "Sport",
     "tagline": "¡Prepara tu cuerpo para darlo todo!",
     "para_que_sirve": [
       "Mantener la hidratación corporal gracias a su aporte de electrolitos",
       "Aumentar la resistencia, al promover la vasodilatación (mejora la nutrición y oxigenación muscular)",
       "Reducir la fatiga y mejorar el desempeño deportivo"
     ],
+    "ingredientes": "Aminoácidos (citrulina de sandía + β-alanina de beterraga + L-creatina nitrato) + mix isotónico (dextrosa, potasio, sodio y zinc) + hierba mate",
     "precios": [
       {
-        "presentacion": "Doypack 28 sticks x 5gr",
-        "precio": "S/ 105.00",
-        "puntos": 16
-      },
-      {
-        "presentacion": "Caja 7 sticks x 5gr",
-        "precio": "S/ 29.00",
-        "puntos": 4
+        "presentacion": "Caja 28 sticks x 5gr",
+        "precio": "S/ 143.00",
+        "puntos": 22
       }
     ],
+    "uso": "Antes del entrenamiento, para elevar tu umbral energético.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085997"
   },
   {
-    "nombre": "XTRA MILE PRO EDITION",
-    "linea": "Línea Sport (Pro Edition)",
+    "nombre": "XTRA MILE",
+    "linea": "Sport",
     "tagline": "¡Energía para dar la milla extra!",
     "para_que_sirve": [
       "Mantener saludables los niveles de glucosa",
       "Mantener la energía de manera sostenida",
       "Reducir la fatiga durante el ejercicio"
     ],
+    "ingredientes": "Palatinose® (carbohidrato de bajo índice glicémico de la betarraga) + agua de coco amazónico + sal de Maras + electrolitos (potasio, sodio, calcio, magnesio) + zinc y cromo",
     "precios": [
       {
-        "presentacion": "Doypack 28 sticks x 5gr",
-        "precio": "S/ 105.00",
-        "puntos": 16
-      },
-      {
-        "presentacion": "Caja 7 sticks x 5gr",
-        "precio": "S/ 29.00",
-        "puntos": 4
+        "presentacion": "Caja 28 sticks x 5gr",
+        "precio": "S/ 129.50",
+        "puntos": 20
       }
     ],
+    "uso": "Después de los primeros 30-45 minutos de ejercicio; 1 a 3 sticks según la intensidad.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086024"
   },
   {
-    "nombre": "POST SPORT PRO EDITION",
-    "linea": "Línea Sport (Pro Edition)",
+    "nombre": "POST SPORT",
+    "linea": "Sport",
     "tagline": "¡Ayuda a tu cuerpo a recuperarse luego del ejercicio!",
     "para_que_sirve": [
       "Reparar, incrementar y fortalecer las fibras musculares",
       "Reponer los electrolitos de forma natural, gracias al agua de coco",
       "Neutralizar el efecto catabólico del ejercicio intenso con antioxidantes (granada, acerola, romero, antocianinas)"
     ],
+    "ingredientes": "Aminoácidos (BCAAs + glutamina) + acerola + granada + agua de coco",
     "precios": [
       {
-        "presentacion": "Doypack 28 sticks x 5gr",
-        "precio": "S/ 105.00",
-        "puntos": 16
-      },
-      {
-        "presentacion": "Caja 7 sticks x 5gr",
-        "precio": "S/ 29.00",
-        "puntos": 4
+        "presentacion": "Caja 28 sticks x 5gr",
+        "precio": "S/ 143.00",
+        "puntos": 22
       }
     ],
+    "uso": "Al terminar tu entrenamiento, para seguir rehidratándote.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085996"
   },
   {
-    "nombre": "BIOPRO+ SPORT PRO EDITION",
-    "linea": "Línea Sport (Pro Edition)",
+    "nombre": "BIOPRO+ SPORT",
+    "linea": "Sport",
     "tagline": "¡Ejercicio saludable y músculos tonificados!",
     "para_que_sirve": [
       "Incrementar el flujo sanguíneo y el rendimiento gracias a Actinos® (péptido que favorece la producción de óxido nítrico)",
       "Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)",
       "Mejorar la recuperación y el aporte de oxígeno al músculo"
     ],
+    "ingredientes": "Bioprotein+ con Colostrum® + Actinos® + aminoácidos + calcio lácteo + DHA y ARA",
     "precios": [
       {
-        "presentacion": "Doypack 28 sticks x 5gr",
-        "precio": "S/ 105.00",
-        "puntos": 16
+        "presentacion": "Pote x 2lb",
+        "precio": "S/ 259.50",
+        "puntos": 36
       },
       {
-        "presentacion": "Caja 7 sticks x 5gr",
-        "precio": "S/ 29.00",
-        "puntos": 4
+        "presentacion": "Caja 14 sticks x 25gr",
+        "precio": "S/ 132.50",
+        "puntos": 20
       }
     ],
+    "uso": "Después del entrenamiento o como batido proteico del día, entrene o no entrene.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2085963"
   },
   {
-    "nombre": "PROTEIN ACTIVE SPORT PRO EDITION",
-    "linea": "Línea Sport (Pro Edition)",
+    "nombre": "PROTEIN ACTIVE SPORT",
+    "linea": "Sport",
     "tagline": "¡Ejercicio saludable y músculos tonificados!",
     "para_que_sirve": [
       "Mantener el perfil proteico adecuado para la dieta de un deportista",
       "Mejorar la recuperación y el aporte de oxígeno al músculo",
       "Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)"
     ],
+    "ingredientes": "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + aminoácidos esenciales + vitaminas + L-glutamina + BCAAs",
     "precios": [
       {
         "presentacion": "Caja 14 sticks x 25gr",
-        "precio": "S/ 156.50",
+        "precio": "S/ 156.00",
         "puntos": 22
       }
     ],
+    "uso": "Después del entrenamiento o como batido proteico del día, entrene o no entrene.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086011"
   }
 ]
