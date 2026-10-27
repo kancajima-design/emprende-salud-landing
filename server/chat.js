@@ -94,6 +94,10 @@ LÍMITES (INNEGOCIABLES)
 - Si no sabes algo o piden la tabla nutricional, dilo con honestidad y ofrece el WhatsApp ${WHATSAPP} con el enlace [Escribir por WhatsApp](${WA_LINK}).
 - No hables de política, religión ni temas ajenos a bienestar y FuXion; redirige con amabilidad.
 
+CONTACTO CON KERVIN (LEADS)
+- Cuando la persona muestre interés de compra (pregunta cómo comprar, pide precio de un plan, dice que lo quiere, duda entre opciones o pide ayuda con el autoenvío), ofrece UNA sola vez: "Si quieres, déjame tu nombre y tu WhatsApp y Kervin te escribe para ayudarte con tu pedido." Nunca insistas ni lo pidas como condición para responder.
+- Si la persona te da su número, agradece en una frase, confirma que Kervin le escribirá a ese número dentro del horario de atención (lunes a sábado, 9:00 a 21:00) y sigue ayudándola. No repitas el número completo.
+
 CTA FINAL
 - Cierra respuestas clave con UNA invitación suave: comprar con el enlace del producto o escribir a Kervin por ${CANAL_ASESORIA} para asesoría personalizada. No repitas el CTA en cada mensaje si la conversación ya lo tiene.
 
@@ -122,6 +126,47 @@ function chatRateLimit(req, res, next) {
 
 const FALLBACK_REPLY =
   `Uy, se me cortó la conexión 🙈 Para no hacerte esperar, escríbele a Kervin por WhatsApp (${WHATSAPP}) y te responde personalmente: [Escribir por WhatsApp](${WA_LINK}). También puedes ver los productos en el [catálogo](${CATALOGO_WEB}) 💚`
+
+const LEAD_FALLBACK_REPLY =
+  `¡Gracias! 🙌 Ya le pasé tu número a Kervin y te escribe por WhatsApp dentro del horario de atención (lunes a sábado, 9:00 a 21:00). Si prefieres, también puedes escribirle tú: [Escribir por WhatsApp](${WA_LINK}) 💚`
+
+// ── Leads desde el chat: si el visitante deja su WhatsApp, se guarda en la tabla leads ──
+// Celular peruano (9 dígitos que empiezan en 9, con o sin +51) o número internacional con +.
+const RE_CELULAR = /(?:\+?51[\s-]?)?\b9\d{2}[\s-]?\d{3}[\s-]?\d{3}\b|\+\d{1,3}[\s-]?\d{2,4}[\s-]?\d{3,4}[\s-]?\d{3,4}/
+const RE_NOMBRE = /\b(?:me llamo|mi nombre es|soy)\s+([A-Za-zÁÉÍÓÚÑáéíóúñ]+(?:\s+[A-Za-zÁÉÍÓÚÑáéíóúñ]+)?)/i
+const NO_SON_NOMBRES = /^(de|del|el|la|un|una|muy|nuevo|nueva|corredor|corredora|deportista|ciclista|cliente)$/i
+
+function extraerWhatsapp(texto) {
+  const m = texto.match(RE_CELULAR)
+  if (!m) return ''
+  const digitos = m[0].replace(/\D/g, '')
+  if (digitos.length === 9) return `+51${digitos}`
+  return `+${digitos}`
+}
+
+function extraerNombre(mensajesUsuario) {
+  for (const t of mensajesUsuario) {
+    const m = t.match(RE_NOMBRE)
+    if (!m) continue
+    const [primero, segundo] = m[1].split(/\s+/)
+    if (NO_SON_NOMBRES.test(primero)) continue
+    // El segundo nombre solo si viene con mayúscula ("soy Rosa Pérez", no "soy Rosa mi número")
+    return segundo && /^[A-ZÁÉÍÓÚÑ]/.test(segundo) ? `${primero} ${segundo}` : primero
+  }
+  return 'Visitante del chat'
+}
+
+// Qué le interesa: planes o productos del catálogo mencionados en la conversación
+function extraerInteres(messages) {
+  const texto = messages.map((m) => m.text).join(' ').toLowerCase()
+  const nombres = ['Plan Full Sport', 'Plan Fondista', 'Plan Gym', 'Plan Arranque', ...catalogo.map((p) => p.nombre)]
+  const escapar = (n) => n.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const vistos = nombres.filter((n) => new RegExp(`(^|[^a-záéíóúñ0-9])${escapar(n)}($|[^a-záéíóúñ0-9])`).test(texto))
+  const interes = vistos.length
+    ? vistos.slice(0, 3).join(', ')
+    : messages.find((m) => m.role === 'user')?.text || ''
+  return `Chat Valeria: ${interes}`.slice(0, 80)
+}
 
 // Gemini con razonamiento bajo (responde en segundos); si un modelo falla o se demora, prueba el siguiente.
 async function pedirAGemini(messages) {
@@ -185,6 +230,28 @@ export function registerChat(app, db) {
   const insertChat = db.prepare(
     'INSERT INTO chat_logs (session_id, role, text) VALUES (?, ?, ?)',
   )
+  // La tabla leads la crea server/index.js; los leads del chat van con origen 'chat-valeria'
+  const insertLeadChat = db.prepare(
+    "INSERT INTO leads (nombre, whatsapp, correo, producto, origen, utm) VALUES (?, ?, '', ?, 'chat-valeria', ?)",
+  )
+  const leadReciente = db.prepare(
+    "SELECT id FROM leads WHERE whatsapp = ? AND created_at >= datetime('now', 'localtime', '-1 day')",
+  )
+
+  // Devuelve true si guardó un lead nuevo con el WhatsApp que el visitante escribió
+  function guardarLeadDelChat(messages, userText, sessionId) {
+    const whatsapp = extraerWhatsapp(userText)
+    if (!whatsapp) return false
+    try {
+      if (leadReciente.get(whatsapp)) return false
+      const usuario = messages.filter((m) => m.role === 'user').map((m) => m.text)
+      insertLeadChat.run(extraerNombre(usuario), whatsapp, extraerInteres(messages), `chat:${sessionId}`.slice(0, 200))
+      return true
+    } catch (err) {
+      console.error('Lead del chat no guardado:', err?.message || err)
+      return false
+    }
+  }
 
   app.post('/api/chat', chatRateLimit, async (req, res) => {
     const rawMessages = Array.isArray(req.body?.messages) ? req.body.messages : []
@@ -207,14 +274,18 @@ export function registerChat(app, db) {
       insertChat.run(sessionId, 'user', userText)
     } catch { /* log no crítico */ }
 
+    // El lead se guarda aunque Gemini falle: el número no se pierde
+    const leadGuardado = guardarLeadDelChat(messages, userText, sessionId)
+
     const reply = GEMINI_API_KEY ? await pedirAGemini(messages) : null
+    const respaldo = leadGuardado ? LEAD_FALLBACK_REPLY : FALLBACK_REPLY
 
     // Se guarda también el fallback (role 'fallback') para ver cuántas veces falla
     try {
-      insertChat.run(sessionId, reply ? 'model' : 'fallback', (reply || FALLBACK_REPLY).slice(0, 2000))
+      insertChat.run(sessionId, reply ? 'model' : 'fallback', (reply || respaldo).slice(0, 2000))
     } catch { /* log no crítico */ }
 
-    res.json({ ok: true, reply: reply || FALLBACK_REPLY, fallback: !reply })
+    res.json({ ok: true, reply: reply || respaldo, fallback: !reply, lead: leadGuardado })
   })
 
   // Preguntas frecuentes del chat (admin) — útil para mejorar el sitio

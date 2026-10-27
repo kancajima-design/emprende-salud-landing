@@ -134,6 +134,8 @@ export default function ChatWidget({
         }),
       })
       const data = await res.json()
+      // El visitante dejó su WhatsApp y el servidor lo guardó como lead
+      if (data?.lead) trackEvent('Lead', { content_name: 'chat asistente Valeria' })
       if (data?.reply) {
         setMensajes([...nuevos, { role: 'model', text: data.reply }])
       } else {
