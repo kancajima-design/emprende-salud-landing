@@ -7,6 +7,7 @@ import Trust from '@/sections/Trust'
 import Advisor from '@/sections/Advisor'
 import LeadForm from '@/sections/LeadForm'
 import Products from '@/sections/Products'
+import Planes from '@/sections/Planes'
 import HowToBuy from '@/sections/HowToBuy'
 import FuXionRewards from '@/sections/FuXionRewards'
 import BlogTeaser from '@/sections/BlogTeaser'
@@ -21,6 +22,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Navbar />
       <Hero />
+      <Planes />
       <Products />
       <Benefits />
       <SistemaFuXion />

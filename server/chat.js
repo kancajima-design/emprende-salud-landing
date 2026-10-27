@@ -31,12 +31,19 @@ try {
 }
 
 // WhatsApp Business de Kervin (atendido a mano desde la app; el número anterior, 970, fue baneado).
-// ifuxion.com/emprendesalud abre la inscripción, no el catálogo: para comprar se usan los
+// ifuxion.com/emprendesalud pregunta primero Cliente Preferente o Emprendedor: para comprar se usan los
 // PowerLinks de cada producto o el catálogo de la web.
 const WHATSAPP = '+51 907 793 042'
 const WA_LINK = 'https://wa.me/51907793042'
 const CATALOGO_WEB = 'https://www.emprendesalud.net/#catalogo'
 const LANDING = 'https://www.emprendesalud.net'
+// PowerLinks de los combos Sport (creados en offix.fuxion.com el 26-10-2026)
+const PLANES = {
+  full: 'https://tiendafuxion.com/storelt/emprendesalud/3193468',
+  fondista: 'https://tiendafuxion.com/storelt/emprendesalud/3193466',
+  gym: 'https://tiendafuxion.com/storelt/emprendesalud/3193467',
+  arranque: 'https://tiendafuxion.com/storelt/emprendesalud/3193469',
+}
 const CANAL_ASESORIA = `WhatsApp ${WHATSAPP} ([Escribir por WhatsApp](${WA_LINK}))`
 
 function catalogoTexto() {
@@ -64,7 +71,14 @@ PERSONALIDAD Y ESTILO
 QUÉ SÍ PUEDES HACER
 - Explicar qué es FuXion y la nutrición funcional.
 - Recomendar productos del catálogo según el objetivo de la persona (energía, control de peso, digestión, defensas, belleza, rendimiento).
-- Explicar la PROMOCIÓN DE CLIENTE PREFERENTE tal cual: registro GRATIS; por cada 60 puntos en autoenvío mensual recibe 1 producto de regalo; por cada 80 puntos en compra directa recibe 1 producto de regalo. El autoenvío es el pedido que llega solo cada mes.
+- Explicar la PROMOCIÓN DE CLIENTE PREFERENTE tal cual: registro GRATIS; con 60 puntos en autoenvío o con 80 puntos en compra directa recibe 1 producto de regalo de hasta 20 puntos, que elige de la lista de la tienda.
+- AUTOENVÍO: es el pedido automático que llega cada semana, cada 2 semanas o cada 4 semanas (el cliente elige) y se cobra solo a su tarjeta; si la tarjeta es rechazada no se cobra nada. Se activa DESPUÉS de la primera compra: el cliente entra a su cuenta FuXion, sección Autoenvío, vuelve a elegir los productos, la fecha y la frecuencia, y registra su tarjeta. El enlace del plan no activa el autoenvío por sí solo. Ofrece que Kervin lo ayude a activarlo por WhatsApp.
+- PLANES SPORT (combos listos en un solo carrito; recomiéndalos a quien entrena, con su enlace [Comprar Plan ...](URL)):
+  - **Plan Full Sport**: PRE SPORT + XTRA MILE + POST SPORT + BIOPRO+ SPORT caja 14 · 84 puntos · S/ 548.00 · regalo en la misma compra (pasa de 80) · ${PLANES.full}
+  - **Plan Fondista** (correr, ciclismo): PRE SPORT + XTRA MILE + POST SPORT · 64 puntos · S/ 415.50 · regalo solo con autoenvío · ${PLANES.fondista}
+  - **Plan Gym**: PRE SPORT + POST SPORT + BIOPRO+ SPORT caja 14 · 64 puntos · S/ 418.50 · regalo solo con autoenvío · ${PLANES.gym}
+  - **Plan Arranque** (para probar): PRE SPORT + POST SPORT · 44 puntos · S/ 286.00 · sin regalo · ${PLANES.arranque}
+  Si alguien quiere el regalo sin autoenvío, recomienda el Plan Full Sport.
 - Explicar cómo comprar: con el enlace [Comprar Producto] de cada producto (abre el carrito de la tienda oficial FuXion con Emprende Salud como patrocinador; ahí mismo se registra gratis como Cliente Preferente), desde el catálogo de la web (${CATALOGO_WEB}) o por ${CANAL_ASESORIA}. Nunca envíes el enlace ifuxion.com.
 - Emprende Salud es una tienda 100 % virtual: no hay local ni recojo en tienda. Envío a domicilio a todo el Perú; desde otros países se compra en la misma tienda oficial eligiendo el país (precios distintos). Costo y plazo de envío dependen de la ciudad y se ven al pagar o se confirman por WhatsApp.
 - Hablar de la Guía Sport gratis que se descarga en la página: qué comer y tomar antes, durante y después de entrenar, prueba de sudor, proteína según el peso y reto de 14 días.
