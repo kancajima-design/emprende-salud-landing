@@ -186,7 +186,12 @@ export default function Empresa() {
           de EmprendeSalud, con domicilio en Ca. Real 479, Catacaos, Piura, Perú.</p>
           <p><strong>Cookies y medición:</strong> este sitio usa herramientas de medición
           (como el píxel de Meta) para mejorar la experiencia de navegación y mostrar
-          contenido relevante. Puedes desactivarlas desde la configuración de tu navegador.</p>
+          contenido relevante. También usamos Microsoft Clarity, que registra de forma
+          anónima cómo se navega el sitio (clics, desplazamiento y mapas de calor) para
+          mejorarlo; no guarda lo que escribes en los formularios. Más información en la{' '}
+          <a href="https://privacy.microsoft.com/es-es/privacystatement" target="_blank" rel="noreferrer" className="underline">
+            declaración de privacidad de Microsoft
+          </a>. Puedes desactivarlas desde la configuración de tu navegador.</p>
         </Seccion>
 
         <Seccion id="aviso" titulo="8. Aviso legal">
