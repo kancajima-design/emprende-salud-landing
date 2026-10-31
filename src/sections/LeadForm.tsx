@@ -4,6 +4,14 @@ import { BRAND, PRODUCTOS, OPCIONES_EXTRA, waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 import { getUtmString } from '@/lib/utm'
 
+// Lo que trae la guía (antes en Gift.tsx)
+const INCLUYE = [
+  'Qué comer antes, durante y después de entrenar',
+  'Tu prueba de sudor para cuidar tu hidratación',
+  'Cuánta proteína necesitas según tu peso, con comida peruana',
+  'Semana modelo para corredor y gym, más un reto de 14 días',
+]
+
 type Errors = Partial<Record<'nombre' | 'whatsapp' | 'correo' | 'producto', string>>
 
 export default function LeadForm() {
@@ -59,22 +67,37 @@ export default function LeadForm() {
   }
 
   const inputCls = (hasError?: string) =>
-    `w-full rounded-xl border bg-white px-4 py-3 text-sm text-[#0B2033] outline-none transition placeholder:text-[#758E9B]/70 focus:ring-2 ${
+    `w-full rounded-2xl border bg-[#F3F6FB] px-4 py-3.5 text-sm text-[#0B2033] outline-none transition placeholder:text-[#758E9B]/70 focus:ring-2 ${
       hasError
         ? 'border-red-400 focus:ring-red-200'
         : 'border-[#00498E]/15 focus:border-[#0094DE] focus:ring-[#0094DE]/20'
     }`
 
   return (
-    <section id="form" className="scroll-mt-28 bg-gradient-to-br from-[#00498E] to-[#0094DE] py-16 md:py-20">
-      <div className="mx-auto max-w-xl px-4">
-        <div className="rounded-3xl bg-white p-7 shadow-2xl md:p-9">
+    <section id="form" className="grano relative scroll-mt-24 overflow-hidden bg-[#062B57] py-20 text-white md:py-28">
+      <div className="pointer-events-none absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full bg-[#B5D70F] opacity-15 blur-[140px]" />
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-8 lg:grid-cols-2">
+        <div className="revela">
+          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Regalo · PDF gratis</p>
+          <h2 className="mt-3 text-[56px] md:text-[88px]">
+            Guía Sport <span className="text-[#B5D70F]">gratis</span>
+          </h2>
+          <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">{BRAND.regalo.descripcion}</p>
+          <ul className="mt-7 space-y-3">
+            {INCLUYE.map((i) => (
+              <li key={i} className="flex items-start gap-3 text-sm text-white/85 md:text-base">
+                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#B5D70F]" /> <span>{i}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="revela rounded-[32px] bg-white p-7 text-[#062B57] shadow-2xl md:p-9">
           {done ? (
             <div className="text-center">
               <CheckCircle2 className="mx-auto h-14 w-14 text-[#B5D70F]" />
-              <h2 className="mt-4 text-2xl font-extrabold text-[#00498E]">
+              <p className="font-display mt-4 text-4xl text-[#062B57]">
                 ¡Listo, {form.nombre.split(' ')[0]}! 🎉
-              </h2>
+              </p>
               <p className="mt-2 text-sm text-[#758E9B]">
                 Tu guía está lista. Descárgala y, si quieres, escríbeme por WhatsApp para asesorarte
                 sobre <strong className="text-[#0B2033]">{form.producto}</strong>.
@@ -103,12 +126,10 @@ export default function LeadForm() {
           ) : (
             <>
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F]/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5f7a08]">
-                  <Gift className="h-3.5 w-3.5" /> Regalo gratis
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#062B57]">
+                  <Gift className="h-3.5 w-3.5" /> 100 % gratis
                 </span>
-                <h2 className="mt-3 text-2xl font-extrabold text-[#00498E]">
-                  Descarga tu {BRAND.regalo.titulo}
-                </h2>
+                <p className="font-display mt-3 text-4xl text-[#062B57]">Recíbela al instante</p>
                 <p className="mt-1.5 text-sm text-[#758E9B]">
                   Déjame tus datos y te la envío al instante. Te contacto por WhatsApp para
                   asesorarte sin compromiso.
@@ -191,7 +212,7 @@ export default function LeadForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex w-full items-center justify-center gap-2 rounded-full bg-[#B5D70F] px-6 py-4 text-sm font-bold text-[#0B2033] shadow-lg shadow-lime-500/30 transition hover:brightness-105 disabled:opacity-60"
+                  className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#062B57] px-6 text-base font-extrabold text-white transition hover:scale-[1.02] disabled:opacity-60"
                 >
                   {loading ? (
                     <>

@@ -1,97 +1,106 @@
-import { CheckCircle2, ShoppingCart, MessageCircle, Sparkles } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
 import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
-const bullets = ['Más energía sin bajones', 'Digestión liviana', 'Rutina simple de 5 minutos']
-
-function abrirChatValeria() {
-  window.dispatchEvent(
-    new CustomEvent('abrir-chat-valeria', {
-      detail: {
-        saludo:
-          '¡Hola! Soy Valeria 💚 Cuéntame qué quieres mejorar (más energía, digestión, peso o defensas) y te armo tu combinación ideal de productos FuXion.',
-      },
-    }),
-  )
-}
+// Portada cinematográfica: titular gigante con el color de cada momento,
+// deportista en video a sangre y los 3 productos asomando por el borde inferior.
+const PALABRAS = [
+  { texto: 'Antes.', color: '#FF2E9A' },
+  { texto: 'Durante.', color: '#FF8A1F' },
+  { texto: 'Después.', color: '#FF3B4E' },
+]
+const CINTA = ['Corre', 'Pedalea', 'Entrena', 'Envío a todo el Perú', 'Tienda oficial FuXion', 'Desde S/ 4,63 por vaso']
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#00498E] via-[#003d7a] to-[#0094DE] pt-[100px]">
-      {/* Decoración */}
-      <div className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#B5D70F]/20 blur-3xl" />
-      <div className="pointer-events-none absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-[#0094DE]/30 blur-3xl" />
+    <>
+      <section className="grano relative isolate overflow-hidden bg-[#062B57] text-white">
+        {/* Video: a sangre en celular, panel derecho en escritorio */}
+        <div className="absolute inset-0 md:left-auto md:w-[52%] md:[mask-image:linear-gradient(to_right,transparent,black_40%)]">
+          <video
+            className="h-full w-full object-cover"
+            src="/videos/hero-malecon.mp4"
+            poster="/videos/hero-malecon.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Deportista trotando en el malecón al amanecer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#062B57] via-[#062B57]/50 to-[#062B57]/20 md:bg-gradient-to-r md:from-[#062B57] md:via-[#062B57]/25 md:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-gradient-to-t from-[#062B57] to-transparent md:block" />
+        </div>
+        {/* Brillos de color */}
+        <div className="pointer-events-none absolute -left-40 top-1/3 h-[520px] w-[520px] rounded-full bg-[#FF2E9A] opacity-25 blur-[140px]" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 h-[360px] w-[360px] rounded-full bg-[#FF8A1F] opacity-20 blur-[120px]" />
+        <div className="pointer-events-none absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full bg-[#0094DE] opacity-25 blur-[150px]" />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
-        <div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#0B2033] shadow-lg shadow-lime-500/30">
-            Distribuidor oficial FuXion · Perú
-          </span>
-          <h1 className="mt-5 text-4xl font-extrabold leading-tight text-white md:text-5xl">
-            Siente más energía y ligereza{' '}
-            <span className="text-[#B5D70F]">desde adentro, todos los días</span>
-          </h1>
-          <p className="mt-4 max-w-lg text-base text-white/80 md:text-lg">
-            Nutrición funcional peruana con ingredientes de los Andes y el Amazonas. Te ayudo a
-            elegir el producto ideal para tu objetivo, con asesoría personalizada de principio a
-            fin.
+        <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-4 pb-12 pt-36 md:min-h-[860px] md:justify-start md:px-8 md:pb-[300px] md:pt-44">
+          <p className="sube text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]" style={{ animationDelay: '0.05s' }}>
+            Nutrición deportiva FuXion · Perú
           </p>
-          <ul className="mt-5 space-y-2">
-            {bullets.map((b) => (
-              <li key={b} className="flex items-center gap-2 text-sm text-white/90">
-                <CheckCircle2 className="h-4 w-4 shrink-0 text-[#B5D70F]" /> {b}
-              </li>
+          <h1 className="mt-4 text-[72px] sm:text-[96px] md:text-[124px] lg:text-[148px]">
+            {PALABRAS.map((p, i) => (
+              <span key={p.texto} className="sube block" style={{ color: p.color, animationDelay: `${0.15 + i * 0.12}s` }}>
+                {p.texto}
+              </span>
             ))}
-          </ul>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <button
-              onClick={abrirChatValeria}
-              className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#B5D70F] px-6 py-3.5 text-sm font-bold text-[#0B2033] shadow-xl shadow-lime-500/30 transition hover:brightness-105"
-            >
-              <Sparkles className="h-4 w-4" /> Descubrir mi combinación ideal
-            </button>
+          </h1>
+          <p className="sube mt-5 max-w-md text-base leading-relaxed text-white/80 md:text-lg" style={{ animationDelay: '0.55s' }}>
+            Tres bebidas en polvo para tu entrenamiento: energía antes, hidratación durante y recuperación después.
+          </p>
+          <div className="sube mt-7 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.7s' }}>
             <a
-              href="#catalogo"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
+              href="#encuentra"
+              onClick={() => trackEvent('ViewContent', { content_name: 'hero-arma-tu-plan' })}
+              className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
             >
-              <ShoppingCart className="h-4 w-4" /> Ver productos y precios
+              Arma tu plan <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            </a>
+            <a
+              href={waLink('Hola, vi tu página Emprende Salud y quiero armar mi plan para entrenar 🏃')}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => trackEvent('Contact', { content_name: 'hero' })}
+              className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 text-base font-bold text-white backdrop-blur transition hover:bg-white/15"
+            >
+              <MessageCircle className="h-5 w-5 text-[#25D366]" /> WhatsApp
             </a>
           </div>
-          <p className="mt-4 text-xs text-white/60">
-            🚚 Envío a todo el Perú · 🛡️ Compra 100% oficial · 💚 Te asesoro personalmente
-          </p>
-          <a
-            href={waLink('Hola, vi tu página Emprende Salud y quiero información sobre los productos FuXion 😊')}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => trackEvent('Contact', { content_name: 'hero' })}
-            className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#B5D70F] underline-offset-2 hover:underline"
-          >
-            <MessageCircle className="h-3.5 w-3.5" />
-            ¿Prefieres no dejar tus datos? Escríbeme directo por WhatsApp
+          <a href="#kit-prueba" className="sube mt-4 self-start text-sm text-white/60 underline-offset-4 hover:text-white hover:underline" style={{ animationDelay: '0.8s' }}>
+            ¿Primera vez? Kit Prueba Sport a S/ 76 →
           </a>
         </div>
 
-        {/* Collage de producto */}
-        <div className="relative mx-auto w-full max-w-md">
-          <div className="rounded-3xl bg-white/10 p-6 backdrop-blur-sm">
-            <img
-              src="/productos/pack-5-14-keto.webp"
-              alt="Pack 5/14 Keto FuXion"
-              width={900}
-              height={598}
-              fetchPriority="high"
-              className="mx-auto h-auto w-full max-w-xs drop-shadow-2xl"
-            />
-          </div>
-          <div className="absolute -bottom-6 -left-4 w-28 rounded-2xl bg-white p-2 shadow-2xl md:-left-10 md:w-36">
-            <img src="/productos/on.webp" alt="ON FuXion" width={900} height={843} className="h-auto w-full" />
-          </div>
-          <div className="absolute -right-3 -top-6 w-24 rounded-2xl bg-white p-2 shadow-2xl md:-right-8 md:w-32">
-            <img src="/productos/no-stress.webp" alt="No Stress FuXion" width={900} height={886} className="h-auto w-full" />
-          </div>
+        {/* Productos asomando por el borde inferior (escritorio) */}
+        <div className="pointer-events-none absolute bottom-[-40px] left-1/2 hidden w-[min(1080px,88vw)] -translate-x-1/2 grid-cols-3 items-end gap-6 md:grid">
+          {['pre-sport', 'xtra-mile', 'post-sport'].map((p, i) => (
+            <div key={p} style={{ transform: `translateY(${i === 1 ? -36 : 0}px)` }}>
+              <img
+                src={`/productos/${p}.webp`}
+                alt=""
+                width={760}
+                height={460}
+                className="sube w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.65)]"
+                style={{ animationDelay: `${0.9 + i * 0.12}s` }}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Cinta animada */}
+      <div className="relative z-10 overflow-hidden bg-[#B5D70F] py-3 text-[#062B57]">
+        <div className="cinta">
+          {[...CINTA, ...CINTA, ...CINTA, ...CINTA].map((t, i) => (
+            <span key={i} className="font-display flex items-center whitespace-nowrap px-5 text-2xl md:text-3xl">
+              {t}
+              <span className="ml-10 text-lg">✦</span>
+            </span>
+          ))}
         </div>
       </div>
-    </section>
+    </>
   )
 }
