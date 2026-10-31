@@ -9,11 +9,21 @@ import {
 import { CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift, Droplets, Scale, ShieldCheck, Brain, Dumbbell } from 'lucide-react'
 import { PRODUCTOS, waLink, type Producto } from '@/config'
 
-// Categorías del catálogo, ordenadas por potencial de conversión
+// Categorías del catálogo: Sport primero (es el público de los anuncios).
+// color = acento de la línea en las tarjetas (ver DESIGN.md)
 const CATEGORIAS = [
+  {
+    id: 'cat-sport',
+    linea: 'Línea Sport',
+    color: '#F58220',
+    icon: Dumbbell,
+    titulo: 'Sport',
+    desc: 'Rendimiento, resistencia y recuperación para tu entrenamiento.',
+  },
   {
     id: 'cat-base',
     linea: 'Sistema Base',
+    color: '#0094DE',
     icon: Droplets,
     titulo: 'Sistema Base',
     desc: 'La rutina diaria que lo cambia todo: limpieza, nutrición y energía de base.',
@@ -21,6 +31,7 @@ const CATEGORIAS = [
   {
     id: 'cat-peso',
     linea: 'Línea Control de Peso y Medidas',
+    color: '#16A34A',
     icon: Scale,
     titulo: 'Control de Peso',
     desc: 'Complementa tus hábitos con nutrición funcional para cuidar tus medidas.',
@@ -28,6 +39,7 @@ const CATEGORIAS = [
   {
     id: 'cat-defensas',
     linea: 'Línea Inmunológica',
+    color: '#F59E0B',
     icon: ShieldCheck,
     titulo: 'Defensas',
     desc: 'Apoyo natural para tus defensas y las de tu familia, todo el año.',
@@ -35,6 +47,7 @@ const CATEGORIAS = [
   {
     id: 'cat-antiedad',
     linea: 'Línea Anti-edad',
+    color: '#E11D74',
     icon: Sparkles,
     titulo: 'Anti-edad',
     desc: 'Belleza, piel y energía que se notan desde adentro hacia afuera.',
@@ -42,16 +55,10 @@ const CATEGORIAS = [
   {
     id: 'cat-mental',
     linea: 'Línea Vigor Mental',
+    color: '#7C3AED',
     icon: Brain,
     titulo: 'Enfoque Mental',
     desc: 'Claridad, memoria y calma para rendir mejor todos los días.',
-  },
-  {
-    id: 'cat-sport',
-    linea: 'Línea Sport',
-    icon: Dumbbell,
-    titulo: 'Sport',
-    desc: 'Rendimiento, resistencia y recuperación para tu entrenamiento.',
   },
 ]
 
@@ -66,6 +73,81 @@ function precioDesde(p: Producto): string | null {
     .filter((n) => !isNaN(n))
   if (!valores.length) return null
   return `desde S/ ${Math.min(...valores).toFixed(2)}`
+}
+
+// Precio por vaso cuando la presentación dice cuántos sobres/sticks trae (ej. "Caja 28 sticks")
+function precioPorVaso(p: Producto): string | null {
+  for (const pr of p.precios ?? []) {
+    const n = pr.presentacion.match(/(\d+)\s*(sticks|sobres)/i)
+    const v = parseFloat(pr.precio.replace(/[^\d.]/g, ''))
+    if (n && !isNaN(v) && Number(n[1]) >= 7) return `S/ ${(v / Number(n[1])).toFixed(2).replace('.', ',')}`
+  }
+  return null
+}
+
+// Tarjeta con inclinación 3D al pasar el mouse y la foto "saliendo" de la tarjeta
+function TarjetaProducto({ p, color, onClick }: { p: Producto; color: string; onClick: () => void }) {
+  function mover(e: React.PointerEvent<HTMLButtonElement>) {
+    if (e.pointerType !== 'mouse') return
+    const r = e.currentTarget.getBoundingClientRect()
+    const x = (e.clientX - r.left) / r.width - 0.5
+    const y = (e.clientY - r.top) / r.height - 0.5
+    e.currentTarget.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`)
+    e.currentTarget.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`)
+  }
+  function soltar(e: React.PointerEvent<HTMLButtonElement>) {
+    e.currentTarget.style.setProperty('--rx', '0deg')
+    e.currentTarget.style.setProperty('--ry', '0deg')
+  }
+  const vaso = precioPorVaso(p)
+  const desde = precioDesde(p)
+  return (
+    <div className="prod-card">
+      <button
+        onClick={onClick}
+        onPointerMove={mover}
+        onPointerLeave={soltar}
+        className="prod-card-in group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-white text-left shadow-sm ring-1 ring-[#00498E]/5 hover:shadow-xl"
+      >
+        <div
+          className="relative flex h-36 items-center justify-center px-3 pt-3 sm:h-40"
+          style={{ background: `radial-gradient(circle at 50% 60%, ${color}33 0%, ${color}10 55%, transparent 75%)` }}
+        >
+          <ProductoImagen p={p} className="prod-card-img h-full w-full object-contain" />
+          {p.tag && (
+            <span
+              className="absolute left-3 top-3 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white"
+              style={{ background: color }}
+            >
+              {p.tag}
+            </span>
+          )}
+        </div>
+        <div className="flex flex-1 flex-col px-4 pb-4 pt-2">
+          <p className="text-[13px] font-extrabold leading-snug text-[#0B2033] sm:text-sm">{p.nombre}</p>
+          {p.tagline && (
+            <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-[#758E9B]">{p.tagline}</p>
+          )}
+          <div className="mt-auto pt-3">
+            {vaso ? (
+              <p className="leading-none">
+                <span className="text-lg font-extrabold text-[#0B2033]">{vaso}</span>{' '}
+                <span className="text-[11px] font-semibold text-[#758E9B]">por vaso</span>
+              </p>
+            ) : (
+              desde && <p className="text-sm font-extrabold text-[#0B2033]">{desde}</p>
+            )}
+            <span
+              className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold transition-all group-hover:gap-2"
+              style={{ color }}
+            >
+              <Info className="h-3 w-3" /> Ver detalles →
+            </span>
+          </div>
+        </div>
+      </button>
+    </div>
+  )
 }
 
 function abrirChatValeria() {
@@ -107,10 +189,10 @@ export default function Products() {
     <section id="catalogo" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          ¿Qué quieres sentir mejor desde hoy?
+          Todo el catálogo, con su precio por vaso
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-center text-sm text-[#758E9B]">
-          Energía, digestión, peso, defensas… elige tu objetivo, toca la tarjeta y ve{' '}
+          Elige una línea, toca la tarjeta y ve{' '}
           <strong className="text-[#0B2033]">para qué sirve</strong>, sus{' '}
           <strong className="text-[#0B2033]">ingredientes</strong>, su precio y cómo comprarlo en mi
           tienda oficial.
@@ -130,13 +212,13 @@ export default function Products() {
         </div>
 
         {/* Catálogo por categorías */}
-        {CATEGORIAS.map(({ id, icon: Icon, titulo, desc, linea }) => {
+        {CATEGORIAS.map(({ id, icon: Icon, titulo, desc, linea, color }) => {
           const productos = porCategoria(linea)
           if (!productos.length) return null
           return (
             <div key={id} id={id} className="scroll-mt-32 pt-12">
               <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00498E] to-[#0094DE] text-white shadow-md">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-md" style={{ background: color }}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -150,31 +232,17 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
                 {productos.map((p) => (
-                  <button
+                  <TarjetaProducto
                     key={p.nombre}
+                    p={p}
+                    color={color}
                     onClick={() => {
                       setSel(p)
                       trackEvent('ViewContent', { content_name: p.nombre })
                     }}
-                    className="group flex flex-col rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-[#00498E]/5 transition hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    <ProductoImagen
-                      p={p}
-                      className="mx-auto h-28 w-full object-contain transition group-hover:scale-105"
-                    />
-                    <p className="mt-2 text-xs font-bold leading-snug text-[#0B2033] sm:text-sm">
-                      {p.nombre}
-                    </p>
-                    {p.tag && <p className="mt-0.5 text-xs text-[#0094DE]">{p.tag}</p>}
-                    {precioDesde(p) && (
-                      <p className="mt-1.5 text-xs font-extrabold text-[#FF7A1A]">{precioDesde(p)}</p>
-                    )}
-                    <span className="mx-auto mt-2 inline-flex items-center gap-1 rounded-full bg-[#00498E]/5 px-2.5 py-1 text-[10px] font-semibold text-[#00498E] opacity-0 transition group-hover:opacity-100">
-                      <Info className="h-3 w-3" /> Ver detalles
-                    </span>
-                  </button>
+                  />
                 ))}
               </div>
             </div>

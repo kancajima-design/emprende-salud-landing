@@ -88,3 +88,43 @@
     font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 }
+/* ── Escena 3D del inicio y tarjetas (ver DESIGN.md §4) ── */
+.hero-escena { perspective: 1400px; --rx: 0deg; --ry: 0deg; }
+.hero-giro {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+.hero-tarjeta {
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(.2,.8,.2,1), opacity 0.7s, filter 0.7s;
+}
+.hero-flota { animation: hero-flota 5s ease-in-out infinite; }
+@keyframes hero-flota {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-14px) rotate(1deg); }
+}
+.hero-fade { animation: hero-fade 0.5s cubic-bezier(.2,.8,.2,1); }
+@keyframes hero-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-fade.absolute { animation-name: hero-fade-chip; }
+@keyframes hero-fade-chip {
+  from { opacity: 0; transform: translate(-50%, 8px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.prod-card { perspective: 900px; }
+.prod-card-in {
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s;
+}
+.prod-card-img { transform: translateZ(40px); transition: transform 0.35s cubic-bezier(.2,.8,.2,1); }
+.prod-card:hover .prod-card-img { transform: translateZ(60px) translateY(-6px) scale(1.06); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-flota, .hero-fade { animation: none; }
+  .hero-giro, .hero-tarjeta, .prod-card-in, .prod-card-img { transition: none; }
+}

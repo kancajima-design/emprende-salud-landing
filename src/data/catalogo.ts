@@ -313,24 +313,6 @@ export const PRODUCTOS: Producto[] = [
     ],
   },
   {
-    nombre: "DUO DEFENSE",
-    url: COMPRA_URL,
-    img: "duo-defense.png",
-    tag: "Defensas",
-    linea: "Línea Inmunológica",
-    tagline: "Cuando dos cosas buenas se juntan, forman un dúo superior",
-    descripcion: "Combinación de dos bebidas nutritivas listas para tomar que juntas protegen y fortalecen el sistema natural de defensas.",
-    beneficios: ["Fortalecer el sistema inmunológico y mantenerlo saludable", "Modular la generación de radicales libres por su potente efecto antioxidante", "Reducir el estrés oxidativo, protegiendo el sistema natural de defensas"],
-    ingredientes: "CAMU-C (agua ozonizada con extracto de camu-camu y fresa liofilizada) + VERA+ (betaglucanos, aminoácidos, antioxidantes: aloe vera, Olivactive®, Wellmune®)",
-    precios: [{
-      presentacion: "2-pack",
-      precio: "S/ 23.00",
-    }, {
-      presentacion: "6-pack",
-      precio: "S/ 64.50",
-    }],
-  },
-  {
     nombre: "VERA+",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2086021",
     img: "vera.png",
