@@ -339,12 +339,14 @@ app.delete('/api/articles/:id', requireAdmin, (req, res) => {
   res.json({ ok: true })
 })
 
+// /vsl desactivada (31-10-2026): su video hablaba de control de peso (políticas de Meta)
+app.get('/vsl', (req, res) => res.redirect(301, '/'))
+
 // ── Sitemap dinámico (incluye artículos del blog) ────────────
 app.get('/sitemap.xml', (req, res) => {
   const base = 'https://www.emprendesalud.net'
   const urls = [
     { loc: '/', priority: '1.0' },
-    { loc: '/vsl', priority: '0.9' },
     { loc: '/blog', priority: '0.8' },
     ...listArticleSlugs.all().map((a) => ({
       loc: `/blog/${a.slug}`,
