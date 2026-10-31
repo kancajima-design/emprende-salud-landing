@@ -79,6 +79,7 @@ QUÉ SÍ PUEDES HACER
   - **Plan Gym**: PRE SPORT + POST SPORT + BIOPRO+ SPORT caja 14 · 64 puntos · S/ 418.50 · regalo solo con autoenvío · ${PLANES.gym}
   - **Plan Arranque** (para probar): PRE SPORT + POST SPORT · 44 puntos · S/ 286.00 · sin regalo · ${PLANES.arranque}
   Si alguien quiere el regalo sin autoenvío, recomienda el Plan Full Sport.
+- KIT PRUEBA SPORT (para quien duda, dice que está caro o quiere probar primero): **XPEED** pack x4 (S/ 39.50) + **Vita Xtra T+** caja de 7 sticks (S/ 36.50), unos S/ 76 en total; lo prueba una semana y luego decide. Ofrécelo solo después de recomendar una opción, nunca como primera respuesta. Enlace del kit en un solo carrito: [Comprar Kit Prueba Sport](https://tiendafuxion.com/storelt/emprendesalud/3200778) (el enlace de Vita Xtra T+ del catálogo es el doypack de 28, no lo uses para el kit).
 - Explicar cómo comprar: con el enlace [Comprar Producto] de cada producto (abre el carrito de la tienda oficial FuXion con Emprende Salud como patrocinador; ahí mismo se registra gratis como Cliente Preferente), desde el catálogo de la web (${CATALOGO_WEB}) o por ${CANAL_ASESORIA}. Nunca envíes el enlace ifuxion.com.
 - Emprende Salud es una tienda 100 % virtual: no hay local ni recojo en tienda. Envío a domicilio a todo el Perú; desde otros países se compra en la misma tienda oficial eligiendo el país (precios distintos). Costo y plazo de envío dependen de la ciudad y se ven al pagar o se confirman por WhatsApp.
 - Hablar de la Guía Sport gratis que se descarga en la página: qué comer y tomar antes, durante y después de entrenar, prueba de sudor, proteína según el peso y reto de 14 días.
@@ -169,7 +170,7 @@ function extraerInteres(messages) {
 }
 
 // Gemini con razonamiento bajo (responde en segundos); si un modelo falla o se demora, prueba el siguiente.
-async function pedirAGemini(messages) {
+async function pedirAGemini(messages, systemPrompt = SYSTEM_PROMPT) {
   for (const modelo of MODELOS) {
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 20000)
@@ -181,7 +182,7 @@ async function pedirAGemini(messages) {
           'x-goog-api-key': GEMINI_API_KEY,
         },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          systemInstruction: { parts: [{ text: systemPrompt }] },
           contents: messages.map((m) => ({
             role: m.role,
             parts: [{ text: m.text }],
@@ -213,6 +214,20 @@ async function pedirAGemini(messages) {
     }
   }
   return null
+}
+
+// En WhatsApp Valeria contesta dentro del propio chat de Kervin: sin markdown de la web y sin mandar al WhatsApp.
+const WHATSAPP_PROMPT = `${SYSTEM_PROMPT}
+CANAL: WHATSAPP (esto manda sobre las reglas de formato y contacto de arriba)
+- Estás respondiendo dentro del WhatsApp de Emprende Salud, el número de Kervin. Nunca le digas a la persona que escriba al WhatsApp ni le pases el enlace wa.me: ya está aquí.
+- No pidas su número: ya lo tienes. Si muestra interés de compra, dile que Kervin revisa el chat y la ayuda personalmente con el pedido dentro del horario (lunes a sábado, 9:00 a 21:00).
+- Formato de WhatsApp: negrita con UN asterisco (*PRE SPORT*), viñetas con "- ", y los enlaces como URL sola en su propia línea (nunca [texto](url)).
+- Si piden hablar con una persona, responde que Kervin les escribe en cuanto pueda y no sigas vendiendo.`
+
+// Respuesta de Valeria para el bot de WhatsApp (server/whatsapp-cloud.js); null si Gemini no responde.
+export async function responderEnWhatsapp(messages) {
+  if (!GEMINI_API_KEY) return null
+  return pedirAGemini(messages, WHATSAPP_PROMPT)
 }
 
 export function registerChat(app, db) {
