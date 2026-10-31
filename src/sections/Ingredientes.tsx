@@ -43,7 +43,7 @@ export default function Ingredientes() {
   return (
     <section className="bg-[#07111F] pb-20 text-white md:pb-28">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <div className="revela flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div className="revela flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <h2 className="text-[56px] md:text-[96px]">
             Ingredientes <span className="text-[#B5D70F]">que conoces</span>
           </h2>

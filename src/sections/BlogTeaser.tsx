@@ -41,17 +41,16 @@ export default function BlogTeaser() {
   }
 
   return (
-    <section id="blog" className="bg-[#F3F6FB] py-16 md:py-20">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#00498E]/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#00498E]">
-            <Sparkles className="h-3.5 w-3.5" />
-            Blog Emprende Salud
-          </span>
-          <h2 className="mt-4 text-2xl font-extrabold text-[#00498E] md:text-3xl">
-            Aprende con nosotros: nutrición y bienestar
+    <section id="blog" className="bg-white py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="revela">
+          <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">
+            <Sparkles className="h-3.5 w-3.5" /> Blog Emprende Salud
+          </p>
+          <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[88px]">
+            Aprende a <span className="text-[#0094DE]">rendir más</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
+          <p className="mt-3 max-w-2xl text-sm text-[#4A6070] md:text-base">
             Artículos prácticos investigados a diario por nuestra asistente de inteligencia
             artificial para ayudarte a cuidar tu salud y tu alimentación.
           </p>
@@ -62,7 +61,7 @@ export default function BlogTeaser() {
             <Link
               key={a.id}
               to={`/blog/${a.slug}`}
-              className="flex flex-col rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="revela group flex flex-col rounded-[28px] bg-[#F3F6FB] p-7 transition hover:-translate-y-1 hover:bg-[#07111F] hover:text-white"
             >
               <div className="flex items-center justify-between gap-2">
                 <span
@@ -77,19 +76,19 @@ export default function BlogTeaser() {
                   {fmtFecha(a.created_at)}
                 </span>
               </div>
-              <h3 className="mt-3 text-base font-extrabold leading-snug text-[#0B2033]">
+              <h3 className="mt-4 text-lg font-extrabold leading-snug">
                 {a.titulo}
               </h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-[#758E9B]">{a.resumen}</p>
-              <span className="mt-4 text-xs font-bold text-[#0094DE]">Leer artículo →</span>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-[#4A6070] group-hover:text-white/70">{a.resumen}</p>
+              <span className="mt-5 text-sm font-extrabold text-[#0094DE] group-hover:text-[#B5D70F]">Leer artículo →</span>
             </Link>
           ))}
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-10">
           <Link
             to="/blog"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-[#00498E] px-6 py-2.5 text-sm font-bold text-[#00498E] transition hover:bg-[#00498E] hover:text-white"
+            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#07111F] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
           >
             <BookOpen className="h-4 w-4" />
             Ver todos los artículos

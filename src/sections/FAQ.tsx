@@ -23,7 +23,7 @@ const preguntas = [
   },
   {
     q: '¿Cuál producto me conviene?',
-    a: 'Depende de tu objetivo: energía, deporte, digestión, peso o defensas. Escríbeme o pregúntale a Valeria, la asistente de la página, y te recomiendo solo lo que necesitas, sin que compres de más.',
+    a: 'Depende de tu deporte y de cuánto entrenas. Usa el buscador «¿Qué entrenas?» de esta página, escríbeme o pregúntale a Valeria, la asistente de la página: te recomiendo solo lo que necesitas.',
   },
   {
     q: '¿Son medicamentos? ¿Los puedo tomar si tengo una condición de salud?',
@@ -41,37 +41,38 @@ const preguntas = [
 
 export default function FAQ() {
   return (
-    <section id="preguntas" className="bg-[#F3F6FB] py-16 md:py-20">
-      <div className="mx-auto max-w-3xl px-4">
-        <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          Preguntas frecuentes
-        </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-sm text-[#758E9B] md:text-base">
-          Lo que más me preguntan antes de hacer su primer pedido.
-        </p>
-        <Accordion type="single" collapsible className="mt-8 rounded-2xl bg-white px-6 shadow-sm ring-1 ring-[#00498E]/5">
-          {preguntas.map((p, i) => (
-            <AccordionItem key={p.q} value={`p${i}`} className="border-[#00498E]/10">
-              <AccordionTrigger className="text-sm font-bold text-[#0B2033] md:text-base">
-                {p.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-[#758E9B]">
-                {p.a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-        <div className="mt-8 text-center">
+    <section id="preguntas" className="scroll-mt-24 bg-[#F3F6FB] py-20 md:py-28">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="revela lg:sticky lg:top-32 lg:self-start">
+          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Preguntas frecuentes</p>
+          <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[88px]">
+            Antes de tu <span className="text-[#0094DE]">primer pedido</span>
+          </h2>
+          <p className="mt-4 max-w-sm text-sm text-[#4A6070] md:text-base">Lo que más me preguntan por WhatsApp.</p>
           <a
             href={waLink('Hola, tengo una duda antes de comprar 😊')}
             target="_blank"
             rel="noreferrer"
             onClick={() => trackEvent('Contact', { content_name: 'preguntas frecuentes' })}
-            className="inline-flex items-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-500/30 transition hover:brightness-105"
+            className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#25D366] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
           >
             <MessageCircle className="h-4 w-4" /> ¿Otra duda? Escríbeme
           </a>
         </div>
+        <Accordion type="single" collapsible className="revela space-y-3">
+          {preguntas.map((p, i) => (
+            <AccordionItem
+              key={p.q}
+              value={`p${i}`}
+              className="rounded-[22px] border-0 bg-white px-6 shadow-sm ring-1 ring-black/5 transition data-[state=open]:shadow-lg data-[state=open]:ring-[#0094DE]/30"
+            >
+              <AccordionTrigger className="py-5 text-left text-base font-extrabold text-[#07111F] hover:no-underline md:text-lg">
+                {p.q}
+              </AccordionTrigger>
+              <AccordionContent className="pb-5 text-sm leading-relaxed text-[#4A6070] md:text-base">{p.a}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
     </section>
   )

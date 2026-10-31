@@ -1,94 +1,60 @@
-import { MousePointerClick, UserCheck, CreditCard, Play } from 'lucide-react'
-import { BRAND, waLink } from '@/config'
+import { ArrowRight, MessageCircle, Play } from 'lucide-react'
+import { waLink } from '@/config'
 
 const pasos = [
-  {
-    icon: MousePointerClick,
-    titulo: 'Elige tu producto',
-    texto: 'Toca "Comprar" en cualquier producto del catálogo y se abrirá la tienda oficial FuXion.',
-  },
-  {
-    icon: UserCheck,
-    titulo: 'Verifica tu patrocinador',
-    texto: 'Confirma que aparezca Emprende Salud como tu patrocinador para recibir mi asesoría personalizada.',
-  },
-  {
-    icon: CreditCard,
-    titulo: 'Completa tu compra',
-    texto: 'Regístrate como cliente, paga de forma segura y recibe tu pedido en la puerta de tu casa.',
-  },
+  { titulo: 'Elige', texto: 'Toca "Comprar" en un producto o plan: se abre la tienda oficial FuXion con todo en el carrito.' },
+  { titulo: 'Verifica', texto: 'Confirma que aparezca Emprende Salud como tu patrocinador para recibir mi asesoría.' },
+  { titulo: 'Recibe', texto: 'Regístrate gratis como cliente, paga seguro y recibe tu pedido en tu casa.' },
 ]
 
 export default function HowToBuy() {
   return (
-    <section id="como-comprar" className="bg-white py-16 md:py-20">
-      <div className="mx-auto max-w-6xl px-4">
-        <div className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[#FF7A1A]/15 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#D25E08]">
-            <Play className="h-3.5 w-3.5" />
-            Video tutorial
-          </span>
-          <h2 className="mt-4 text-2xl font-extrabold text-[#00498E] md:text-3xl">
-            ¿Cómo comprar paso a paso?
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
-            Mira este corto tutorial y aprende a completar tu compra en la tienda oficial FuXion
-            con <strong className="text-[#0B2033]">Emprende Salud</strong> como tu patrocinador.
+    <section id="como-comprar" className="scroll-mt-24 bg-[#F3F6FB] py-20 md:py-28">
+      <div className="mx-auto max-w-7xl px-4 md:px-8">
+        <div className="revela flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Cómo comprar</p>
+            <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[96px]">
+              3 pasos, <span className="text-[#0094DE]">2 minutos</span>
+            </h2>
+          </div>
+          <p className="max-w-sm text-sm text-[#4A6070] md:text-base">
+            Compras directo en la tienda oficial. Si algo se traba, te ayudo por WhatsApp en el momento.
           </p>
         </div>
 
-        <div className="mt-10 grid items-center gap-10 lg:grid-cols-2">
-          <div className="overflow-hidden rounded-3xl shadow-xl ring-1 ring-[#00498E]/10">
-            <video
-              src="/videos/comprar-con-powerlink.mp4"
-              controls
-              preload="metadata"
-              className="aspect-video w-full bg-black"
-            >
+        <div className="mt-12 grid items-start gap-10 lg:grid-cols-[1.1fr_1fr]">
+          <div className="revela overflow-hidden rounded-[28px] bg-[#07111F] p-2 shadow-2xl">
+            <div className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-white/70">
+              <Play className="h-3.5 w-3.5 text-[#B5D70F]" /> Video tutorial · comprar con mi enlace
+            </div>
+            <video src="/videos/comprar-con-powerlink.mp4" controls preload="metadata" className="aspect-video w-full rounded-[20px] bg-black">
               Tu navegador no puede reproducir el video.
             </video>
           </div>
 
-          <ol className="space-y-5">
+          <ol className="space-y-4">
             {pasos.map((p, i) => (
-              <li key={p.titulo} className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#00498E] to-[#0094DE] text-white shadow-lg">
-                  <p.icon className="h-5 w-5" />
-                </div>
+              <li key={p.titulo} className="revela flex items-start gap-5 rounded-[28px] bg-white p-6 shadow-sm ring-1 ring-black/5">
+                <span className="font-display text-7xl leading-none text-[#0094DE]/25">{String(i + 1).padStart(2, '0')}</span>
                 <div>
-                  <p className="text-sm font-extrabold text-[#0B2033] md:text-base">
-                    <span className="mr-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#B5D70F] text-[11px] font-black text-[#0B2033]">
-                      {i + 1}
-                    </span>
-                    {p.titulo}
-                  </p>
-                  <p className="mt-1 pl-7 text-sm text-[#758E9B]">{p.texto}</p>
+                  <h3 className="font-display text-3xl text-[#07111F]">{p.titulo}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-[#4A6070]">{p.texto}</p>
                 </div>
               </li>
             ))}
-            <li className="pt-2">
+            <li className="flex flex-wrap items-center gap-3 pt-2">
+              <a href="#planes" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#07111F] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]">
+                Ver planes <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </a>
               <a
-                href={BRAND.compraUrl}
+                href={waLink('Hola, estoy comprando en la tienda FuXion y necesito ayuda con un paso 😅')}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#FF7A1A] px-6 py-3 text-sm font-bold text-white shadow-lg shadow-orange-500/30 transition hover:bg-[#e66a10]"
+                className="inline-flex min-h-12 items-center gap-2 rounded-full border-2 border-[#25D366] px-6 text-sm font-bold text-[#128C4A] transition hover:bg-[#25D366] hover:text-white"
               >
-                Ir a la tienda oficial
+                <MessageCircle className="h-4 w-4" /> Ayuda por WhatsApp
               </a>
-            </li>
-            <li className="pt-1">
-              <p className="text-xs text-[#758E9B]">
-                ¿Se te trabó algún paso?{' '}
-                <a
-                  href={waLink('Hola, estoy comprando en la tienda FuXion y necesito ayuda con un paso 😅')}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-bold text-[#1da851] underline-offset-2 hover:underline"
-                >
-                  Escríbeme por WhatsApp
-                </a>{' '}
-                y te ayudo al toque.
-              </p>
             </li>
           </ol>
         </div>
