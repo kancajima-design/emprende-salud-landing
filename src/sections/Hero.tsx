@@ -1,219 +1,107 @@
-import { useEffect, useRef, useState } from 'react'
-import { ShoppingCart, MessageCircle, Truck, ShieldCheck } from 'lucide-react'
+import { MessageCircle, ArrowRight, Truck, ShieldCheck, Headphones, BadgeCheck } from 'lucide-react'
 import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
-// Los 3 momentos Sport: precio por vaso = caja de 28 sobres / 28 (tienda oficial, 31-10-2026)
+// Patrón de las marcas top (Precision, Skratch, OX): resultado + momento de uso,
+// deportista real en movimiento, 1 botón principal y WhatsApp como segundo.
 const MOMENTOS = [
-  {
-    id: 'antes',
-    etiqueta: 'Antes',
-    nombre: 'PRE SPORT',
-    img: '/productos/pre-sport.webp',
-    color: '#E6007E',
-    vaso: '5,11',
-    nota: 'Citrulina de sandía, betarraga y hierba mate',
-  },
-  {
-    id: 'durante',
-    etiqueta: 'Durante',
-    nombre: 'XTRA MILE',
-    img: '/productos/xtra-mile.webp',
-    color: '#F58220',
-    vaso: '4,63',
-    nota: 'Palatinose®, agua de coco y sal de Maras',
-  },
-  {
-    id: 'despues',
-    etiqueta: 'Después',
-    nombre: 'POST SPORT',
-    img: '/productos/post-sport.webp',
-    color: '#D7263D',
-    vaso: '5,11',
-    nota: 'Aminoácidos, acerola, granada y agua de coco',
-  },
+  { etiqueta: 'Antes', nombre: 'PRE SPORT', img: '/productos/pre-sport.webp', color: '#E6007E' },
+  { etiqueta: 'Durante', nombre: 'XTRA MILE', img: '/productos/xtra-mile.webp', color: '#F58220' },
+  { etiqueta: 'Después', nombre: 'POST SPORT', img: '/productos/post-sport.webp', color: '#D7263D' },
 ]
 
-const KIT_PRUEBA = 'https://tiendafuxion.com/storelt/emprendesalud/3200778'
-
-// Posición de cada producto en el carrusel 3D según su distancia al activo
-function pose(offset: number) {
-  if (offset === 0) return 'translate3d(0,0,80px) rotateY(0deg) scale(1)'
-  const lado = offset > 0 ? 1 : -1
-  return `translate3d(${lado * 58}%, -8%, -160px) rotateY(${lado * -34}deg) scale(0.7)`
-}
+const CONFIANZA = [
+  { icon: ShieldCheck, texto: 'Tienda oficial FuXion' },
+  { icon: Truck, texto: 'Envío a todo el Perú' },
+  { icon: Headphones, texto: 'Asesoría por WhatsApp' },
+  { icon: BadgeCheck, texto: 'Productos originales' },
+]
 
 export default function Hero() {
-  const [activo, setActivo] = useState(0)
-  const [pausa, setPausa] = useState(false)
-  const escena = useRef<HTMLDivElement>(null)
-
-  // Rota sola cada 3,5 s; se detiene cuando la persona elige un momento
-  useEffect(() => {
-    if (pausa || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const t = window.setInterval(() => setActivo((a) => (a + 1) % MOMENTOS.length), 3500)
-    return () => window.clearInterval(t)
-  }, [pausa])
-
-  // Inclinación 3D con el mouse (máx. 12°)
-  function mover(e: React.PointerEvent) {
-    const el = escena.current
-    if (!el || e.pointerType !== 'mouse') return
-    const r = el.getBoundingClientRect()
-    const x = (e.clientX - r.left) / r.width - 0.5
-    const y = (e.clientY - r.top) / r.height - 0.5
-    el.style.setProperty('--rx', `${(-y * 12).toFixed(2)}deg`)
-    el.style.setProperty('--ry', `${(x * 12).toFixed(2)}deg`)
-  }
-  function soltar() {
-    escena.current?.style.setProperty('--rx', '0deg')
-    escena.current?.style.setProperty('--ry', '0deg')
-  }
-
-  function elegir(i: number) {
-    setActivo(i)
-    setPausa(true)
-  }
-
-  const m = MOMENTOS[activo]
-
   return (
-    <section className="relative overflow-hidden bg-[#06182B] pt-[100px] text-white">
-      {/* Brillo del color del producto activo */}
-      <div
-        className="pointer-events-none absolute right-[-30%] top-[6%] h-[520px] w-[520px] rounded-full opacity-40 blur-[120px] transition-colors duration-700 md:right-[2%] md:h-[620px] md:w-[620px]"
-        style={{ background: m.color }}
-      />
-      <div className="pointer-events-none absolute -left-32 bottom-[-20%] h-[420px] w-[420px] rounded-full bg-[#0D3D6E] opacity-70 blur-[100px]" />
-      {/* Rejilla tenue */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-          backgroundSize: '56px 56px',
-          maskImage: 'radial-gradient(ellipse at 70% 40%, #000 20%, transparent 70%)',
-          WebkitMaskImage: 'radial-gradient(ellipse at 70% 40%, #000 20%, transparent 70%)',
-        }}
-      />
-
-      <div className="relative mx-auto grid max-w-6xl items-center gap-4 px-4 pb-16 pt-6 md:grid-cols-[1fr_1.1fr] md:gap-10 md:pb-24 md:pt-16">
-        <div className="order-2 md:order-1">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#B5D70F] ring-1 ring-white/15">
-            Distribuidor oficial FuXion · Perú
-          </span>
-          <h1 className="mt-5 text-[38px] font-extrabold leading-[1.05] tracking-tight md:text-6xl">
-            Tu entrenamiento <span className="text-[#B5D70F]">en 3 vasos</span>
+    <section className="relative bg-white pt-[100px]">
+      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-10 pt-6 md:grid-cols-[1.05fr_1fr] md:gap-12 md:pb-16 md:pt-14">
+        <div>
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">
+            Para correr · pedalear · entrenar
+          </p>
+          <h1 className="mt-3 text-[40px] font-extrabold leading-[1.02] tracking-tight text-[#0B2033] md:text-[64px]">
+            Rinde antes, durante <span className="text-[#00498E]">y después.</span>
           </h1>
-          <p className="mt-4 max-w-md text-base leading-relaxed text-white/75 md:text-lg">
-            Antes, durante y después. Bebidas en polvo para correr, pedalear o entrenar en el gym,
-            con envío a todo el Perú.
+          <p className="mt-4 max-w-md text-base leading-relaxed text-[#4A6070] md:text-lg">
+            Bebidas en polvo FuXion para cada momento de tu entrenamiento. Te ayudo a armar tu plan
+            y te llega a todo el Perú.
           </p>
 
-          {/* Selector de momento */}
-          <div className="mt-6 inline-flex rounded-full bg-white/5 p-1 ring-1 ring-white/10" role="tablist">
-            {MOMENTOS.map((x, i) => (
-              <button
-                key={x.id}
-                role="tab"
-                aria-selected={i === activo}
-                onClick={() => elegir(i)}
-                className={`min-h-10 cursor-pointer rounded-full px-4 text-xs font-bold uppercase tracking-[0.12em] transition-colors md:px-5 ${
-                  i === activo ? 'text-white' : 'text-white/65 hover:text-white'
-                }`}
-                style={i === activo ? { background: x.color } : undefined}
-              >
-                {x.etiqueta}
-              </button>
-            ))}
-          </div>
-          <p key={m.id} className="hero-fade mt-3 min-h-[3rem] max-w-md text-sm leading-relaxed text-white/70">
-            <strong className="text-white">{m.nombre}</strong> · {m.nota} ·{' '}
-            <span className="font-extrabold text-white">S/ {m.vaso}</span> por vaso
-          </p>
-
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <a
-              href="#planes"
-              onClick={() => trackEvent('ViewContent', { content_name: 'hero-planes' })}
-              className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#B5D70F] px-6 py-3.5 text-sm font-extrabold text-[#0B2033] shadow-xl shadow-lime-500/25 transition hover:brightness-105"
+              href="#encuentra"
+              onClick={() => trackEvent('ViewContent', { content_name: 'hero-arma-tu-plan' })}
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#00498E] px-7 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-blue-900/20 transition hover:bg-[#003d7a]"
             >
-              <ShoppingCart className="h-4 w-4" /> Ver planes y precios
+              Arma tu plan <ArrowRight className="h-4 w-4" />
             </a>
             <a
-              href={waLink('Hola, vi tu página Emprende Salud y quiero armar mi plan Sport 🏃')}
+              href={waLink('Hola, vi tu página Emprende Salud y quiero armar mi plan para entrenar 🏃')}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('Contact', { content_name: 'hero' })}
-              className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/30 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-white/10"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-2 border-[#25D366] px-6 py-3 text-sm font-bold text-[#128C4A] transition hover:bg-[#25D366] hover:text-white"
             >
-              <MessageCircle className="h-4 w-4 text-[#25D366]" /> Escríbeme por WhatsApp
+              <MessageCircle className="h-4 w-4" /> WhatsApp
             </a>
           </div>
-          <a
-            href={KIT_PRUEBA}
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => trackEvent('ViewContent', { content_name: 'hero-kit-prueba' })}
-            className="mt-4 inline-block text-sm font-semibold text-[#B5D70F] underline-offset-4 hover:underline"
-          >
-            ¿Primera vez? Prueba con el Kit Prueba Sport · S/ 76 →
-          </a>
-          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/60">
-            <span className="inline-flex items-center gap-1.5"><Truck className="h-4 w-4" /> Envío a todo el Perú</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="h-4 w-4" /> Tienda oficial FuXion</span>
-          </div>
+          <p className="mt-3 text-xs text-[#758E9B]">
+            ¿Primera vez? Empieza con el <a href="#kit-prueba" className="font-bold text-[#00498E] underline underline-offset-2">Kit Prueba Sport a S/ 76</a>.
+          </p>
         </div>
 
-        {/* Escena 3D */}
-        <div
-          ref={escena}
-          onPointerMove={mover}
-          onPointerLeave={soltar}
-          className="hero-escena relative order-1 mx-auto aspect-[5/4] w-full max-w-xl md:order-2"
-        >
-          <div className="hero-giro absolute inset-0">
-            {MOMENTOS.map((x, i) => {
-              let off = i - activo
-              if (off > 1) off -= MOMENTOS.length
-              if (off < -1) off += MOMENTOS.length
-              return (
-                <button
-                  key={x.id}
-                  type="button"
-                  aria-label={`Ver ${x.nombre}`}
-                  onClick={() => elegir(i)}
-                  className="hero-tarjeta absolute inset-x-[6%] top-[14%] cursor-pointer"
-                  style={{
-                    transform: pose(off),
-                    zIndex: off === 0 ? 3 : 1,
-                    opacity: off === 0 ? 1 : 0.5,
-                    filter: off === 0 ? `drop-shadow(0 30px 40px ${x.color}66)` : 'blur(1.5px) saturate(0.7)',
-                  }}
-                >
-                  <img
-                    src={x.img}
-                    alt={x.nombre}
-                    width={760}
-                    height={460}
-                    fetchPriority={i === 0 ? 'high' : 'auto'}
-                    className={`h-auto w-full ${off === 0 ? 'hero-flota' : ''}`}
-                  />
-                </button>
-              )
-            })}
+        {/* Deportista en movimiento + los 3 momentos */}
+        <div className="relative mx-auto w-full max-w-md md:max-w-none">
+          <div className="relative overflow-hidden rounded-[32px] bg-[#0B2033]">
+            <video
+              className="aspect-[4/5] h-full w-full object-cover md:aspect-[5/6]"
+              src="/videos/hero-malecon.mp4"
+              poster="/videos/hero-malecon.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Deportista trotando en el malecón"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06182B]/85 via-transparent to-transparent" />
+            <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-[#0B2033] backdrop-blur">
+              Tu rutina en 3 vasos
+            </span>
           </div>
-          {/* Sombra en el piso */}
-          <div className="pointer-events-none absolute bottom-[10%] left-1/2 h-6 w-[55%] -translate-x-1/2 rounded-[50%] bg-black/50 blur-xl" />
-          {/* Chip del momento */}
-          <div
-            key={m.id}
-            className="hero-fade absolute bottom-[2%] left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-white shadow-lg"
-            style={{ background: m.color }}
-          >
-            {m.etiqueta} · {m.nombre}
+          {/* Tarjeta con los 3 momentos, sobre el video */}
+          <div className="relative z-10 -mt-24 mx-3 grid grid-cols-3 gap-2 rounded-3xl bg-white p-3 shadow-2xl ring-1 ring-black/5 md:mx-6">
+            {MOMENTOS.map((m) => (
+              <a key={m.nombre} href="#momentos" className="group rounded-2xl p-2 text-center transition hover:bg-[#F3F6FB]">
+                <img src={m.img} alt={m.nombre} width={760} height={460} className="mx-auto h-14 w-full object-contain transition group-hover:-translate-y-1 md:h-16" />
+                <span
+                  className="mt-1.5 inline-block rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.12em] text-white"
+                  style={{ background: m.color }}
+                >
+                  {m.etiqueta}
+                </span>
+                <p className="mt-1 text-[11px] font-extrabold text-[#0B2033]">{m.nombre}</p>
+              </a>
+            ))}
           </div>
         </div>
+      </div>
+
+      {/* Franja de confianza */}
+      <div className="border-y border-[#00498E]/10 bg-[#F3F6FB]">
+        <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-3 px-4 py-4 md:grid-cols-4">
+          {CONFIANZA.map(({ icon: Icon, texto }) => (
+            <li key={texto} className="flex items-center gap-2 text-xs font-bold text-[#0B2033] md:justify-center md:text-sm">
+              <Icon className="h-5 w-5 shrink-0 text-[#00498E]" /> {texto}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

@@ -1,5 +1,4 @@
 // Generado desde catalogo-productos-detallado.json + maestría Dr. Iván Columbus
-const COMPRA_URL = 'http://ifuxion.com/emprendesalud'
 
 export type Variante = { nombre: string; url: string }
 export type Precio = { presentacion: string; precio: string; puntos?: number }
@@ -22,7 +21,11 @@ export type Producto = {
 export const PRODUCTOS: Producto[] = [
   {
     nombre: "REXET",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2085882",
+    variantes: [
+      { nombre: "REXET doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201103" },
+      { nombre: "REXET caja 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201102" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201103",
     img: "rexet.png",
     tag: "Base diaria",
     linea: "Sistema Base",
@@ -87,7 +90,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "PRUNEX1",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086017",
+    variantes: [
+      { nombre: "PRUNEX1 doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201105" },
+      { nombre: "PRUNEX1 doypack 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201104" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201105",
     img: "prunex1.png",
     tag: "Base diaria",
     linea: "Sistema Base",
@@ -251,7 +258,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "VITA XTRA T+",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086022",
+    variantes: [
+      { nombre: "VITA XTRA T+ doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201106" },
+      { nombre: "VITA XTRA T+ caja 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201107" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201106",
     img: "vita-xtra-t.png",
     tag: "Base diaria",
     linea: "Sistema Base",
@@ -296,7 +307,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "XPEED",
-    url: COMPRA_URL,
+    variantes: [
+      { nombre: "XPEED pack x 4", url: "https://tiendafuxion.com/storelt/emprendesalud/3201108" },
+      { nombre: "XPEED ENERGÍA CÍTRICA pack x 4", url: "https://tiendafuxion.com/storelt/emprendesalud/3201148" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201108",
     img: "xpeed.png",
     tag: "Base diaria",
     linea: "Sistema Base",
@@ -334,7 +349,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "GANO+ T",
-    url: COMPRA_URL,
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201109",
     img: "gano-t.png",
     tag: "Defensas",
     linea: "Línea Inmunológica",
@@ -394,7 +409,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "THERMO T3",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086019",
+    variantes: [
+      { nombre: "THERMO T3 doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201110" },
+      { nombre: "THERMO T3 caja 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201111" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201110",
     img: "thermo-t3.png",
     tag: "Control de peso",
     linea: "Línea Control de Peso y Medidas",
@@ -419,7 +438,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "NOCARB-T",
-    url: COMPRA_URL,
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201112",
     img: "nocarb-t.png",
     tag: "Control de peso",
     linea: "Línea Control de Peso y Medidas",
@@ -459,7 +478,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "CAFÉ & CAFÉ FIT",
-    url: COMPRA_URL,
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201113",
     img: "cafe-cafe-fit.png",
     tag: "Control de peso",
     linea: "Línea Control de Peso y Medidas",
@@ -569,8 +588,13 @@ export const PRODUCTOS: Producto[] = [
     ingredientes: "Bioprotein Active® (quinua germinada, arveja, arroz integral germinado, algas) + aminoácidos esenciales + L-carnitina + tamarindo malabar + vitaminas + calcio, cromo y zinc en molécula orgánica",
     precios: [
       {
-        presentacion: "Caja 14 sticks x 25gr",
+        presentacion: "Caja 14 · vainilla y canela",
         precio: "S/ 149.00",
+        puntos: 21,
+      },
+      {
+        presentacion: "Caja 14 · chocolate con avellanas",
+        precio: "S/ 149.50",
         puntos: 21,
       },
     ],
@@ -609,6 +633,9 @@ export const PRODUCTOS: Producto[] = [
     }, {
       nombre: "PROTEIN XOUP - CREMA DE ESPÁRRAGOS Y ALCACHOFA",
       url: "https://tiendafuxion.com/storelt/emprendesalud/2086015",
+    }, {
+      nombre: "PROTEIN XOUP - CREMA DE BRÓCOLI Y PARMESANO",
+      url: "https://tiendafuxion.com/storelt/emprendesalud/3201147",
     }],
   },
   {
@@ -713,7 +740,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "ON",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2085990",
+    variantes: [
+      { nombre: "ON doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201114" },
+      { nombre: "ON caja 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201115" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201114",
     img: "on.png",
     tag: "Enfoque mental",
     linea: "Línea Vigor Mental",
@@ -738,7 +769,11 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "NO STRESS",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2085984",
+    variantes: [
+      { nombre: "NO STRESS doypack 28 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201116" },
+      { nombre: "NO STRESS caja 7 sobres", url: "https://tiendafuxion.com/storelt/emprendesalud/3201117" },
+    ],
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201116",
     img: "no-stress.png",
     tag: "Enfoque mental",
     linea: "Línea Vigor Mental",
@@ -865,8 +900,13 @@ export const PRODUCTOS: Producto[] = [
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + aminoácidos esenciales + vitaminas + L-glutamina + BCAAs",
     precios: [
       {
-        presentacion: "Caja 14 sticks x 25gr",
+        presentacion: "Caja 14 · vainilla y canela",
         precio: "S/ 156.00",
+        puntos: 22,
+      },
+      {
+        presentacion: "Caja 14 · chocolate con avellanas",
+        precio: "S/ 156.50",
         puntos: 22,
       },
     ],
@@ -879,6 +919,27 @@ export const PRODUCTOS: Producto[] = [
       nombre: "PROTEIN ACTIVE SPORT - VAINILLA Y CANELA",
       url: "https://tiendafuxion.com/storelt/emprendesalud/2086012",
     }],
+  },
+  {
+    nombre: "KIT PRUEBA SPORT",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3200778",
+    img: "xpeed.png",
+    tag: "Para probar",
+    linea: "Línea Sport",
+    tagline: "¡Prueba primero, sin comprar una caja grande!",
+    descripcion: "Kit para empezar: XPEED pack x 4 + VITA XTRA T+ caja de 7 sobres.",
+    precios: [{ presentacion: "4 XPEED + VITA XTRA T+ caja 7", precio: "S/ 76.00" }],
+    uso: "XPEED antes de entrenar o cuando necesites energía; VITA XTRA T+ en la mañana.",
+  },
+  {
+    nombre: "COMBO PONTE EN FORMA",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201149",
+    img: "thermo-t3.png",
+    tag: "Combo",
+    linea: "Línea Control de Peso y Medidas",
+    tagline: "Combo oficial FuXion en un solo carrito",
+    descripcion: "2 THERMO T3 doypack 28 + 2 BIOPRO+ FIT caja 14 + 1 CAFÉ & CAFÉ FIT + 2 PRUNEX1 doypack 7.",
+    precios: [{ presentacion: "Combo completo", precio: "S/ 676.50" }],
   },
   {
     nombre: "PROBIX",

@@ -164,10 +164,10 @@ export default function Planes() {
       <div className="mx-auto max-w-6xl px-4">
         <div className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F]/20 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5f7a08]">
-            <Gift className="h-3.5 w-3.5" /> Planes Sport con regalo
+            <Gift className="h-3.5 w-3.5" /> Planes Sport · un solo carrito
           </span>
           <h2 className="mt-4 text-2xl font-extrabold text-[#00498E] md:text-3xl">
-            Tu entrenamiento completo en <span className="text-[#FF7A1A]">un solo carrito</span>
+            Elige tu plan <span className="text-[#0094DE]">según tu deporte</span>
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
             Elige tu plan, toca el botón y se abre el carrito de la tienda oficial FuXion con todo listo. Con{' '}
@@ -177,7 +177,29 @@ export default function Planes() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {/* Kit Prueba Sport: la puerta de entrada para quien duda */}
+        <div id="kit-prueba" className="mt-10 grid scroll-mt-28 items-center gap-5 rounded-3xl bg-[#0B2033] p-5 text-white md:grid-cols-[auto_1fr_auto] md:p-6">
+          <div className="flex gap-2 rounded-2xl bg-white p-2">
+            <img src="/productos/xpeed.webp" alt="XPEED" className="h-20 w-20 object-contain" loading="lazy" />
+            <img src="/productos/vita-xtra-t.webp" alt="VITA XTRA T+" className="h-20 w-24 object-contain" loading="lazy" />
+          </div>
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#B5D70F]">¿Primera vez? Empieza aquí</p>
+            <h3 className="mt-1 text-xl font-extrabold">Kit Prueba Sport · S/ 76</h3>
+            <p className="mt-1 text-sm text-white/75">4 XPEED + VITA XTRA T+ caja de 7. Para probar antes de un plan completo.</p>
+          </div>
+          <a
+            href="https://tiendafuxion.com/storelt/emprendesalud/3200778"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => trackEvent('ViewContent', { content_name: 'Kit Prueba Sport', content_type: 'plan' })}
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#B5D70F] px-6 py-3 text-sm font-extrabold text-[#0B2033] transition hover:brightness-105"
+          >
+            <ShoppingCart className="h-4 w-4" /> Comprar el kit
+          </a>
+        </div>
+
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {PLANES.map((p) => (
             <TarjetaPlan key={p.nombre} plan={p} />
           ))}

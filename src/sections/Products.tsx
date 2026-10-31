@@ -184,60 +184,57 @@ function ProductoImagen({ p, className }: { p: Producto; className?: string }) {
 
 export default function Products() {
   const [sel, setSel] = useState<Producto | null>(null)
+  const [cat, setCat] = useState(CATEGORIAS[0].id)
 
   return (
-    <section id="catalogo" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-20">
+    <section id="catalogo" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          Todo el catálogo, con su precio por vaso
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
+        <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#0B2033] md:text-[44px]">
+          Todo FuXion, por línea
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-sm text-[#758E9B]">
-          Elige una línea, toca la tarjeta y ve{' '}
-          <strong className="text-[#0B2033]">para qué sirve</strong>, sus{' '}
-          <strong className="text-[#0B2033]">ingredientes</strong>, su precio y cómo comprarlo en mi
-          tienda oficial.
+        <p className="mt-3 max-w-xl text-sm text-[#758E9B] md:text-base">
+          Elige una línea y toca un producto para ver sus ingredientes, cómo se toma, sus presentaciones y el
+          enlace directo al carrito de la tienda oficial.
         </p>
 
-        {/* Navegación rápida por categoría */}
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          {CATEGORIAS.map(({ id, icon: Icon, titulo }) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#00498E] shadow-sm ring-1 ring-[#00498E]/10 transition hover:bg-[#00498E] hover:text-white"
-            >
-              <Icon className="h-3.5 w-3.5" /> {titulo}
-            </a>
-          ))}
+        {/* Pestañas por línea (patrón Liquid I.V.) */}
+        <div className="-mx-4 mt-6 overflow-x-auto px-4 pb-1" role="tablist">
+          <div className="flex w-max gap-2">
+            {CATEGORIAS.map(({ id, icon: Icon, titulo, linea, color }) => {
+              const activa = id === cat
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activa}
+                  onClick={() => setCat(id)}
+                  className={`inline-flex min-h-11 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-sm font-bold transition ${
+                    activa ? 'text-white shadow-md' : 'bg-white text-[#0B2033] ring-1 ring-[#00498E]/10 hover:ring-[#00498E]/30'
+                  }`}
+                  style={activa ? { background: color } : undefined}
+                >
+                  <Icon className="h-4 w-4" /> {titulo}
+                  <span className={`text-xs ${activa ? 'text-white/80' : 'text-[#758E9B]'}`}>{porCategoria(linea).length}</span>
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        {/* Catálogo por categorías */}
-        {CATEGORIAS.map(({ id, icon: Icon, titulo, desc, linea, color }) => {
-          const productos = porCategoria(linea)
-          if (!productos.length) return null
+        {(() => {
+          const c = CATEGORIAS.find((x) => x.id === cat) ?? CATEGORIAS[0]
+          const productos = porCategoria(c.linea)
           return (
-            <div key={id} id={id} className="scroll-mt-32 pt-12">
-              <div className="flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-md" style={{ background: color }}>
-                  <Icon className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-extrabold text-[#00498E] md:text-xl">
-                    {titulo}{' '}
-                    <span className="ml-1 align-middle text-xs font-bold text-[#758E9B]">
-                      ({productos.length} {productos.length === 1 ? 'producto' : 'productos'})
-                    </span>
-                  </h3>
-                  <p className="mt-0.5 text-xs text-[#758E9B] md:text-sm">{desc}</p>
-                </div>
-              </div>
-
-              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+            <div key={c.id} className="hero-fade pt-6">
+              <p className="text-sm text-[#758E9B]">{c.desc}</p>
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
                 {productos.map((p) => (
                   <TarjetaProducto
                     key={p.nombre}
                     p={p}
-                    color={color}
+                    color={c.color}
                     onClick={() => {
                       setSel(p)
                       trackEvent('ViewContent', { content_name: p.nombre })
@@ -247,7 +244,7 @@ export default function Products() {
               </div>
             </div>
           )
-        })}
+        })()}
 
         {/* CTA asesoría con Valeria */}
         <div className="mx-auto mt-10 max-w-2xl rounded-3xl bg-white p-6 text-center shadow-sm ring-1 ring-[#00498E]/10">
