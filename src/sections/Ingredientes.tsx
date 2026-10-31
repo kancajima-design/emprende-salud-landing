@@ -19,7 +19,7 @@ function Tile({ t }: { t: (typeof TILES)[number] }) {
     return () => io.disconnect()
   }, [])
   return (
-    <figure className={`revela group relative min-h-[260px] overflow-hidden rounded-[28px] bg-[#0D1B2E] ${t.clase}`}>
+    <figure className={`revela group relative min-h-[260px] overflow-hidden rounded-[28px] bg-[#0A3466] ${t.clase}`}>
       <video
         ref={v}
         src={`/videos/${t.video}.mp4`}
@@ -41,7 +41,7 @@ function Tile({ t }: { t: (typeof TILES)[number] }) {
 
 export default function Ingredientes() {
   return (
-    <section className="bg-[#07111F] pb-20 text-white md:pb-28">
+    <section className="bg-[#062B57] pb-20 text-white md:pb-28">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="revela flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <h2 className="text-[56px] md:text-[96px]">

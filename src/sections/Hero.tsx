@@ -14,9 +14,9 @@ const CINTA = ['Corre', 'Pedalea', 'Entrena', 'Envío a todo el Perú', 'Tienda 
 export default function Hero() {
   return (
     <>
-      <section className="grano relative isolate overflow-hidden bg-[#07111F] text-white">
+      <section className="grano relative isolate overflow-hidden bg-[#062B57] text-white">
         {/* Video: a sangre en celular, panel derecho en escritorio */}
-        <div className="absolute inset-0 md:left-auto md:w-[48%]">
+        <div className="absolute inset-0 md:left-auto md:w-[52%] md:[mask-image:linear-gradient(to_right,transparent,black_40%)]">
           <video
             className="h-full w-full object-cover"
             src="/videos/hero-malecon.mp4"
@@ -28,12 +28,13 @@ export default function Hero() {
             preload="auto"
             aria-label="Deportista trotando en el malecón al amanecer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#07111F] via-[#07111F]/50 to-[#07111F]/20 md:bg-gradient-to-r md:from-[#07111F] md:via-[#07111F]/25 md:to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-gradient-to-t from-[#07111F] to-transparent md:block" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#062B57] via-[#062B57]/50 to-[#062B57]/20 md:bg-gradient-to-r md:from-[#062B57] md:via-[#062B57]/25 md:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-gradient-to-t from-[#062B57] to-transparent md:block" />
         </div>
         {/* Brillos de color */}
         <div className="pointer-events-none absolute -left-40 top-1/3 h-[520px] w-[520px] rounded-full bg-[#FF2E9A] opacity-25 blur-[140px]" />
         <div className="pointer-events-none absolute bottom-0 left-1/3 h-[360px] w-[360px] rounded-full bg-[#FF8A1F] opacity-20 blur-[120px]" />
+        <div className="pointer-events-none absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full bg-[#0094DE] opacity-25 blur-[150px]" />
 
         <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-4 pb-12 pt-36 md:min-h-[860px] md:justify-start md:px-8 md:pb-[300px] md:pt-44">
           <p className="sube text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]" style={{ animationDelay: '0.05s' }}>
@@ -53,7 +54,7 @@ export default function Hero() {
             <a
               href="#encuentra"
               onClick={() => trackEvent('ViewContent', { content_name: 'hero-arma-tu-plan' })}
-              className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#07111F] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
+              className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
             >
               Arma tu plan <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
@@ -90,7 +91,7 @@ export default function Hero() {
       </section>
 
       {/* Cinta animada */}
-      <div className="relative z-10 overflow-hidden bg-[#B5D70F] py-3 text-[#07111F]">
+      <div className="relative z-10 overflow-hidden bg-[#B5D70F] py-3 text-[#062B57]">
         <div className="cinta">
           {[...CINTA, ...CINTA, ...CINTA, ...CINTA].map((t, i) => (
             <span key={i} className="font-display flex items-center whitespace-nowrap px-5 text-2xl md:text-3xl">

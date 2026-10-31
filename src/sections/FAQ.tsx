@@ -45,7 +45,7 @@ export default function FAQ() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="revela lg:sticky lg:top-32 lg:self-start">
           <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Preguntas frecuentes</p>
-          <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[88px]">
+          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[88px]">
             Antes de tu <span className="text-[#0094DE]">primer pedido</span>
           </h2>
           <p className="mt-4 max-w-sm text-sm text-[#4A6070] md:text-base">Lo que más me preguntan por WhatsApp.</p>
@@ -66,7 +66,7 @@ export default function FAQ() {
               value={`p${i}`}
               className="rounded-[22px] border-0 bg-white px-6 shadow-sm ring-1 ring-black/5 transition data-[state=open]:shadow-lg data-[state=open]:ring-[#0094DE]/30"
             >
-              <AccordionTrigger className="py-5 text-left text-base font-extrabold text-[#07111F] hover:no-underline md:text-lg">
+              <AccordionTrigger className="py-5 text-left text-base font-extrabold text-[#062B57] hover:no-underline md:text-lg">
                 {p.q}
               </AccordionTrigger>
               <AccordionContent className="pb-5 text-sm leading-relaxed text-[#4A6070] md:text-base">{p.a}</AccordionContent>

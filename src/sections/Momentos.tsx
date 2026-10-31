@@ -59,7 +59,7 @@ function Botones({ m }: { m: M }) {
         target="_blank"
         rel="noreferrer"
         onClick={() => trackEvent('ViewContent', { content_name: m.nombre })}
-        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-extrabold text-[#07111F] transition hover:scale-[1.03]"
+        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-white px-6 text-sm font-extrabold text-[#062B57] transition hover:scale-[1.03]"
       >
         <ShoppingCart className="h-4 w-4" /> Comprar {m.nombre}
       </a>
@@ -115,12 +115,12 @@ export default function Momentos() {
   const m = MOMENTOS[activo]
 
   return (
-    <section id="momentos" className="scroll-mt-24 bg-[#07111F] text-white">
+    <section id="momentos" className="scroll-mt-24 bg-[#062B57] text-white">
       {/* Escritorio: escena fija */}
       <div className="relative hidden md:block" style={{ height: `${MOMENTOS.length * 100}vh` }}>
         <div
           className="grano sticky top-0 h-screen overflow-hidden transition-colors duration-700"
-          style={{ background: `radial-gradient(ellipse at 70% 50%, ${m.fondo} 0%, #07111F 70%)` }}
+          style={{ background: `radial-gradient(ellipse at 70% 50%, ${m.fondo} 0%, #062B57 70%)` }}
         >
           <div className="mx-auto grid h-full max-w-7xl grid-cols-[1fr_1.1fr] items-center gap-10 px-8 pt-16">
             <div>
@@ -173,7 +173,7 @@ export default function Momentos() {
           <h2 className="mt-3 text-[56px]">Un sobre para cada momento</h2>
         </div>
         {MOMENTOS.map((x) => (
-          <div key={x.n} className="grano relative overflow-hidden px-4 pb-12 pt-10" style={{ background: `radial-gradient(ellipse at 50% 30%, ${x.fondo} 0%, #07111F 75%)` }}>
+          <div key={x.n} className="grano relative overflow-hidden px-4 pb-12 pt-10" style={{ background: `radial-gradient(ellipse at 50% 30%, ${x.fondo} 0%, #062B57 75%)` }}>
             <div className="revela">
               <div className="flex items-baseline justify-between">
                 <h3 className="font-display text-[72px] leading-none" style={{ color: x.color }}>{x.etiqueta}</h3>
@@ -206,7 +206,7 @@ export default function Momentos() {
             target="_blank"
             rel="noreferrer"
             onClick={() => trackEvent('ViewContent', { content_name: 'BIOPRO+ SPORT' })}
-            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-extrabold text-[#07111F] transition hover:scale-[1.03]"
+            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-white px-6 text-sm font-extrabold text-[#062B57] transition hover:scale-[1.03]"
           >
             <ShoppingCart className="h-4 w-4" /> Comprar caja
           </a>

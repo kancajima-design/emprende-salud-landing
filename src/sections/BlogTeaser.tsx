@@ -47,7 +47,7 @@ export default function BlogTeaser() {
           <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">
             <Sparkles className="h-3.5 w-3.5" /> Blog Emprende Salud
           </p>
-          <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[88px]">
+          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[88px]">
             Aprende a <span className="text-[#0094DE]">rendir más</span>
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-[#4A6070] md:text-base">
@@ -61,7 +61,7 @@ export default function BlogTeaser() {
             <Link
               key={a.id}
               to={`/blog/${a.slug}`}
-              className="revela group flex flex-col rounded-[28px] bg-[#F3F6FB] p-7 transition hover:-translate-y-1 hover:bg-[#07111F] hover:text-white"
+              className="revela group flex flex-col rounded-[28px] bg-[#F3F6FB] p-7 transition hover:-translate-y-1 hover:bg-[#062B57] hover:text-white"
             >
               <div className="flex items-center justify-between gap-2">
                 <span
@@ -88,7 +88,7 @@ export default function BlogTeaser() {
         <div className="mt-10">
           <Link
             to="/blog"
-            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#07111F] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
+            className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#062B57] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
           >
             <BookOpen className="h-4 w-4" />
             Ver todos los artículos

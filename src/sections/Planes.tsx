@@ -103,7 +103,7 @@ function TarjetaPlan({ plan }: { plan: Plan }) {
           <Star className="h-3.5 w-3.5" /> El más completo
         </span>
       )}
-      <h3 className={`font-display text-4xl ${d ? 'text-white' : 'text-[#07111F]'}`}>{plan.nombre}</h3>
+      <h3 className={`font-display text-4xl ${d ? 'text-white' : 'text-[#062B57]'}`}>{plan.nombre}</h3>
       <p className={`mt-1 text-xs ${d ? 'text-white/85' : 'text-[#758E9B]'}`}>{plan.para}</p>
 
       <div
@@ -136,7 +136,7 @@ function TarjetaPlan({ plan }: { plan: Plan }) {
       <div className="mt-auto pt-5">
         <RegaloEtiqueta plan={plan} />
         <div className="mt-3 flex items-baseline justify-between">
-          <p className={`font-display text-5xl ${d ? 'text-white' : 'text-[#07111F]'}`}>{plan.precio}</p>
+          <p className={`font-display text-5xl ${d ? 'text-white' : 'text-[#062B57]'}`}>{plan.precio}</p>
           <p className={`text-xs font-bold ${d ? 'text-[#B5D70F]' : 'text-[#00498E]'}`}>{plan.puntos} puntos</p>
         </div>
         <a
@@ -166,7 +166,7 @@ export default function Planes() {
           <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F]/20 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#5f7a08]">
             <Gift className="h-3.5 w-3.5" /> Planes Sport · un solo carrito
           </span>
-          <h2 className="mt-4 text-[56px] text-[#07111F] md:text-[96px]">
+          <h2 className="mt-4 text-[56px] text-[#062B57] md:text-[96px]">
             Elige tu <span className="text-[#0094DE]">plan</span>
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm text-[#758E9B] md:text-base">
@@ -178,22 +178,22 @@ export default function Planes() {
         </div>
 
         {/* Kit Prueba Sport: la puerta de entrada para quien duda */}
-        <div id="kit-prueba" className="revela mt-10 grid scroll-mt-28 items-center gap-5 rounded-[28px] bg-[#B5D70F] p-5 text-[#07111F] md:grid-cols-[auto_1fr_auto] md:p-6">
+        <div id="kit-prueba" className="revela mt-10 grid scroll-mt-28 items-center gap-5 rounded-[28px] bg-[#B5D70F] p-5 text-[#062B57] md:grid-cols-[auto_1fr_auto] md:p-6">
           <div className="flex gap-2 rounded-2xl bg-white p-2">
             <img src="/productos/xpeed.webp" alt="XPEED" className="h-20 w-20 object-contain" loading="lazy" />
             <img src="/productos/vita-xtra-t.webp" alt="VITA XTRA T+" className="h-20 w-24 object-contain" loading="lazy" />
           </div>
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#07111F]/70">¿Primera vez? Empieza aquí</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#062B57]/70">¿Primera vez? Empieza aquí</p>
             <h3 className="font-display mt-1 text-4xl">Kit Prueba Sport <span className="whitespace-nowrap">· S/ 76</span></h3>
-            <p className="mt-1 text-sm text-[#07111F]/75">4 XPEED + VITA XTRA T+ caja de 7. Para probar antes de un plan completo.</p>
+            <p className="mt-1 text-sm text-[#062B57]/75">4 XPEED + VITA XTRA T+ caja de 7. Para probar antes de un plan completo.</p>
           </div>
           <a
             href="https://tiendafuxion.com/storelt/emprendesalud/3200778"
             target="_blank"
             rel="noreferrer"
             onClick={() => trackEvent('ViewContent', { content_name: 'Kit Prueba Sport', content_type: 'plan' })}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#07111F] px-6 py-3 text-sm font-extrabold text-white transition hover:scale-[1.03]"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#062B57] px-6 py-3 text-sm font-extrabold text-white transition hover:scale-[1.03]"
           >
             <ShoppingCart className="h-4 w-4" /> Comprar el kit
           </a>

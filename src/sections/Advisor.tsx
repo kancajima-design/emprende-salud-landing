@@ -12,7 +12,7 @@ const razones = [
 
 export default function Advisor() {
   return (
-    <section className="grano relative overflow-hidden bg-[#07111F] py-20 text-white md:py-28">
+    <section className="grano relative overflow-hidden bg-[#062B57] py-20 text-white md:py-28">
       <div className="pointer-events-none absolute -right-40 top-0 h-[500px] w-[500px] rounded-full bg-[#0094DE] opacity-20 blur-[140px]" />
       <div className="relative mx-auto max-w-7xl px-4 md:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">

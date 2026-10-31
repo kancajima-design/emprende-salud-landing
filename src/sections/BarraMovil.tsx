@@ -5,12 +5,12 @@ import { trackEvent } from '@/lib/analytics'
 // Barra fija inferior solo en celular: nuestro "Añadir al carrito" (patrón de las tiendas top).
 export default function BarraMovil() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#07111F]/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#062B57]/95 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur md:hidden">
       <div className="flex gap-2">
         <a
           href="#encuentra"
           onClick={() => trackEvent('ViewContent', { content_name: 'barra-movil-plan' })}
-          className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#B5D70F] text-sm font-extrabold text-[#07111F]"
+          className="inline-flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#B5D70F] text-sm font-extrabold text-[#062B57]"
         >
           <ShoppingCart className="h-4 w-4" /> Arma tu plan
         </a>

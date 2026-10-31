@@ -18,7 +18,7 @@ const LEGAL = [
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-[#07111F] pt-20 text-white">
+    <footer className="relative overflow-hidden bg-[#062B57] pt-20 text-white">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>

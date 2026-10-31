@@ -74,7 +74,7 @@ export default function LeadForm() {
     }`
 
   return (
-    <section id="form" className="grano relative scroll-mt-24 overflow-hidden bg-[#07111F] py-20 text-white md:py-28">
+    <section id="form" className="grano relative scroll-mt-24 overflow-hidden bg-[#062B57] py-20 text-white md:py-28">
       <div className="pointer-events-none absolute -left-40 top-1/4 h-[500px] w-[500px] rounded-full bg-[#B5D70F] opacity-15 blur-[140px]" />
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-8 lg:grid-cols-2">
         <div className="revela">
@@ -91,11 +91,11 @@ export default function LeadForm() {
             ))}
           </ul>
         </div>
-        <div className="revela rounded-[32px] bg-white p-7 text-[#07111F] shadow-2xl md:p-9">
+        <div className="revela rounded-[32px] bg-white p-7 text-[#062B57] shadow-2xl md:p-9">
           {done ? (
             <div className="text-center">
               <CheckCircle2 className="mx-auto h-14 w-14 text-[#B5D70F]" />
-              <p className="font-display mt-4 text-4xl text-[#07111F]">
+              <p className="font-display mt-4 text-4xl text-[#062B57]">
                 ¡Listo, {form.nombre.split(' ')[0]}! 🎉
               </p>
               <p className="mt-2 text-sm text-[#758E9B]">
@@ -126,10 +126,10 @@ export default function LeadForm() {
           ) : (
             <>
               <div className="text-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#07111F]">
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#B5D70F] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#062B57]">
                   <Gift className="h-3.5 w-3.5" /> 100 % gratis
                 </span>
-                <p className="font-display mt-3 text-4xl text-[#07111F]">Recíbela al instante</p>
+                <p className="font-display mt-3 text-4xl text-[#062B57]">Recíbela al instante</p>
                 <p className="mt-1.5 text-sm text-[#758E9B]">
                   Déjame tus datos y te la envío al instante. Te contacto por WhatsApp para
                   asesorarte sin compromiso.
@@ -212,7 +212,7 @@ export default function LeadForm() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#07111F] px-6 text-base font-extrabold text-white transition hover:scale-[1.02] disabled:opacity-60"
+                  className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-[#062B57] px-6 text-base font-extrabold text-white transition hover:scale-[1.02] disabled:opacity-60"
                 >
                   {loading ? (
                     <>

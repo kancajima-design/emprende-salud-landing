@@ -13,17 +13,17 @@ export default function FuXionRewards() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="revela max-w-3xl">
           <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#FF8A1F]">FuXion Rewards</p>
-          <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[96px]">
+          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[96px]">
             Compra y <span className="text-[#FF8A1F]">gana regalos</span>
           </h2>
           <p className="mt-4 max-w-xl text-sm text-[#4A6070] md:text-base">
-            Regístrate <strong className="text-[#07111F]">gratis</strong> como Cliente Preferente: acumulas puntos en cada
+            Regístrate <strong className="text-[#062B57]">gratis</strong> como Cliente Preferente: acumulas puntos en cada
             compra y FuXion te regala productos.
           </p>
         </div>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2">
-          <div className="revela grano relative overflow-hidden rounded-[32px] bg-[#07111F] p-8 text-white md:p-10">
+          <div className="revela grano relative overflow-hidden rounded-[32px] bg-[#062B57] p-8 text-white md:p-10">
             <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[#B5D70F] opacity-25 blur-[90px]" />
             <div className="relative flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[#B5D70F]">
               <RefreshCw className="h-4 w-4" /> Autoenvío · la mejor opción
@@ -38,8 +38,8 @@ export default function FuXionRewards() {
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.25em] text-[#FF8A1F]">
               <Package className="h-4 w-4" /> Compra directa
             </div>
-            <p className="font-display mt-6 text-[140px] leading-[0.8] text-[#07111F] md:text-[180px]">80</p>
-            <p className="font-display mt-2 text-3xl text-[#07111F] md:text-4xl">puntos = 1 producto de regalo</p>
+            <p className="font-display mt-6 text-[140px] leading-[0.8] text-[#062B57] md:text-[180px]">80</p>
+            <p className="font-display mt-2 text-3xl text-[#062B57] md:text-4xl">puntos = 1 producto de regalo</p>
             <p className="mt-4 max-w-sm text-sm text-[#4A6070]">
               Compras una sola vez, cuando decidas, sin permanencia. Tus puntos también te premian.
             </p>
@@ -47,7 +47,7 @@ export default function FuXionRewards() {
         </div>
 
         <div className="mt-12 grid items-center gap-10 lg:grid-cols-2">
-          <div className="revela overflow-hidden rounded-[28px] bg-[#07111F] p-2 shadow-2xl">
+          <div className="revela overflow-hidden rounded-[28px] bg-[#062B57] p-2 shadow-2xl">
             <div className="flex items-center gap-2 px-3 py-2 text-xs font-bold text-white/70">
               <Play className="h-3.5 w-3.5 text-[#B5D70F]" /> Crea tu cuenta de Cliente Preferente en 3 minutos
             </div>
@@ -69,7 +69,7 @@ export default function FuXionRewards() {
                     <b.icon className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="font-display text-2xl text-[#07111F]">{b.titulo}</p>
+                    <p className="font-display text-2xl text-[#062B57]">{b.titulo}</p>
                     <p className="mt-0.5 text-sm text-[#4A6070]">{b.texto}</p>
                   </div>
                 </li>
@@ -79,12 +79,12 @@ export default function FuXionRewards() {
               href={BRAND.compraUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#07111F] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
+              className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#062B57] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
             >
               <ShoppingCart className="h-4 w-4" /> Registrarme gratis
             </a>
             <p className="mt-3 text-xs text-[#758E9B]">
-              Al registrarte, verifica que <strong className="text-[#07111F]">Emprende Salud</strong> aparezca como tu
+              Al registrarte, verifica que <strong className="text-[#062B57]">Emprende Salud</strong> aparezca como tu
               patrocinador para recibir mi acompañamiento.
             </p>
           </div>

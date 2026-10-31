@@ -40,11 +40,11 @@ export default function Encuentra() {
   const r = deporte && nivel ? recomendar(deporte, nivel) : null
   const opcion = (activo: boolean) =>
     `min-h-14 cursor-pointer rounded-2xl px-4 py-3 text-sm font-bold transition ${
-      activo ? 'bg-[#B5D70F] text-[#07111F] shadow-[0_0_30px_rgba(181,215,15,0.35)]' : 'bg-white/5 text-white ring-1 ring-white/15 hover:bg-white/10'
+      activo ? 'bg-[#B5D70F] text-[#062B57] shadow-[0_0_30px_rgba(181,215,15,0.35)]' : 'bg-white/5 text-white ring-1 ring-white/15 hover:bg-white/10'
     }`
 
   return (
-    <section id="encuentra" className="grano relative scroll-mt-24 overflow-hidden bg-gradient-to-b from-[#07111F] to-[#0B2A4A] py-20 text-white md:py-28">
+    <section id="encuentra" className="grano relative scroll-mt-24 overflow-hidden bg-gradient-to-b from-[#062B57] to-[#0B2A4A] py-20 text-white md:py-28">
       <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-[#0094DE] opacity-20 blur-[140px]" />
       <div className="relative mx-auto max-w-3xl px-4">
         <p className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Arma tu plan en 30 segundos</p>

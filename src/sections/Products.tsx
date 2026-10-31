@@ -195,7 +195,7 @@ export default function Products() {
     <section id="catalogo" className="scroll-mt-24 bg-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4">
         <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
-        <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[96px]">
+        <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[96px]">
           Todo FuXion, por línea
         </h2>
         <p className="mt-3 max-w-xl text-sm text-[#758E9B] md:text-base">
@@ -252,7 +252,7 @@ export default function Products() {
         })()}
 
         {/* CTA asesoría con Valeria */}
-        <div className="revela grano relative mx-auto mt-14 max-w-3xl overflow-hidden rounded-[32px] bg-[#07111F] p-8 text-center text-white md:p-10">
+        <div className="revela grano relative mx-auto mt-14 max-w-3xl overflow-hidden rounded-[32px] bg-[#062B57] p-8 text-center text-white md:p-10">
           <p className="font-display text-4xl md:text-5xl">¿No sabes cuál elegir?</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-white/65">
             Valeria te arma tu combinación ideal en 2 minutos, según tu objetivo y tu presupuesto.
@@ -260,7 +260,7 @@ export default function Products() {
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={abrirChatValeria}
-              className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full bg-[#B5D70F] px-6 text-sm font-extrabold text-[#07111F] transition hover:scale-[1.03]"
+              className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full bg-[#B5D70F] px-6 text-sm font-extrabold text-[#062B57] transition hover:scale-[1.03]"
             >
               <Sparkles className="h-4 w-4" /> Hablar con Valeria ahora
             </button>
@@ -290,7 +290,7 @@ export default function Products() {
               <>
               <div className="flex min-h-0 flex-1 flex-col overflow-y-auto md:grid md:h-[min(92vh,720px)] md:flex-none md:grid-cols-[0.9fr_1.1fr] md:overflow-hidden">
                 {/* Escenario del producto */}
-                <div className="grano relative shrink-0 overflow-hidden bg-[#07111F] px-6 pb-8 pt-10 text-white md:flex md:flex-col md:justify-between md:p-8">
+                <div className="grano relative shrink-0 overflow-hidden bg-[#062B57] px-6 pb-8 pt-10 text-white md:flex md:flex-col md:justify-between md:p-8">
                   <div className="pointer-events-none absolute left-1/2 top-1/3 h-72 w-72 -translate-x-1/2 rounded-full opacity-50 blur-[90px]" style={{ background: color }} />
                   <div className="relative">
                     {sel.linea && (
@@ -325,19 +325,19 @@ export default function Products() {
                     type="button"
                     onClick={() => setSel(null)}
                     aria-label="Cerrar"
-                    className="absolute right-4 top-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-[#F3F6FB] text-[#07111F] transition hover:bg-[#07111F] hover:text-white"
+                    className="absolute right-4 top-4 z-10 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-[#F3F6FB] text-[#062B57] transition hover:bg-[#062B57] hover:text-white"
                   >
                     <X className="h-5 w-5" />
                   </button>
                   <div className="min-h-0 flex-1 space-y-6 px-6 pb-4 pt-8 md:overflow-y-auto md:px-8 md:pt-10">
-                    {sel.descripcion && <p className="pr-8 text-sm leading-relaxed text-[#07111F] md:text-base">{sel.descripcion}</p>}
+                    {sel.descripcion && <p className="pr-8 text-sm leading-relaxed text-[#062B57] md:text-base">{sel.descripcion}</p>}
 
                     {sel.beneficios && sel.beneficios.length > 0 && (
                       <div>
                         <h4 className="text-[11px] font-bold uppercase tracking-[0.25em]" style={{ color }}>Para qué sirve</h4>
                         <ul className="mt-3 space-y-2">
                           {sel.beneficios.map((b) => (
-                            <li key={b} className="flex items-start gap-2.5 text-sm text-[#07111F]">
+                            <li key={b} className="flex items-start gap-2.5 text-sm text-[#062B57]">
                               <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} />
                               <span>{b}</span>
                             </li>
@@ -348,7 +348,7 @@ export default function Products() {
 
                     {sel.uso && (
                       <div className="rounded-[20px] bg-[#F3F6FB] p-4">
-                        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#07111F]">
+                        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#062B57]">
                           <Clock className="h-4 w-4" style={{ color }} /> Cómo y cuándo
                         </h4>
                         <p className="mt-2 text-sm leading-relaxed text-[#4A6070]">{sel.uso}</p>
@@ -357,7 +357,7 @@ export default function Products() {
 
                     {sel.ingredientes && (
                       <div>
-                        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#07111F]">
+                        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.25em] text-[#062B57]">
                           <Leaf className="h-4 w-4" style={{ color }} /> Ingredientes
                         </h4>
                         <p className="mt-2 text-xs leading-relaxed text-[#4A6070]">{sel.ingredientes}</p>
@@ -365,7 +365,7 @@ export default function Products() {
                     )}
 
                     {sel.dato && (
-                      <p className="flex items-start gap-2 rounded-[20px] border-l-4 bg-[#F3F6FB] px-4 py-3 text-xs leading-relaxed text-[#07111F]" style={{ borderColor: color }}>
+                      <p className="flex items-start gap-2 rounded-[20px] border-l-4 bg-[#F3F6FB] px-4 py-3 text-xs leading-relaxed text-[#062B57]" style={{ borderColor: color }}>
                         <Sparkles className="mt-0.5 h-4 w-4 shrink-0" style={{ color }} />
                         <span><strong>Dato clave:</strong> {sel.dato}</span>
                       </p>
@@ -373,12 +373,12 @@ export default function Products() {
 
                     {sel.precios && sel.precios.length > 0 && (
                       <div>
-                        <h4 className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#07111F]">Presentaciones</h4>
+                        <h4 className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#062B57]">Presentaciones</h4>
                         <div className="mt-2 divide-y divide-black/5 rounded-[20px] ring-1 ring-black/5">
                           {sel.precios.map((pr) => (
                             <div key={pr.presentacion} className="flex items-center justify-between px-4 py-3 text-sm">
                               <span className="text-[#4A6070]">{pr.presentacion}</span>
-                              <span className="font-extrabold text-[#07111F]">{pr.precio}</span>
+                              <span className="font-extrabold text-[#062B57]">{pr.precio}</span>
                             </div>
                           ))}
                         </div>
@@ -400,7 +400,7 @@ export default function Products() {
                             target="_blank"
                             rel="noreferrer"
                             onClick={() => trackEvent('ViewContent', { content_name: v.nombre })}
-                            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#07111F] px-4 text-center text-xs font-extrabold text-white transition hover:scale-[1.02]"
+                            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#062B57] px-4 text-center text-xs font-extrabold text-white transition hover:scale-[1.02]"
                           >
                             <ShoppingCart className="h-4 w-4 shrink-0" /> Comprar {v.nombre.replace(`${sel.nombre} - `, '').replace(`${sel.nombre} `, '').toLowerCase()}
                           </a>
@@ -412,7 +412,7 @@ export default function Products() {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => trackEvent('ViewContent', { content_name: sel.nombre })}
-                        className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#07111F] px-5 text-sm font-extrabold text-white transition hover:scale-[1.02]"
+                        className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#062B57] px-5 text-sm font-extrabold text-white transition hover:scale-[1.02]"
                       >
                         <ShoppingCart className="h-4 w-4" /> Comprar en tienda oficial
                       </a>
@@ -434,7 +434,7 @@ export default function Products() {
                           setSel(null)
                           document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })
                         }}
-                        className="flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#B5D70F] px-3 text-xs font-extrabold text-[#07111F] transition hover:brightness-105"
+                        className="flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#B5D70F] px-3 text-xs font-extrabold text-[#062B57] transition hover:brightness-105"
                       >
                         <Gift className="h-4 w-4" /> Guía gratis
                       </button>
@@ -453,7 +453,7 @@ export default function Products() {
                             target="_blank"
                             rel="noreferrer"
                             onClick={() => trackEvent('ViewContent', { content_name: v.nombre })}
-                            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#07111F] px-4 text-center text-xs font-extrabold text-white transition hover:scale-[1.02]"
+                            className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#062B57] px-4 text-center text-xs font-extrabold text-white transition hover:scale-[1.02]"
                           >
                             <ShoppingCart className="h-4 w-4 shrink-0" /> Comprar {v.nombre.replace(`${sel.nombre} - `, '').replace(`${sel.nombre} `, '').toLowerCase()}
                           </a>
@@ -465,7 +465,7 @@ export default function Products() {
                         target="_blank"
                         rel="noreferrer"
                         onClick={() => trackEvent('ViewContent', { content_name: sel.nombre })}
-                        className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#07111F] px-5 text-sm font-extrabold text-white transition hover:scale-[1.02]"
+                        className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#062B57] px-5 text-sm font-extrabold text-white transition hover:scale-[1.02]"
                       >
                         <ShoppingCart className="h-4 w-4" /> Comprar en tienda oficial
                       </a>
@@ -487,7 +487,7 @@ export default function Products() {
                           setSel(null)
                           document.getElementById('form')?.scrollIntoView({ behavior: 'smooth' })
                         }}
-                        className="flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#B5D70F] px-3 text-xs font-extrabold text-[#07111F] transition hover:brightness-105"
+                        className="flex min-h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#B5D70F] px-3 text-xs font-extrabold text-[#062B57] transition hover:brightness-105"
                       >
                         <Gift className="h-4 w-4" /> Guía gratis
                       </button>

@@ -21,12 +21,12 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-0 z-40 w-full">
-      <div className="bg-[#B5D70F] px-4 py-1.5 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-[#07111F] sm:text-[11px]">
+      <div className="bg-[#B5D70F] px-4 py-1.5 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-[#062B57] sm:text-[11px]">
         Envío a todo el Perú · Tienda oficial FuXion<span className="hidden sm:inline"> · 1 producto de regalo con tus puntos</span>
       </div>
       <header
         className={`w-full transition-colors duration-300 ${
-          abajo ? 'bg-[#07111F]/85 shadow-lg shadow-black/20 backdrop-blur-md' : 'bg-transparent'
+          abajo ? 'bg-[#062B57]/85 shadow-lg shadow-black/20 backdrop-blur-md' : 'bg-transparent'
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-8">
@@ -47,7 +47,7 @@ export default function Navbar() {
           <a
             href="#encuentra"
             onClick={() => trackEvent('ViewContent', { content_name: 'navbar-plan' })}
-            className="group hidden items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#07111F] transition hover:bg-[#B5D70F] sm:flex"
+            className="group hidden items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#062B57] transition hover:bg-[#B5D70F] sm:flex"
           >
             Arma tu plan <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </a>

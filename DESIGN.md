@@ -10,7 +10,7 @@ gruesas y compactas, precio por vaso, pocas animaciones.
 
 | Token | Hex | Uso |
 | --- | --- | --- |
-| `navy-900` | `#0B2033` | Texto principal, botón "Comprar" de producto, franjas oscuras puntuales |
+| `navy` | `#062B57` | Fondo de las secciones oscuras (portada, momentos, asesor, guía, cierre, pie), texto principal y botones oscuros. Es el navy de la marca: no usar negro. |
 | `navy-700` | `#0D3D6E` | Brillo radial detrás del producto |
 | `azul` | `#00498E` | Botón principal ("Arma tu plan"), palabra clave del título |
 | `celeste` | `#0094DE` | Detalles, enlaces |

@@ -150,7 +150,7 @@
 .flota-lenta { animation: hero-flota 6s ease-in-out infinite; }
 .borde-vivo {
   border: 3px solid transparent;
-  background: linear-gradient(var(--relleno, #07111F), var(--relleno, #07111F)) padding-box,
+  background: linear-gradient(var(--relleno, #062B57), var(--relleno, #062B57)) padding-box,
     conic-gradient(from var(--ang, 0deg), #FF2E9A, #FF8A1F, #FF3B4E, #B5D70F, #FF2E9A) border-box;
   animation: gira 6s linear infinite;
 }
