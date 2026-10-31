@@ -18,7 +18,7 @@ const SUGERENCIAS = [
 
 const SALUDO: Msg = {
   role: 'model',
-  text: '¡Hola! Soy Valeria, tu asesora de bienestar en Emprende Salud 💚 Cuéntame qué buscas (más energía, mejor digestión, control de peso) y te digo qué producto va contigo.',
+  text: '¡Hola! Soy Valeria, tu asesora de bienestar en Emprende Salud 💚 Cuéntame qué entrenas o qué buscas (energía, hidratación, recuperación, proteína) y te digo qué producto va contigo.',
 }
 
 // ── Mini-render del formato de Valeria: **negrita**, [texto](url) y URLs sueltas ──

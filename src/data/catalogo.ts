@@ -30,8 +30,8 @@ export const PRODUCTOS: Producto[] = [
     tag: "Base diaria",
     linea: "Sistema Base",
     tagline: "¡Prepara y reinicia tu cuerpo!",
-    descripcion: "Bebida efervescente que aporta nutrientes conocidos por ayudar a proteger el hígado y promover su función desintoxicante de manera saludable.",
-    beneficios: ["Promover la función depurativa desde el sistema digestivo", "Mantener óptimas las funciones metabólicas del hígado", "Mantener el cuerpo en equilibrio, limpio de toxinas"],
+    descripcion: "Bebida efervescente con extractos vegetales (tuna roja, alcachofa, hierba luisa, perejil, acerola), minerales y vitaminas del complejo B, C y D.",
+    beneficios: ["Aportar vitaminas y minerales a tu rutina diaria", "Una bebida refrescante para empezar el día", "Complementar una alimentación balanceada"],
     ingredientes: "Mix de extractos vegetales (tuna roja, alcachofa, hierba luisa, perejil, acerola, clorofila) + bicarbonato de sodio + minerales (zinc, magnesio) + taurina + vitaminas del complejo B, C y D + acetilcisteína",
     precios: [
       {
@@ -45,7 +45,7 @@ export const PRODUCTOS: Producto[] = [
         puntos: 20,
       },
     ],
-    uso: "En la mañana como depurativo, o antes/después de un evento con excesos. Disuelve y tómalo en plena efervescencia.",
+    uso: "En la mañana, disuelto en agua. Tómalo en plena efervescencia.",
     dato: "El clásico para 'resetear' el organismo después de los excesos de comida y bebida.",
   },
   {
@@ -76,7 +76,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Protege tu organismo desde adentro!",
     descripcion: "Bacterias probióticas cuya acción en el intestino se potencia con la fibra prebiótica, vitaminas y minerales.",
-    beneficios: ["Regenerar y equilibrar la flora intestinal, necesaria para la correcta asimilación de los nutrientes", "Mantener activo tu sistema de defensa", "Prevenir trastornos digestivos", "Recuperar la flora intestinal luego de tratamientos que alteran el ecosistema intestinal"],
+    beneficios: ["Aportar probióticos y fibra prebiótica a tu alimentación", "Acompañar el equilibrio de tu flora intestinal", "Complementar una alimentación balanceada"],
     ingredientes: "Cultivos probióticos + fibra prebiótica + pulpa de granadilla + aguaymanto",
     precios: [
       {
@@ -86,7 +86,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Consumo diario, apto también para niños. Es la fuente de fibra más recomendada porque además aporta probióticos vivos.",
-    dato: "Cerca del 70% de los procesos inmunológicos se relacionan con la salud intestinal: cuidar tu flora es cuidar tus defensas.",
+    dato: "Combina probióticos con fibra prebiótica, granadilla y aguaymanto.",
   },
   {
     nombre: "PRUNEX1",
@@ -123,9 +123,9 @@ export const PRODUCTOS: Producto[] = [
     img: "alpha-balance.png",
     tag: "Base diaria",
     linea: "Sistema Base",
-    tagline: "¡Mantén tu cuerpo balanceado, limpio y desintoxicado!",
-    descripcion: "Bebida saludable con ingredientes alcalinizantes que promueve la limpieza de toxinas y equilibra el pH del cuerpo.",
-    beneficios: ["Liberarte de residuos y toxinas perjudiciales para tu organismo", "Tener más energía para que tu cuerpo funcione correctamente", "Mantener tu organismo balanceado, limpio y desintoxicado"],
+    tagline: "¡Una bebida para tu equilibrio diario!",
+    descripcion: "Bebida con ingredientes alcalinizantes, minerales y extractos vegetales para tu rutina diaria.",
+    beneficios: ["Aportar minerales y extractos vegetales a tu día", "Una bebida refrescante para tu rutina", "Complementar una alimentación balanceada"],
     ingredientes: "Alfalfa + algas (chlorella + espirulina) + pasto de trigo (libre de gluten) + espinaca + manzana verde + limón + jengibre + minerales (magnesio, zinc)",
     precios: [
       {
@@ -144,8 +144,8 @@ export const PRODUCTOS: Producto[] = [
     tag: "Base diaria",
     linea: "Sistema Base",
     tagline: "¡Protege tu organismo y mantenlo en perfecto equilibrio!",
-    descripcion: "Delicioso concentrado de antioxidantes extraídos de bayas que protege el sistema urinario de manera natural.",
-    beneficios: ["Promover el equilibrio del pH de la flora que protege el tracto urinario", "Prevenir las molestias del tracto urinario", "Evitar la retención de líquidos"],
+    descripcion: "Concentrado de bayas con cranberry, frutas tropicales, probióticos y vitaminas C y E.",
+    beneficios: ["Aportar cranberry, berries y antioxidantes a tu rutina", "Complementar una alimentación balanceada"],
     ingredientes: "Cranberry + concentrado de berries y frutas tropicales + infusión de piña + bacterias probióticas + antocianina + calcio orgánico + vitaminas C y E",
     precios: [
       {
@@ -155,7 +155,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Consumo diario, como acompañamiento de tus comidas. Prepáralo con hielo y hierbabuena: parece un trago.",
-    dato: "Jugo de arándanos con proantocianidinas (PACs) para el bienestar de las vías urinarias.",
+    dato: "Con cranberry rico en proantocianidinas (PACs).",
   },
   {
     nombre: "PROGRAMA DETOX 5-DÍAS",
@@ -164,8 +164,8 @@ export const PRODUCTOS: Producto[] = [
     tag: "Base diaria",
     linea: "Sistema Base",
     tagline: "¡Renueva tu cuerpo!",
-    descripcion: "Programa completo creado científicamente en base a 5 pilares (oxigenación, hidratación, nutrición equilibrada, revitalización y sueño), con plan nutricional detoxificante reforzado con productos Fuxion.",
-    beneficios: ["Crear hábitos positivos de estilo de vida para promover la limpieza y renovación constante del cuerpo y la mente", "Promover la eliminación de toxinas", "Revitalizar tu cuerpo y mejorar tu estado de ánimo", "Afinar tu metabolismo (alistar tu cuerpo para iniciar una dieta o un deporte)"],
+    descripcion: "Programa de 5 días basado en 5 pilares (oxigenación, hidratación, nutrición equilibrada, revitalización y sueño), con un plan de alimentación y productos FuXion.",
+    beneficios: ["Ordenar tu alimentación durante 5 días con un plan guiado", "Hidratarte y descansar mejor como parte del programa", "Empezar una rutina de alimentación o de deporte con un plan claro"],
     ingredientes: "Incluye: Rexet + Prunex1 + Flora Liv + Berry Balance + Alpha Balance + Liquid Fiber + Thermo T3 + Protein Active Fit + Protein Xoup + plan nutricional detoxificante",
     precios: [
       {
@@ -185,7 +185,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Activa tu sistema natural de protección!",
     descripcion: "Delicioso batido instantáneo a base de Bioprotein+ con Colostrum®, formulación patentada por Fuxion con 100% de valor biológico. Aporta lactoferrina, aminoácidos esenciales y micronutrientes.",
-    beneficios: ["Mantener saludable el sistema de defensas del organismo", "Elevar cualitativa y cuantitativamente el perfil proteico de la dieta diaria", "Mejorar los procesos de regeneración celular", "Fortalecer los huesos"],
+    beneficios: ["Aportar proteína de alto valor biológico a tu dieta", "Complementar la nutrición de toda la familia"],
     ingredientes: "Bioprotein+ con Colostrum® + Bioferrín® + aminoácidos + calcio lácteo + DHA y ARA",
     precios: [
       {
@@ -200,7 +200,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Un batido al día, a media mañana o media tarde, como parte de tu sistema base.",
-    dato: "Proteína de alto valor biológico: las defensas del cuerpo (inmunoglobulinas) están hechas de proteína.",
+    dato: "Proteína de alto valor biológico para tu alimentación diaria.",
     variantes: [{
       nombre: "BIOPRO+ TECT POTE",
       url: "https://tiendafuxion.com/storelt/emprendesalud/2085966",
@@ -217,7 +217,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Dale a tu cuerpo nutrición avanzada!",
     descripcion: "Proteína activa de origen 100% vegetal, de alta biodisponibilidad y digestibilidad. Sabores: vainilla y canela / chocolate con avellanas.",
-    beneficios: ["Una asimilación óptima de aminoácidos esenciales para regenerar tejidos en menor tiempo", "Elevar el perfil proteico de la dieta diaria de forma más eficaz", "Reducir el daño oxidativo que afecta tu sistema natural de defensa y tu desempeño mental"],
+    beneficios: ["Aportar proteína vegetal a tu alimentación", "Aportar vitaminas y minerales", "Complementar tu nutrición diaria"],
     ingredientes: "Bioprotein Active® (proteína de quinua germinada, de arroz integral germinado, de arveja, de algas) + aminoácidos + vitaminas + DHA y ARA + aceite de coco",
     precios: [
       {
@@ -226,7 +226,7 @@ export const PRODUCTOS: Producto[] = [
         puntos: 20,
       },
     ],
-    uso: "Un batido a media mañana o media tarde para mantener la saciedad y reforzar tu perfil proteico diario.",
+    uso: "Un batido a media mañana o media tarde para reforzar tu proteína del día.",
     dato: "~10 g de proteína de alto valor biológico por ración. Recuerda: necesitas aprox. 1 g de proteína por kilo de peso al día.",
     variantes: [{
       nombre: "PROTEIN ACTIVE - CHOCOLATE CON AVELLANAS",
@@ -244,7 +244,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Brinda a tu cuerpo los nutrientes que necesita!",
     descripcion: "Delicioso refresco natural sabor a fresa con los micronutrientes para toda la familia. Potenciado con moringa (hierro 25 veces más concentrado que la espinaca, calcio 17 veces más que la leche).",
-    beneficios: ["Tener un óptimo desarrollo físico y mental", "Complementar tu nutrición con la dosis adecuada de antioxidantes, vitaminas y minerales", "Mantener en estado óptimo tu sistema inmunológico"],
+    beneficios: ["Aportar vitaminas y minerales a tu día", "Complementar una alimentación balanceada"],
     ingredientes: "Extracto de moringa + guayaba + limón + albahaca + camu camu + acai berry + acerola + quinua germinada (12 vitaminas y 5 minerales orgánicos)",
     precios: [
       {
@@ -293,7 +293,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Para que le pongas ganas cada día!",
     descripcion: "Bebida nutritiva multivitamínica llena de minerales, con delicioso sabor a refresco de maíz morado. Sin energizantes: apta para toda la familia.",
-    beneficios: ["Reducir la oxidación de las células y la proliferación de radicales libres", "Disipar la sensación de fatiga gracias a sus componentes energéticos", "Mejorar la asimilación de proteínas, los procesos de regeneración celular y reforzar el sistema inmunológico"],
+    beneficios: ["Aportar vitaminas y minerales", "Una bebida con sabor a maíz morado, sin energizantes", "Apta para toda la familia"],
     ingredientes: "Aminoácidos + vitaminas + minerales + fibra prebiótica + antocianina de maíz morado + acai berry + camu camu + luteína (extracto de marigold)",
     precios: [
       {
@@ -317,7 +317,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Sistema Base",
     tagline: "¡Energía líquida, lista para actuar!",
     descripcion: "Bebida nutritiva energética con efecto burbujeante suave ('natural sparkling effect') y delicioso sabor a guaraná. Edición verano 2022.",
-    beneficios: ["Brindar energía saludable y balanceada con poder antioxidante", "Contrarrestar la fatiga", "Contribuir al buen funcionamiento del sistema productor de energía"],
+    beneficios: ["Energía con maca, guaraná y teína", "Lista para antes de entrenar o en tu jornada"],
     ingredientes: "Taurina + vitamina C + vitamina B5 + acetil tirosina + mix energético ancestral (maca + guaraná + teína)",
     precios: [
       {
@@ -331,11 +331,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "VERA+",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2086021",
     img: "vera.png",
-    tag: "Defensas",
+    tag: "Bienestar",
     linea: "Línea Inmunológica",
     tagline: "¡Refuerza tu cuerpo de manera inteligente!",
-    descripcion: "Combinación herbal que ayuda a fortalecer y mantener activo el sistema inmunológico.",
-    beneficios: ["Mantener activas tus defensas naturales", "Reducir el daño oxidativo que ocasiona deterioro celular"],
+    descripcion: "Bebida con extracto de aloe vera, betaglucanos, aminoácidos y hoja de olivo.",
+    beneficios: ["Aportar aloe vera, betaglucanos y aminoácidos a tu rutina", "Complementar una alimentación balanceada"],
     ingredientes: "Extracto de aloe vera + betaglucanos + mix de aminoácidos (N-acetilcisteína + glicina + L-glutamina) + extracto de hoja de oliva + amalaki (vitamina C)",
     precios: [
       {
@@ -345,17 +345,17 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Consumo diario; apto desde los 3 años. Ideal en climas húmedos o temporadas de cambios.",
-    dato: "Aloe vera + betaglucano patentado Wellmune® + hoja de olivo: un trío para tus defensas.",
+    dato: "Aloe vera + betaglucano Wellmune® + hoja de olivo en un solo sobre.",
   },
   {
     nombre: "GANO+ T",
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201109",
     img: "gano-t.png",
-    tag: "Defensas",
+    tag: "Bienestar",
     linea: "Línea Inmunológica",
     tagline: "¡Optimiza tu sistema de protección!",
-    descripcion: "Delicioso té sabor a naranja a base de Ganoderma lucidum, hongo milenario conocido por sus propiedades inmunomoduladoras, combinado con té blanco.",
-    beneficios: ["Mantener activas tus defensas naturales", "Reducir el daño oxidativo que ocasiona deterioro celular", "Modular tu sistema inmunológico para una vida plena"],
+    descripcion: "Té sabor a naranja a base de Ganoderma lucidum combinado con té blanco.",
+    beneficios: ["Un té con Ganoderma lucidum y té blanco", "Una bebida caliente o fría para tu día"],
     ingredientes: "Ganoderma lucidum + extracto de té blanco + vitaminas C y D",
     precios: [
       {
@@ -371,11 +371,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "GANO+ CAPPUCCINO",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085977",
     img: "gano-cappuccino.png",
-    tag: "Defensas",
+    tag: "Bienestar",
     linea: "Línea Inmunológica",
     tagline: "¡Optimiza tu sistema de protección!",
     descripcion: "Delicioso café cappuccino con extracto de Ganoderma lucidum, hongo silvestre de Asia usado ancestralmente por su poder antioxidante celular.",
-    beneficios: ["Reducir el daño oxidativo que afecta tu sistema natural de protección", "Modular un funcionamiento normal de tus defensas naturales"],
+    beneficios: ["Un cappuccino con Ganoderma lucidum", "Una bebida deliciosa para tu día"],
     ingredientes: "Extracto de Ganoderma lucidum + quillay + micronutrientes",
     precios: [
       {
@@ -385,17 +385,17 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Como tu cappuccino de todos los días.",
-    dato: "Betaglucanos del hongo ganoderma, aliados de la función inmunológica, en una bebida deliciosa.",
+    dato: "Cappuccino con hongo ganoderma, en una bebida deliciosa.",
   },
   {
     nombre: "CAFÉ GANOMAX",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085974",
     img: "cafe-ganomax.png",
-    tag: "Defensas",
+    tag: "Bienestar",
     linea: "Línea Inmunológica",
-    tagline: "¡Refuerza y regula tu sistema inmune!",
-    descripcion: "Delicioso café premium enriquecido con Ganoderma lucidum y uña de gato, corteza amazónica usada ancestralmente para balancear el sistema inmunológico.",
-    beneficios: ["Reforzar y regular el funcionamiento del sistema inmunológico", "Mantener tu actividad mientras tu organismo se defiende", "Reducir el daño oxidativo"],
+    tagline: "¡Tu café con ganoderma!",
+    descripcion: "Café premium con Ganoderma lucidum y uña de gato, corteza amazónica de uso tradicional.",
+    beneficios: ["Un café premium con Ganoderma lucidum y uña de gato", "Una bebida deliciosa para tu día"],
     ingredientes: "Café tostado (granos gourmet colombiano) + Ganoderma lucidum + uña de gato",
     precios: [
       {
@@ -415,11 +415,11 @@ export const PRODUCTOS: Producto[] = [
     ],
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201110",
     img: "thermo-t3.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
-    tagline: "¡Transforma la grasa en energía!",
-    descripcion: "Delicioso mix de tres tés con limón y extractos vegetales que contribuye a la reducción de medidas y la pérdida de peso.",
-    beneficios: ["Reducir medidas, al reducir la acumulación de grasa en el organismo (junto a dieta balanceada y ejercicio)", "Aumentar tu resistencia: recomendable consumirlo antes de una rutina de ejercicio", "Promover un óptimo metabolismo, generando energía a partir de la grasa acumulada"],
+    tag: "Fit",
+    linea: "Línea Fit",
+    tagline: "¡Tres tés con limón para tu rutina!",
+    descripcion: "Mix de tres tés con limón y extractos vegetales, para acompañar tu ejercicio y tu alimentación balanceada.",
+    beneficios: ["Una bebida de tres tés con limón", "Acompañar tu rutina de ejercicio y alimentación balanceada"],
     ingredientes: "Mix de tés (verde, negro y rojo) + cetonas de frambuesa + garcinia cambogia + L-carnitina + café verde + ácido alfa lipoico + vitamina B6 + cromo",
     precios: [
       {
@@ -434,17 +434,17 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Antes del ejercicio. Si ese día no entrenas, después del almuerzo y/o la cena. Puedes tomarlo frío.",
-    dato: "Top 3 de ventas de la empresa: el compañero clásico de los planes de control de peso.",
+    dato: "Uno de los productos más vendidos de FuXion.",
   },
   {
     nombre: "NOCARB-T",
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201112",
     img: "nocarb-t.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Mantén los carbohidratos a raya!",
-    descripcion: "Fórmula rica en fibras solubles, cromo y té verde que ayuda a reducir la elevación de la glucosa en sangre después de las comidas.",
-    beneficios: ["Mantener normales los niveles de glucosa (junto a dieta balanceada y ejercicio)", "Controlar los carbohidratos de tu dieta", "Reducir la acumulación de grasa en el organismo"],
+    descripcion: "Fórmula con fibras solubles, cromo y té verde para acompañar tus comidas.",
+    beneficios: ["Aportar fibra soluble a tu alimentación", "Acompañar tus comidas con té verde y cromo"],
     ingredientes: "Fibras solubles (fibra de yacón + fibra de acacia + inulina de achicoria + pectina de manzana) + verdolaga + canela + té verde + cromo",
     precios: [
       {
@@ -460,11 +460,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "CHOCOLATE FIT",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085976",
     img: "chocolate-fit.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Mantente en forma deliciosamente!",
-    descripcion: "Deliciosa bebida 100% vegetal a base de chocolate negro del Amazonas, crema no láctea y especias. El cacao puro es rico en triptófano, que ayuda a producir serotonina. Consumo: 2 tazas diarias.",
-    beneficios: ["Reducir medidas corporales, al acelerar el metabolismo de las grasas (junto a dieta balanceada y ejercicio)", "Incrementar la masa magra sobre la masa grasa", "Incrementar la satisfacción y reducir la ansiedad"],
+    descripcion: "Bebida 100 % vegetal a base de cacao del Amazonas, crema no láctea, proteína vegetal y especias.",
+    beneficios: ["Un chocolate caliente para tu rutina", "Acompañar tu ejercicio y tu alimentación balanceada"],
     ingredientes: "Cacao puro del Amazonas + proteína vegetal + café verde + CLA (ácido linoleico conjugado) + cromo orgánico",
     precios: [
       {
@@ -480,11 +480,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "CAFÉ & CAFÉ FIT",
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201113",
     img: "cafe-cafe-fit.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Date un gusto sin perder la línea!",
     descripcion: "Irresistible café gourmet tostado enriquecido con café verde, ideal para incorporar en una dieta baja en calorías.",
-    beneficios: ["Apoyar un programa de control de peso y medidas (junto a dieta balanceada y ejercicio)", "Reducir la sensación de cansancio y fatiga", "Reducir la sensación de apetito"],
+    beneficios: ["Un café para tu rutina diaria", "Acompañar tu ejercicio y tu alimentación balanceada"],
     ingredientes: "Café tostado liofilizado + extracto de café verde (ácidos clorogénicos)",
     precios: [
       {
@@ -500,11 +500,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "CAFÉ & CAFÉ FIT CAPPUCCINO",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085968",
     img: "cafe-cafe-fit-cappuccino.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Date un gusto sin perder la línea!",
-    descripcion: "Delicioso café cappuccino gourmet con crema baja en calorías, enriquecido con café verde para el control de medidas y peso.",
-    beneficios: ["Apoyar un programa de control de peso y medidas (junto a dieta balanceada y ejercicio)", "Reducir la sensación de cansancio y fatiga", "Reducir la sensación de apetito"],
+    descripcion: "Café cappuccino gourmet con crema baja en calorías y café verde.",
+    beneficios: ["Un cappuccino gourmet bajo en calorías", "Acompañar tu ejercicio y tu alimentación balanceada"],
     ingredientes: "Café tostado liofilizado + café verde (Svetol®) + leche descremada + crema para café",
     precios: [
       {
@@ -520,11 +520,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "PACK 5/14 KETO",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085993",
     img: "pack-5-14-keto.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Pierde esos kilos de más y gana salud!",
     descripcion: "Programa nutricional integral de 14 días diseñado por profesionales de la salud, ahora con dieta cetogénica de ayuno intermitente parcial y recetas.",
-    beneficios: ["Eliminar hasta el 5% de tu peso corporal alimentándote 5 veces al día (junto a dieta sana y ejercicio)", "Llevar tu metabolismo hacia un ritmo sano y natural", "Reducir grasa corporal y tonificar músculos, elevando tu energía y bienestar"],
+    beneficios: ["Un plan de 14 días con 5 tomas al día", "Ordenar tu alimentación junto a dieta sana y ejercicio", "Productos FuXion combinados en un solo pack"],
     ingredientes: "Incluye: 4 Prunex1 + 28 Biopro+ Fit + 14 Vita Xtra T+ + 14 Thermo T3 + 14 NoCarb-T + dieta 5/14 Keto (ayuno intermitente parcial) con recetas y sugerencias de ejercicios",
     precios: [
       {
@@ -540,11 +540,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "PACK 5/14 ACTIVE MITO",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085994",
     img: "pack-5-14-active-mito.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Pierde esos kilos de más y gana salud!",
     descripcion: "Programa nutricional integral de 14 días con dieta mitocondrial de ayuno intermitente parcial: alimentos energéticos, minerales antiinflamatorios, antioxidantes y carbohidratos de bajo índice glicémico.",
-    beneficios: ["Eliminar hasta el 5% de tu peso corporal alimentándote 5 veces al día (junto a dieta sana y ejercicio)", "Llevar tu metabolismo hacia un ritmo sano y natural", "Reducir grasa corporal y tonificar músculos, elevando tu energía y bienestar"],
+    beneficios: ["Un plan de 14 días con 5 tomas al día", "Ordenar tu alimentación junto a dieta sana y ejercicio", "Productos FuXion combinados en un solo pack"],
     ingredientes: "Incluye: 4 Prunex1 + 28 Protein Active Fit (vainilla y canela) + 14 Vita Xtra T+ + 14 Thermo T3 + 14 NoCarb-T + dieta 5/14 Mito (mitocondrial) con recetas y sugerencias de ejercicios",
     precios: [
       {
@@ -560,11 +560,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "BIOPRO+ FIT",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085961",
     img: "biopro-fit.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
-    tagline: "¡Mejora tu nutrición y reduce medidas!",
-    descripcion: "Delicioso batido de proteínas bajo en calorías. Prolibra® (derivado del suero lácteo) está clínicamente comprobado que disminuye la grasa corporal manteniendo la masa magra.",
-    beneficios: ["Reducir la sensación de apetito gracias a la proteína y la acción de Prolibra®", "Mejorar la nutrición celular, especialmente de las fibras musculares si haces ejercicio", "Acompañar un metabolismo activo junto con ejercicio y buena alimentación", "Apoyar un programa de control de peso"],
+    tag: "Fit",
+    linea: "Línea Fit",
+    tagline: "¡Proteína para tu rutina!",
+    descripcion: "Batido de proteínas bajo en calorías, con Prolibra® (derivado del suero lácteo).",
+    beneficios: ["Aportar proteína a tu alimentación", "Un batido bajo en calorías", "Acompañar tu ejercicio y tu alimentación balanceada"],
     ingredientes: "Bioprotein+ con Colostrum® + Prolibra® + aminoácidos + tamarindo malabar + vitaminas + DHA y ARA",
     precios: [
       {
@@ -573,18 +573,18 @@ export const PRODUCTOS: Producto[] = [
         puntos: 16,
       },
     ],
-    uso: "A las 10 a.m. y 4 p.m. para mantener la saciedad durante el día.",
+    uso: "A media mañana o media tarde, como batido.",
     dato: "Menos de 100 calorías por batido: el snack que nutre de verdad.",
   },
   {
     nombre: "PROTEIN ACTIVE FIT",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2086006",
     img: "protein-active-fit.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
-    tagline: "¡Mejora tu nutrición y reduce medidas!",
+    tag: "Fit",
+    linea: "Línea Fit",
+    tagline: "¡Proteína vegetal para tu rutina!",
     descripcion: "Proteína activa 100% vegetal de alta biodisponibilidad, baja en calorías y libre de alérgenos. Sabores: vainilla y canela / chocolate con avellanas.",
-    beneficios: ["Controlar tu peso y reducir medidas mientras tonificas músculos", "Asimilar de manera óptima aminoácidos esenciales para una mejor tonicidad", "Reducir la sensación de apetito gracias a la proteína vegetal"],
+    beneficios: ["Aportar proteína vegetal a tu alimentación", "Acompañar tu ejercicio mientras tonificas músculos"],
     ingredientes: "Bioprotein Active® (quinua germinada, arveja, arroz integral germinado, algas) + aminoácidos esenciales + L-carnitina + tamarindo malabar + vitaminas + calcio, cromo y zinc en molécula orgánica",
     precios: [
       {
@@ -598,7 +598,7 @@ export const PRODUCTOS: Producto[] = [
         puntos: 21,
       },
     ],
-    uso: "A las 10 a.m. y 4 p.m. para mantener la saciedad durante el día.",
+    uso: "A media mañana o media tarde, como batido.",
     dato: "Menos de 100 calorías y ~17 g de proteína por batido: nutrición completa en la decisión inteligente del día.",
     variantes: [{
       nombre: "PROTEIN ACTIVE FIT - CHOCOLATE CON AVELLANAS",
@@ -612,11 +612,11 @@ export const PRODUCTOS: Producto[] = [
     nombre: "PROTEIN XOUP",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2086013",
     img: "protein-xoup.png",
-    tag: "Control de peso",
-    linea: "Línea Control de Peso y Medidas",
+    tag: "Fit",
+    linea: "Línea Fit",
     tagline: "¡Nutre tu cuerpo activamente y mantén la línea!",
     descripcion: "Deliciosas sopas instantáneas de proteínas funcionales vegetales. Sabores: crema de espárragos y alcachofa / crema de brócoli parmesano / crema criolla.",
-    beneficios: ["Incrementar la sensación de saciedad (Slendesta®, avalado por 33 estudios clínicos)", "Acompañar tu plan de control de peso con CLA + Bioprotein Active®", "Promover una mejor nutrición a nivel celular y músculos más tonificados"],
+    beneficios: ["Aportar proteína vegetal en una crema salada", "Una opción práctica para tu cena"],
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + Slendesta® (péptido extraído de la papa) + CLA + minerales (hierro, zinc, magnesio)",
     precios: [
       {
@@ -625,8 +625,8 @@ export const PRODUCTOS: Producto[] = [
         puntos: 10,
       },
     ],
-    uso: "Ideal para la cena o para variar del batido dulce dentro de tu plan de control de peso.",
-    dato: "15 g de proteína vegetal + Slendesta® (activo de la papa que genera saciedad) por ración.",
+    uso: "Ideal para la cena o para variar del batido dulce.",
+    dato: "15 g de proteína vegetal por ración.",
     variantes: [{
       nombre: "PROTEIN XOUP - CREMA CRIOLLA",
       url: "https://tiendafuxion.com/storelt/emprendesalud/2086013",
@@ -643,7 +643,7 @@ export const PRODUCTOS: Producto[] = [
     url: "https://tiendafuxion.com/storelt/emprendesalud/3144149",
     img: "probal.png",
     tag: "Anti-edad",
-    linea: "Línea Anti-edad",
+    linea: "Línea Belleza",
     tagline: "¡Protege tu balance vital!",
     descripcion: "Té herbal que combina aminoácidos, extractos vegetales, vitaminas y minerales para equilibrar las molestias del periodo y la menopausia.",
     beneficios: ["Reforzar la salud femenina", "Controlar las molestias del periodo", "Mantener el balance durante la menopausia (cambios de humor y bochornos)"],
@@ -663,7 +663,7 @@ export const PRODUCTOS: Producto[] = [
     url: "https://tiendafuxion.com/storelt/emprendesalud/3144145",
     img: "passion.png",
     tag: "Anti-edad",
-    linea: "Línea Anti-edad",
+    linea: "Línea Belleza",
     tagline: "¡Incrementa tu vigor!",
     descripcion: "Combinación de aminoácidos, extractos vegetales y minerales en molécula orgánica que mejoran el vigor y la energía.",
     beneficios: ["Mejorar la vitalidad gracias a la L-arginina, isoleucina y glutamina", "Incrementar la energía por su contenido de maca, ginseng y teína del té negro", "Vigorizar el cuerpo gracias a su contenido de jalea real y zinc orgánico"],
@@ -679,14 +679,14 @@ export const PRODUCTOS: Producto[] = [
     dato: "Aminoácidos + zinc para la vitalidad y el vigor en pareja.",
   },
   {
-    nombre: "YOUTH ELIXIR HGH",
+    nombre: "YOUTH ELIXIR",
     url: "https://tiendafuxion.com/storelt/emprendesalud/2086026",
     img: "youth-elixir.png",
     tag: "Anti-edad",
-    linea: "Línea Anti-edad",
+    linea: "Línea Belleza",
     tagline: "¡Mantén un cuerpo joven por más tiempo!",
-    descripcion: "Combinación natural de aminoácidos y antioxidantes como el resveratrol y súper frutas, que reduce radicales libres y nutre la glándula pituitaria.",
-    beneficios: ["Aumentar la vitalidad, la elasticidad de la piel y mejorar la calidad del sueño", "Prevenir los efectos del envejecimiento prematuro producido por los radicales libres"],
+    descripcion: "Combinación de aminoácidos y antioxidantes como el resveratrol y súper frutas (blueberries, saúco y amalaki).",
+    beneficios: ["Aportar antioxidantes a tu rutina diaria", "Complementar una alimentación balanceada"],
     ingredientes: "Aminoácidos + antioxidantes + resveratrol + Optiberry® (blueberries, sauco y amalaki)",
     precios: [
       {
@@ -703,10 +703,10 @@ export const PRODUCTOS: Producto[] = [
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085884",
     img: "golden-flx.png",
     tag: "Anti-edad",
-    linea: "Línea Anti-edad",
+    linea: "Línea Belleza",
     tagline: "¡Protege tu organismo desde adentro!",
-    descripcion: "Delicioso té de especias con leche de coco. Los curcuminoides de la cúrcuma trabajan en sinergia con el jengibre, cardamomo y pimienta negra para mantener la flexibilidad articular.",
-    beneficios: ["Contribuir a prevenir las molestias articulares ocasionadas por la edad, el sobrepeso y el ejercicio", "Contribuir a mejorar la flexibilidad y movilidad de las articulaciones", "Ayudar a controlar los procesos oxidativos"],
+    descripcion: "Té de especias con leche de coco: cúrcuma, jengibre, cardamomo, pimienta negra y canela.",
+    beneficios: ["Aportar cúrcuma y jengibre a tu rutina", "Una bebida caliente para quienes entrenan y se mueven todos los días"],
     ingredientes: "Extracto de cúrcuma orgánica certificada + jengibre + cardamomo + leche de coco + pimienta negra + canela",
     precios: [
       {
@@ -723,10 +723,10 @@ export const PRODUCTOS: Producto[] = [
     url: "https://tiendafuxion.com/storelt/emprendesalud/2085953",
     img: "beauty-in.png",
     tag: "Anti-edad",
-    linea: "Línea Anti-edad",
+    linea: "Línea Belleza",
     tagline: "¡El secreto de la verdadera belleza viene desde adentro!",
-    descripcion: "Delicioso refresco de guayaba con péptidos bioactivos de colágeno (4 veces más potentes que el colágeno convencional) que estimulan a la piel a producir más colágeno y elastina.",
-    beneficios: ["Mejorar la estructura de la dermis: piel con mayor elasticidad, más firme y uniforme", "Prevenir la aparición de signos de envejecimiento prematuro", "Nutrir, proteger y reparar la piel dañada", "Fortalecer también cabello y uñas"],
+    descripcion: "Refresco de guayaba con péptidos de colágeno, coenzima Q10, biotina natural, vitaminas C y E y zinc.",
+    beneficios: ["Aportar colágeno y antioxidantes a tu rutina", "Cuidar tu piel desde adentro como parte de tu alimentación"],
     ingredientes: "Péptidos de colágeno bioactivo optimizado + coenzima Q10 + sesbania (biotina natural) + concentrado de súper frutas exóticas (vitaminas C y E) + zinc",
     precios: [
       {
@@ -778,8 +778,8 @@ export const PRODUCTOS: Producto[] = [
     tag: "Enfoque mental",
     linea: "Línea Vigor Mental",
     tagline: "¡Tranquilo y enfocado!",
-    descripcion: "Deliciosa bebida nutritiva a base de aminoácidos esenciales que ayuda a mantener el equilibrio bajo presión y optimizar los procesos cognitivos.",
-    beneficios: ["Mantener la sensación de equilibrio frente al estrés y la ansiedad", "Mantener la concentración y el enfoque en momentos de gran tensión", "Mejorar la capacidad de relajación, sin producir somnolencia"],
+    descripcion: "Bebida nutritiva a base de aminoácidos esenciales para tus días intensos.",
+    beneficios: ["Acompañarte en días intensos", "Mantener la concentración y el enfoque en momentos de gran tensión", "Mejorar la capacidad de relajación, sin producir somnolencia"],
     ingredientes: "Aminoácidos (L-teanina, glicina, triptófano) + extracto de súper frutas (ashwagandha, amalaki y limón) + magnesio en molécula orgánica + vitaminas del complejo B",
     precios: [
       {
@@ -794,7 +794,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Cuando sientas tensión o aceleración; no produce somnolencia. Antes de dormir, facilita un descanso más profundo.",
-    dato: "Triptófano, precursor de la serotonina: calma durante el día, con enfoque positivo.",
+    dato: "Con aminoácidos esenciales como el triptófano.",
   },
   {
     nombre: "PRE SPORT",
@@ -804,7 +804,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Línea Sport",
     tagline: "¡Prepara tu cuerpo para darlo todo!",
     descripcion: "Bebida isotónica rehidratante y energizante natural que prepara al cuerpo para la actividad deportiva intensa. Consumo: antes del ejercicio.",
-    beneficios: ["Mantener la hidratación corporal gracias a su aporte de electrolitos", "Aumentar la resistencia, al promover la vasodilatación (mejora la nutrición y oxigenación muscular)", "Reducir la fatiga y mejorar el desempeño deportivo"],
+    beneficios: ["Aportar electrolitos para tu hidratación", "Prepararte antes de entrenar con citrulina, betaalanina y creatina", "Acompañar tu rendimiento deportivo"],
     ingredientes: "Aminoácidos (citrulina de sandía + β-alanina de beterraga + L-creatina nitrato) + mix isotónico (dextrosa, potasio, sodio y zinc) + hierba mate",
     precios: [
       {
@@ -824,7 +824,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Línea Sport",
     tagline: "¡Energía para dar la milla extra!",
     descripcion: "Bebida isotónica de resistencia que brinda energía balanceada y sostenida en el tiempo. Consumo: durante el ejercicio (después de los primeros 30-45 min).",
-    beneficios: ["Mantener saludables los niveles de glucosa", "Mantener la energía de manera sostenida", "Reducir la fatiga durante el ejercicio"],
+    beneficios: ["Aportar carbohidratos de liberación lenta durante el ejercicio", "Hidratarte con agua de coco, sal de Maras y electrolitos", "Acompañarte en entrenamientos largos"],
     ingredientes: "Palatinose® (carbohidrato de bajo índice glicémico de la betarraga) + agua de coco amazónico + sal de Maras + electrolitos (potasio, sodio, calcio, magnesio) + zinc y cromo",
     precios: [
       {
@@ -834,7 +834,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Después de los primeros 30-45 minutos de ejercicio; 1 a 3 sticks según la intensidad.",
-    dato: "Palatinose® (isomaltulosa): energía sostenida sin picos de glucosa.",
+    dato: "Palatinose® (isomaltulosa): un carbohidrato de liberación lenta.",
   },
   {
     nombre: "POST SPORT",
@@ -854,7 +854,7 @@ export const PRODUCTOS: Producto[] = [
       },
     ],
     uso: "Al terminar tu entrenamiento, para seguir rehidratándote.",
-    dato: "BCAAs + glutamina: protegen el músculo y acortan el tiempo de recuperación.",
+    dato: "BCAAs + glutamina para después de entrenar.",
   },
   {
     nombre: "BIOPRO+ SPORT",
@@ -936,7 +936,7 @@ export const PRODUCTOS: Producto[] = [
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201149",
     img: "thermo-t3.png",
     tag: "Combo",
-    linea: "Línea Control de Peso y Medidas",
+    linea: "Línea Fit",
     tagline: "Combo oficial FuXion en un solo carrito",
     descripcion: "2 THERMO T3 doypack 28 + 2 BIOPRO+ FIT caja 14 + 1 CAFÉ & CAFÉ FIT + 2 PRUNEX1 doypack 7.",
     precios: [{ presentacion: "Combo completo", precio: "S/ 676.50" }],
