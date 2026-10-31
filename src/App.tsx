@@ -1,11 +1,10 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router'
+import { Routes, Route, Navigate, useLocation } from 'react-router'
 import Home from './pages/Home'
 import { trackPageView } from './lib/analytics'
 import { trackVisit } from './lib/track'
 
 const Admin = lazy(() => import('./pages/Admin'))
-const Vsl = lazy(() => import('./pages/Vsl'))
 const Blog = lazy(() => import('./pages/Blog'))
 const ArticleView = lazy(() => import('./pages/ArticleView'))
 const Empresa = lazy(() => import('./pages/Empresa'))
@@ -26,14 +25,8 @@ export default function App() {
       <PageViewTracker />
       <Routes>
       <Route path="/" element={<Home />} />
-      <Route
-        path="/vsl"
-        element={
-          <Suspense fallback={<div className="min-h-screen bg-[#044379]" />}>
-            <Vsl />
-          </Suspense>
-        }
-      />
+      {/* /vsl desactivada: redirige a la portada (políticas de Meta) */}
+      <Route path="/vsl" element={<Navigate to="/" replace />} />
       <Route
         path="/blog"
         element={
