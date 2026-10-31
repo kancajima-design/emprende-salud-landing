@@ -309,7 +309,7 @@ export const PRODUCTOS: Producto[] = [
     nombre: "XPEED",
     variantes: [
       { nombre: "XPEED pack x 4", url: "https://tiendafuxion.com/storelt/emprendesalud/3201108" },
-      { nombre: "XPEED ENERGÍA CÍTRICA pack x 4", url: "https://tiendafuxion.com/storelt/emprendesalud/3201148" },
+      { nombre: "XPEED CITRUS POWER (energía cítrica) pack x 4", url: "https://tiendafuxion.com/storelt/emprendesalud/3201148" },
     ],
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201108",
     img: "xpeed.png",
@@ -947,6 +947,7 @@ export const PRODUCTOS: Producto[] = [
     img: "probix.png",
     tag: "Probióticos",
     descripcion: "Probióticos de la familia FuXion para complementar tu salud digestiva.",
+    precios: [{ presentacion: "Presentación de tienda", precio: "S/ 129.50" }],
   },
   {
     nombre: "BASE MADRE AMARILLA",
@@ -954,6 +955,7 @@ export const PRODUCTOS: Producto[] = [
     img: "base-madre-amarilla.png",
     tag: "Base nutricional",
     descripcion: "Base nutricional FuXion para preparaciones y batidos personalizados.",
+    precios: [{ presentacion: "Presentación de tienda", precio: "S/ 24.00" }],
   },
   {
     nombre: "BASE MADRE ROJA",
@@ -961,6 +963,7 @@ export const PRODUCTOS: Producto[] = [
     img: "base-madre-roja.png",
     tag: "Base nutricional",
     descripcion: "Base nutricional FuXion para preparaciones y batidos personalizados.",
+    precios: [{ presentacion: "Presentación de tienda", precio: "S/ 24.00" }],
   },
   {
     nombre: "BASE MADRE VERDE",
@@ -968,5 +971,6 @@ export const PRODUCTOS: Producto[] = [
     img: "base-madre-verde.png",
     tag: "Base nutricional",
     descripcion: "Base nutricional FuXion para preparaciones y batidos personalizados.",
+    precios: [{ presentacion: "Presentación de tienda", precio: "S/ 24.00" }],
   },
 ]
