@@ -143,7 +143,8 @@ const listArticleSlugs = db.prepare('SELECT slug, created_at FROM articles ORDER
 
 // ── App ──────────────────────────────────────────────────────
 const app = express()
-app.use(express.json({ limit: '50kb' }))
+// rawBody: el webhook de WhatsApp firma el cuerpo exacto (X-Hub-Signature-256)
+app.use(express.json({ limit: '50kb', verify: (req, _res, buf) => { req.rawBody = buf } }))
 
 // Captura errores de body-parser (JSON malformado de WAHA) — responde 200 para evitar reintentos
 app.use((err, req, res, next) => {
@@ -371,6 +372,10 @@ app.get('/sitemap.xml', (req, res) => {
 // Asistente IA del sitio (Valeria) — chat público con Gemini
 const { registerChat } = await import('./chat.js')
 registerChat(app, db)
+
+// WhatsApp oficial (API de la nube, coexistencia con la app) — Valeria responde, Kervin puede tomar el chat
+const { registerWhatsappCloud } = await import('./whatsapp-cloud.js')
+registerWhatsappCloud(app, db)
 
 // Bot reactivo de WhatsApp (WAHA) — solo responde, nunca inicia
 const { registerWahaBot } = await import('./waha-bot.js')
