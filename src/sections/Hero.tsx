@@ -1,108 +1,105 @@
-import { MessageCircle, ArrowRight, Truck, ShieldCheck, Headphones, BadgeCheck } from 'lucide-react'
+import { ArrowRight, MessageCircle } from 'lucide-react'
 import { waLink } from '@/config'
 import { trackEvent } from '@/lib/analytics'
 
-// Patrón de las marcas top (Precision, Skratch, OX): resultado + momento de uso,
-// deportista real en movimiento, 1 botón principal y WhatsApp como segundo.
-const MOMENTOS = [
-  { etiqueta: 'Antes', nombre: 'PRE SPORT', img: '/productos/pre-sport.webp', color: '#E6007E' },
-  { etiqueta: 'Durante', nombre: 'XTRA MILE', img: '/productos/xtra-mile.webp', color: '#F58220' },
-  { etiqueta: 'Después', nombre: 'POST SPORT', img: '/productos/post-sport.webp', color: '#D7263D' },
+// Portada cinematográfica: titular gigante con el color de cada momento,
+// deportista en video a sangre y los 3 productos asomando por el borde inferior.
+const PALABRAS = [
+  { texto: 'Antes.', color: '#FF2E9A' },
+  { texto: 'Durante.', color: '#FF8A1F' },
+  { texto: 'Después.', color: '#FF3B4E' },
 ]
-
-const CONFIANZA = [
-  { icon: ShieldCheck, texto: 'Tienda oficial FuXion' },
-  { icon: Truck, texto: 'Envío a todo el Perú' },
-  { icon: Headphones, texto: 'Asesoría por WhatsApp' },
-  { icon: BadgeCheck, texto: 'Productos originales' },
-]
+const CINTA = ['Corre', 'Pedalea', 'Entrena', 'Envío a todo el Perú', 'Tienda oficial FuXion', 'Desde S/ 4,63 por vaso']
 
 export default function Hero() {
   return (
-    <section className="relative bg-white pt-[100px]">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 px-4 pb-10 pt-6 md:grid-cols-[1.05fr_1fr] md:gap-12 md:pb-16 md:pt-14">
-        <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">
-            Para correr · pedalear · entrenar
-          </p>
-          <h1 className="mt-3 text-[40px] font-extrabold leading-[1.02] tracking-tight text-[#0B2033] md:text-[64px]">
-            Rinde antes, durante <span className="text-[#00498E]">y después.</span>
-          </h1>
-          <p className="mt-4 max-w-md text-base leading-relaxed text-[#4A6070] md:text-lg">
-            Bebidas en polvo FuXion para cada momento de tu entrenamiento. Te ayudo a armar tu plan
-            y te llega a todo el Perú.
-          </p>
+    <>
+      <section className="grano relative isolate overflow-hidden bg-[#07111F] text-white">
+        {/* Video: a sangre en celular, panel derecho en escritorio */}
+        <div className="absolute inset-0 md:left-auto md:w-[48%]">
+          <video
+            className="h-full w-full object-cover"
+            src="/videos/hero-malecon.mp4"
+            poster="/videos/hero-malecon.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-label="Deportista trotando en el malecón al amanecer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#07111F] via-[#07111F]/50 to-[#07111F]/20 md:bg-gradient-to-r md:from-[#07111F] md:via-[#07111F]/25 md:to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-gradient-to-t from-[#07111F] to-transparent md:block" />
+        </div>
+        {/* Brillos de color */}
+        <div className="pointer-events-none absolute -left-40 top-1/3 h-[520px] w-[520px] rounded-full bg-[#FF2E9A] opacity-25 blur-[140px]" />
+        <div className="pointer-events-none absolute bottom-0 left-1/3 h-[360px] w-[360px] rounded-full bg-[#FF8A1F] opacity-20 blur-[120px]" />
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-4 pb-12 pt-36 md:min-h-[860px] md:justify-start md:px-8 md:pb-[300px] md:pt-44">
+          <p className="sube text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]" style={{ animationDelay: '0.05s' }}>
+            Nutrición deportiva FuXion · Perú
+          </p>
+          <h1 className="mt-4 text-[72px] sm:text-[96px] md:text-[124px] lg:text-[148px]">
+            {PALABRAS.map((p, i) => (
+              <span key={p.texto} className="sube block" style={{ color: p.color, animationDelay: `${0.15 + i * 0.12}s` }}>
+                {p.texto}
+              </span>
+            ))}
+          </h1>
+          <p className="sube mt-5 max-w-md text-base leading-relaxed text-white/80 md:text-lg" style={{ animationDelay: '0.55s' }}>
+            Tres bebidas en polvo para tu entrenamiento: energía antes, hidratación durante y recuperación después.
+          </p>
+          <div className="sube mt-7 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.7s' }}>
             <a
               href="#encuentra"
               onClick={() => trackEvent('ViewContent', { content_name: 'hero-arma-tu-plan' })}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#00498E] px-7 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-blue-900/20 transition hover:bg-[#003d7a]"
+              className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#07111F] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
             >
-              Arma tu plan <ArrowRight className="h-4 w-4" />
+              Arma tu plan <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
             <a
               href={waLink('Hola, vi tu página Emprende Salud y quiero armar mi plan para entrenar 🏃')}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('Contact', { content_name: 'hero' })}
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border-2 border-[#25D366] px-6 py-3 text-sm font-bold text-[#128C4A] transition hover:bg-[#25D366] hover:text-white"
+              className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 text-base font-bold text-white backdrop-blur transition hover:bg-white/15"
             >
-              <MessageCircle className="h-4 w-4" /> WhatsApp
+              <MessageCircle className="h-5 w-5 text-[#25D366]" /> WhatsApp
             </a>
           </div>
-          <p className="mt-3 text-xs text-[#758E9B]">
-            ¿Primera vez? Empieza con el <a href="#kit-prueba" className="font-bold text-[#00498E] underline underline-offset-2">Kit Prueba Sport a S/ 76</a>.
-          </p>
+          <a href="#kit-prueba" className="sube mt-4 self-start text-sm text-white/60 underline-offset-4 hover:text-white hover:underline" style={{ animationDelay: '0.8s' }}>
+            ¿Primera vez? Kit Prueba Sport a S/ 76 →
+          </a>
         </div>
 
-        {/* Deportista en movimiento + los 3 momentos */}
-        <div className="relative mx-auto w-full max-w-md md:max-w-none">
-          <div className="relative overflow-hidden rounded-[32px] bg-[#0B2033]">
-            <video
-              className="aspect-[4/5] h-full w-full object-cover md:aspect-[5/6]"
-              src="/videos/hero-malecon.mp4"
-              poster="/videos/hero-malecon.jpg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Deportista trotando en el malecón"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#06182B]/85 via-transparent to-transparent" />
-            <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-bold text-[#0B2033] backdrop-blur">
-              Tu rutina en 3 vasos
-            </span>
-          </div>
-          {/* Tarjeta con los 3 momentos, sobre el video */}
-          <div className="relative z-10 -mt-24 mx-3 grid grid-cols-3 gap-2 rounded-3xl bg-white p-3 shadow-2xl ring-1 ring-black/5 md:mx-6">
-            {MOMENTOS.map((m) => (
-              <a key={m.nombre} href="#momentos" className="group rounded-2xl p-2 text-center transition hover:bg-[#F3F6FB]">
-                <img src={m.img} alt={m.nombre} width={760} height={460} className="mx-auto h-14 w-full object-contain transition group-hover:-translate-y-1 md:h-16" />
-                <span
-                  className="mt-1.5 inline-block rounded-full px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.12em] text-white"
-                  style={{ background: m.color }}
-                >
-                  {m.etiqueta}
-                </span>
-                <p className="mt-1 text-[11px] font-extrabold text-[#0B2033]">{m.nombre}</p>
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Franja de confianza */}
-      <div className="border-y border-[#00498E]/10 bg-[#F3F6FB]">
-        <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-3 px-4 py-4 md:grid-cols-4">
-          {CONFIANZA.map(({ icon: Icon, texto }) => (
-            <li key={texto} className="flex items-center gap-2 text-xs font-bold text-[#0B2033] md:justify-center md:text-sm">
-              <Icon className="h-5 w-5 shrink-0 text-[#00498E]" /> {texto}
-            </li>
+        {/* Productos asomando por el borde inferior (escritorio) */}
+        <div className="pointer-events-none absolute bottom-[-40px] left-1/2 hidden w-[min(1080px,88vw)] -translate-x-1/2 grid-cols-3 items-end gap-6 md:grid">
+          {['pre-sport', 'xtra-mile', 'post-sport'].map((p, i) => (
+            <div key={p} style={{ transform: `translateY(${i === 1 ? -36 : 0}px)` }}>
+              <img
+                src={`/productos/${p}.webp`}
+                alt=""
+                width={760}
+                height={460}
+                className="sube w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.65)]"
+                style={{ animationDelay: `${0.9 + i * 0.12}s` }}
+              />
+            </div>
           ))}
-        </ul>
+        </div>
+      </section>
+
+      {/* Cinta animada */}
+      <div className="relative z-10 overflow-hidden bg-[#B5D70F] py-3 text-[#07111F]">
+        <div className="cinta">
+          {[...CINTA, ...CINTA, ...CINTA, ...CINTA].map((t, i) => (
+            <span key={i} className="font-display flex items-center whitespace-nowrap px-5 text-2xl md:text-3xl">
+              {t}
+              <span className="ml-10 text-lg">✦</span>
+            </span>
+          ))}
+        </div>
       </div>
-    </section>
+    </>
   )
 }

@@ -128,3 +128,35 @@
   .hero-flota, .hero-fade { animation: none; }
   .hero-giro, .hero-tarjeta, .prod-card-in, .prod-card-img { transition: none; }
 }
+
+/* ── Sistema v3: titulares display, textura, revelado y cinta (ver DESIGN.md) ── */
+.font-display, h1, h2 {
+  font-family: 'Anton', 'Arial Narrow', Impact, sans-serif;
+  font-weight: 400 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.95 !important;
+}
+.grano::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.09; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.revela { opacity: 0; transform: translateY(40px); transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1); }
+.revela.visible { opacity: 1; transform: none; }
+.cinta { display: flex; width: max-content; animation: cinta 28s linear infinite; }
+@keyframes cinta { to { transform: translateX(-50%); } }
+.sube { animation: sube 1s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes sube { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+.flota-lenta { animation: hero-flota 6s ease-in-out infinite; }
+.borde-vivo {
+  border: 3px solid transparent;
+  background: linear-gradient(var(--relleno, #07111F), var(--relleno, #07111F)) padding-box,
+    conic-gradient(from var(--ang, 0deg), #FF2E9A, #FF8A1F, #FF3B4E, #B5D70F, #FF2E9A) border-box;
+  animation: gira 6s linear infinite;
+}
+@property --ang { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes gira { to { --ang: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .revela { opacity: 1; transform: none; transition: none; }
+  .cinta, .sube, .flota-lenta, .borde-vivo { animation: none; }
+}

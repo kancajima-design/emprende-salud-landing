@@ -187,10 +187,10 @@ export default function Products() {
   const [cat, setCat] = useState(CATEGORIAS[0].id)
 
   return (
-    <section id="catalogo" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-24">
+    <section id="catalogo" className="scroll-mt-24 bg-white py-20 md:py-28">
       <div className="mx-auto max-w-6xl px-4">
-        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
-        <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-[#0B2033] md:text-[44px]">
+        <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
+        <h2 className="mt-3 text-[56px] text-[#07111F] md:text-[96px]">
           Todo FuXion, por línea
         </h2>
         <p className="mt-3 max-w-xl text-sm text-[#758E9B] md:text-base">

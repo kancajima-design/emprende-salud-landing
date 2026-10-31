@@ -17,15 +17,19 @@ import Footer from '@/sections/Footer'
 import WhatsAppFloat from '@/sections/WhatsAppFloat'
 import ChatWidget from '@/sections/ChatWidget'
 import BarraMovil from '@/sections/BarraMovil'
+import Ingredientes from '@/sections/Ingredientes'
+import { useRevela } from '@/hooks/useRevela'
 
 // Orden según el estudio de webs top de nutrición deportiva (ver DESIGN.md §6):
 // resultado → 3 momentos → buscador → planes → catálogo → quién asesora → cómo comprar → FAQ → cierre
 export default function Home() {
+  useRevela()
   return (
     <div className="min-h-screen pb-20 md:pb-0">
       <Navbar />
       <Hero />
       <Momentos />
+      <Ingredientes />
       <Encuentra />
       <Planes />
       <Products />
@@ -40,7 +44,7 @@ export default function Home() {
       <BlogTeaser />
       <Footer />
       <WhatsAppFloat />
-      <ChatWidget clasePosicion="bottom-24 left-4 md:bottom-5 md:left-5" />
+      <ChatWidget clasePosicion="bottom-24 right-4 md:bottom-5 md:left-5 md:right-auto" />
       <BarraMovil />
     </div>
   )

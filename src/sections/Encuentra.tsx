@@ -39,15 +39,16 @@ export default function Encuentra() {
   const [nivel, setNivel] = useState<Nivel | null>(null)
   const r = deporte && nivel ? recomendar(deporte, nivel) : null
   const opcion = (activo: boolean) =>
-    `min-h-12 cursor-pointer rounded-2xl px-4 py-3 text-sm font-bold transition ${
-      activo ? 'bg-[#00498E] text-white shadow-lg' : 'bg-white text-[#0B2033] ring-1 ring-[#00498E]/15 hover:ring-[#00498E]/40'
+    `min-h-14 cursor-pointer rounded-2xl px-4 py-3 text-sm font-bold transition ${
+      activo ? 'bg-[#B5D70F] text-[#07111F] shadow-[0_0_30px_rgba(181,215,15,0.35)]' : 'bg-white/5 text-white ring-1 ring-white/15 hover:bg-white/10'
     }`
 
   return (
-    <section id="encuentra" className="scroll-mt-28 bg-[#F3F6FB] py-16 md:py-20">
-      <div className="mx-auto max-w-3xl px-4">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">Arma tu plan en 30 segundos</p>
-        <h2 className="mt-2 text-center text-3xl font-extrabold tracking-tight text-[#0B2033] md:text-4xl">¿Qué entrenas?</h2>
+    <section id="encuentra" className="grano relative scroll-mt-24 overflow-hidden bg-gradient-to-b from-[#07111F] to-[#0B2A4A] py-20 text-white md:py-28">
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[400px] w-[700px] -translate-x-1/2 rounded-full bg-[#0094DE] opacity-20 blur-[140px]" />
+      <div className="relative mx-auto max-w-3xl px-4">
+        <p className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Arma tu plan en 30 segundos</p>
+        <h2 className="mt-3 text-center text-[64px] md:text-[96px]">¿Qué entrenas?</h2>
 
         <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
           {DEPORTES.map((d) => (
@@ -60,7 +61,7 @@ export default function Encuentra() {
 
         {deporte && (
           <>
-            <h3 className="mt-8 text-center text-lg font-extrabold text-[#0B2033]">¿Cuánto entrenas?</h3>
+            <h3 className="font-display mt-10 text-center text-4xl">¿Cuánto entrenas?</h3>
             <div className="mt-3 grid gap-3 sm:grid-cols-3">
               {NIVELES.map((n) => (
                 <button
@@ -80,7 +81,7 @@ export default function Encuentra() {
         )}
 
         {r && (
-          <div className="hero-fade mt-8 rounded-3xl bg-white p-5 shadow-xl ring-1 ring-[#00498E]/10 md:p-6">
+          <div style={{ ["--relleno" as string]: "#fff" }} className="hero-fade borde-vivo mt-10 rounded-[28px] p-5 text-[#0B2033] shadow-2xl md:p-7">
             <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#0094DE]">Te recomiendo</p>
             <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center">
               <div className="flex shrink-0 justify-center gap-1">
@@ -89,7 +90,7 @@ export default function Encuentra() {
                 ))}
               </div>
               <div className="flex-1">
-                <p className="text-2xl font-extrabold text-[#0B2033]">
+                <p className="font-display text-4xl text-[#0B2033]">
                   {r.nombre} · <span className="text-[#00498E]">{r.precio}</span>
                 </p>
                 <p className="mt-1 text-sm text-[#758E9B]">{r.detalle}</p>
