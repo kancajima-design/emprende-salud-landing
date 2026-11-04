@@ -19,7 +19,15 @@ const preguntas = [
   },
   {
     q: '¿Cuánto tarda en llegar mi pedido?',
-    a: 'Depende de tu ciudad. La tienda oficial te muestra el plazo y el costo de envío antes de pagar, y yo te ayudo a hacer el seguimiento.',
+    a: 'Depende de tu distrito; el pedido sale desde Lima. Según la tabla oficial de FuXion, son unos 2 a 3 días hábiles en Lima y Trujillo, de 3 a 5 en la mayoría de ciudades y de 5 a 12 en distritos rurales. Son plazos aproximados, y yo te ayudo a hacer el seguimiento.',
+  },
+  {
+    q: '¿Cuánto cuesta el envío?',
+    a: 'Según la tarifa oficial de FuXion, hasta 3 kg y con IGV: unos S/ 7 a 9 en Lima, S/ 9 en la mayoría de ciudades y de S/ 12 a 14 en distritos rurales. El total exacto aparece al pagar. FuXion puede cambiar estas tarifas.',
+  },
+  {
+    q: '¿Qué garantía de calidad tienen los productos?',
+    a: 'Tienen registro sanitario y son de venta libre. Según el catálogo oficial de FuXion, la empresa cuenta con certificación HACCP, certificación BPM, laboratorio acreditado por INACAL, Baltic Control, Humanitas y Clean Label. Las fórmulas las desarrolla su departamento científico, dirigido por el biólogo Iván Columbus.',
   },
   {
     q: '¿Cuál producto me conviene?',

@@ -825,7 +825,7 @@ export const PRODUCTOS: Producto[] = [
     tagline: "¡Energía para dar la milla extra!",
     descripcion: "Bebida isotónica de resistencia que brinda energía balanceada y sostenida en el tiempo. Consumo: durante el ejercicio (después de los primeros 30-45 min).",
     beneficios: ["Aportar carbohidratos de liberación lenta durante el ejercicio", "Hidratarte con agua de coco, sal de Maras y electrolitos", "Acompañarte en entrenamientos largos"],
-    ingredientes: "Palatinose® (carbohidrato de bajo índice glicémico de la betarraga) + agua de coco amazónico + sal de Maras + electrolitos (potasio, sodio, calcio, magnesio) + zinc y cromo",
+    ingredientes: "Palatinose® (carbohidrato de liberación lenta de la betarraga) + agua de coco amazónico + sal de Maras + electrolitos (potasio, sodio, calcio, magnesio) + zinc y cromo",
     precios: [
       {
         presentacion: "Caja 28 sticks x 5gr",
@@ -863,8 +863,8 @@ export const PRODUCTOS: Producto[] = [
     tag: "Sport",
     linea: "Línea Sport",
     tagline: "¡Ejercicio saludable y músculos tonificados!",
-    descripcion: "Batido proteico que nutre los músculos para evitar su deterioro y promover un sano desarrollo del cuerpo. Actinos® acorta el tiempo de recuperación muscular.",
-    beneficios: ["Incrementar el flujo sanguíneo y el rendimiento gracias a Actinos® (péptido que favorece la producción de óxido nítrico)", "Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)", "Mejorar la recuperación y el aporte de oxígeno al músculo"],
+    descripcion: "Batido proteico con BioProtein+ con Colostrum® y Actinos®, para completar tu proteína del día después de entrenar o entre comidas.",
+    beneficios: ["Aportar proteína con BioProtein+ con Colostrum® y Actinos®", "Completar tu proteína del día, junto a una dieta balanceada y ejercicio", "Acompañar tu recuperación después de entrenar"],
     ingredientes: "Bioprotein+ con Colostrum® + Actinos® + aminoácidos + calcio lácteo + DHA y ARA",
     precios: [
       {
@@ -896,7 +896,7 @@ export const PRODUCTOS: Producto[] = [
     linea: "Línea Sport",
     tagline: "¡Ejercicio saludable y músculos tonificados!",
     descripcion: "Proteína activa 100% vegetal que promueve la regeneración celular y el desarrollo saludable de la masa muscular. Sabores: vainilla y canela / chocolate con avellanas.",
-    beneficios: ["Mantener el perfil proteico adecuado para la dieta de un deportista", "Mejorar la recuperación y el aporte de oxígeno al músculo", "Generar masa muscular magra y marcada en menos tiempo (junto a dieta balanceada y ejercicio)"],
+    beneficios: ["Mantener el perfil proteico adecuado para la dieta de un deportista", "Acompañar tu recuperación después de entrenar", "Completar tu proteína del día, junto a una dieta balanceada y ejercicio"],
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + aminoácidos esenciales + vitaminas + L-glutamina + BCAAs",
     precios: [
       {
