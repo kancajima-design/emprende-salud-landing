@@ -1,5 +1,4 @@
 import { Gift, Truck, Play, ShoppingCart, RefreshCw, Package, Crown } from 'lucide-react'
-import { BRAND } from '@/config'
 
 const beneficios = [
   { icon: Gift, titulo: 'Productos de regalo', texto: '60 puntos en autoenvío u 80 en compra directa = 1 producto gratis.' },
@@ -76,12 +75,10 @@ export default function FuXionRewards() {
               ))}
             </ul>
             <a
-              href={BRAND.compraUrl}
-              target="_blank"
-              rel="noreferrer"
+              href="#catalogo"
               className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-full bg-[#062B57] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]"
             >
-              <ShoppingCart className="h-4 w-4" /> Registrarme gratis
+              <ShoppingCart className="h-4 w-4" /> Elegir mis productos
             </a>
             <p className="mt-3 text-xs text-[#758E9B]">
               Al registrarte, verifica que <strong className="text-[#062B57]">Emprende Salud</strong> aparezca como tu

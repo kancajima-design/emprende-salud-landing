@@ -38,8 +38,8 @@ export default function SistemaFuXion() {
           El Sistema FuXion: primero la base, luego tu objetivo
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-[#758E9B]">
-          Basado en la metodología del <strong className="text-[#0B2033]">Dr. Iván Columbus</strong>,
-          divulgador científico de FuXion: los productos no se toman al azar, siguen un orden
+          Basado en la metodología del <strong className="text-[#0B2033]">biólogo Iván Columbus</strong>,
+          jefe científico de FuXion: los productos no se toman al azar, siguen un orden
           inteligente.
         </p>
 
