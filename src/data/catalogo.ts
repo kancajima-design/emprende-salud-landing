@@ -96,11 +96,11 @@ export const PRODUCTOS: Producto[] = [
     ],
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201105",
     img: "prunex1.png",
-    tag: "Base diaria",
+    tag: "De noche",
     linea: "Sistema Base",
-    tagline: "¡Libera el tránsito en tu sistema digestivo!",
-    descripcion: "Té herbal a base de fibras solubles, alternativa eficaz en casos de molestias por tránsito intestinal lento.",
-    beneficios: ["Liberarte de desechos perjudiciales para tu organismo", "Sentirte más liviano sin las molestias de la hinchazón abdominal", "Tener un adecuado tránsito intestinal"],
+    tagline: "Tu bebida de guindón para la noche",
+    descripcion: "Bebida instantánea de guindón a base de fibras, con kelp y anís estrella. Se toma de noche, en ciclos cortos.",
+    beneficios: ["Una bebida caliente de guindón para tu noche", "Con fibras de psyllium, inulina de achicoria y mucílago de linaza", "De uso ocasional, en ciclos cortos de 5 a 7 noches"],
     ingredientes: "Mix de fibras (psyllium, inulina de achicoria, mucílago de linaza) + extracto de guindón + kelp + anís estrella",
     precios: [
       {
@@ -114,8 +114,8 @@ export const PRODUCTOS: Producto[] = [
         puntos: 10,
       },
     ],
-    uso: "Consumo eventual, en ciclos de 5 a 7 días. Tómalo por la noche antes de dormir; las primeras 2 noches medio stick y luego ajusta según tu cuerpo.",
-    dato: "Té herbal a base de guindón (ciruela): el aliado clásico de la regularidad intestinal.",
+    uso: "Uso ocasional, en ciclos de 5 a 7 noches. Disuelve un sobre en una taza con 180 ml de agua caliente y tómalo antes de dormir.",
+    dato: "A base de guindón (ciruela) y fibras: S/ 2,71 por sobre en el doypack de 28.",
   },
   {
     nombre: "ALPHA BALANCE",
