@@ -3,23 +3,23 @@ import { Zap, Leaf, Flame, HeartPulse, ArrowRight } from 'lucide-react'
 const items = [
   {
     icon: Zap,
-    titulo: 'Energía sin bajones',
-    texto: 'Olvida el cansancio de media tarde con bebidas funcionales que acompañan tu ritmo.',
+    titulo: 'Energía para tu ritmo',
+    texto: 'Bebidas con maca, guaraná, guayusa y otros ingredientes para acompañar tu día.',
   },
   {
     icon: Leaf,
-    titulo: 'Digestión liviana',
-    texto: 'Apoya tu tránsito intestinal con ingredientes ancestrales como la maca y el camu-camu.',
+    titulo: 'Fibra y probióticos',
+    texto: 'Bebidas con inulina de achicoria, probióticos y frutas como la granadilla y el aguaymanto.',
   },
   {
     icon: Flame,
-    titulo: 'Control de peso',
-    texto: 'Programas detox y keto que complementan tus hábitos saludables, sin promesas mágicas.',
+    titulo: 'Tu rutina Fit',
+    texto: 'Cafés, tés y batidos con proteína para acompañar tu ejercicio y tu alimentación balanceada.',
   },
   {
     icon: HeartPulse,
-    titulo: 'Vitalidad y defensas',
-    texto: 'Vitaminas, minerales y antioxidantes que acompañan tu bienestar cada día.',
+    titulo: 'Vitaminas y minerales',
+    texto: 'Bebidas con vitaminas, minerales y extractos de frutas para tu rutina de cada día.',
   },
 ]
 
@@ -28,7 +28,7 @@ export default function Benefits() {
     <section className="bg-[#F3F6FB] py-16 md:py-20">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-center text-2xl font-extrabold text-[#00498E] md:text-3xl">
-          Lo que vas a <span className="text-[#0094DE]">notar</span> cuando tu cuerpo funciona bien
+          Una bebida para cada <span className="text-[#0094DE]">momento</span> de tu día
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-center text-sm text-[#758E9B] md:text-base">
           FuXion fusiona ingredientes de los Andes y el Amazonas con biotecnología moderna, en

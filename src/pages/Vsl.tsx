@@ -7,7 +7,7 @@ const SALUDO_VSL =
   '¿Te quedó alguna duda del video? Pregúntame acá nomás 💚 Precios, la promo del regalo, cómo empezar… lo que sea.'
 
 const MSG_VSL =
-  'Hola, vi tu video de Emprende Salud y quiero empezar mi rutina de control de peso 💪'
+  'Hola, vi tu video de Emprende Salud y quiero saber más de sus bebidas 💪'
 
 // Segundo del video en el que aparece el CTA (el pitch/promo entra ~a partir de aquí)
 const CTA_REVEAL_SECOND = 58

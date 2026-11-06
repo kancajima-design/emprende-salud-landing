@@ -4,25 +4,25 @@ const pasos = [
   {
     n: '1',
     icon: Droplets,
-    titulo: 'Limpieza y equilibrio',
+    titulo: 'Fibra y probióticos',
     texto:
-      'Todo empieza depurando: una digestión liviana y un cuerpo en equilibrio absorben mejor cada nutriente.',
+      'Empieza con bebidas de fibra, probióticos y extractos vegetales para tu rutina diaria.',
     color: '#0094DE',
   },
   {
     n: '2',
     icon: Apple,
-    titulo: 'Nutrir y regenerar',
+    titulo: 'Proteína del día',
     texto:
-      'Cada día millones de células se renuevan: las proteínas de alto valor biológico son su materia prima.',
+      'Batidos con proteína de alto valor biológico para completar tu alimentación.',
     color: '#B5D70F',
   },
   {
     n: '3',
     icon: BatteryCharging,
-    titulo: 'Revitalización',
+    titulo: 'Vitaminas y minerales',
     texto:
-      'Vitaminas, minerales y energizantes naturales para que tu energía y defensas se mantengan todos los días.',
+      'Vitaminas, minerales y energizantes naturales para acompañar tu día.',
     color: '#FF7A1A',
   },
 ]
@@ -86,8 +86,8 @@ export default function SistemaFuXion() {
               🎯 Potenciadores — según tu objetivo
             </h3>
             <p className="mt-2 text-sm text-[#758E9B]">
-              Una vez cubierta la base, eliges potenciadores de la línea que necesitas: control de
-              peso, defensas, anti-edad, enfoque mental o sport.
+              Una vez cubierta la base, eliges potenciadores de la línea que prefieres: Fit, bebidas de
+              bienestar, belleza, enfoque mental o Sport.
             </p>
             <button
               onClick={() => {
@@ -95,7 +95,7 @@ export default function SistemaFuXion() {
                   new CustomEvent('abrir-chat-valeria', {
                     detail: {
                       saludo:
-                        '¡Hola! Soy Valeria 💚 Veo que quieres descubrir tu combinación ideal de productos FuXion. Cuéntame: ¿cuál es tu objetivo principal? (más energía, control de peso, digestión, defensas, anti-edad, enfoque mental o deporte)',
+                        '¡Hola! Soy Valeria 💚 Veo que quieres descubrir tu combinación ideal de productos FuXion. Cuéntame: ¿qué bebida buscas? (energía, proteína, fibra, café o té, colágeno o deporte)',
                     },
                   }),
                 )

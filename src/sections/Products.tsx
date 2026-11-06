@@ -38,7 +38,7 @@ const CATEGORIAS = [
   },
   {
     id: 'cat-defensas',
-    linea: 'Línea Inmunológica',
+    linea: 'Bebidas de bienestar',
     color: '#F59E0B',
     icon: ShieldCheck,
     titulo: 'Bienestar',
