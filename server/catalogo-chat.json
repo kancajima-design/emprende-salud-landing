@@ -173,12 +173,12 @@
     ],
     "precios": [
       {
-        "presentacion": "Caja 14 sticks x 25gr",
+        "presentacion": "Caja 14 sticks x 25gr · vainilla y canela",
         "precio": "S/ 141.50",
         "puntos": 20
       }
     ],
-    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086003",
+    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086005",
     "ingredientes": "Bioprotein Active® (proteína de quinua germinada, de arroz integral germinado, de arveja, de algas) + aminoácidos + vitaminas + DHA y ARA + aceite de coco",
     "uso": "Un batido a media mañana o media tarde para reforzar tu proteína del día."
   },
@@ -262,25 +262,6 @@
     "tienda": "",
     "ingredientes": "Taurina + vitamina C + vitamina B5 + acetil tirosina + mix energético ancestral (maca + guaraná + teína)",
     "uso": "Consumo diario."
-  },
-  {
-    "nombre": "DUO DEFENSE",
-    "linea": "Línea Bienestar",
-    "tagline": "Cuando dos cosas buenas se juntan, forman un dúo superior",
-    "para_que_sirve": [
-      "Modular la generación de radicales libres por su potente efecto antioxidante"
-    ],
-    "precios": [
-      {
-        "presentacion": "2-pack",
-        "precio": "S/ 23.00"
-      },
-      {
-        "presentacion": "6-pack",
-        "precio": "S/ 64.50"
-      }
-    ],
-    "tienda": ""
   },
   {
     "nombre": "VERA+",
@@ -503,30 +484,30 @@
     ],
     "precios": [
       {
-        "presentacion": "Caja 14 sticks x 25gr",
+        "presentacion": "Caja 14 sticks x 25gr · vainilla y canela",
         "precio": "S/ 149.00",
         "puntos": 21
       }
     ],
-    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086006",
+    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086008",
     "ingredientes": "Bioprotein Active® (quinua germinada, arveja, arroz integral germinado, algas) + aminoácidos esenciales + L-carnitina + tamarindo malabar + vitaminas + calcio, cromo y zinc en molécula orgánica",
     "uso": "A media mañana o media tarde, como batido."
   },
   {
     "nombre": "PROTEIN XOUP",
     "linea": "Línea Fit",
-    "tagline": "¡Nutre tu cuerpo activamente y mantén la línea!",
+    "tagline": "Crema de brócoli parmesano con proteína vegetal",
     "para_que_sirve": [
-      "Incrementar la sensación de saciedad (Slendesta®, avalado por 33 estudios clínicos)"
+      "Aportar proteína vegetal en una crema salada"
     ],
     "precios": [
       {
-        "presentacion": "Caja 7 sticks x 25gr",
+        "presentacion": "Caja 7 sticks x 25gr · brócoli parmesano",
         "precio": "S/ 68.00",
         "puntos": 10
       }
     ],
-    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086013",
+    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/3201147",
     "ingredientes": "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + Slendesta® (péptido extraído de la papa) + CLA + minerales (hierro, zinc, magnesio)",
     "uso": "Ideal para la cena o para variar del batido dulce."
   },
@@ -546,7 +527,7 @@
       }
     ],
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/3144149",
-    "ingredientes": "Extracto de aguaje + extracto de dong quai + extracto de orégano + triptófano + magnesio + extracto de camu-camu + extracto de marigold (luteína)",
+    "ingredientes": "Concentrado de aguaje + concentrado de orégano + triptófano + magnesio + concentrado de camu camu + luteína",
     "uso": "Una vez al día, de preferencia antes de dormir. Fórmula de aguaje, solo para damas."
   },
   {
@@ -767,12 +748,12 @@
     "ingredientes": "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + aminoácidos esenciales + vitaminas + L-glutamina + BCAAs",
     "precios": [
       {
-        "presentacion": "Caja 14 sticks x 25gr",
+        "presentacion": "Caja 14 sticks x 25gr · vainilla y canela",
         "precio": "S/ 156.00",
         "puntos": 22
       }
     ],
     "uso": "Después del entrenamiento o como batido proteico del día, entrene o no entrene.",
-    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086011"
+    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086012"
   }
 ]

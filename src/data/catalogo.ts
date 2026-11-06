@@ -211,30 +211,23 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "PROTEIN ACTIVE",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086003",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/2086005",
     img: "protein-active.png",
     tag: "Base diaria",
     linea: "Sistema Base",
     tagline: "¡Dale a tu cuerpo nutrición avanzada!",
-    descripcion: "Proteína activa de origen 100% vegetal, de alta biodisponibilidad y digestibilidad. Sabores: vainilla y canela / chocolate con avellanas.",
+    descripcion: "Proteína activa de origen 100% vegetal, de alta biodisponibilidad y digestibilidad. Sabor: vainilla y canela.",
     beneficios: ["Aportar proteína vegetal a tu alimentación", "Aportar vitaminas y minerales", "Complementar tu nutrición diaria"],
     ingredientes: "Bioprotein Active® (proteína de quinua germinada, de arroz integral germinado, de arveja, de algas) + aminoácidos + vitaminas + DHA y ARA + aceite de coco",
     precios: [
       {
-        presentacion: "Caja 14 sticks x 25gr",
+        presentacion: "Caja 14 sticks x 25gr · vainilla y canela",
         precio: "S/ 141.50",
         puntos: 20,
       },
     ],
     uso: "Un batido a media mañana o media tarde para reforzar tu proteína del día.",
     dato: "~10 g de proteína de alto valor biológico por ración. Recuerda: necesitas aprox. 1 g de proteína por kilo de peso al día.",
-    variantes: [{
-      nombre: "PROTEIN ACTIVE - CHOCOLATE CON AVELLANAS",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086003",
-    }, {
-      nombre: "PROTEIN ACTIVE - VAINILLA Y CANELA",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086005",
-    }],
   },
   {
     nombre: "NUTRADAY",
@@ -578,12 +571,12 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "PROTEIN ACTIVE FIT",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086006",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/2086008",
     img: "protein-active-fit.png",
     tag: "Fit",
     linea: "Línea Fit",
     tagline: "¡Proteína vegetal para tu rutina!",
-    descripcion: "Proteína activa 100% vegetal de alta biodisponibilidad, baja en calorías y libre de alérgenos. Sabores: vainilla y canela / chocolate con avellanas.",
+    descripcion: "Proteína activa 100% vegetal de alta biodisponibilidad, baja en calorías y libre de alérgenos. Sabor: vainilla y canela.",
     beneficios: ["Aportar proteína vegetal a tu alimentación", "Acompañar tu ejercicio mientras tonificas músculos"],
     ingredientes: "Bioprotein Active® (quinua germinada, arveja, arroz integral germinado, algas) + aminoácidos esenciales + L-carnitina + tamarindo malabar + vitaminas + calcio, cromo y zinc en molécula orgánica",
     precios: [
@@ -592,51 +585,29 @@ export const PRODUCTOS: Producto[] = [
         precio: "S/ 149.00",
         puntos: 21,
       },
-      {
-        presentacion: "Caja 14 · chocolate con avellanas",
-        precio: "S/ 149.50",
-        puntos: 21,
-      },
     ],
     uso: "A media mañana o media tarde, como batido.",
     dato: "Menos de 100 calorías y ~17 g de proteína por batido: nutrición completa en la decisión inteligente del día.",
-    variantes: [{
-      nombre: "PROTEIN ACTIVE FIT - CHOCOLATE CON AVELLANAS",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086006",
-    }, {
-      nombre: "PROTEIN ACTIVE FIT - VAINILLA Y CANELA",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086008",
-    }],
   },
   {
     nombre: "PROTEIN XOUP",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086013",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3201147",
     img: "protein-xoup.png",
     tag: "Fit",
     linea: "Línea Fit",
     tagline: "¡Nutre tu cuerpo activamente y mantén la línea!",
-    descripcion: "Deliciosas sopas instantáneas de proteínas funcionales vegetales. Sabores: crema de espárragos y alcachofa / crema de brócoli parmesano / crema criolla.",
+    descripcion: "Deliciosas sopas instantáneas de proteínas funcionales vegetales. Sabor: crema de brócoli parmesano.",
     beneficios: ["Aportar proteína vegetal en una crema salada", "Una opción práctica para tu cena"],
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + Slendesta® (péptido extraído de la papa) + CLA + minerales (hierro, zinc, magnesio)",
     precios: [
       {
-        presentacion: "Caja 7 sticks x 25gr",
+        presentacion: "Caja 7 sticks x 25gr · brócoli parmesano",
         precio: "S/ 68.00",
         puntos: 10,
       },
     ],
     uso: "Ideal para la cena o para variar del batido dulce.",
     dato: "15 g de proteína vegetal por ración.",
-    variantes: [{
-      nombre: "PROTEIN XOUP - CREMA CRIOLLA",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086013",
-    }, {
-      nombre: "PROTEIN XOUP - CREMA DE ESPÁRRAGOS Y ALCACHOFA",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086015",
-    }, {
-      nombre: "PROTEIN XOUP - CREMA DE BRÓCOLI Y PARMESANO",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/3201147",
-    }],
   },
   {
     nombre: "PROBAL",
@@ -645,9 +616,9 @@ export const PRODUCTOS: Producto[] = [
     tag: "Anti-edad",
     linea: "Línea Belleza",
     tagline: "¡Protege tu balance vital!",
-    descripcion: "Té herbal que combina aminoácidos, extractos vegetales, vitaminas y minerales para equilibrar las molestias del periodo y la menopausia.",
-    beneficios: ["Reforzar la salud femenina", "Controlar las molestias del periodo", "Mantener el balance durante la menopausia (cambios de humor y bochornos)"],
-    ingredientes: "Extracto de aguaje + extracto de dong quai + extracto de orégano + triptófano + magnesio + extracto de camu-camu + extracto de marigold (luteína)",
+    descripcion: "Té herbal a base de concentrado de aguaje y orégano, con triptófano, magnesio, camu camu y luteína.",
+    beneficios: ["Disfrutar un té herbal de aguaje y orégano", "Sumar triptófano, magnesio y camu camu a tu día"],
+    ingredientes: "Concentrado de aguaje + concentrado de orégano + triptófano + magnesio + concentrado de camu camu + luteína",
     precios: [
       {
         presentacion: "Doypack 28 sticks x 5gr",
@@ -890,12 +861,12 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "PROTEIN ACTIVE SPORT",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/2086011",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/2086012",
     img: "protein-active-sport.png",
     tag: "Sport",
     linea: "Línea Sport",
     tagline: "¡Ejercicio saludable y músculos tonificados!",
-    descripcion: "Proteína activa 100% vegetal que promueve la regeneración celular y el desarrollo saludable de la masa muscular. Sabores: vainilla y canela / chocolate con avellanas.",
+    descripcion: "Proteína activa 100% vegetal que promueve la regeneración celular y el desarrollo saludable de la masa muscular. Sabor: vainilla y canela.",
     beneficios: ["Mantener el perfil proteico adecuado para la dieta de un deportista", "Acompañar tu recuperación después de entrenar", "Completar tu proteína del día, junto a una dieta balanceada y ejercicio"],
     ingredientes: "Bioprotein Active® (arveja, quinua germinada, arroz germinado, algas) + aminoácidos esenciales + vitaminas + L-glutamina + BCAAs",
     precios: [
@@ -904,21 +875,9 @@ export const PRODUCTOS: Producto[] = [
         precio: "S/ 156.00",
         puntos: 22,
       },
-      {
-        presentacion: "Caja 14 · chocolate con avellanas",
-        precio: "S/ 156.50",
-        puntos: 22,
-      },
     ],
     uso: "Después del entrenamiento o como batido proteico del día, entrene o no entrene.",
     dato: "Más de 20 g de proteína por ración: un deportista de 80 kg necesita ~120 g de proteína al día.",
-    variantes: [{
-      nombre: "PROTEIN ACTIVE SPORT - CHOCOLATE CON AVELLANAS",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086011",
-    }, {
-      nombre: "PROTEIN ACTIVE SPORT - VAINILLA Y CANELA",
-      url: "https://tiendafuxion.com/storelt/emprendesalud/2086012",
-    }],
   },
   {
     nombre: "KIT PRUEBA SPORT",
