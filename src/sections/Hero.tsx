@@ -79,7 +79,7 @@ export default function Hero() {
             <div key={p} style={{ transform: `translateY(${i === 1 ? -36 : 0}px)` }}>
               <img
                 src={`/productos/${p}.webp`}
-                alt=""
+                alt={`${p.replace('-', ' ').toUpperCase()} de FuXion`}
                 width={760}
                 height={460}
                 className="sube w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.65)]"

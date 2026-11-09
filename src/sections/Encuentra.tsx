@@ -86,7 +86,7 @@ export default function Encuentra() {
             <div className="mt-2 flex flex-col gap-4 md:flex-row md:items-center">
               <div className="flex shrink-0 justify-center gap-1">
                 {r.imgs.map((i) => (
-                  <img key={i} src={`/productos/${i}.webp`} alt="" className="h-16 w-20 object-contain" loading="lazy" />
+                  <img key={i} src={`/productos/${i}.webp`} alt={`${i === 'biopro-sport' ? 'BIOPRO+ SPORT' : i.replace('-', ' ').toUpperCase()} de FuXion`} className="h-16 w-20 object-contain" loading="lazy" />
                 ))}
               </div>
               <div className="flex-1">
