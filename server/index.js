@@ -342,12 +342,53 @@ app.delete('/api/articles/:id', requireAdmin, (req, res) => {
 // /vsl desactivada (31-10-2026): su video hablaba de control de peso (políticas de Meta)
 app.get('/vsl', (req, res) => res.redirect(301, '/'))
 
+// ── Enlaces cortos a la tienda oficial de FuXion (7-11-2026) ──
+// emprendesalud.net/tienda[/producto]?o=canal → tienda de Kervin en site.fuxion.com,
+// con UTM para que WooCommerce registre de qué canal vino cada pedido.
+const TIENDA_FUXION = 'https://kervin-andershon.site.fuxion.com'
+// Landings propias de Emprende Salud (8-11-2026), una por producto: /<producto>-emprende-salud/
+const LANDINGS_PROPIAS = [
+  'prunex1', 'rexet', 'liquid-fiber', 'flora-liv', 'alpha-balance', 'berry-balance', 'nutraday', 'probix',
+  'biopro-tect', 'biopro-sport', 'biopro-fit', 'protein-active', 'protein-active-fit', 'protein-active-sport',
+  'protein-xoup', 'vita-xtra-t', 'vitaenergia', 'xpeed', 'on', 'no-stress', 'pre-sport', 'xtra-mile', 'post-sport',
+  'cafe-ganomax', 'gano-cappuccino', 'gano-t', 'cafe-fit', 'chocolate-fit', 'thermo-t3', 'nocarb-t', 'vera',
+  'golden-flx', 'probal', 'beauty-in', 'youth-elixir', 'passion', 'matcha-pep-t',
+]
+const LANDINGS_TIENDA = {
+  catalogo: '/tienda/',
+  off: '/off/',
+  ...Object.fromEntries(LANDINGS_PROPIAS.map((s) => [s, `/${s}-emprende-salud/`])),
+}
+const ORIGENES_TIENDA = {
+  instagram: ['instagram', 'bio'],
+  facebook: ['facebook', 'perfil'],
+  estado: ['whatsapp', 'estado'],
+  agente: ['whatsapp', 'agente'],
+  anuncio: ['facebook', 'anuncio'],
+  tiktok: ['tiktok', 'perfil'],
+  qr: ['qr', 'impreso'],
+  catalogo: ['whatsapp', 'catalogo'],
+}
+app.get(['/tienda', '/tienda/:producto'], (req, res) => {
+  const slug = String(req.params.producto || '').toLowerCase()
+  const ruta = slug ? LANDINGS_TIENDA[slug] : '/'
+  if (!ruta) return res.redirect(302, '/tienda')
+  const [source, medium] = ORIGENES_TIENDA[String(req.query.o || '').toLowerCase()] || ['emprendesalud.net', 'enlace']
+  const url = new URL(TIENDA_FUXION + ruta)
+  url.searchParams.set('utm_source', source)
+  url.searchParams.set('utm_medium', medium)
+  url.searchParams.set('utm_campaign', slug || 'tienda')
+  res.set('Cache-Control', 'no-store')
+  res.redirect(302, url.toString())
+})
+
 // ── Sitemap dinámico (incluye artículos del blog) ────────────
 app.get('/sitemap.xml', (req, res) => {
   const base = 'https://www.emprendesalud.net'
   const urls = [
     { loc: '/', priority: '1.0' },
     { loc: '/blog', priority: '0.8' },
+    { loc: '/empresa', priority: '0.3' },
     ...listArticleSlugs.all().map((a) => ({
       loc: `/blog/${a.slug}`,
       lastmod: a.created_at.slice(0, 10),
@@ -393,8 +434,10 @@ if (!isProd) {
   app.use(vite.middlewares)
 } else {
   const dist = path.join(root, 'dist')
-  app.use(express.static(dist))
-  app.use((req, res) => res.sendFile(path.join(dist, 'index.html')))
+  // index: false → la portada también pasa por el armado de etiquetas SEO
+  app.use(express.static(dist, { index: false }))
+  const { registerSeo } = await import('./seo.js')
+  registerSeo(app, { dist, getArticleBySlug, listArticles })
 }
 
 app.listen(port, host, () => {
