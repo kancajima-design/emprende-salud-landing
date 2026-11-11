@@ -1,11 +1,9 @@
 import Navbar from '@/sections/Navbar'
 import Hero from '@/sections/Hero'
 import Momentos from '@/sections/Momentos'
-import Encuentra from '@/sections/Encuentra'
 import Advisor from '@/sections/Advisor'
 import LeadForm from '@/sections/LeadForm'
 import Products from '@/sections/Products'
-import Planes from '@/sections/Planes'
 import HowToBuy from '@/sections/HowToBuy'
 import FuXionRewards from '@/sections/FuXionRewards'
 import BlogTeaser from '@/sections/BlogTeaser'
@@ -18,8 +16,9 @@ import BarraMovil from '@/sections/BarraMovil'
 import Ingredientes from '@/sections/Ingredientes'
 import { useRevela } from '@/hooks/useRevela'
 
+// Combos Sport de la campaña de Meta (buscador «¿Qué entrenas?» y planes) quitados el 11/11/2026.
 // Orden según el estudio de webs top de nutrición deportiva (ver DESIGN.md §6):
-// resultado → 3 momentos → ingredientes → buscador → planes → catálogo → quién asesora → cómo comprar
+// resultado → 3 momentos → ingredientes → catálogo → quién asesora → cómo comprar
 // → regalos → FAQ → guía gratis + formulario → blog → cierre (Trust y Gift quedaron dentro de Advisor y LeadForm)
 export default function Home() {
   useRevela()
@@ -29,8 +28,6 @@ export default function Home() {
       <Hero />
       <Momentos />
       <Ingredientes />
-      <Encuentra />
-      <Planes />
       <Products />
       <Advisor />
       <HowToBuy />

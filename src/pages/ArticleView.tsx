@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft, CalendarDays, Sparkles } from 'lucide-react'
+import { ArrowLeft, ArrowRight, CalendarDays, Sparkles, UserRound } from 'lucide-react'
+import productosBlog from '@/data/productos-blog.json'
 
 type Articulo = {
   id: number
@@ -11,6 +12,20 @@ type Articulo = {
   categoria: string
   keywords: string
   created_at: string
+  updated_at?: string | null
+}
+
+type Resumen = { slug: string; titulo: string }
+
+// Productos que nombra el artículo (misma regla que server/seo.js)
+function productosDelArticulo(contenido: string) {
+  const texto = ` ${contenido.toUpperCase()} `
+  return productosBlog
+    .filter((p) => {
+      const n = p.nombre.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      return new RegExp(`(^|[^A-ZÁÉÍÓÚÑ0-9])${n}($|[^A-ZÁÉÍÓÚÑ0-9])`).test(texto)
+    })
+    .slice(0, 3)
 }
 
 // ── Mini-renderizador de Markdown (suficiente para los artículos) ──
@@ -87,6 +102,14 @@ export default function ArticleView() {
   const { slug } = useParams<{ slug: string }>()
   const [article, setArticle] = useState<Articulo | null>(null)
   const [notFound, setNotFound] = useState(false)
+  const [otros, setOtros] = useState<Resumen[]>([])
+
+  useEffect(() => {
+    fetch('/api/articles')
+      .then((r) => r.json())
+      .then((d) => { if (d?.ok) setOtros((d.articles as Resumen[]).filter((a) => a.slug !== slug).slice(0, 3)) })
+      .catch(() => {})
+  }, [slug])
 
   useEffect(() => {
     fetch(`/api/articles/${slug}`)
@@ -156,6 +179,10 @@ export default function ArticleView() {
                 <Sparkles className="h-3.5 w-3.5" />
                 Redactado con IA · Emprende Salud
               </span>
+              <span className="flex items-center gap-1 text-xs text-[#758E9B]">
+                <UserRound className="h-3.5 w-3.5" />
+                Revisado por Kervin Ancajima, distribuidor independiente FuXion
+              </span>
             </div>
             <h1 className="mt-4 text-2xl font-extrabold leading-tight text-[#0B2033] md:text-3xl">
               {article.titulo}
@@ -167,6 +194,34 @@ export default function ArticleView() {
             <div className="mt-6">
               <Markdown content={article.contenido} />
             </div>
+
+            {/* Te puede interesar: otros artículos y los productos que nombra el artículo */}
+            {(otros.length > 0 || productosDelArticulo(article.contenido).length > 0) && (
+              <aside className="mt-10 rounded-2xl border border-[#00498E]/15 bg-[#F3F6FB] p-6">
+                <h2 className="text-lg font-extrabold text-[#0B2033]">Te puede interesar</h2>
+                <ul className="mt-3 space-y-2">
+                  {otros.map((o) => (
+                    <li key={o.slug}>
+                      <Link to={`/blog/${o.slug}`} className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00498E] hover:underline">
+                        <ArrowRight className="h-4 w-4 shrink-0" /> {o.titulo}
+                      </Link>
+                    </li>
+                  ))}
+                  {productosDelArticulo(article.contenido).map((p) => (
+                    <li key={p.slug}>
+                      <a href={`/tienda/${p.slug}?o=blog`} className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00498E] hover:underline">
+                        <ArrowRight className="h-4 w-4 shrink-0" /> Ver {p.nombre} en la tienda
+                      </a>
+                    </li>
+                  ))}
+                  <li>
+                    <a href="/#catalogo" className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00498E] hover:underline">
+                      <ArrowRight className="h-4 w-4 shrink-0" /> Ver todos los productos
+                    </a>
+                  </li>
+                </ul>
+              </aside>
+            )}
 
             {/* CTA final */}
             <div className="mt-10 rounded-2xl bg-[#00498E] p-6 text-center">
