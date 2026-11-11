@@ -80,6 +80,10 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_articles_created ON articles(created_at);
 `)
+// Fecha de actualización de cada artículo (11-11-2026): la usan la ficha BlogPosting y el sitemap
+try { db.exec('ALTER TABLE articles ADD COLUMN updated_at TEXT') } catch { /* ya existe */ }
+// Colon y moringa se corrigieron y republicaron el 9-11-2026
+db.prepare("UPDATE articles SET updated_at = '2026-11-09 12:30:00' WHERE updated_at IS NULL AND slug IN ('como-limpiar-el-colon-naturalmente', 'moringa-que-es-beneficios-y-como-incluirla')").run()
 // Migración suave: columna utm (para saber qué anuncio trajo cada lead)
 try {
   db.exec("ALTER TABLE leads ADD COLUMN utm TEXT NOT NULL DEFAULT ''")
@@ -125,7 +129,7 @@ const leadsByUtm = db.prepare(
    FROM leads GROUP BY origen ORDER BY total DESC LIMIT 12`
 )
 const listArticles = db.prepare(
-  'SELECT id, slug, titulo, resumen, categoria, keywords, created_at FROM articles ORDER BY id DESC LIMIT 30'
+  'SELECT id, slug, titulo, resumen, categoria, keywords, created_at, updated_at FROM articles ORDER BY id DESC LIMIT 30'
 )
 const getArticleBySlug = db.prepare('SELECT * FROM articles WHERE slug = ?')
 const insertArticle = db.prepare(
@@ -136,10 +140,11 @@ const insertArticle = db.prepare(
      resumen = excluded.resumen,
      contenido = excluded.contenido,
      categoria = excluded.categoria,
-     keywords = excluded.keywords`
+     keywords = excluded.keywords,
+     updated_at = datetime('now', 'localtime')`
 )
 const deleteArticle = db.prepare('DELETE FROM articles WHERE id = ?')
-const listArticleSlugs = db.prepare('SELECT slug, created_at FROM articles ORDER BY id DESC LIMIT 200')
+const listArticleSlugs = db.prepare('SELECT slug, created_at, updated_at FROM articles ORDER BY id DESC LIMIT 200')
 
 // ── App ──────────────────────────────────────────────────────
 const app = express()
@@ -368,6 +373,7 @@ const ORIGENES_TIENDA = {
   tiktok: ['tiktok', 'perfil'],
   qr: ['qr', 'impreso'],
   catalogo: ['whatsapp', 'catalogo'],
+  blog: ['emprendesalud.net', 'blog'],
 }
 app.get(['/tienda', '/tienda/:producto'], (req, res) => {
   const slug = String(req.params.producto || '').toLowerCase()
@@ -391,7 +397,7 @@ app.get('/sitemap.xml', (req, res) => {
     { loc: '/empresa', priority: '0.3' },
     ...listArticleSlugs.all().map((a) => ({
       loc: `/blog/${a.slug}`,
-      lastmod: a.created_at.slice(0, 10),
+      lastmod: (a.updated_at || a.created_at).slice(0, 10),
       priority: '0.7',
     })),
   ]
@@ -435,7 +441,14 @@ if (!isProd) {
 } else {
   const dist = path.join(root, 'dist')
   // index: false → la portada también pasa por el armado de etiquetas SEO
-  app.use(express.static(dist, { index: false }))
+  // Los archivos de /assets llevan una huella en el nombre (index-BiikZhVH.js): si cambian, cambia el nombre.
+  // Por eso el navegador puede guardarlos un año sin volver a pedirlos.
+  app.use(express.static(dist, {
+    index: false,
+    setHeaders: (res, archivo) => {
+      if (archivo.includes(`${path.sep}assets${path.sep}`)) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable')
+    },
+  }))
   const { registerSeo } = await import('./seo.js')
   registerSeo(app, { dist, getArticleBySlug, listArticles })
 }

@@ -48,12 +48,37 @@ function markdownAHtml(md) {
 }
 
 // "2026-09-03 10:20:00" (hora de Lima) → ISO con zona horaria
+// Autor de los artículos: Kervin los revisa contra el empaque, el catálogo y OffiX antes de publicarlos
+const AUTOR = {
+  '@type': 'Person',
+  name: 'Kervin Ancajima',
+  jobTitle: 'Distribuidor independiente FuXion',
+  url: BASE + '/empresa',
+}
+
+// Productos que nombra el artículo (según la lista de productos-blog.json) y otros artículos del blog
+export function relacionados(art, productosBlog, todos) {
+  const texto = ` ${String(art.contenido || '').toUpperCase()} `
+  const productos = productosBlog.filter((p) => {
+    const n = p.nombre.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return new RegExp(`(^|[^A-ZÁÉÍÓÚÑ0-9])${n}($|[^A-ZÁÉÍÓÚÑ0-9])`).test(texto)
+  }).slice(0, 3)
+  const otros = todos.filter((o) => o.slug !== art.slug).slice(0, 3)
+  return { productos, otros }
+}
+
 const fechaIso = (s) => (s ? `${String(s).replace(' ', 'T')}-05:00` : undefined)
 
 export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
   const plantilla = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
 
   let preguntas = []
+  let productosBlog = []
+  try {
+    productosBlog = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'productos-blog.json'), 'utf8'))
+  } catch {
+    // sin la lista, los artículos salen sin enlaces a productos
+  }
   try {
     preguntas = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'src', 'data', 'preguntas.json'), 'utf8'))
   } catch {
@@ -87,6 +112,8 @@ export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
       html = html.replace(/\s*<link\s+rel="canonical"[^>]*>/, '')
     }
     if (extra) html = html.replace('</head>', () => `${extra}\n</head>`)
+    // La imagen del video de portada solo se precarga en la portada
+    if (ruta !== '/') html = html.replace(/\s*<link\s+rel="preload"\s+as="image"\s+href="\/videos\/hero-malecon\.jpg"[^>]*>/, '')
     if (cuerpo) html = html.replace('<div id="root"></div>', () => `<div id="root">${cuerpo}</div>`)
     return html
   }
@@ -147,10 +174,12 @@ export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
           headline: art.titulo,
           description: art.resumen,
           datePublished: fechaIso(art.created_at),
+          dateModified: fechaIso(art.updated_at || art.created_at),
+          image: { '@type': 'ImageObject', url: BASE + '/og-image.png', width: 1200, height: 630 },
           inLanguage: 'es-PE',
           mainEntityOfPage: BASE + ruta,
           keywords: art.keywords || undefined,
-          author: { '@type': 'Organization', name: 'Emprende Salud', url: BASE + '/' },
+          author: AUTOR,
           publisher: { '@type': 'Organization', name: 'Emprende Salud', url: BASE + '/' },
         },
         {
@@ -163,9 +192,17 @@ export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
         },
       ],
     }]
+    const { productos, otros } = relacionados(art, productosBlog, listArticles.all())
+    const bloque = productos.length || otros.length
+      ? `<aside><h2>Te puede interesar</h2><ul>` +
+        otros.map((o) => `<li><a href="/blog/${esc(o.slug)}">${esc(o.titulo)}</a></li>`).join('') +
+        productos.map((p) => `<li><a href="/tienda/${esc(p.slug)}?o=blog">Ver ${esc(p.nombre)} en la tienda</a></li>`).join('') +
+        `<li><a href="/#catalogo">Ver todos los productos</a></li></ul></aside>`
+      : ''
     const cuerpo =
       `<article><p><a href="/blog">Blog</a></p><h1>${esc(art.titulo)}</h1>` +
-      `<p>${esc(art.resumen)}</p>${markdownAHtml(art.contenido)}</article>`
+      `<p>Por Kervin Ancajima, distribuidor independiente FuXion en Piura</p>` +
+      `<p>${esc(art.resumen)}</p>${markdownAHtml(art.contenido)}${bloque}</article>`
     enviar(res, armar({
       titulo: `${art.titulo} · Emprende Salud`,
       descripcion: art.resumen,
