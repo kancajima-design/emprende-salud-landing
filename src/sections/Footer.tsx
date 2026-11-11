@@ -3,8 +3,6 @@ import { waLink } from '@/config'
 
 const NAVEGA = [
   { href: '#momentos', texto: 'Cómo funciona' },
-  { href: '#encuentra', texto: 'Arma tu plan' },
-  { href: '#planes', texto: 'Planes' },
   { href: '#catalogo', texto: 'Catálogo' },
   { href: '#preguntas', texto: 'Preguntas frecuentes' },
   { href: '/blog', texto: 'Blog' },

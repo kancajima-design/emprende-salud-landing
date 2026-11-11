@@ -2,7 +2,7 @@ import { ArrowRight, MessageCircle, Play } from 'lucide-react'
 import { waLink } from '@/config'
 
 const pasos = [
-  { titulo: 'Elige', texto: 'Toca "Comprar" en un producto o plan: se abre la tienda oficial FuXion con todo en el carrito.' },
+  { titulo: 'Elige', texto: 'Toca "Comprar" en un producto: se abre la tienda oficial FuXion con todo en el carrito.' },
   { titulo: 'Verifica', texto: 'Confirma que aparezca Emprende Salud como tu patrocinador para recibir mi asesoría.' },
   { titulo: 'Recibe', texto: 'Regístrate gratis como cliente, paga seguro y recibe tu pedido en tu casa.' },
 ]
@@ -44,8 +44,8 @@ export default function HowToBuy() {
               </li>
             ))}
             <li className="flex flex-wrap items-center gap-3 pt-2">
-              <a href="#planes" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#062B57] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]">
-                Ver planes <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a href="#catalogo" className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-[#062B57] px-6 text-sm font-extrabold text-white transition hover:scale-[1.03]">
+                Ver productos <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
               <a
                 href={waLink('Hola, estoy comprando en la tienda FuXion y necesito ayuda con un paso 😅')}

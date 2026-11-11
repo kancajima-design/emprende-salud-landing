@@ -31,14 +31,14 @@ export default function FinalCTA() {
           ¿Listo para <span className="text-[#FF8A1F]">rendir más?</span>
         </h2>
         <p className="revela mt-5 max-w-lg text-base text-white/70 md:text-lg">
-          Arma tu plan en 30 segundos o déjame asesorarte. Te llega a la puerta de tu casa, en todo el Perú.
+          Elige tus productos en el catálogo o déjame asesorarte. Te llega a la puerta de tu casa, en todo el Perú.
         </p>
         <div className="revela mt-9 flex flex-wrap items-center justify-center gap-3">
           <a
-            href="#encuentra"
+            href="#catalogo"
             className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
           >
-            Arma tu plan <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            Ver productos <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
           </a>
           <button
             onClick={() => {

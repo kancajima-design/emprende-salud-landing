@@ -52,14 +52,14 @@ export default function Hero() {
           </p>
           <div className="sube mt-7 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.7s' }}>
             <a
-              href="#encuentra"
-              onClick={() => trackEvent('ViewContent', { content_name: 'hero-arma-tu-plan' })}
+              href="#catalogo"
+              onClick={() => trackEvent('ViewContent', { content_name: 'hero-ver-productos' })}
               className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
             >
-              Arma tu plan <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+              Ver productos <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
             <a
-              href={waLink('Hola, vi tu página Emprende Salud y quiero armar mi plan para entrenar 🏃')}
+              href={waLink('Hola, vi tu página Emprende Salud y quiero asesoría para elegir mis productos 😊')}
               target="_blank"
               rel="noreferrer"
               onClick={() => trackEvent('Contact', { content_name: 'hero' })}
@@ -68,9 +68,6 @@ export default function Hero() {
               <MessageCircle className="h-5 w-5 text-[#25D366]" /> WhatsApp
             </a>
           </div>
-          <a href="#kit-prueba" className="sube mt-4 self-start text-sm text-white/60 underline-offset-4 hover:text-white hover:underline" style={{ animationDelay: '0.8s' }}>
-            ¿Primera vez? Kit Prueba Sport a S/ 76 →
-          </a>
         </div>
 
         {/* Productos asomando por el borde inferior (escritorio) */}

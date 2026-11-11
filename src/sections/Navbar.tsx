@@ -4,7 +4,6 @@ import { trackEvent } from '@/lib/analytics'
 
 const ENLACES = [
   { href: '#momentos', texto: 'Cómo funciona' },
-  { href: '#planes', texto: 'Planes' },
   { href: '#catalogo', texto: 'Catálogo' },
   { href: '/blog', texto: 'Blog' },
 ]
@@ -45,11 +44,11 @@ export default function Navbar() {
             ))}
           </nav>
           <a
-            href="#encuentra"
-            onClick={() => trackEvent('ViewContent', { content_name: 'navbar-plan' })}
+            href="#catalogo"
+            onClick={() => trackEvent('ViewContent', { content_name: 'navbar-productos' })}
             className="group hidden items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-extrabold text-[#062B57] transition hover:bg-[#B5D70F] sm:flex"
           >
-            Arma tu plan <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+            Ver productos <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
           </a>
         </div>
       </header>
