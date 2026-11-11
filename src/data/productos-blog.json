@@ -1,0 +1,21 @@
+[
+  { "nombre": "PRUNEX1", "slug": "prunex1" },
+  { "nombre": "REXET", "slug": "rexet" },
+  { "nombre": "LIQUID FIBER", "slug": "liquid-fiber" },
+  { "nombre": "FLORA LIV", "slug": "flora-liv" },
+  { "nombre": "ALPHA BALANCE", "slug": "alpha-balance" },
+  { "nombre": "BERRY BALANCE", "slug": "berry-balance" },
+  { "nombre": "NUTRADAY", "slug": "nutraday" },
+  { "nombre": "PROBIX", "slug": "probix" },
+  { "nombre": "VITA XTRA T+", "slug": "vita-xtra-t" },
+  { "nombre": "XPEED", "slug": "xpeed" },
+  { "nombre": "NO STRESS", "slug": "no-stress" },
+  { "nombre": "PRE SPORT", "slug": "pre-sport" },
+  { "nombre": "XTRA MILE", "slug": "xtra-mile" },
+  { "nombre": "POST SPORT", "slug": "post-sport" },
+  { "nombre": "THERMO T3", "slug": "thermo-t3" },
+  { "nombre": "NOCARB-T", "slug": "nocarb-t" },
+  { "nombre": "BEAUTY-IN", "slug": "beauty-in" },
+  { "nombre": "YOUTH ELIXIR", "slug": "youth-elixir" },
+  { "nombre": "GOLDEN FLX", "slug": "golden-flx" }
+]

@@ -881,17 +881,6 @@ export const PRODUCTOS: Producto[] = [
     dato: "Más de 20 g de proteína por ración.",
   },
   {
-    nombre: "KIT PRUEBA SPORT",
-    url: "https://tiendafuxion.com/storelt/emprendesalud/3200778",
-    img: "xpeed.png",
-    tag: "Para probar",
-    linea: "Línea Sport",
-    tagline: "¡Prueba primero, sin comprar una caja grande!",
-    descripcion: "Kit para empezar: XPEED pack x 4 + VITA XTRA T+ caja de 7 sobres.",
-    precios: [{ presentacion: "4 XPEED + VITA XTRA T+ caja 7", precio: "S/ 76.00" }],
-    uso: "XPEED antes de entrenar o cuando necesites energía; VITA XTRA T+ en la mañana.",
-  },
-  {
     nombre: "COMBO PONTE EN FORMA",
     url: "https://tiendafuxion.com/storelt/emprendesalud/3201149",
     img: "thermo-t3.png",
