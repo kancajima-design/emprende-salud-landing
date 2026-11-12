@@ -662,5 +662,69 @@
     ],
     "uso": "Shaker con 250 ml de agua fría. 2 al día, entre comidas o después de entrenar.",
     "tienda": "https://tiendafuxion.com/storelt/emprendesalud/2086012"
+  },
+  {
+    "nombre": "MATCHA PEP-T",
+    "linea": "Línea Fit",
+    "tagline": "Matcha latte con péptidos de colágeno",
+    "para_que_sirve": [],
+    "precios": [
+      {
+        "presentacion": "Doypack 14 sobres x 15 g",
+        "precio": "S/ 158.00",
+        "puntos": 24
+      }
+    ],
+    "tienda": "https://tiendafuxion.com/storelt/emprendesalud/3210283",
+    "ingredientes": "Colágeno hidrolizado (péptidos de colágeno Nextida® GC) + fibra de maíz + crema de coco + té matcha + chía + isomaltulosa + estevia + cromo",
+    "uso": "Un sobre en una taza con 180 ml de agua fría; si quieres, con un chorro de leche o de bebida de almendra, soya o coco. De 30 a 60 minutos antes de tus comidas."
+  },
+  {
+    "nombre": "LIMITLEX IQ+",
+    "linea": "Línea Vigor Mental",
+    "tagline": "Gránulos de manzana que se disuelven en la boca",
+    "para_que_sirve": [],
+    "precios": [
+      {
+        "presentacion": "Caja de 28 unidades (sticks de 2 g)",
+        "precio": "S/ 158.00",
+        "puntos": 24
+      }
+    ],
+    "tienda": "https://kervin-andershon.site.fuxion.com/producto/151245/",
+    "ingredientes": "Citicolina + hongo maitake + vitaminas B6 y B12 + taurina + algarrobo + pectina de manzana",
+    "uso": "Un stick al día. Disuelve los gránulos directamente en la boca, sin agua."
+  },
+  {
+    "nombre": "LIMITLEX ZOOM-IN",
+    "linea": "Línea Vigor Mental",
+    "tagline": "Gránulos con té verde y ginseng",
+    "para_que_sirve": [],
+    "precios": [
+      {
+        "presentacion": "Caja de 28 unidades (sticks de 2 g)",
+        "precio": "S/ 78.00",
+        "puntos": 12
+      }
+    ],
+    "tienda": "https://kervin-andershon.site.fuxion.com/producto/151242/",
+    "ingredientes": "Teanina + teína + vitamina C + tirosina + extracto de cranberry + Panax ginseng + vitaminas B6 y B12 + DHA + ARA + hongo melena de león",
+    "uso": "Un stick al día. Disuelve los gránulos directamente en la boca, sin agua. Contiene 50 mg de teína por stick."
+  },
+  {
+    "nombre": "LIMITLEX REZZT+",
+    "linea": "Línea Vigor Mental",
+    "tagline": "Gránulos de naranja y limón para tu rutina de noche",
+    "para_que_sirve": [],
+    "precios": [
+      {
+        "presentacion": "Caja de 28 unidades (sticks de 2 g)",
+        "precio": "S/ 65.50",
+        "puntos": 10
+      }
+    ],
+    "tienda": "https://kervin-andershon.site.fuxion.com/producto/151248/",
+    "ingredientes": "Aminoácidos del germinado de quinua y del té verde: L-triptófano + L-teanina + L-glicina + acetiltirosina",
+    "uso": "Un stick al día, de noche. Disuelve los gránulos directamente en la boca, sin agua."
   }
 ]
