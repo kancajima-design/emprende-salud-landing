@@ -9,6 +9,7 @@ const Blog = lazy(() => import('./pages/Blog'))
 const ArticleView = lazy(() => import('./pages/ArticleView'))
 const Empresa = lazy(() => import('./pages/Empresa'))
 const NoEncontrada = lazy(() => import('./pages/NoEncontrada'))
+const ProductoView = lazy(() => import('./pages/ProductoView'))
 
 // Dispara PageView del pixel + visita propia en cada cambio de ruta (SPA)
 function PageViewTracker() {
@@ -41,6 +42,14 @@ export default function App() {
         element={
           <Suspense fallback={<div className="min-h-screen bg-[#F3F6FB]" />}>
             <ArticleView />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/productos/:slug"
+        element={
+          <Suspense fallback={<div className="min-h-screen bg-white" />}>
+            <ProductoView />
           </Suspense>
         }
       />
