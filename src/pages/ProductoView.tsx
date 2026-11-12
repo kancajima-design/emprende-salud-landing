@@ -69,7 +69,11 @@ export default function ProductoView() {
                 )}
               </nav>
               <h1 className="mt-6 text-[44px] sm:text-[60px] md:text-[72px]">
-                {p.nombre} <span className="text-[#C9E63F]">de FuXion</span>
+                {/* Cada palabra del nombre va entera: «PEP-T» no se parte en el guion */}
+                {p.nombre.split(' ').map((w) => (
+                  <i key={w} className="whitespace-nowrap not-italic">{w} </i>
+                ))}
+                <span className="text-[#C9E63F]">de FuXion</span>
               </h1>
               {p.tagline && <p className="mt-4 text-lg text-white/85 md:text-xl">{p.tagline}</p>}
               {p.descripcion && <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70 md:text-base">{p.descripcion}</p>}
