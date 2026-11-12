@@ -28,7 +28,7 @@ export default function Advisor() {
 
           <div className="revela">
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Quién te asesora</p>
-            <h2 className="mt-3 text-[56px] md:text-[88px]">
+            <h2 className="mt-3 text-[38px] md:text-[60px]">
               Detrás hay <span className="text-[#B5D70F]">una persona real</span>
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">

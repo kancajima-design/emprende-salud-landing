@@ -41,68 +41,98 @@ function precioPorVaso(p: Producto): string | null {
   return null
 }
 
-// Tarjeta con inclinación 3D al pasar el mouse y la foto "saliendo" de la tarjeta
+// Tarjeta de catálogo (v4): foto, qué lleva, cómo se toma, precio y botones de ficha y compra.
+// En celular va en horizontal (foto a la izquierda) para que quepa la información.
 function TarjetaProducto({ p, color, onClick }: { p: Producto; color: string; onClick: () => void }) {
-  function mover(e: React.PointerEvent<HTMLButtonElement>) {
-    if (e.pointerType !== 'mouse') return
-    const r = e.currentTarget.getBoundingClientRect()
-    const x = (e.clientX - r.left) / r.width - 0.5
-    const y = (e.clientY - r.top) / r.height - 0.5
-    e.currentTarget.style.setProperty('--rx', `${(-y * 10).toFixed(2)}deg`)
-    e.currentTarget.style.setProperty('--ry', `${(x * 10).toFixed(2)}deg`)
-  }
-  function soltar(e: React.PointerEvent<HTMLButtonElement>) {
-    e.currentTarget.style.setProperty('--rx', '0deg')
-    e.currentTarget.style.setProperty('--ry', '0deg')
-  }
   const vaso = precioPorVaso(p)
   const desde = precioDesde(p)
+  const variosEnlaces = (p.variantes?.length ?? 0) > 1
   return (
-    <div className="prod-card">
+    <article className="prod-card group flex overflow-hidden rounded-[26px] bg-white ring-1 ring-[#041A36]/10 transition duration-300 hover:shadow-[0_28px_60px_-24px_rgba(4,26,54,0.35)] hover:ring-[#041A36]/20 sm:flex-col">
       <button
+        type="button"
         onClick={onClick}
-        onPointerMove={mover}
-        onPointerLeave={soltar}
-        className="prod-card-in group relative flex h-full w-full cursor-pointer flex-col overflow-hidden rounded-3xl bg-white text-left shadow-sm ring-1 ring-[#00498E]/5 hover:shadow-xl"
+        aria-label={`Ver la ficha de ${p.nombre}`}
+        className="relative flex w-[36%] shrink-0 cursor-pointer items-center justify-center p-3 sm:h-56 sm:w-full sm:px-8 sm:pb-4 sm:pt-12"
       >
-        <div
-          className="relative flex h-36 items-center justify-center px-3 pt-3 sm:h-40"
-          style={{ background: `radial-gradient(circle at 50% 60%, ${color}33 0%, ${color}10 55%, transparent 75%)` }}
-        >
-          <ProductoImagen p={p} className="prod-card-img h-full w-full object-contain" />
-          {p.tag && (
-            <span
-              className="absolute left-3 top-3 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-white"
-              style={{ background: color }}
-            >
-              {p.tag}
-            </span>
-          )}
-        </div>
-        <div className="flex flex-1 flex-col px-4 pb-4 pt-2">
-          <p className="text-[13px] font-extrabold leading-snug text-[#0B2033] sm:text-sm">{p.nombre}</p>
-          {(p.tagline || p.descripcion) && (
-            <p className="mt-1 line-clamp-3 text-[11px] leading-snug text-[#758E9B]">{p.tagline || p.descripcion}</p>
-          )}
-          <div className="mt-auto pt-3">
-            {vaso ? (
-              <p className="leading-none">
-                <span className="text-lg font-extrabold text-[#0B2033]">{vaso}</span>{' '}
-                <span className="text-[11px] font-semibold text-[#758E9B]">por vaso</span>
-              </p>
-            ) : (
-              desde && <p className="text-sm font-extrabold text-[#0B2033]">{desde}</p>
+        <ProductoImagen p={p} className="prod-card-img max-h-36 w-full object-contain sm:h-full sm:max-h-none" />
+        {p.tag && (
+          <span className="absolute left-5 top-5 hidden items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#4A6070] sm:flex">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
+            {p.tag}
+          </span>
+        )}
+      </button>
+      <div className="flex min-w-0 flex-1 flex-col border-l border-[#041A36]/[0.07] p-4 sm:border-l-0 sm:border-t sm:p-6">
+        {p.tag && (
+          <span className="mb-1.5 flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#4A6070] sm:hidden">
+            <span className="h-1.5 w-1.5 rounded-full" style={{ background: color }} />
+            {p.tag}
+          </span>
+        )}
+        <h3 className="font-display text-[21px] text-[#041A36] sm:text-[25px]">{p.nombre}</h3>
+        {(p.tagline || p.descripcion) && (
+          <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-snug text-[#4A6070] sm:text-[13px]">{p.tagline || p.descripcion}</p>
+        )}
+
+        {(p.ingredientes || p.uso) && (
+          <dl className="mt-4 space-y-3 border-t border-[#041A36]/[0.07] pt-4 text-[12px] leading-snug">
+            {p.ingredientes && (
+              <div className="flex gap-2.5">
+                <Leaf className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color }} />
+                <div className="min-w-0">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#758E9B]">Qué lleva</dt>
+                  <dd className="mt-0.5 line-clamp-2 text-[#041A36]">{p.ingredientes}</dd>
+                </div>
+              </div>
             )}
-            <span
-              className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold transition-all group-hover:gap-2"
-              style={{ color }}
+            {p.uso && (
+              <div className="hidden gap-2.5 sm:flex">
+                <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0" style={{ color }} />
+                <div className="min-w-0">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#758E9B]">Cómo se toma</dt>
+                  <dd className="mt-0.5 line-clamp-2 text-[#041A36]">{p.uso}</dd>
+                </div>
+              </div>
+            )}
+          </dl>
+        )}
+
+        <div className="mt-auto pt-5">
+          {vaso ? (
+            <>
+              <p className="whitespace-nowrap leading-none">
+                <span className="font-display text-[26px] text-[#041A36]">{vaso}</span>{' '}
+                <span className="text-[11px] font-medium text-[#758E9B]">por vaso</span>
+              </p>
+              {desde && <p className="mt-1.5 text-[11px] font-medium text-[#758E9B]">Presentaciones {desde}</p>}
+            </>
+          ) : (
+            desde && <p className="font-display text-[22px] leading-none text-[#041A36]">{desde}</p>
+          )}
+          <div className="mt-4 flex gap-2">
+            <button
+              type="button"
+              onClick={onClick}
+              className="inline-flex min-h-11 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-full px-3 text-[12.5px] font-semibold text-[#041A36] ring-1 ring-[#041A36]/20 transition hover:bg-[#041A36] hover:text-white"
             >
-              <Info className="h-3 w-3" /> Ver detalles →
-            </span>
+              <Info className="h-3.5 w-3.5" /> Ver ficha
+            </button>
+            {!variosEnlaces && (
+              <a
+                href={p.url}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackEvent('ViewContent', { content_name: `${p.nombre} · comprar` })}
+                className="inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-[#041A36] px-3 text-[12.5px] font-semibold text-white transition hover:bg-[#00498E]"
+              >
+                <ShoppingCart className="h-3.5 w-3.5" /> Comprar
+              </a>
+            )}
           </div>
         </div>
-      </button>
-    </div>
+      </div>
+    </article>
   )
 }
 
@@ -163,99 +193,101 @@ export default function Products() {
     )
   }, [busca])
 
+  // Qué se muestra: resultados de búsqueda, todo el catálogo o una línea
+  const linea = CATEGORIAS.find((x) => x.id === cat)
+  const vista = encontrados ?? (linea ? porCategoria(linea.linea) : PRODUCTOS)
+  const tituloVista = encontrados ? `Resultados para «${busca.trim()}»` : linea ? linea.titulo : 'Todos los productos'
+  const descVista = encontrados
+    ? encontrados.length
+      ? 'Coincidencias por nombre, descripción o ingredientes.'
+      : 'No encontré productos con esa palabra. Prueba con otra o pregúntame por WhatsApp.'
+    : linea
+      ? linea.desc
+      : 'Las 6 líneas juntas, una tarjeta por producto.'
+  const abrir = (p: Producto) => {
+    setSel(p)
+    trackEvent('ViewContent', { content_name: p.nombre })
+  }
+  const PESTANAS = [{ id: 'todos', titulo: 'Todos', color: '#041A36', total: PRODUCTOS.length }, ...CATEGORIAS.map((c) => ({ id: c.id, titulo: c.titulo, color: c.color, total: porCategoria(c.linea).length }))]
+
   return (
-    <section id="catalogo" className="scroll-mt-24 bg-white py-20 md:py-28">
-      <div className="mx-auto max-w-6xl px-4">
-        <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
-        <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[96px]">
-          Todo FuXion, por línea
-        </h2>
-        <p className="mt-3 max-w-xl text-sm text-[#758E9B] md:text-base">
-          Elige una línea o busca un producto o ingrediente. Toca cualquier producto para ver sus ingredientes,
-          cómo se toma, sus presentaciones, el precio y el enlace directo al carrito de la tienda oficial.
-        </p>
-
-        <label className="relative mt-6 block max-w-xl">
-          <span className="sr-only">Buscar producto o ingrediente</span>
-          <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#758E9B]" />
-          <input
-            id="buscar-producto"
-            type="search"
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            placeholder="Busca un producto o ingrediente: colágeno, fibra, café, PRUNEX1…"
-            className="min-h-12 w-full rounded-full bg-[#F3F6FB] pl-12 pr-4 text-sm text-[#0B2033] outline-none ring-1 ring-[#00498E]/10 placeholder:text-[#758E9B] focus:ring-2 focus:ring-[#0094DE]"
-          />
-        </label>
-
-        {/* Pestañas por línea (patrón Liquid I.V.) */}
-        <div className="-mx-4 mt-6 overflow-x-auto px-4 pb-1" role="tablist">
-          <div className="flex w-max gap-2">
-            {CATEGORIAS.map(({ id, icon: Icon, titulo, linea, color }) => {
-              const activa = id === cat
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="tab"
-                  aria-selected={activa}
-                  onClick={() => { setCat(id); setBusca('') }}
-                  className={`inline-flex min-h-11 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-sm font-bold transition ${
-                    activa && !encontrados ? 'text-white shadow-md' : 'bg-white text-[#0B2033] ring-1 ring-[#00498E]/10 hover:ring-[#00498E]/30'
-                  }`}
-                  style={activa && !encontrados ? { background: color } : undefined}
-                >
-                  <Icon className="h-4 w-4" /> {titulo}
-                  <span className={`text-xs ${activa ? 'text-white/80' : 'text-[#758E9B]'}`}>{porCategoria(linea).length}</span>
-                </button>
-              )
-            })}
+    <section id="catalogo" className="scroll-mt-24 bg-white py-20 md:py-32">
+      <div className="mx-auto max-w-7xl px-4 md:px-12">
+        <div className="flex flex-wrap items-end justify-between gap-6">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-[#0094DE]">Catálogo completo · {PRODUCTOS.length} productos</p>
+            <h2 className="mt-4 text-[38px] text-[#041A36] md:text-[60px]">
+              Todo FuXion, <span className="text-[#00498E]">por línea</span>
+            </h2>
           </div>
+          <p className="max-w-md text-sm leading-relaxed text-[#4A6070] md:text-base">
+            Cada tarjeta muestra qué lleva el producto, cómo se toma y cuánto cuesta. En la ficha están todas
+            las presentaciones y el enlace directo al carrito de la tienda oficial.
+          </p>
         </div>
 
-        {encontrados ? (
-          <div className="hero-fade pt-6">
-            <p className="text-sm text-[#758E9B]">
-              {encontrados.length
-                ? `${encontrados.length} ${encontrados.length === 1 ? 'producto encontrado' : 'productos encontrados'} para «${busca.trim()}»`
-                : `No encontré productos para «${busca.trim()}». Prueba con otra palabra o pregúntame por WhatsApp.`}
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-              {encontrados.map((p) => (
-                <TarjetaProducto
-                  key={p.nombre}
-                  p={p}
-                  color={colorDe(p)}
-                  onClick={() => {
-                    setSel(p)
-                    trackEvent('ViewContent', { content_name: p.nombre })
-                  }}
-                />
+        <div className="mt-10 lg:mt-14 lg:grid lg:grid-cols-[250px_1fr] lg:gap-14">
+          {/* Buscador y líneas: columna fija en escritorio, fila deslizable en celular */}
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <label className="relative block">
+              <span className="sr-only">Buscar producto o ingrediente</span>
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#758E9B]" />
+              <input
+                id="buscar-producto"
+                type="search"
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                placeholder="Producto o ingrediente"
+                className="min-h-12 w-full rounded-full bg-[#F5F7FA] pl-11 pr-4 text-sm text-[#041A36] outline-none ring-1 ring-[#041A36]/10 placeholder:text-[#758E9B] focus:ring-2 focus:ring-[#0094DE]"
+              />
+            </label>
+            <p className="mt-2 hidden px-1 text-[11px] text-[#758E9B] lg:block">Prueba con «colágeno», «fibra» o «café».</p>
+
+            <div className="-mx-4 mt-5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:mt-7 lg:overflow-visible lg:px-0 lg:pb-0" role="tablist" aria-label="Líneas del catálogo">
+              <div className="flex w-max gap-2 lg:w-full lg:flex-col lg:gap-0 lg:border-t lg:border-[#041A36]/10">
+                {PESTANAS.map((t) => {
+                  const activa = !encontrados && t.id === cat
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={activa}
+                      onClick={() => { setCat(t.id); setBusca('') }}
+                      className={`inline-flex min-h-11 cursor-pointer items-center gap-2 whitespace-nowrap rounded-full px-4 text-sm transition lg:flex lg:w-full lg:justify-between lg:rounded-none lg:border-b lg:border-[#041A36]/10 lg:bg-transparent lg:px-1 lg:py-4 lg:ring-0 ${
+                        activa
+                          ? 'bg-[#041A36] font-semibold text-white lg:text-[#041A36]'
+                          : 'bg-white font-medium text-[#4A6070] ring-1 ring-[#041A36]/10 hover:text-[#041A36]'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <span className={`h-2 w-2 rounded-full transition ${activa ? 'scale-125' : 'opacity-60'}`} style={{ background: activa && t.id === 'todos' ? '#C9E63F' : t.color }} />
+                        <span className={activa ? 'lg:font-display lg:text-[22px]' : ''}>{t.titulo}</span>
+                      </span>
+                      <span className={`text-xs tabular-nums ${activa ? 'text-white/70 lg:text-[#041A36]' : 'text-[#758E9B]'}`}>{t.total}</span>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </aside>
+
+          {/* Productos */}
+          <div key={encontrados ? 'busca' : cat} className="hero-fade mt-8 min-w-0 lg:mt-0">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-b border-[#041A36]/10 pb-5">
+              <h3 className="font-display text-[28px] text-[#041A36] md:text-[34px]">{tituloVista}</h3>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-[#758E9B]">
+                {vista.length} {vista.length === 1 ? 'producto' : 'productos'}
+              </p>
+              <p className="w-full text-sm text-[#4A6070]">{descVista}</p>
+            </div>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
+              {vista.map((p) => (
+                <TarjetaProducto key={p.nombre} p={p} color={colorDe(p)} onClick={() => abrir(p)} />
               ))}
             </div>
           </div>
-        ) : (() => {
-          const c = CATEGORIAS.find((x) => x.id === cat) ?? CATEGORIAS[0]
-          const productos = porCategoria(c.linea)
-          return (
-            <div key={c.id} className="hero-fade pt-6">
-              <p className="text-sm text-[#758E9B]">{c.desc}</p>
-              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
-                {productos.map((p) => (
-                  <TarjetaProducto
-                    key={p.nombre}
-                    p={p}
-                    color={c.color}
-                    onClick={() => {
-                      setSel(p)
-                      trackEvent('ViewContent', { content_name: p.nombre })
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )
-        })()}
+        </div>
 
         {/* CTA asesoría con Valeria */}
         <div className="revela grano relative mx-auto mt-14 max-w-3xl overflow-hidden rounded-[32px] bg-[#062B57] p-8 text-center text-white md:p-10">
@@ -305,7 +337,7 @@ export default function Products() {
                       </span>
                     )}
                     <DialogHeader className="mt-4 text-left">
-                      <DialogTitle className="font-display text-5xl font-normal leading-[0.95] text-white md:text-6xl">{sel.nombre}</DialogTitle>
+                      <DialogTitle className="font-display text-4xl font-normal text-white md:text-[44px]">{sel.nombre}</DialogTitle>
                     </DialogHeader>
                     {sel.tagline && <p className="mt-2 text-sm text-white/70">{sel.tagline}</p>}
                   </div>

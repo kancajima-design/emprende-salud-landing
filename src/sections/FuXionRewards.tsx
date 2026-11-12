@@ -12,7 +12,7 @@ export default function FuXionRewards() {
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <div className="revela max-w-3xl">
           <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#FF8A1F]">FuXion Rewards</p>
-          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[96px]">
+          <h2 className="mt-3 text-[38px] text-[#062B57] md:text-[60px]">
             Compra y <span className="text-[#FF8A1F]">gana regalos</span>
           </h2>
           <p className="mt-4 max-w-xl text-sm text-[#4A6070] md:text-base">

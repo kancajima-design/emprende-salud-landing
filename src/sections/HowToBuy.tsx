@@ -14,7 +14,7 @@ export default function HowToBuy() {
         <div className="revela flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Cómo comprar</p>
-            <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[96px]">
+            <h2 className="mt-3 text-[38px] text-[#062B57] md:text-[60px]">
               3 pasos, <span className="text-[#0094DE]">2 minutos</span>
             </h2>
           </div>

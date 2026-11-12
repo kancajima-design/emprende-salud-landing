@@ -47,7 +47,7 @@ export default function BlogTeaser() {
           <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">
             <Sparkles className="h-3.5 w-3.5" /> Blog Emprende Salud
           </p>
-          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[88px]">
+          <h2 className="mt-3 text-[38px] text-[#062B57] md:text-[60px]">
             Aprende sobre <span className="text-[#0094DE]">nutrición funcional</span>
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-[#4A6070] md:text-base">

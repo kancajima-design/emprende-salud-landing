@@ -79,7 +79,7 @@ export default function LeadForm() {
       <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-8 lg:grid-cols-2">
         <div className="revela">
           <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Regalo · PDF gratis</p>
-          <h2 className="mt-3 text-[56px] md:text-[88px]">
+          <h2 className="mt-3 text-[38px] md:text-[60px]">
             Guía Sport <span className="text-[#B5D70F]">gratis</span>
           </h2>
           <p className="mt-4 max-w-md text-base leading-relaxed text-white/70">{BRAND.regalo.descripcion}</p>

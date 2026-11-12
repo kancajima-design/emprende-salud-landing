@@ -14,7 +14,7 @@ export default function FAQ() {
       <div className="mx-auto grid max-w-7xl gap-10 px-4 md:px-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="revela lg:sticky lg:top-32 lg:self-start">
           <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Preguntas frecuentes</p>
-          <h2 className="mt-3 text-[56px] text-[#062B57] md:text-[88px]">
+          <h2 className="mt-3 text-[38px] text-[#062B57] md:text-[60px]">
             Antes de tu <span className="text-[#0094DE]">primer pedido</span>
           </h2>
           <p className="mt-4 max-w-sm text-sm text-[#4A6070] md:text-base">Lo que más me preguntan por WhatsApp.</p>

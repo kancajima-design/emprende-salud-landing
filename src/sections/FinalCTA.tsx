@@ -3,11 +3,14 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 // Cierre: asesoría antes de comprar (sin video desde el 11-11-2026)
 export default function FinalCTA() {
   return (
-    <section className="grano relative isolate overflow-hidden bg-[#062B57] text-white">
-      <div className="mx-auto flex min-h-[80vh] max-w-7xl flex-col items-center justify-center px-4 py-24 text-center md:px-8">
-        <p className="revela text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Asesoría personalizada</p>
-        <h2 className="revela mt-4 text-[56px] md:text-[112px]">
-          ¿Tienes dudas sobre <span className="text-[#B5D70F]">un producto?</span>
+    <section className="bg-white p-2 md:p-3">
+    <div className="grano relative isolate overflow-hidden rounded-[28px] bg-[#041A36] text-white md:rounded-[40px]">
+      <img src="/portada/bodegon-ancho.webp" alt="" loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover object-right opacity-60" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#041A36] via-[#041A36]/85 to-[#041A36]/40" />
+      <div className="mx-auto flex min-h-[70vh] max-w-7xl flex-col items-center justify-center px-4 py-24 text-center md:px-8">
+        <p className="revela text-[11px] font-bold uppercase tracking-[0.3em] text-white/70">Asesoría personalizada</p>
+        <h2 className="revela mt-4 text-[42px] md:text-[76px]">
+          ¿Tienes dudas sobre <span className="text-[#C9E63F]">un producto?</span>
         </h2>
         <p className="revela mt-5 max-w-lg text-base text-white/70 md:text-lg">
           Te cuento qué lleva cada producto, cómo se toma y cuánto cuesta. Tu pedido llega a tu casa, en todo el Perú.
@@ -36,6 +39,7 @@ export default function FinalCTA() {
           </button>
         </div>
       </div>
+    </div>
     </section>
   )
 }
