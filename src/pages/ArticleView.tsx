@@ -209,8 +209,8 @@ export default function ArticleView() {
                   ))}
                   {productosDelArticulo(article.contenido).map((p) => (
                     <li key={p.slug}>
-                      <a href={`/tienda/${p.slug}?o=blog`} className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00498E] hover:underline">
-                        <ArrowRight className="h-4 w-4 shrink-0" /> Ver {p.nombre} en la tienda
+                      <a href={`/productos/${p.slug}`} className="inline-flex items-center gap-1.5 text-sm font-bold text-[#00498E] hover:underline">
+                        <ArrowRight className="h-4 w-4 shrink-0" /> Ver {p.nombre}: ingredientes y precio
                       </a>
                     </li>
                   ))}
