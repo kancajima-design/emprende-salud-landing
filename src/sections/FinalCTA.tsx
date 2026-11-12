@@ -1,37 +1,16 @@
-import { useEffect, useRef } from 'react'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
-// Cierre a pantalla completa con video del deportista
+// Cierre: asesoría antes de comprar (sin video desde el 11-11-2026)
 export default function FinalCTA() {
-  const v = useRef<HTMLVideoElement>(null)
-  useEffect(() => {
-    const el = v.current
-    if (!el) return
-    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? el.play().catch(() => {}) : el.pause()), { threshold: 0.2 })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
   return (
     <section className="grano relative isolate overflow-hidden bg-[#062B57] text-white">
-      <video
-        ref={v}
-        src="/videos/b3-carrera-sudor.mp4"
-        poster="/videos/b3-carrera-sudor.jpg"
-        muted
-        loop
-        playsInline
-        preload="none"
-        className="absolute inset-0 -z-10 h-full w-full object-cover opacity-40"
-      />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#062B57] via-[#062B57]/60 to-[#062B57]/80" />
       <div className="mx-auto flex min-h-[80vh] max-w-7xl flex-col items-center justify-center px-4 py-24 text-center md:px-8">
-        <p className="revela text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Tu próximo entrenamiento</p>
-        <h2 className="revela mt-4 text-[64px] md:text-[140px]">
-          ¿Listo para <span className="text-[#FF8A1F]">rendir más?</span>
+        <p className="revela text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]">Asesoría personalizada</p>
+        <h2 className="revela mt-4 text-[56px] md:text-[112px]">
+          ¿Tienes dudas sobre <span className="text-[#B5D70F]">un producto?</span>
         </h2>
         <p className="revela mt-5 max-w-lg text-base text-white/70 md:text-lg">
-          Elige tus productos en el catálogo o déjame asesorarte. Te llega a la puerta de tu casa, en todo el Perú.
+          Te cuento qué lleva cada producto, cómo se toma y cuánto cuesta. Tu pedido llega a tu casa, en todo el Perú.
         </p>
         <div className="revela mt-9 flex flex-wrap items-center justify-center gap-3">
           <a

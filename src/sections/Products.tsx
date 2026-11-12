@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
 import {
   Dialog,
@@ -6,61 +6,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { X, CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift, Droplets, Scale, ShieldCheck, Brain, Dumbbell } from 'lucide-react'
+import { X, CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift, Search } from 'lucide-react'
+import { LINEAS, EVENTO_LINEA } from '@/data/lineas'
 import { PRODUCTOS, waLink, type Producto } from '@/config'
 
-// Categorías del catálogo: Sport primero (es el público de los anuncios).
-// color = acento de la línea en las tarjetas (ver DESIGN.md)
-const CATEGORIAS = [
-  {
-    id: 'cat-sport',
-    linea: 'Línea Sport',
-    color: '#F58220',
-    icon: Dumbbell,
-    titulo: 'Sport',
-    desc: 'Rendimiento, resistencia y recuperación para tu entrenamiento.',
-  },
-  {
-    id: 'cat-base',
-    linea: 'Sistema Base',
-    color: '#0094DE',
-    icon: Droplets,
-    titulo: 'Sistema Base',
-    desc: 'Tu rutina diaria: vitaminas, fibra, probióticos y energía de base.',
-  },
-  {
-    id: 'cat-fit',
-    linea: 'Línea Fit',
-    color: '#16A34A',
-    icon: Scale,
-    titulo: 'Fit',
-    desc: 'Proteínas, cafés y bebidas para acompañar tu ejercicio y tu alimentación.',
-  },
-  {
-    id: 'cat-defensas',
-    linea: 'Bebidas de bienestar',
-    color: '#F59E0B',
-    icon: ShieldCheck,
-    titulo: 'Bienestar',
-    desc: 'Tés, cafés y bebidas con ganoderma, aloe y betaglucanos.',
-  },
-  {
-    id: 'cat-belleza',
-    linea: 'Línea Belleza',
-    color: '#E11D74',
-    icon: Sparkles,
-    titulo: 'Belleza',
-    desc: 'Colágeno, antioxidantes y bebidas para tu rutina de cuidado.',
-  },
-  {
-    id: 'cat-mental',
-    linea: 'Línea Vigor Mental',
-    color: '#7C3AED',
-    icon: Brain,
-    titulo: 'Enfoque Mental',
-    desc: 'Bebidas con aminoácidos para tus días intensos.',
-  },
-]
+// Líneas del catálogo (orden y colores en src/data/lineas.ts)
+const CATEGORIAS = LINEAS
 
 // Color de la ficha: el de su caja para los Sport, si no el de su línea
 const COLOR_PRODUCTO: Record<string, string> = { 'PRE SPORT': '#FF2E9A', 'XTRA MILE': '#FF8A1F', 'POST SPORT': '#FF3B4E', 'BIOPRO+ SPORT': '#7A3FD0' }
@@ -130,8 +81,8 @@ function TarjetaProducto({ p, color, onClick }: { p: Producto; color: string; on
         </div>
         <div className="flex flex-1 flex-col px-4 pb-4 pt-2">
           <p className="text-[13px] font-extrabold leading-snug text-[#0B2033] sm:text-sm">{p.nombre}</p>
-          {p.tagline && (
-            <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-[#758E9B]">{p.tagline}</p>
+          {(p.tagline || p.descripcion) && (
+            <p className="mt-1 line-clamp-3 text-[11px] leading-snug text-[#758E9B]">{p.tagline || p.descripcion}</p>
           )}
           <div className="mt-auto pt-3">
             {vaso ? (
@@ -190,6 +141,27 @@ function ProductoImagen({ p, className }: { p: Producto; className?: string }) {
 export default function Products() {
   const [sel, setSel] = useState<Producto | null>(null)
   const [cat, setCat] = useState(CATEGORIAS[0].id)
+  const [busca, setBusca] = useState('')
+
+  // La portada abre una línea con el evento «elegir-linea»
+  useEffect(() => {
+    const f = (e: Event) => {
+      setBusca('')
+      setCat(String((e as CustomEvent).detail))
+    }
+    window.addEventListener(EVENTO_LINEA, f)
+    return () => window.removeEventListener(EVENTO_LINEA, f)
+  }, [])
+
+  // Búsqueda en todo el catálogo por nombre, descripción o ingredientes (sin tildes)
+  const sinTildes = (t: string) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase()
+  const encontrados = useMemo(() => {
+    const q = sinTildes(busca.trim())
+    if (q.length < 2) return null
+    return PRODUCTOS.filter((p) =>
+      sinTildes([p.nombre, p.tagline, p.descripcion, p.ingredientes, p.linea].filter(Boolean).join(' ')).includes(q),
+    )
+  }, [busca])
 
   return (
     <section id="catalogo" className="scroll-mt-24 bg-white py-20 md:py-28">
@@ -199,9 +171,22 @@ export default function Products() {
           Todo FuXion, por línea
         </h2>
         <p className="mt-3 max-w-xl text-sm text-[#758E9B] md:text-base">
-          Elige una línea y toca un producto para ver sus ingredientes, cómo se toma, sus presentaciones y el
-          enlace directo al carrito de la tienda oficial.
+          Elige una línea o busca un producto o ingrediente. Toca cualquier producto para ver sus ingredientes,
+          cómo se toma, sus presentaciones, el precio y el enlace directo al carrito de la tienda oficial.
         </p>
+
+        <label className="relative mt-6 block max-w-xl">
+          <span className="sr-only">Buscar producto o ingrediente</span>
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#758E9B]" />
+          <input
+            id="buscar-producto"
+            type="search"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            placeholder="Busca un producto o ingrediente: colágeno, fibra, café, PRUNEX1…"
+            className="min-h-12 w-full rounded-full bg-[#F3F6FB] pl-12 pr-4 text-sm text-[#0B2033] outline-none ring-1 ring-[#00498E]/10 placeholder:text-[#758E9B] focus:ring-2 focus:ring-[#0094DE]"
+          />
+        </label>
 
         {/* Pestañas por línea (patrón Liquid I.V.) */}
         <div className="-mx-4 mt-6 overflow-x-auto px-4 pb-1" role="tablist">
@@ -214,11 +199,11 @@ export default function Products() {
                   type="button"
                   role="tab"
                   aria-selected={activa}
-                  onClick={() => setCat(id)}
+                  onClick={() => { setCat(id); setBusca('') }}
                   className={`inline-flex min-h-11 cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-sm font-bold transition ${
-                    activa ? 'text-white shadow-md' : 'bg-white text-[#0B2033] ring-1 ring-[#00498E]/10 hover:ring-[#00498E]/30'
+                    activa && !encontrados ? 'text-white shadow-md' : 'bg-white text-[#0B2033] ring-1 ring-[#00498E]/10 hover:ring-[#00498E]/30'
                   }`}
-                  style={activa ? { background: color } : undefined}
+                  style={activa && !encontrados ? { background: color } : undefined}
                 >
                   <Icon className="h-4 w-4" /> {titulo}
                   <span className={`text-xs ${activa ? 'text-white/80' : 'text-[#758E9B]'}`}>{porCategoria(linea).length}</span>
@@ -228,7 +213,28 @@ export default function Products() {
           </div>
         </div>
 
-        {(() => {
+        {encontrados ? (
+          <div className="hero-fade pt-6">
+            <p className="text-sm text-[#758E9B]">
+              {encontrados.length
+                ? `${encontrados.length} ${encontrados.length === 1 ? 'producto encontrado' : 'productos encontrados'} para «${busca.trim()}»`
+                : `No encontré productos para «${busca.trim()}». Prueba con otra palabra o pregúntame por WhatsApp.`}
+            </p>
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5 lg:grid-cols-4">
+              {encontrados.map((p) => (
+                <TarjetaProducto
+                  key={p.nombre}
+                  p={p}
+                  color={colorDe(p)}
+                  onClick={() => {
+                    setSel(p)
+                    trackEvent('ViewContent', { content_name: p.nombre })
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (() => {
           const c = CATEGORIAS.find((x) => x.id === cat) ?? CATEGORIAS[0]
           const productos = porCategoria(c.linea)
           return (

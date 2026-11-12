@@ -1,103 +1,125 @@
-import { ArrowRight, MessageCircle } from 'lucide-react'
-import { waLink } from '@/config'
+import { ArrowRight, MessageCircle, Store, Truck, Gift } from 'lucide-react'
+import { waLink, PRODUCTOS } from '@/config'
 import { trackEvent } from '@/lib/analytics'
+import { LINEAS, EVENTO_LINEA } from '@/data/lineas'
 
-// Portada cinematográfica: titular gigante con el color de cada momento,
-// deportista en video a sangre y los 3 productos asomando por el borde inferior.
-const PALABRAS = [
-  { texto: 'Antes.', color: '#FF2E9A' },
-  { texto: 'Durante.', color: '#FF8A1F' },
-  { texto: 'Después.', color: '#FF3B4E' },
-]
-const CINTA = ['Corre', 'Pedalea', 'Entrena', 'Envío a todo el Perú', 'Tienda oficial FuXion', 'Desde S/ 4,63 por vaso']
+// Portada general (11-11-2026): todo el catálogo FuXion, sin la parte deportiva.
+// Arriba qué vendes y dónde llega; abajo las líneas para ir directo a lo que buscas.
+const VITRINA = ['prunex1', 'flora-liv', 'nutraday', 'beauty-in', 'biopro-fit', 'cafe-ganomax']
+const NOMBRES: Record<string, string> = {
+  prunex1: 'PRUNEX1',
+  'flora-liv': 'FLORA LIV',
+  nutraday: 'NUTRADAY',
+  'beauty-in': 'BEAUTY-IN',
+  'biopro-fit': 'BIOPRO+ FIT',
+  'cafe-ganomax': 'CAFÉ GANOMAX',
+}
+
+const cuantos = (linea: string) => PRODUCTOS.filter((p) => (p.linea ?? 'Sistema Base') === linea).length
+
+function abrirLinea(id: string, titulo: string) {
+  window.dispatchEvent(new CustomEvent(EVENTO_LINEA, { detail: id }))
+  document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth' })
+  trackEvent('ViewContent', { content_name: `portada-linea-${titulo}` })
+}
 
 export default function Hero() {
   return (
     <>
       <section className="grano relative isolate overflow-hidden bg-[#062B57] text-white">
-        {/* Video: a sangre en celular, panel derecho en escritorio */}
-        <div className="absolute inset-0 md:left-auto md:w-[52%] md:[mask-image:linear-gradient(to_right,transparent,black_40%)]">
-          <video
-            className="h-full w-full object-cover"
-            src="/videos/hero-malecon.mp4"
-            poster="/videos/hero-malecon.jpg"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            aria-label="Deportista trotando en el malecón al amanecer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#062B57] via-[#062B57]/50 to-[#062B57]/20 md:bg-gradient-to-r md:from-[#062B57] md:via-[#062B57]/25 md:to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 hidden h-1/3 bg-gradient-to-t from-[#062B57] to-transparent md:block" />
-        </div>
-        {/* Brillos de color */}
-        <div className="pointer-events-none absolute -left-40 top-1/3 h-[520px] w-[520px] rounded-full bg-[#FF2E9A] opacity-25 blur-[140px]" />
-        <div className="pointer-events-none absolute bottom-0 left-1/3 h-[360px] w-[360px] rounded-full bg-[#FF8A1F] opacity-20 blur-[120px]" />
-        <div className="pointer-events-none absolute -top-40 left-1/4 h-[600px] w-[600px] rounded-full bg-[#0094DE] opacity-25 blur-[150px]" />
+        <div className="pointer-events-none absolute -left-40 top-1/4 h-[520px] w-[520px] rounded-full bg-[#0094DE] opacity-25 blur-[140px]" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-[420px] w-[420px] rounded-full bg-[#B5D70F] opacity-15 blur-[130px]" />
 
-        <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-4 pb-12 pt-36 md:min-h-[860px] md:justify-start md:px-8 md:pb-[300px] md:pt-44">
-          <p className="sube text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]" style={{ animationDelay: '0.05s' }}>
-            Nutrición deportiva FuXion · Perú
-          </p>
-          <h1 className="mt-4 text-[72px] sm:text-[96px] md:text-[124px] lg:text-[148px]">
-            {PALABRAS.map((p, i) => (
-              <span key={p.texto} className="sube block" style={{ color: p.color, animationDelay: `${0.15 + i * 0.12}s` }}>
-                {p.texto}
-              </span>
-            ))}
-          </h1>
-          <p className="sube mt-5 max-w-md text-base leading-relaxed text-white/80 md:text-lg" style={{ animationDelay: '0.55s' }}>
-            Tres bebidas en polvo para tu entrenamiento: energía antes, hidratación durante y recuperación después.
-          </p>
-          <div className="sube mt-7 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.7s' }}>
-            <a
-              href="#catalogo"
-              onClick={() => trackEvent('ViewContent', { content_name: 'hero-ver-productos' })}
-              className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
-            >
-              Ver productos <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
-            </a>
-            <a
-              href={waLink('Hola, vi tu página Emprende Salud y quiero asesoría para elegir mis productos 😊')}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => trackEvent('Contact', { content_name: 'hero' })}
-              className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 text-base font-bold text-white backdrop-blur transition hover:bg-white/15"
-            >
-              <MessageCircle className="h-5 w-5 text-[#25D366]" /> WhatsApp
-            </a>
-          </div>
-        </div>
-
-        {/* Productos asomando por el borde inferior (escritorio) */}
-        <div className="pointer-events-none absolute bottom-[-40px] left-1/2 hidden w-[min(1080px,88vw)] -translate-x-1/2 grid-cols-3 items-end gap-6 md:grid">
-          {['pre-sport', 'xtra-mile', 'post-sport'].map((p, i) => (
-            <div key={p} style={{ transform: `translateY(${i === 1 ? -36 : 0}px)` }}>
-              <img
-                src={`/productos/${p}.webp`}
-                alt={`${p.replace('-', ' ').toUpperCase()} de FuXion`}
-                width={760}
-                height={460}
-                className="sube w-full drop-shadow-[0_30px_40px_rgba(0,0,0,0.65)]"
-                style={{ animationDelay: `${0.9 + i * 0.12}s` }}
-              />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pb-16 pt-32 md:grid-cols-[1.05fr_0.95fr] md:px-8 md:pb-24 md:pt-40">
+          <div>
+            <p className="sube text-[11px] font-bold uppercase tracking-[0.3em] text-[#B5D70F]" style={{ animationDelay: '0.05s' }}>
+              Distribuidor independiente FuXion · Piura, Perú
+            </p>
+            <h1 className="sube mt-4 text-[52px] leading-[0.95] sm:text-[68px] md:text-[84px]" style={{ animationDelay: '0.15s' }}>
+              Productos FuXion <span className="text-[#B5D70F]">con envío a todo el Perú</span>
+            </h1>
+            <p className="sube mt-5 max-w-xl text-base leading-relaxed text-white/80 md:text-lg" style={{ animationDelay: '0.3s' }}>
+              Conoce cada producto antes de comprar: ingredientes, cómo se toma, presentaciones y precio en soles.
+              Compras en la tienda oficial de FuXion y te asesoro por WhatsApp.
+            </p>
+            <div className="sube mt-7 flex flex-wrap items-center gap-3" style={{ animationDelay: '0.45s' }}>
+              <a
+                href="#catalogo"
+                onClick={() => trackEvent('ViewContent', { content_name: 'hero-ver-catalogo' })}
+                className="group inline-flex min-h-14 items-center gap-2 rounded-full bg-[#B5D70F] px-8 text-base font-extrabold text-[#062B57] shadow-[0_0_40px_rgba(181,215,15,0.35)] transition hover:scale-[1.03]"
+              >
+                Ver catálogo <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+              </a>
+              <a
+                href={waLink('Hola, vi tu página Emprende Salud y quiero asesoría para elegir mis productos 😊')}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => trackEvent('Contact', { content_name: 'hero' })}
+                className="inline-flex min-h-14 items-center gap-2 rounded-full border border-white/25 bg-white/5 px-7 text-base font-bold text-white backdrop-blur transition hover:bg-white/15"
+              >
+                <MessageCircle className="h-5 w-5 text-[#25D366]" /> WhatsApp
+              </a>
             </div>
-          ))}
+            <ul className="sube mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/75" style={{ animationDelay: '0.6s' }}>
+              <li className="flex items-center gap-2"><Store className="h-4 w-4 text-[#B5D70F]" /> {PRODUCTOS.length} productos en 6 líneas</li>
+              <li className="flex items-center gap-2"><Truck className="h-4 w-4 text-[#B5D70F]" /> Pedido en la tienda oficial, llega a tu casa</li>
+              <li className="flex items-center gap-2"><Gift className="h-4 w-4 text-[#B5D70F]" /> 1 producto de regalo con tus puntos</li>
+            </ul>
+          </div>
+
+          {/* Vitrina: productos de varias líneas */}
+          <div className="grid grid-cols-3 gap-3 md:gap-4">
+            {VITRINA.map((p, i) => (
+              <div
+                key={p}
+                className="sube flex aspect-square items-center justify-center rounded-3xl bg-white/[0.06] p-3 ring-1 ring-white/10"
+                style={{ animationDelay: `${0.3 + i * 0.08}s` }}
+              >
+                <img
+                  src={`/productos/${p}.webp`}
+                  alt={`${NOMBRES[p]} de FuXion`}
+                  width={240}
+                  height={240}
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                  className="h-full w-full object-contain drop-shadow-[0_16px_24px_rgba(0,0,0,0.45)]"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Cinta animada */}
-      <div className="relative z-10 overflow-hidden bg-[#B5D70F] py-3 text-[#062B57]">
-        <div className="cinta">
-          {[...CINTA, ...CINTA, ...CINTA, ...CINTA].map((t, i) => (
-            <span key={i} className="font-display flex items-center whitespace-nowrap px-5 text-2xl md:text-3xl">
-              {t}
-              <span className="ml-10 text-lg">✦</span>
-            </span>
-          ))}
+      {/* Líneas: atajo al catálogo */}
+      <section aria-labelledby="lineas-titulo" className="bg-[#F3F6FB] py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-4 md:px-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#0094DE]">Busca por lo que necesitas</p>
+          <h2 id="lineas-titulo" className="mt-3 text-[44px] text-[#062B57] md:text-[64px]">¿Qué estás buscando?</h2>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {LINEAS.map(({ id, icon: Icon, titulo, desc, color, linea }) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => abrirLinea(id, titulo)}
+                className="group flex cursor-pointer items-start gap-4 rounded-3xl bg-white p-5 text-left shadow-sm ring-1 ring-[#00498E]/5 transition hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-white" style={{ background: color }}>
+                  <Icon className="h-6 w-6" />
+                </span>
+                <span className="min-w-0">
+                  <span className="flex items-baseline gap-2">
+                    <span className="text-base font-extrabold text-[#0B2033]">{titulo}</span>
+                    <span className="text-xs font-semibold text-[#758E9B]">{cuantos(linea)} productos</span>
+                  </span>
+                  <span className="mt-1 block text-sm leading-snug text-[#4A6070]">{desc}</span>
+                  <span className="mt-2 inline-flex items-center gap-1 text-xs font-bold transition-all group-hover:gap-2" style={{ color }}>
+                    Ver productos <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
     </>
   )
 }

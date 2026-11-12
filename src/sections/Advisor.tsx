@@ -6,7 +6,7 @@ import { trackEvent } from '@/lib/analytics'
 const razones = [
   { icon: ShieldCheck, titulo: 'Compra 100 % oficial', texto: 'Pagas en la tienda oficial FuXion, con comprobante y garantía de la marca.', color: '#0094DE' },
   { icon: BadgeCheck, titulo: 'Distribuidor independiente', texto: 'Productos originales, directos de FuXion. Sin intermediarios ni reventa.', color: '#B5D70F' },
-  { icon: MessageCircle, titulo: 'Asesoría por WhatsApp', texto: 'Te ayudo a elegir según tu deporte y tu rutina, sin que compres de más.', color: '#25D366' },
+  { icon: MessageCircle, titulo: 'Asesoría por WhatsApp', texto: 'Te ayudo a elegir según tu rutina y lo que buscas, sin que compres de más.', color: '#25D366' },
   { icon: Truck, titulo: 'Envío a todo el Perú', texto: 'Pides desde tu celular y lo recibes en la puerta de tu casa.', color: '#FF8A1F' },
 ]
 
@@ -33,7 +33,7 @@ export default function Advisor() {
             </h2>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-white/75">
               Soy Kervin, desde Piura. Emprende Salud nació de algo que me apasiona: el bienestar. Uso los
-              productos FuXion y te recomiendo solo lo que va con tu deporte y tu presupuesto.
+              productos FuXion y te recomiendo solo lo que va con tu rutina y tu presupuesto.
             </p>
             <a
               href={waLink('Hola Kervin, quiero que me asesores para elegir mis productos 😊')}

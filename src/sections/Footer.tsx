@@ -2,7 +2,7 @@ import { MessageCircle, Instagram, Mail } from 'lucide-react'
 import { waLink } from '@/config'
 
 const NAVEGA = [
-  { href: '#momentos', texto: 'Cómo funciona' },
+  { href: '#como-comprar', texto: 'Cómo comprar' },
   { href: '#catalogo', texto: 'Catálogo' },
   { href: '#preguntas', texto: 'Preguntas frecuentes' },
   { href: '/blog', texto: 'Blog' },
@@ -26,7 +26,7 @@ export default function Footer() {
               <span className="text-sm font-bold">Emprende <span className="text-[#B5D70F]">Salud</span></span>
             </div>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">
-              Nutrición deportiva FuXion con asesoría personal y envío a todo el Perú. Tienda 100 % virtual.
+              Productos FuXion con asesoría personal y envío a todo el Perú. Tienda 100 % virtual.
             </p>
             <div className="mt-6 flex gap-2">
               <a href={waLink()} target="_blank" rel="noreferrer" aria-label="WhatsApp" className="flex h-11 w-11 items-center justify-center rounded-full bg-white/5 ring-1 ring-white/10 transition hover:bg-[#25D366]">

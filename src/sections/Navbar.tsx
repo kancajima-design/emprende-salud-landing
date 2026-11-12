@@ -3,8 +3,9 @@ import { ArrowRight } from 'lucide-react'
 import { trackEvent } from '@/lib/analytics'
 
 const ENLACES = [
-  { href: '#momentos', texto: 'Cómo funciona' },
   { href: '#catalogo', texto: 'Catálogo' },
+  { href: '#como-comprar', texto: 'Cómo comprar' },
+  { href: '#preguntas', texto: 'Preguntas' },
   { href: '/blog', texto: 'Blog' },
 ]
 
