@@ -1,5 +1,17 @@
 # DESIGN.md · Emprende Salud
 
+> **v4 «alta gama» (12-11-2026).** Esta nota manda sobre lo que sigue, que describe la v3 deportiva.
+> - La web es de **todo el catálogo**, no solo Sport. Nada de «antes, durante, después» en la portada.
+> - **Títulos:** serifa Fraunces (peso 380, sin mayúsculas, interlineado 1.04). La palabra de color de
+>   cada título va dentro de un `<span>` y sale en cursiva. Cuerpo: Poppins.
+> - **Portada:** foto de bodegón de frutos peruanos (`public/portada/`, generada con fal, sin productos
+>   ni envases) dentro de un marco redondeado de 28–40 px, velo azul noche `#041A36` y franja de datos de vidrio.
+> - **Menú:** cápsula flotante de vidrio oscuro, centrada.
+> - **Color:** azul noche `#041A36` para fondos oscuros y texto; lima `#C9E63F` solo en la palabra en
+>   cursiva sobre fondo oscuro y en el botón principal del cierre; líneas finas (`ring-[#041A36]/10`) en vez de sombras.
+> - **Tarjetas de producto:** blancas, borde fino, sin fondo de color ni inclinación 3D; la línea se marca con un punto de color.
+> - **Orden del inicio:** portada → 6 líneas → catálogo con buscador → asesor → cómo comprar → regalos → preguntas → guía → blog → cierre.
+
 Reglas de diseño de emprendesalud.net. Cualquier sección nueva (o cambio hecho con Claude)
 sigue este archivo. Referencia (estudio del 31-10-2026): Maurten, Precision Fuel & Hydration,
 Skratch Labs, LMNT, Liquid I.V., Nuun, Huel, Myprotein y OX Sports Nutrition. Estilo: fondo claro
