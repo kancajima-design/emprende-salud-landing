@@ -42,7 +42,7 @@ export const LINEAS = [
     color: '#7C3AED',
     icon: Brain,
     titulo: 'Enfoque Mental',
-    desc: 'Bebidas con aminoácidos para tus días intensos.',
+    desc: 'Bebidas y gránulos con aminoácidos para tus días intensos.',
   },
   {
     id: 'cat-sport',

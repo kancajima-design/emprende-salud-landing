@@ -19,6 +19,87 @@ export type Producto = {
 }
 
 export const PRODUCTOS: Producto[] = [
+  // ── Lanzamientos de noviembre de 2026 (datos de guia-productos: OffiX y tienda, 7 al 11/11) ──
+  {
+    nombre: "MATCHA PEP-T",
+    url: "https://tiendafuxion.com/storelt/emprendesalud/3210283",
+    img: "matcha-pep-t.png",
+    tag: "Nuevo",
+    linea: "Línea Fit",
+    tagline: "Matcha latte con péptidos de colágeno",
+    descripcion: "Bebida instantánea de té matcha con colágeno hidrolizado y crema de coco. Sabor natural a matcha latte.",
+    beneficios: ["Una bebida de matcha latte para antes de tus comidas", "Con péptidos de colágeno, fibra, chía y cromo", "Complementar una alimentación balanceada"],
+    ingredientes: "Colágeno hidrolizado (péptidos de colágeno Nextida® GC) + fibra de maíz + crema de coco + té matcha + chía + isomaltulosa + estevia + cromo",
+    precios: [
+      {
+        presentacion: "Doypack 14 sobres x 15 g",
+        precio: "S/ 158.00",
+        puntos: 24,
+      },
+    ],
+    uso: "Un sobre en una taza con 180 ml de agua fría; si quieres, con un chorro de leche o de bebida de almendra, soya o coco. De 30 a 60 minutos antes de tus comidas.",
+    dato: "Por sobre: 4,9 g de fibra, 4,7 g de proteína y 46 kcal.",
+  },
+  {
+    nombre: "LIMITLEX IQ+",
+    url: "https://kervin-andershon.site.fuxion.com/producto/151245/",
+    img: "iq-plus.png",
+    tag: "Nuevo",
+    linea: "Línea Vigor Mental",
+    tagline: "Gránulos de manzana que se disuelven en la boca",
+    descripcion: "Gránulos de consumo directo, sin agua, con algarrobo y pectina de manzana, hongo maitake, citicolina y vitaminas B6 y B12. Sabor manzana.",
+    beneficios: ["Un stick para tus días de estudio o de trabajo", "Con citicolina, hongo maitake y vitaminas B6 y B12", "Se toma sin agua: se disuelve en la boca"],
+    ingredientes: "Citicolina + hongo maitake + vitaminas B6 y B12 + taurina + algarrobo + pectina de manzana",
+    precios: [
+      {
+        presentacion: "Caja de 28 unidades (sticks de 2 g)",
+        precio: "S/ 158.00",
+        puntos: 24,
+      },
+    ],
+    uso: "Un stick al día. Disuelve los gránulos directamente en la boca, sin agua.",
+    dato: "S/ 5,64 por stick. Sin azúcares añadidos. Se elabora en equipos que procesan leche, huevo y soya.",
+  },
+  {
+    nombre: "LIMITLEX ZOOM-IN",
+    url: "https://kervin-andershon.site.fuxion.com/producto/151242/",
+    img: "zoom-in.png",
+    tag: "Nuevo",
+    linea: "Línea Vigor Mental",
+    tagline: "Gránulos con té verde y ginseng",
+    descripcion: "Gránulos de consumo directo, sin agua, con té verde y ginseng, teína y L-teanina del té verde. Lleva 50 mg de teína por stick.",
+    beneficios: ["Un stick para tus horas frente a la pantalla", "Con té verde, ginseng, L-teanina y vitaminas C, B6 y B12", "Se toma sin agua: se disuelve en la boca"],
+    ingredientes: "Teanina + teína + vitamina C + tirosina + extracto de cranberry + Panax ginseng + vitaminas B6 y B12 + DHA + ARA + hongo melena de león",
+    precios: [
+      {
+        presentacion: "Caja de 28 unidades (sticks de 2 g)",
+        precio: "S/ 78.00",
+        puntos: 12,
+      },
+    ],
+    uso: "Un stick al día. Disuelve los gránulos directamente en la boca, sin agua. Contiene 50 mg de teína por stick.",
+    dato: "S/ 2,79 por stick. Sin azúcares añadidos. Se elabora en equipos que procesan leche, huevo y soya.",
+  },
+  {
+    nombre: "LIMITLEX REZZT+",
+    url: "https://kervin-andershon.site.fuxion.com/producto/151248/",
+    img: "rezzt-plus.png",
+    tag: "Nuevo",
+    linea: "Línea Vigor Mental",
+    tagline: "Gránulos de naranja y limón para tu rutina de noche",
+    descripcion: "Gránulos de consumo directo, sin agua, con germinado de quinua, tirosina y glicina, triptófano y L-teanina del té verde. Sabor naranja y limón.",
+    beneficios: ["Un stick para tu rutina de noche", "Con aminoácidos del germinado de quinua y del té verde", "Se toma sin agua: se disuelve en la boca"],
+    ingredientes: "Aminoácidos del germinado de quinua y del té verde: L-triptófano + L-teanina + L-glicina + acetiltirosina",
+    precios: [
+      {
+        presentacion: "Caja de 28 unidades (sticks de 2 g)",
+        precio: "S/ 65.50",
+        puntos: 10,
+      },
+    ],
+    uso: "Un stick al día, de noche. Disuelve los gránulos directamente en la boca, sin agua.",
+    dato: "S/ 2,34 por stick. Sin azúcares añadidos. Se elabora en equipos que procesan leche, huevo y soya.",
+  },
   {
     nombre: "REXET",
     variantes: [
