@@ -388,13 +388,15 @@ app.get(['/tienda', '/tienda/:producto'], (req, res) => {
   res.redirect(302, url.toString())
 })
 
-// ── Sitemap dinámico (incluye artículos del blog) ────────────
+// ── Sitemap dinámico (incluye artículos del blog y páginas de producto) ────────────
+const { productosConPagina } = await import('./productos-web.js')
 app.get('/sitemap.xml', (req, res) => {
   const base = 'https://www.emprendesalud.net'
   const urls = [
     { loc: '/', priority: '1.0' },
     { loc: '/blog', priority: '0.8' },
     { loc: '/empresa', priority: '0.3' },
+    ...productosConPagina.map((p) => ({ loc: `/productos/${p.slug}`, priority: '0.8' })),
     ...listArticleSlugs.all().map((a) => ({
       loc: `/blog/${a.slug}`,
       lastmod: (a.updated_at || a.created_at).slice(0, 10),

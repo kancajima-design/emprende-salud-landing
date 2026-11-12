@@ -8,6 +8,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { productosConPagina, productoPorSlug, preguntasDe, preciosNum } from './productos-web.js'
 
 const BASE = 'https://www.emprendesalud.net'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -196,7 +197,7 @@ export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
     const bloque = productos.length || otros.length
       ? `<aside><h2>Te puede interesar</h2><ul>` +
         otros.map((o) => `<li><a href="/blog/${esc(o.slug)}">${esc(o.titulo)}</a></li>`).join('') +
-        productos.map((p) => `<li><a href="/tienda/${esc(p.slug)}?o=blog">Ver ${esc(p.nombre)} en la tienda</a></li>`).join('') +
+        productos.map((p) => `<li><a href="/productos/${esc(p.slug)}">Ver ${esc(p.nombre)}: ingredientes y precio</a></li>`).join('') +
         `<li><a href="/#catalogo">Ver todos los productos</a></li></ul></aside>`
       : ''
     const cuerpo =
@@ -208,6 +209,82 @@ export function registerSeo(app, { dist, getArticleBySlug, listArticles }) {
       descripcion: art.resumen,
       ruta,
       tipo: 'article',
+      datos,
+      cuerpo,
+    }))
+  })
+
+  // ── Páginas de producto ──
+  app.get('/productos/:slug', (req, res, next) => {
+    const p = productoPorSlug(String(req.params.slug).slice(0, 80).toLowerCase())
+    if (!p) return next() // cae en el 404
+    const ruta = `/productos/${p.slug}`
+    const img = p.img ? `${BASE}/productos/${p.img.replace(/\.png$/, '.webp')}` : `${BASE}/og-image.png`
+    const nums = preciosNum(p)
+    const preguntas = preguntasDe(p)
+    const descripcion = `${p.nombre} de FuXion en el Perú: ${p.descripcion || p.tagline || ''} Ingredientes, cómo se toma, presentaciones y precio en soles.`.replace(/\s+/g, ' ').slice(0, 300)
+    const datos = [{
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'Product',
+          name: `${p.nombre} FuXion`,
+          description: p.descripcion || p.tagline,
+          image: img,
+          brand: { '@type': 'Brand', name: 'FuXion' },
+          category: p.linea || 'Sistema Base',
+          url: BASE + ruta,
+          offers: nums.length
+            ? {
+                '@type': 'AggregateOffer',
+                priceCurrency: 'PEN',
+                lowPrice: Math.min(...nums).toFixed(2),
+                highPrice: Math.max(...nums).toFixed(2),
+                offerCount: nums.length,
+                availability: 'https://schema.org/InStock',
+                url: BASE + ruta,
+              }
+            : undefined,
+        },
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Inicio', item: BASE + '/' },
+            { '@type': 'ListItem', position: 2, name: 'Catálogo', item: BASE + '/#catalogo' },
+            { '@type': 'ListItem', position: 3, name: p.nombre, item: BASE + ruta },
+          ],
+        },
+        {
+          '@type': 'FAQPage',
+          mainEntity: preguntas.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+        },
+      ],
+    }]
+    const otros = productosConPagina.filter((o) => o.slug !== p.slug && (o.linea || 'Sistema Base') === (p.linea || 'Sistema Base')).slice(0, 4)
+    const enlaces = p.variantes && p.variantes.length > 1 ? p.variantes : [{ nombre: `Comprar ${p.nombre} en la tienda oficial`, url: p.url }]
+    const cuerpo =
+      `<main><p><a href="/">Inicio</a> / <a href="/#catalogo">Catálogo</a></p>` +
+      `<h1>${esc(p.nombre)} de FuXion</h1>` +
+      (p.tagline ? `<p>${esc(p.tagline)}</p>` : '') +
+      (p.descripcion ? `<p>${esc(p.descripcion)}</p>` : '') +
+      (p.beneficios?.length ? `<h2>Para qué es</h2><ul>${p.beneficios.map((b) => `<li>${esc(b)}</li>`).join('')}</ul>` : '') +
+      `<h2>Cómo se toma</h2><p>${esc(p.uso)}</p>` +
+      `<h2>Qué lleva</h2><p>${esc(p.ingredientes)}</p>` +
+      (p.dato ? `<p>${esc(p.dato)}</p>` : '') +
+      (p.precios?.length
+        ? `<h2>Presentaciones y precios</h2><ul>${p.precios.map((x) => `<li>${esc(x.presentacion)}: ${esc(x.precio)}</li>`).join('')}</ul>` +
+          `<p>Precios de referencia en soles, válidos para el Perú.</p>`
+        : '') +
+      `<p>${enlaces.map((v) => `<a href="${esc(v.url)}">${esc(v.nombre)}</a>`).join(' · ')} · <a href="https://wa.me/51907793042">Preguntar por WhatsApp</a></p>` +
+      `<h2>Preguntas frecuentes sobre ${esc(p.nombre)}</h2>` +
+      preguntas.map((f) => `<h3>${esc(f.q)}</h3><p>${esc(f.a)}</p>`).join('') +
+      (otros.length ? `<h2>Más de ${esc(p.linea || 'Sistema Base')}</h2><ul>${otros.map((o) => `<li><a href="/productos/${o.slug}">${esc(o.nombre)}</a></li>`).join('')}</ul>` : '') +
+      `<p>Este producto no es un medicamento. Complementa un estilo de vida saludable.</p></main>`
+    enviar(res, armar({
+      titulo: `${p.nombre} FuXion: precio en Perú, ingredientes y cómo se toma · Emprende Salud`,
+      descripcion,
+      ruta,
+      tipo: 'product',
       datos,
       cuerpo,
     }))
