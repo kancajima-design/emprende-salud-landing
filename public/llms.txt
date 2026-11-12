@@ -11,6 +11,7 @@
 ## Páginas
 
 - [Portada y catálogo](https://www.emprendesalud.net/): productos FuXion por línea, preguntas frecuentes y Guía Sport gratis.
+- Páginas de producto: https://www.emprendesalud.net/productos/<producto> (por ejemplo /productos/prunex1 y /productos/flora-liv), con ingredientes, modo de uso, presentaciones y precio en soles.
 - [Tienda](https://www.emprendesalud.net/tienda): enlace a la tienda FuXion de Emprende Salud para comprar en línea.
 - [Blog](https://www.emprendesalud.net/blog): artículos sobre nutrición funcional y bienestar.
 - [Información del negocio](https://www.emprendesalud.net/empresa): datos del negocio, privacidad, devoluciones y atención.
