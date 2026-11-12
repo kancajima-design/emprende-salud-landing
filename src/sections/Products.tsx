@@ -9,6 +9,7 @@ import {
 import { X, CheckCircle2, Leaf, ShoppingCart, MessageCircle, Info, Clock, Sparkles, Gift, Search } from 'lucide-react'
 import { LINEAS, EVENTO_LINEA } from '@/data/lineas'
 import { PRODUCTOS, waLink, type Producto } from '@/config'
+import { precioDesde, precioPorVaso, rutaDe, tienePagina } from '@/lib/producto'
 
 // Líneas del catálogo (orden y colores en src/data/lineas.ts)
 const CATEGORIAS = LINEAS
@@ -20,26 +21,6 @@ const colorDe = (p: Producto) =>
 
 const porCategoria = (linea: string) =>
   PRODUCTOS.filter((p) => (p.linea ?? 'Sistema Base') === linea)
-
-// Precio más bajo del producto para mostrar en la tarjeta
-function precioDesde(p: Producto): string | null {
-  if (!p.precios?.length) return null
-  const valores = p.precios
-    .map((x) => parseFloat(x.precio.replace(/[^\d.]/g, '')))
-    .filter((n) => !isNaN(n))
-  if (!valores.length) return null
-  return `desde S/ ${Math.min(...valores).toFixed(2)}`
-}
-
-// Precio por vaso cuando la presentación dice cuántos sobres/sticks trae (ej. "Caja 28 sticks")
-function precioPorVaso(p: Producto): string | null {
-  for (const pr of p.precios ?? []) {
-    const n = pr.presentacion.match(/(\d+)\s*(sticks|sobres)/i)
-    const v = parseFloat(pr.precio.replace(/[^\d.]/g, ''))
-    if (n && !isNaN(v) && Number(n[1]) >= 7) return `S/ ${(v / Number(n[1])).toFixed(2).replace('.', ',')}`
-  }
-  return null
-}
 
 // Tarjeta de catálogo (v4): foto, qué lleva, cómo se toma, precio y botones de ficha y compra.
 // En celular va en horizontal (foto a la izquierda) para que quepa la información.
@@ -70,7 +51,9 @@ function TarjetaProducto({ p, color, onClick }: { p: Producto; color: string; on
             {p.tag}
           </span>
         )}
-        <h3 className="font-display text-[21px] text-[#041A36] sm:text-[25px]">{p.nombre}</h3>
+        <h3 className="font-display text-[21px] text-[#041A36] sm:text-[25px]">
+          {tienePagina(p) ? <a href={rutaDe(p)} className="hover:text-[#00498E]">{p.nombre}</a> : p.nombre}
+        </h3>
         {(p.tagline || p.descripcion) && (
           <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-snug text-[#4A6070] sm:text-[13px]">{p.tagline || p.descripcion}</p>
         )}
@@ -421,6 +404,11 @@ export default function Products() {
                           ))}
                         </div>
                       </div>
+                    )}
+                    {tienePagina(sel) && (
+                      <a href={rutaDe(sel)} className="inline-flex items-center gap-1 text-xs font-semibold text-[#00498E] hover:underline">
+                        Abrir la página completa de {sel.nombre} →
+                      </a>
                     )}
                     <p className="text-[10px] leading-relaxed text-[#758E9B]">
                       Este producto no es un medicamento. Complementa un estilo de vida saludable.
