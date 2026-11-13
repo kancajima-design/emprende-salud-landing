@@ -18,6 +18,15 @@ function readCookie(name: string): string {
   }
 }
 
+// Medición solo con permiso: el aviso guarda «es_consent» = si / no en localStorage.
+export function tieneConsentimiento(): boolean {
+  try {
+    return localStorage.getItem('es_consent') === 'si'
+  } catch {
+    return false
+  }
+}
+
 // id único y corto por evento (deduplicación browser + server)
 function newEventId(): string {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
@@ -30,6 +39,7 @@ function mirrorToCapi(
   params: Record<string, unknown>,
   userData?: UserData
 ) {
+  if (!tieneConsentimiento()) return
   try {
     const [first_name = '', ...rest] = (userData?.name || '').trim().split(/\s+/)
     fetch('/api/capi', {
