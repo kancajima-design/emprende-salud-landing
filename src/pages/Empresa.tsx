@@ -184,14 +184,24 @@ export default function Empresa() {
           Instagram (@emprendesalud). Lo atenderemos en un plazo máximo de 7 días hábiles.</p>
           <p><strong>Responsable del tratamiento de datos:</strong> Kervin Ancajima, titular
           de EmprendeSalud, con domicilio en Ca. Real 479, Catacaos, Piura, Perú.</p>
+          <p><strong>Consentimiento:</strong> en el formulario marcas una casilla para aceptar
+          esta política y que te contactemos; sin esa casilla no guardamos tus datos.</p>
           <p><strong>Cookies y medición:</strong> este sitio usa herramientas de medición
           (como el píxel de Meta) para mejorar la experiencia de navegación y mostrar
-          contenido relevante. También usamos Microsoft Clarity, que registra de forma
+          contenido relevante. Solo se activan si pulsas «Aceptar» en el aviso de medición; si
+          eliges «No, gracias», no se cargan.{' '}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('es:preferencias-medicion'))}
+            className="font-semibold underline"
+          >
+            Cambiar mis preferencias de medición
+          </button>. También usamos Microsoft Clarity, que registra de forma
           anónima cómo se navega el sitio (clics, desplazamiento y mapas de calor) para
           mejorarlo; no guarda lo que escribes en los formularios. Más información en la{' '}
           <a href="https://privacy.microsoft.com/es-es/privacystatement" target="_blank" rel="noreferrer" className="underline">
             declaración de privacidad de Microsoft
-          </a>. Puedes desactivarlas desde la configuración de tu navegador.</p>
+          </a>. También puedes borrarlas desde la configuración de tu navegador.</p>
         </Seccion>
 
         <Seccion id="aviso" titulo="8. Aviso legal">

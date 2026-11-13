@@ -49,9 +49,13 @@ export default function Admin() {
       setError('')
       try {
         const [r1, r2] = await Promise.all([
-          fetch(`/api/leads?key=${encodeURIComponent(k)}`),
-          fetch(`/api/stats?key=${encodeURIComponent(k)}`),
+          fetch('/api/leads', { headers: { 'x-admin-key': k } }),
+          fetch('/api/stats', { headers: { 'x-admin-key': k } }),
         ])
+        if (r1.status === 429 || r2.status === 429) {
+          setError('Demasiados intentos. Espera unos minutos.')
+          return
+        }
         if (r1.status === 401 || r2.status === 401) {
           setError('Clave incorrecta')
           sessionStorage.removeItem('es_admin_key')
@@ -79,8 +83,25 @@ export default function Admin() {
   }, [])
 
   async function remove(id: number) {
-    await fetch(`/api/leads/${id}?key=${encodeURIComponent(key)}`, { method: 'DELETE' })
+    await fetch(`/api/leads/${id}`, { method: 'DELETE', headers: { 'x-admin-key': key } })
     load(key)
+  }
+
+  // La clave va en la cabecera, no en la URL: se descarga el CSV con fetch y se guarda como archivo
+  async function exportar() {
+    try {
+      const r = await fetch('/api/leads/export', { headers: { 'x-admin-key': key } })
+      if (!r.ok) return setError('No se pudo exportar')
+      const blob = await r.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `leads-emprende-salud-${new Date().toISOString().slice(0, 10)}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      setError('No se pudo exportar')
+    }
   }
 
   function logout() {
@@ -163,12 +184,12 @@ export default function Admin() {
             >
               <RefreshCw className="h-3.5 w-3.5" /> Actualizar
             </button>
-            <a
-              href={`/api/leads/export?key=${encodeURIComponent(key)}`}
+            <button
+              onClick={exportar}
               className="flex items-center gap-1.5 rounded-full bg-[#B5D70F] px-3.5 py-2 text-xs font-bold text-[#0B2033] transition hover:brightness-105"
             >
               <Download className="h-3.5 w-3.5" /> Exportar a Excel (CSV)
-            </a>
+            </button>
             <button
               onClick={logout}
               className="flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-semibold text-[#758E9B] transition hover:bg-red-50 hover:text-red-500"
