@@ -10,6 +10,7 @@ import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { DatabaseSync } from 'node:sqlite'
 import { sendCapiEvent } from './capi.js'
+import { requireAdmin, adminActivo } from './admin-auth.js'
 
 // Carga .env local si existe (desarrollo). En producción Railway
 // inyecta las variables directamente.
@@ -23,9 +24,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, '..')
 
 // ── Configuración ────────────────────────────────────────────
-// ⚠️ Cambia esta clave antes de publicar. También puedes usar
-//    la variable de entorno ADMIN_KEY.
-const ADMIN_KEY = process.env.ADMIN_KEY || 'emprende2026'
+// La clave de administración viene solo de la variable de entorno ADMIN_KEY
+// (ver admin-auth.js). Sin ella, el admin queda desactivado.
 
 const isProd = process.argv.includes('--prod') || process.env.NODE_ENV === 'production'
 const argValue = (flag) => {
@@ -148,6 +148,20 @@ const listArticleSlugs = db.prepare('SELECT slug, created_at, updated_at FROM ar
 
 // ── App ──────────────────────────────────────────────────────
 const app = express()
+// Railway pone un proxy delante: así req.ip es la IP real del visitante (límites por IP)
+app.set('trust proxy', 1)
+app.disable('x-powered-by')
+// Cabeceras de seguridad
+app.use((req, res, next) => {
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+  res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN')
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()')
+  res.setHeader('Content-Security-Policy', "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self' https://www.facebook.com")
+  if (req.path.startsWith('/admin') || req.path.startsWith('/api/')) res.setHeader('Cache-Control', 'no-store')
+  next()
+})
 // rawBody: el webhook de WhatsApp firma el cuerpo exacto (X-Hub-Signature-256)
 app.use(express.json({ limit: '50kb', verify: (req, _res, buf) => { req.rawBody = buf } }))
 
@@ -176,13 +190,6 @@ function rateLimit(req, res, next) {
   next()
 }
 
-function requireAdmin(req, res, next) {
-  const key = req.query.key || req.headers['x-admin-key']
-  if (key !== ADMIN_KEY) {
-    return res.status(401).json({ ok: false, error: 'Clave de administrador incorrecta' })
-  }
-  next()
-}
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/
 const clean = (v, max = 120) => String(v ?? '').trim().slice(0, max)
@@ -201,6 +208,7 @@ app.post('/api/leads', rateLimit, (req, res) => {
   if (whatsapp.replace(/\D/g, '').length < 7) errors.whatsapp = 'Ingresa un WhatsApp válido'
   if (correo && !EMAIL_RE.test(correo)) errors.correo = 'Ingresa un correo válido'
   if (!producto) errors.producto = 'Elige un producto de interés'
+  if (req.body?.acepto !== true) errors.acepto = 'Marca la casilla para continuar'
   if (Object.keys(errors).length) return res.status(400).json({ ok: false, errors })
 
   const info = insertLead.run(nombre, whatsapp, correo, producto, origen, utm)
@@ -428,9 +436,6 @@ registerChat(app, db)
 const { registerWhatsappCloud } = await import('./whatsapp-cloud.js')
 registerWhatsappCloud(app, db)
 
-// Bot reactivo de WhatsApp (WAHA) — solo responde, nunca inicia
-const { registerWahaBot } = await import('./waha-bot.js')
-registerWahaBot(app, db)
 
 if (!isProd) {
   const { createServer } = await import('vite')
@@ -458,6 +463,6 @@ if (!isProd) {
 app.listen(port, host, () => {
   console.log(`\n  ✅ Emprende Salud · Captura de Leads`)
   console.log(`  ➜ Landing:  http://localhost:${port}/`)
-  console.log(`  ➜ Admin:    http://localhost:${port}/admin  (clave: ${ADMIN_KEY})`)
+  console.log(`  ➜ Admin:    http://localhost:${port}/admin  (${adminActivo() ? 'activo' : 'desactivado: falta ADMIN_KEY'})`)
   console.log(`  ➜ Modo:     ${isProd ? 'producción (dist/)' : 'desarrollo (Vite HMR)'}\n`)
 })

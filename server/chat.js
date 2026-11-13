@@ -7,6 +7,7 @@
 import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import { requireAdmin } from './admin-auth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -294,11 +295,7 @@ export function registerChat(app, db) {
   })
 
   // Preguntas frecuentes del chat (admin) — útil para mejorar el sitio
-  app.get('/api/chat/logs', (req, res) => {
-    const key = req.query.key || req.headers['x-admin-key']
-    if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
-      return res.status(401).json({ ok: false, error: 'Clave incorrecta' })
-    }
+  app.get('/api/chat/logs', requireAdmin, (req, res) => {
     const rows = db
       .prepare('SELECT * FROM chat_logs ORDER BY id DESC LIMIT 200')
       .all()

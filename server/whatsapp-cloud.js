@@ -22,6 +22,7 @@
 // ─────────────────────────────────────────────────────────────
 import crypto from 'node:crypto'
 import { responderEnWhatsapp } from './chat.js'
+import { requireAdmin } from './admin-auth.js'
 
 const WA_TOKEN = process.env.WA_TOKEN || ''
 const WA_PHONE_NUMBER_ID = process.env.WA_PHONE_NUMBER_ID || ''
@@ -220,11 +221,7 @@ export function registerWhatsappCloud(app, db) {
   })
 
   // Últimos mensajes (admin): para revisar qué respondió Valeria
-  app.get('/api/whatsapp/logs', (req, res) => {
-    const key = req.query.key || req.headers['x-admin-key']
-    if (key !== (process.env.ADMIN_KEY || 'emprende2026')) {
-      return res.status(401).json({ ok: false, error: 'Clave incorrecta' })
-    }
+  app.get('/api/whatsapp/logs', requireAdmin, (req, res) => {
     const rows = db.prepare('SELECT * FROM wa_cloud_mensajes ORDER BY id DESC LIMIT 200').all()
     res.json({ ok: true, activo: BOT_ACTIVO, dryRun: DRY_RUN, logs: rows })
   })
