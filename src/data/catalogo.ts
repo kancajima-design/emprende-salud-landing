@@ -42,7 +42,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "LIMITLEX IQ+",
-    url: "https://kervin-andershon.site.fuxion.com/producto/151245/",
+    url: "https://kervin-andershon.site.fuxion.com/producto/iq/",
     img: "iq-plus.png",
     tag: "Nuevo",
     linea: "Línea Vigor Mental",
@@ -62,7 +62,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "LIMITLEX ZOOM-IN",
-    url: "https://kervin-andershon.site.fuxion.com/producto/151242/",
+    url: "https://kervin-andershon.site.fuxion.com/producto/zoom-in/",
     img: "zoom-in.png",
     tag: "Nuevo",
     linea: "Línea Vigor Mental",
@@ -82,7 +82,7 @@ export const PRODUCTOS: Producto[] = [
   },
   {
     nombre: "LIMITLEX REZZT+",
-    url: "https://kervin-andershon.site.fuxion.com/producto/151248/",
+    url: "https://kervin-andershon.site.fuxion.com/producto/rezzt/",
     img: "rezzt-plus.png",
     tag: "Nuevo",
     linea: "Línea Vigor Mental",
