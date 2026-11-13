@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useLocation } from 'react-router'
 import Home from './pages/Home'
 import { trackPageView } from './lib/analytics'
 import { trackVisit } from './lib/track'
+import AvisoMedicion from './sections/AvisoMedicion'
 
 const Admin = lazy(() => import('./pages/Admin'))
 const Blog = lazy(() => import('./pages/Blog'))
@@ -25,6 +26,7 @@ export default function App() {
   return (
     <>
       <PageViewTracker />
+      <AvisoMedicion />
       <Routes>
       <Route path="/" element={<Home />} />
       {/* /vsl desactivada: redirige a la portada (políticas de Meta) */}
