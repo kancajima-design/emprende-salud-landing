@@ -12,11 +12,12 @@ const INCLUYE = [
   'Semana modelo para corredor y gym, más un reto de 14 días',
 ]
 
-type Errors = Partial<Record<'nombre' | 'whatsapp' | 'correo' | 'producto', string>>
+type Errors = Partial<Record<'nombre' | 'whatsapp' | 'correo' | 'producto' | 'acepto', string>>
 
 export default function LeadForm() {
   const [form, setForm] = useState({ nombre: '', whatsapp: '', correo: '', producto: '' })
   const [errors, setErrors] = useState<Errors>({})
+  const [acepto, setAcepto] = useState(false)
   const [loading, setLoading] = useState(false)
   const [serverError, setServerError] = useState('')
   const [done, setDone] = useState(false)
@@ -37,14 +38,18 @@ export default function LeadForm() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault()
-    setLoading(true)
     setErrors({})
     setServerError('')
+    if (!acepto) {
+      setErrors({ acepto: 'Marca la casilla para continuar' })
+      return
+    }
+    setLoading(true)
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, origen: 'landing', utm: getUtmString() }),
+        body: JSON.stringify({ ...form, acepto, origen: 'landing', utm: getUtmString() }),
       })
       const data = await res.json()
       if (!res.ok || !data.ok) {
@@ -203,6 +208,25 @@ export default function LeadForm() {
                   )}
                 </div>
 
+                <div>
+                  <label className="flex items-start gap-2.5 text-left text-xs leading-relaxed text-[#3B5566]">
+                    <input
+                      type="checkbox"
+                      checked={acepto}
+                      onChange={(e) => setAcepto(e.target.checked)}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#062B57]"
+                    />
+                    <span>
+                      Acepto la{' '}
+                      <a href="/empresa#privacidad" target="_blank" rel="noopener" className="font-semibold underline">
+                        Política de privacidad
+                      </a>{' '}
+                      y que Kervin me escriba por WhatsApp o correo sobre productos FuXion.
+                    </span>
+                  </label>
+                  {errors.acepto && <p className="mt-1 text-xs text-red-500">{errors.acepto}</p>}
+                </div>
+
                 {serverError && (
                   <p className="rounded-lg bg-red-50 px-3 py-2 text-center text-xs text-red-600">
                     {serverError}
@@ -225,8 +249,7 @@ export default function LeadForm() {
                   )}
                 </button>
                 <p className="text-center text-[11px] leading-relaxed text-[#758E9B]">
-                  Al enviar aceptas ser contactado/a por WhatsApp o correo sobre productos FuXion.
-                  Nunca comparto tus datos.
+                  Puedes pedir que borre tus datos cuando quieras. No vendo ni cedo tus datos.
                 </p>
               </form>
             </>
