@@ -367,10 +367,24 @@ const LANDINGS_PROPIAS = [
   'cafe-ganomax', 'gano-cappuccino', 'gano-t', 'cafe-fit', 'chocolate-fit', 'thermo-t3', 'nocarb-t', 'vera',
   'golden-flx', 'probal', 'beauty-in', 'youth-elixir', 'passion', 'matcha-pep-t',
 ]
+// Productos sin landing propia (14-11-2026): van a su ficha de la tienda o a su PowerLink
+const SIN_LANDING = {
+  rezzt: '/producto/rezzt/', 'rezzt-plus': '/producto/rezzt/',
+  iq: '/producto/iq/', 'iq-plus': '/producto/iq/',
+  'zoom-in': '/producto/zoom-in/',
+  'programa-detox-5-dias': 'https://tiendafuxion.com/storelt/emprendesalud/2086001',
+  'cafe-fit-cappuccino': 'https://tiendafuxion.com/storelt/emprendesalud/2085968',
+  'pack-5-14-keto': 'https://tiendafuxion.com/storelt/emprendesalud/2085993',
+  'pack-5-14-active-mito': 'https://tiendafuxion.com/storelt/emprendesalud/2085994',
+  'base-madre-amarilla': 'https://tiendafuxion.com/storelt/emprendesalud/2085955',
+  'base-madre-roja': 'https://tiendafuxion.com/storelt/emprendesalud/2085957',
+  'base-madre-verde': 'https://tiendafuxion.com/storelt/emprendesalud/2085958',
+}
 const LANDINGS_TIENDA = {
   catalogo: '/tienda/',
-  off: '/off/',
+  off: '/no-stress-emprende-salud/',
   ...Object.fromEntries(LANDINGS_PROPIAS.map((s) => [s, `/${s}-emprende-salud/`])),
+  ...SIN_LANDING,
 }
 const ORIGENES_TIENDA = {
   instagram: ['instagram', 'bio'],
@@ -387,6 +401,9 @@ app.get(['/tienda', '/tienda/:producto'], (req, res) => {
   const slug = String(req.params.producto || '').toLowerCase()
   const ruta = slug ? LANDINGS_TIENDA[slug] : '/'
   if (!ruta) return res.redirect(302, '/tienda')
+  res.set('Cache-Control', 'no-store')
+  // PowerLink de tiendafuxion.com: tal cual, sin UTM (abre el carrito)
+  if (/^https?:\/\//.test(ruta)) return res.redirect(302, ruta)
   const [source, medium] = ORIGENES_TIENDA[String(req.query.o || '').toLowerCase()] || ['emprendesalud.net', 'enlace']
   const url = new URL(TIENDA_FUXION + ruta)
   url.searchParams.set('utm_source', source)
