@@ -9,7 +9,7 @@ export default defineRailway(() => {
     deploy: { startCommand: "npm start", restartPolicyType: "ON_FAILURE", restartPolicyMaxRetries: 5 },
     domains: ["www.emprendesalud.net"],
     volumeMounts: { "/app/server/data": emprendeSaludLandingVolume },
-    env: { ADMIN_KEY: preserve(), GEMINI_API_KEY: preserve(), META_CAPI_TOKEN: preserve() },
+    env: { ADMIN_KEY: preserve(), ANTHROPIC_API_KEY: preserve(), GEMINI_API_KEY: preserve(), META_CAPI_TOKEN: preserve() },
   });
 
   return project("emprende-salud-landing", {
