@@ -445,7 +445,7 @@ app.get('/sitemap.xml', (req, res) => {
 })
 
 // ── Frontend ─────────────────────────────────────────────────
-// Asistente IA del sitio (Valeria) — chat público con Gemini
+// Asistente IA del sitio (Valeria) — chat público con Claude (Gemini de respaldo)
 const { registerChat } = await import('./chat.js')
 registerChat(app, db)
 

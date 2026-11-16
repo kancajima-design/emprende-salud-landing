@@ -1,15 +1,24 @@
 // ─────────────────────────────────────────────────────────────
-// Emprende Salud · Asistente IA del sitio (Gemini)
+// Emprende Salud · Asistente IA del sitio (Claude, con Gemini de respaldo)
 // Responde dudas sobre productos FuXion, la promoción de Cliente
 // Preferente y cómo comprar.
-// Requiere GEMINI_API_KEY en el entorno (Railway variable).
+// Usa ANTHROPIC_API_KEY (Railway variable). Si falta o Claude falla,
+// responde con GEMINI_API_KEY; si tampoco hay, sale el mensaje de respaldo.
 // ─────────────────────────────────────────────────────────────
 import path from 'node:path'
 import fs from 'node:fs'
 import { fileURLToPath } from 'node:url'
+import Anthropic from '@anthropic-ai/sdk'
 import { requireAdmin } from './admin-auth.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
+
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || ''
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-opus-5-5'
+// 20 s por intento y un solo reintento: el visitante no espera más que eso.
+const claude = ANTHROPIC_API_KEY
+  ? new Anthropic({ apiKey: ANTHROPIC_API_KEY, timeout: 20_000, maxRetries: 1 })
+  : null
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || ''
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.6-flash'
@@ -32,7 +41,7 @@ try {
 }
 
 // WhatsApp Business de Kervin (atendido a mano desde la app; el número anterior, 970, fue baneado).
-// ifuxion.com/emprendesalud pregunta primero Cliente Preferente o Emprendedor: para comprar se usan los
+// ifuxion.com/emprendesalud pregunta primero Cliente Preferente o Emprendedor y deja elegir el país (se usa solo para clientes de otros países): para comprar en Perú se usan los
 // PowerLinks de cada producto o el catálogo de la web.
 const WHATSAPP = '+51 907 793 042'
 const WA_LINK = 'https://wa.me/51907793042'
@@ -66,13 +75,14 @@ QUÉ SÍ PUEDES HACER
 - Recomendar productos del catálogo según el momento o la bebida que busca la persona (entrenar, energía del día, proteína, fibra, café o té, colágeno). Si pide bajar de peso, subir las defensas u otro resultado de salud o de cuerpo: dile en una frase que estos productos son bebidas que complementan una alimentación balanceada y actividad física, que no prometemos ese resultado, y pregúntale cómo es su rutina; si quiere una bebida, descríbela solo por sus ingredientes, sin decir que apoya o ayuda a ese objetivo.
 - Explicar la PROMOCIÓN DE CLIENTE PREFERENTE tal cual: registro GRATIS; con 60 puntos en autoenvío o con 80 puntos en compra directa recibe 1 producto de regalo de hasta 20 puntos, que elige de la lista de la tienda.
 - AUTOENVÍO: es el pedido automático que llega cada semana, cada 2 semanas o cada 4 semanas (el cliente elige) y se cobra solo a su tarjeta; si la tarjeta es rechazada no se cobra nada. Se activa DESPUÉS de la primera compra: el cliente entra a su cuenta FuXion, sección Autoenvío, vuelve a elegir los productos, la fecha y la frecuencia, y registra su tarjeta. El enlace de compra no activa el autoenvío por sí solo. Ofrece que Kervin lo ayude a activarlo por WhatsApp.
-- Explicar cómo comprar: con el enlace [Comprar Producto] de cada producto (abre el carrito de la tienda oficial FuXion con Emprende Salud como patrocinador; ahí mismo se registra gratis como Cliente Preferente), desde el catálogo de la web (${CATALOGO_WEB}) o por ${CANAL_ASESORIA}. Nunca envíes el enlace ifuxion.com.
-- Emprende Salud es una tienda 100 % virtual: no hay local ni recojo en tienda. Envío a domicilio a todo el Perú; desde otros países se compra en la misma tienda oficial eligiendo el país (precios distintos). El total exacto del envío se ve al pagar.
+- Explicar cómo comprar: con el enlace [Comprar Producto] de cada producto (abre el carrito de la tienda oficial FuXion con Emprende Salud como patrocinador; ahí mismo se registra gratis como Cliente Preferente), desde el catálogo de la web (${CATALOGO_WEB}) o por ${CANAL_ASESORIA}. A quien compra desde Perú nunca le envíes el enlace ifuxion.com: ese enlace solo se usa en el caso OTROS PAÍSES.
+- Emprende Salud es una tienda 100 % virtual: no hay local ni recojo en tienda. Envío a domicilio a todo el Perú. El total exacto del envío se ve al pagar.
 - ENVÍO (datos oficiales de FuXion, aproximados; pide ciudad y distrito si no los sabes y da solo el dato de esa zona, sin mandar la lista). Plazo en días hábiles: 2 en la mayoría de distritos de Lima, Trujillo, Chimbote, Huancayo e Ica; 3 en Lurín, Puente Piedra, Ancón, Cieneguilla, Pachacámac, Chaclacayo, playas del sur de Lima, Piura, Castilla, Talara, Chiclayo, Arequipa, Cajamarca, Huaraz, Ayacucho y Huánuco; 4 en Catacaos, Sullana, Paita, Cusco, Puno, Juliaca, Tacna, Tumbes, Moquegua, Iquitos y Pucallpa; 5 en Tarapoto, Chachapoyas, Abancay y Puerto Maldonado; de 5 a 12 en distritos rurales. Costo hasta 3 kg con IGV: S/ 7 a 9 en Lima; S/ 9 en Piura, Castilla, Catacaos, Sullana, Paita, Talara, Trujillo, Chimbote, Huancayo, Ica, Arequipa, Cajamarca, Huaraz, Ayacucho, Huánuco, Cusco, Tacna, Tumbes y Pucallpa; S/ 10 en Chiclayo ciudad; S/ 12 en Puno, Juliaca, Moquegua, Iquitos, Tarapoto, Chachapoyas, Puerto Maldonado y casi todos los distritos rurales; hasta S/ 14 en zonas rurales de Chiclayo. No garantices fechas ni prometas envío gratis. Si ofreces el Kit o un pedido pequeño, avisa que el envío se suma.
 - CALIDAD Y RESPALDO: los productos tienen registro sanitario y son de venta libre. Al nombrar los sellos, di siempre la frase «según el catálogo oficial de FuXion» y que son de la empresa, no de cada producto. Según ese catálogo, la empresa cuenta con certificación HACCP, certificación BPM, laboratorio acreditado por INACAL, Baltic Control, Humanitas y Clean Label; también los reconocimientos Empresa Peruana del Año y Éxito Business Awards. Las fórmulas las desarrolla su departamento científico, dirigido desde 2005 por el biólogo Iván Columbus, magíster en Nutrición y Biotecnología Alimentaria: llámalo biólogo, no doctor ni médico. No llevan conservantes porque el polvo tiene menos de 5 % de humedad.
 - CÓMO CERRAR: si la persona entrena, antes de recomendar pregunta qué le cuesta más: aguantar hasta el final o recuperarse. Termina la recomendación con dos opciones en vez de una pregunta de sí o no, por ejemplo: ¿Lo pides tú mismo por la tienda o prefieres que Kervin te ayude por WhatsApp? Si dice que está caro, reconócelo en una frase corta y dile lo que sale por vaso. Si dice que lo va a pensar, pregunta qué le hace dudar más: el precio, si es para esa persona o comprar por internet. Nunca digas que cierras pedidos, que apartas productos, que quedan pocas unidades o que el precio va a subir.
 - Hablar de la Guía Sport gratis que se descarga en la página: qué comer y tomar antes, durante y después de entrenar, prueba de sudor, proteína según el peso y reto de 14 días.
 - No promuevas la oportunidad de negocio, el registro como emprendedor ni planes de compensación. Si el usuario pregunta directamente por eso, responde en una frase que Kervin lo conversa por llamada telefónica y vuelve a los productos.
+- OTROS PAÍSES: los precios en S/ y los datos de envío de este mensaje son solo de Perú. Si la persona dice que está en otro país (o escribe desde otro país), NO le des precios en soles ni plazos o costos de envío de Perú. Si el enlace de compra del producto empieza con https://tiendafuxion.com, dáselo y dile que al abrirlo verá el precio en la moneda de su país, los medios de pago de su país y el costo de envío al momento de pagar; agrega que el catálogo cambia según el país y que, si el producto no le aparece, puede ver todo lo disponible en su país en [Ver el catálogo de tu país](https://ifuxion.com/emprendesalud): ahí elige «Cliente Preferente» (el registro es gratis) y selecciona su país. Si el enlace empieza con https://kervin-andershon.site.fuxion.com (por ejemplo la línea LIMITLEX: IQ+, ZOOM-IN y REZZT+), ese producto por ahora solo se vende en Perú: díselo con amabilidad, no le pases ese enlace y dale [Ver el catálogo de tu país](https://ifuxion.com/emprendesalud) para que elija «Cliente Preferente», seleccione su país y vea qué hay disponible allá; ofrece también la ayuda de Kervin por WhatsApp. En esa página no promuevas la opción de emprendedor. Los avisos del modo de uso se mantienen igual.
 - Si preguntan precios: da los precios de referencia del catálogo, aclarando que pueden variar y que el precio vigente se confirma en la tienda o por WhatsApp.
 - PUNTOS POR PRODUCTO: el catálogo de abajo indica los puntos (QV) oficiales de cada presentación. Úsalos con confianza para explicar la promoción y ayudar a armar packs: suma productos hasta 60 puntos (autoenvío) u 80 puntos (compra directa) y propón combinaciones concretas con su total de puntos y precio aproximado. Si un producto no indica puntos, di que se confirma en la tienda.
 
@@ -160,6 +170,63 @@ function extraerInteres(messages) {
   return `Chat Valeria: ${interes}`.slice(0, 80)
 }
 
+// Claude con esfuerzo bajo. Las instrucciones y el catálogo van en un bloque con caché:
+// desde el segundo mensaje se cobran a una fracción del precio.
+async function pedirAClaude(messages, instruccionesDelCanal = '') {
+  if (!claude) return null
+  const turnos = messages.map((m) => ({
+    role: m.role === 'model' ? 'assistant' : 'user',
+    content: m.text,
+  }))
+  // La API pide que la conversación empiece con un mensaje del visitante
+  while (turnos.length && turnos[0].role !== 'user') turnos.shift()
+  if (!turnos.length) return null
+
+  const system = [{ type: 'text', text: SYSTEM_PROMPT, cache_control: { type: 'ephemeral' } }]
+  if (instruccionesDelCanal) system.push({ type: 'text', text: instruccionesDelCanal })
+
+  // Haiku no admite el parámetro fallbacks; en los demás, si el modelo declina, la API reintenta con otro.
+  const conRespaldo = !CLAUDE_MODEL.includes('haiku')
+  try {
+    const res = await claude.beta.messages.create({
+      model: CLAUDE_MODEL,
+      max_tokens: 8000,
+      output_config: { effort: 'low' },
+      system,
+      messages: turnos,
+      ...(conRespaldo
+        ? { betas: ['server-side-fallback-2026-07-01'], fallbacks: 'default' }
+        : {}),
+    })
+    if (res.stop_reason === 'refusal') {
+      console.error(`Chat ${CLAUDE_MODEL}: declinó responder (${res.stop_details?.category || 'sin categoría'})`)
+      return null
+    }
+    const reply = res.content
+      .filter((b) => b.type === 'text')
+      .map((b) => b.text)
+      .join('')
+      .trim()
+    const u = res.usage
+    console.log(
+      `Chat ${res.model}: entrada ${u.input_tokens}, caché leída ${u.cache_read_input_tokens ?? 0}, caché escrita ${u.cache_creation_input_tokens ?? 0}, salida ${u.output_tokens}`,
+    )
+    if (!reply) console.error(`Chat ${CLAUDE_MODEL}: sin texto (${res.stop_reason})`)
+    return reply || null
+  } catch (err) {
+    if (err instanceof Anthropic.AuthenticationError) {
+      console.error('Chat Claude: la clave ANTHROPIC_API_KEY no es válida')
+    } else if (err instanceof Anthropic.RateLimitError) {
+      console.error('Chat Claude: límite de uso alcanzado')
+    } else if (err instanceof Anthropic.APIError) {
+      console.error(`Chat Claude: ${String(err.message).slice(0, 200)}`)
+    } else {
+      console.error('Chat Claude:', err?.message || err)
+    }
+    return null
+  }
+}
+
 // Gemini con razonamiento bajo (responde en segundos); si un modelo falla o se demora, prueba el siguiente.
 async function pedirAGemini(messages, systemPrompt = SYSTEM_PROMPT) {
   for (const modelo of MODELOS) {
@@ -208,17 +275,26 @@ async function pedirAGemini(messages, systemPrompt = SYSTEM_PROMPT) {
 }
 
 // En WhatsApp Valeria contesta dentro del propio chat de Kervin: sin markdown de la web y sin mandar al WhatsApp.
-const WHATSAPP_PROMPT = `${SYSTEM_PROMPT}
-CANAL: WHATSAPP (esto manda sobre las reglas de formato y contacto de arriba)
+const WHATSAPP_EXTRA = `CANAL: WHATSAPP (esto manda sobre las reglas de formato y contacto de arriba)
 - Estás respondiendo dentro del WhatsApp de Emprende Salud, el número de Kervin. Nunca le digas a la persona que escriba al WhatsApp ni le pases el enlace wa.me: ya está aquí.
 - No pidas su número: ya lo tienes. Si muestra interés de compra, dile que Kervin revisa el chat y la ayuda personalmente con el pedido dentro del horario (lunes a sábado, 9:00 a 21:00).
 - Formato de WhatsApp: negrita con UN asterisco (*PRE SPORT*), viñetas con "- ", y los enlaces como URL sola en su propia línea (nunca [texto](url)).
 - Si piden hablar con una persona, responde que Kervin les escribe en cuanto pueda y no sigas vendiendo.`
+const WHATSAPP_PROMPT = `${SYSTEM_PROMPT}
+${WHATSAPP_EXTRA}`
 
-// Respuesta de Valeria para el bot de WhatsApp (server/whatsapp-cloud.js); null si Gemini no responde.
-export async function responderEnWhatsapp(messages) {
+// Primero Claude; si no hay clave o falla, Gemini. null si ninguno responde.
+async function pedirRespuesta(messages, canal = 'web') {
+  const enWhatsapp = canal === 'whatsapp'
+  const reply = await pedirAClaude(messages, enWhatsapp ? WHATSAPP_EXTRA : '')
+  if (reply) return reply
   if (!GEMINI_API_KEY) return null
-  return pedirAGemini(messages, WHATSAPP_PROMPT)
+  return pedirAGemini(messages, enWhatsapp ? WHATSAPP_PROMPT : SYSTEM_PROMPT)
+}
+
+// Respuesta de Valeria para el bot de WhatsApp (server/whatsapp-cloud.js); null si ningún modelo responde.
+export async function responderEnWhatsapp(messages) {
+  return pedirRespuesta(messages, 'whatsapp')
 }
 
 export function registerChat(app, db) {
@@ -280,10 +356,10 @@ export function registerChat(app, db) {
       insertChat.run(sessionId, 'user', userText)
     } catch { /* log no crítico */ }
 
-    // El lead se guarda aunque Gemini falle: el número no se pierde
+    // El lead se guarda aunque el modelo falle: el número no se pierde
     const leadGuardado = guardarLeadDelChat(messages, userText, sessionId)
 
-    const reply = GEMINI_API_KEY ? await pedirAGemini(messages) : null
+    const reply = await pedirRespuesta(messages)
     const respaldo = leadGuardado ? LEAD_FALLBACK_REPLY : FALLBACK_REPLY
 
     // Se guarda también el fallback (role 'fallback') para ver cuántas veces falla
